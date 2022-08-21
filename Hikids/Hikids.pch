@@ -1,0 +1,24 @@
+//
+//  Hikids.pch
+//  Hikids
+//
+//  Created by 马腾 on 2022/8/21.
+//
+
+#ifndef Hikids_pch
+#define Hikids_pch
+
+#import "NetHeader.h"
+#import "Masonry.h"
+#import "MBProgressHUD.h"
+#import "UIImageView+WebCache.h"
+#import "HConfig.h"
+#import "SafeObjectHeader.h"
+#import "BWTools.h"
+#import "AppDelegate.h"
+
+#import "MJRefresh.h"
+#import "BWAlertCtrl.h"
+#import "MJExtension.h"
+
+#endif /* Hikids_pch */
