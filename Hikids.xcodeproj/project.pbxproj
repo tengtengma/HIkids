@@ -35,6 +35,8 @@
 		9E2DF83E28B2306800B0C9DA /* course_tab_active@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2DF83A28B2306800B0C9DA /* course_tab_active@2x.png */; };
 		9E2DF83F28B2306800B0C9DA /* course_tab@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2DF83B28B2306800B0C9DA /* course_tab@2x.png */; };
 		9E2DF84028B2306800B0C9DA /* course_tab_active@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2DF83C28B2306800B0C9DA /* course_tab_active@3x.png */; };
+		9E2DF84328B2596600B0C9DA /* HMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF84228B2596600B0C9DA /* HMapVC.m */; };
+		9E2DF84628B2606F00B0C9DA /* HCustomNavigationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF84528B2606F00B0C9DA /* HCustomNavigationView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,6 +95,10 @@
 		9E2DF83A28B2306800B0C9DA /* course_tab_active@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "course_tab_active@2x.png"; sourceTree = "<group>"; };
 		9E2DF83B28B2306800B0C9DA /* course_tab@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "course_tab@2x.png"; sourceTree = "<group>"; };
 		9E2DF83C28B2306800B0C9DA /* course_tab_active@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "course_tab_active@3x.png"; sourceTree = "<group>"; };
+		9E2DF84128B2596600B0C9DA /* HMapVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMapVC.h; sourceTree = "<group>"; };
+		9E2DF84228B2596600B0C9DA /* HMapVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMapVC.m; sourceTree = "<group>"; };
+		9E2DF84428B2606F00B0C9DA /* HCustomNavigationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCustomNavigationView.h; sourceTree = "<group>"; };
+		9E2DF84528B2606F00B0C9DA /* HCustomNavigationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HCustomNavigationView.m; sourceTree = "<group>"; };
 		F8788F8B651400FC4EC71577 /* Pods_Hikids.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hikids.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -179,6 +185,8 @@
 		9E2DF7EE28B2205200B0C9DA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9E2DF84428B2606F00B0C9DA /* HCustomNavigationView.h */,
+				9E2DF84528B2606F00B0C9DA /* HCustomNavigationView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -296,6 +304,8 @@
 			children = (
 				9E2DF82B28B2236D00B0C9DA /* HWalkVC.h */,
 				9E2DF82C28B2236D00B0C9DA /* HWalkVC.m */,
+				9E2DF84128B2596600B0C9DA /* HMapVC.h */,
+				9E2DF84228B2596600B0C9DA /* HMapVC.m */,
 			);
 			path = WalkVC;
 			sourceTree = "<group>";
@@ -482,6 +492,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E2DF84628B2606F00B0C9DA /* HCustomNavigationView.m in Sources */,
 				9E2DF80D28B221F500B0C9DA /* BaseNavigationVC.m in Sources */,
 				9E2DF80328B2209E00B0C9DA /* BWLoginResp.m in Sources */,
 				9E2DF80028B2209E00B0C9DA /* BWLoginReq.m in Sources */,
@@ -494,6 +505,7 @@
 				9E2DF83628B223AD00B0C9DA /* HRootVC.m in Sources */,
 				9E2DF82728B2234E00B0C9DA /* HTodayVC.m in Sources */,
 				9E2DF82D28B2236D00B0C9DA /* HWalkVC.m in Sources */,
+				9E2DF84328B2596600B0C9DA /* HMapVC.m in Sources */,
 				9E0B547B28B21E660026CD86 /* main.m in Sources */,
 				9E2DF80428B2209E00B0C9DA /* BWBaseResp.m in Sources */,
 				9E2DF81B28B2225500B0C9DA /* BWAlertCtrl.m in Sources */,

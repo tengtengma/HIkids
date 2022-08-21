@@ -20,5 +20,6 @@
 #import "MJRefresh.h"
 #import "BWAlertCtrl.h"
 #import "MJExtension.h"
+#import "HCustomNavigationView.h"
 
 #endif /* Hikids_pch */

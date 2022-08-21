@@ -16,6 +16,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.customNavigationView.backgroundImageView.backgroundColor = [UIColor blueColor];
+    self.customNavigationView.titleLabel.text = @"今日";
+    self.customNavigationView.desLabel.text = @"2022.08.21";
+    self.customNavigationView.markImageView.backgroundColor = [UIColor greenColor];
+    
+
+    
 }
 
 

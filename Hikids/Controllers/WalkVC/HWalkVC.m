@@ -6,6 +6,8 @@
 //
 
 #import "HWalkVC.h"
+#import "HMapVC.h"
+
 
 @interface HWalkVC ()
 
@@ -13,19 +15,37 @@
 
 @implementation HWalkVC
 
-- (void)viewDidLoad {
+- (void)viewDidLoad{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+//    [self createUI];
+    
+
 }
+- (void)createUI
+{
+    
+    self.customNavigationView.backgroundImageView.backgroundColor = [UIColor yellowColor];
+    self.customNavigationView.titleLabel.text = @"散步";
+    self.customNavigationView.desLabel.text = @"2022.08.21";
+    self.customNavigationView.markImageView.backgroundColor = [UIColor greenColor];
 
-/*
-#pragma mark - Navigation
+    UIButton *button = [[UIButton alloc] init];
+    [button addTarget:self action:@selector(clickAction:) forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"打开" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.view addSubview:button];
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.view);
+        make.width.mas_equalTo(150);
+        make.height.mas_equalTo(44);
+    }];
 }
-*/
-
+- (void)clickAction:(id)sender
+{
+    HMapVC *mapVC = [[HMapVC alloc] init];
+    mapVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:mapVC animated:YES];
+}
 @end

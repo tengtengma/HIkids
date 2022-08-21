@@ -20,7 +20,7 @@
     if (@available(iOS 15.0, *)) {
             
         UINavigationBarAppearance * bar = [UINavigationBarAppearance new];
-        bar.backgroundColor = [UIColor yellowColor];
+        bar.backgroundColor = myBlueColor;
         bar.backgroundEffect = nil;
         self.navigationBar.scrollEdgeAppearance = bar;
         self.navigationBar.standardAppearance = bar;
@@ -30,7 +30,7 @@
         self.interactivePopGestureRecognizer.delegate = (id)self;
         self.interactivePopGestureRecognizer.enabled = YES;
         [self.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:20.0],NSFontAttributeName,nil]];
-        [self.navigationBar setBackgroundImage:[self imageWithColor:[UIColor yellowColor]] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+        [self.navigationBar setBackgroundImage:[self imageWithColor:myBlueColor] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
 
     }
 

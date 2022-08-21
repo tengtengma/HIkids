@@ -22,6 +22,9 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.rootViewController = [[HRootVC alloc] init];
     [self.window makeKeyAndVisible];
+    
+    [self setupGoogleMap];
+    
     return YES;
 }
 #pragma mark - 初始化google地图

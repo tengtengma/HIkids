@@ -10,9 +10,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BaseVC : UIViewController
+@property (nonatomic, strong) HCustomNavigationView *customNavigationView;
 
 - (void)createUI;
-
 @end
 
 NS_ASSUME_NONNULL_END

@@ -13,8 +13,8 @@
 #import "HReportVC.h"
 #import "HSettingVC.h"
 
-#define Nomal_FontSize 12.0
-#define Select_FontSize 12.0
+#define Nomal_FontSize 8.0
+#define Select_FontSize 8.0
 #define Nomal_Color [UIColor lightGrayColor]
 #define Select_Color BWColor(140, 176, 251, 1)
 
@@ -80,7 +80,8 @@
     UIImage *selRecImg = [[UIImage imageNamed:selectImgName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     UIViewController *vc = [[NSClassFromString(vcName) alloc] init];
-
+    vc.title = name;
+    
     BaseNavigationVC *nav = [[BaseNavigationVC alloc] initWithRootViewController:vc];
     nav.tabBarItem = [[UITabBarItem alloc] initWithTitle:name image:recImg selectedImage:selRecImg];
     [nav.tabBarItem setTitleTextAttributes:attrs forState:UIControlStateNormal];
@@ -93,7 +94,7 @@
 #pragma mark - UITabbarControllerDelegate -
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
 {
-    NSLog(@"点击了%@",item.title);
+    NSLog(@"点击了==== %@",item.title);
 }
 
 #pragma mark - LazyLoad -
@@ -101,8 +102,6 @@
 {
     if (!_viewList) {
         _viewList = [[NSMutableArray alloc] init];
-        
-        
     }
     return _viewList;
 }
