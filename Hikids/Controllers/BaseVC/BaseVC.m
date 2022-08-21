@@ -41,6 +41,7 @@
         make.width.equalTo(self.view);
         make.height.mas_equalTo(PAaptation_y(88));
     }];
+    
 }
 
 
