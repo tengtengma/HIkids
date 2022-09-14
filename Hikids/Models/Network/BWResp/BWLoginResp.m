@@ -18,6 +18,12 @@
             self.item = [jsonDic safeObjectForKey:@"item"];
             self.items = [jsonDic safeObjectForKey:@"items"];
             
+            NSString *token = [jsonDic safeObjectForKey:@"token"];
+            if (token.length != 0) {
+                [[NSUserDefaults standardUserDefaults] setObject:token forKey:KEY_Jwtoken];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+            }
+            
         }
     }
     return self;

@@ -10,7 +10,7 @@
 typedef enum _ResponseCode
 {
     ResponseCode_Faild = 0,
-    ResponseCode_Success = 1,
+    ResponseCode_Success = 200,
 }ResponseCode;
 
 @interface BWBaseResp : NSObject

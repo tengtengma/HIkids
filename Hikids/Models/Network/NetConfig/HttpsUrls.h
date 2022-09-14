@@ -9,11 +9,13 @@
 #ifndef HttpsUrls_h
 #define HttpsUrls_h
 
-#define BaseURL                     @"https://open.ebeiwai.com/zhiketang"                         //正式服务器
-//#define BaseURL                      @"https://zhiketangceshi.ibeiwai.com"                    //ceshi服务器
+//#define BaseURL                     @"https://open.ebeiwai.com/zhiketang"                         //正式服务器
+#define BaseURL                      @"http://120.48.175.114:8089/"                    //ceshi服务器
 
 
-#define orgloginURL                  @"/api/app/notlogin/v101/login/loginSso"                     //登录接口
+#define Login_URL                  @"v1/mlogin"                                           //登录接口
+#define CheckToken_URL             @"v1/system/user/list"                                 //检测token
+#define ffurl                         @"v1/system/user/2"
 
 
 

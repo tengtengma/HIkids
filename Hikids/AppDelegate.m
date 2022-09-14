@@ -7,6 +7,7 @@
 
 #import "AppDelegate.h"
 #import "HRootVC.h"
+#import "HLoginVC.h"
 #import <GoogleMaps/GoogleMaps.h>
 #import <GooglePlaces/GooglePlaces.h>
 #import <CoreLocation/CoreLocation.h>
@@ -20,7 +21,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.rootViewController = [[HRootVC alloc] init];
+    self.window.rootViewController = [[HLoginVC alloc] init];
     [self.window makeKeyAndVisible];
     
     [self setupGoogleMap];

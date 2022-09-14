@@ -72,22 +72,21 @@
     
    
     NSString *jwToken = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_Jwtoken];
-    
+    NSString *token;
     if (jwToken.length > 0) {
+        token = [NSString stringWithFormat:@"Bearer %@",jwToken];
+//        [self.manager.requestSerializer setValue:token forHTTPHeaderField:@"Authorization"];
+    }
     
-        NSString *jwtToken = [NSString stringWithFormat:@"Bearer %@",jwToken];
-        
-        [self.manager.requestSerializer setValue:jwtToken forHTTPHeaderField:@"BwolAuth"];
-    }
+    self.manager.requestSerializer = [AFJSONRequestSerializer serializer];//申明请求的数据是json类型
+//    self.manager.responseSerializer = [AFJSONResponseSerializer serializer];//申明返回的结果是json类型
+//    self.manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"multipart/form-data", @"application/json", @"text/html", @"image/jpeg", @"image/png", @"application/octet-stream", @"text/json", nil];//如果接受类
+    
     NSMutableDictionary *parameters = [request getRequestParametersDictionary];
-    NSString *sign = [self getSignStr:parameters];
-    if (sign) {
-        [parameters setObject:sign forKey:@"sign"];
-    }
     
     NSLog(@"\nRequest url : %@\nRequest body : %@",[request.url absoluteString],parameters);
 
-    [self.manager GET:urlString parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [self.manager GET:urlString parameters:parameters headers:@{@"Authorization":token} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
        
         NSLog(@"GET请求完整地址：%@",task.response.URL.absoluteString);
         
@@ -125,19 +124,16 @@
     }];
     
     NSString *jwToken = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_Jwtoken];
-    
+    NSString *token;
     if (jwToken.length > 0) {
-    
-        NSString *jwtToken = [NSString stringWithFormat:@"Bearer %@",jwToken];
-        
-        [self.manager.requestSerializer setValue:jwtToken forHTTPHeaderField:@"BwolAuth"];
+        token = [NSString stringWithFormat:@"Bearer %@",jwToken];
+//        [self.manager.requestSerializer setValue:token forHTTPHeaderField:@"Authorization"];
     }
-    
+    self.manager.requestSerializer = [AFJSONRequestSerializer serializer];//申明请求的数据是json类型
+//    self.manager.responseSerializer = [AFJSONResponseSerializer serializer];//申明返回的结果是json类型
+//    self.manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"multipart/form-data", @"application/json", @"text/html", @"image/jpeg", @"image/png", @"application/octet-stream", @"text/json", nil];//如果接受类
+
     NSMutableDictionary *parameters = [request getRequestParametersDictionary];
-    NSString *sign = [self getSignStr:parameters];
-    if (sign) {
-        [parameters setObject:sign forKey:@"sign"];
-    }
     
     NSLog(@"\nRequest url : %@\nRequest body : %@",[request.url absoluteString],parameters);
     
@@ -220,8 +216,9 @@
 
 - (void)sucessedWithRequest:(BWBaseReq *)request responseObject:(id)responseObj withBlock:(void (^)(BWBaseReq *, BWBaseResp *))success failure:(void (^)(BWBaseReq *, NSError *))failure
 {
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:(NSData *)responseObj options:NSJSONReadingMutableLeaves error:nil];
     
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:(NSData *)responseObj options:NSJSONReadingMutableLeaves error:nil];
+
     BWBaseResp *response = [[NSClassFromString([self replaceClassName:request]) alloc] initWithJSONDictionary:json];
     
     if (ResponseCode_Success == response.errorCode) {

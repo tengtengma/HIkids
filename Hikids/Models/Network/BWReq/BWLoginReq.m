@@ -9,11 +9,10 @@
 #import "BWLoginReq.h"
 
 @implementation BWLoginReq
-@synthesize loginName,passWord;
 
 - (NSURL *)url
 {
-    NSString *str = [NSString stringWithFormat:@"%@%@",BaseURL,orgloginURL];
+    NSString *str = [NSString stringWithFormat:@"%@%@",BaseURL,Login_URL];
     return [NSURL URLWithString:str];
 }
 
@@ -22,11 +21,11 @@
     
     NSMutableDictionary *dic = [super getRequestParametersDictionary];
     
-    if (self.loginName) {
-        [dic setObject:self.loginName forKey:@"loginName"];
+    if (self.username) {
+        [dic setObject:self.username forKey:@"username"];
     }
-    if (self.passWord) {
-        [dic setObject:self.passWord forKey:@"password"];
+    if (self.password) {
+        [dic setObject:self.password forKey:@"password"];
     }
 
     return dic;

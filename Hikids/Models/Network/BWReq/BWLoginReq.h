@@ -11,8 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BWLoginReq : BWBaseReq
-@property (nonatomic, strong) NSString *loginName;
-@property (nonatomic, strong) NSString *passWord;
+@property (nonatomic, strong) NSString *username;
+@property (nonatomic, strong) NSString *password;
 
 - (NSURL *)url;
 

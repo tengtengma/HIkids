@@ -37,6 +37,9 @@
 		9E2DF84028B2306800B0C9DA /* course_tab_active@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2DF83C28B2306800B0C9DA /* course_tab_active@3x.png */; };
 		9E2DF84328B2596600B0C9DA /* HMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF84228B2596600B0C9DA /* HMapVC.m */; };
 		9E2DF84628B2606F00B0C9DA /* HCustomNavigationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF84528B2606F00B0C9DA /* HCustomNavigationView.m */; };
+		9E8344B828C7912C00AB9D83 /* BWCheckTokenReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */; };
+		9E8344BB28C7913E00AB9D83 /* BWCheckTokenResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344BA28C7913E00AB9D83 /* BWCheckTokenResp.m */; };
+		9EDAFE4A28C4CDBA00FA9B5F /* HLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EDAFE4928C4CDBA00FA9B5F /* HLoginVC.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,6 +102,12 @@
 		9E2DF84228B2596600B0C9DA /* HMapVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMapVC.m; sourceTree = "<group>"; };
 		9E2DF84428B2606F00B0C9DA /* HCustomNavigationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCustomNavigationView.h; sourceTree = "<group>"; };
 		9E2DF84528B2606F00B0C9DA /* HCustomNavigationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HCustomNavigationView.m; sourceTree = "<group>"; };
+		9E8344B628C7912C00AB9D83 /* BWCheckTokenReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWCheckTokenReq.h; sourceTree = "<group>"; };
+		9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWCheckTokenReq.m; sourceTree = "<group>"; };
+		9E8344B928C7913E00AB9D83 /* BWCheckTokenResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWCheckTokenResp.h; sourceTree = "<group>"; };
+		9E8344BA28C7913E00AB9D83 /* BWCheckTokenResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWCheckTokenResp.m; sourceTree = "<group>"; };
+		9EDAFE4828C4CDBA00FA9B5F /* HLoginVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HLoginVC.h; sourceTree = "<group>"; };
+		9EDAFE4928C4CDBA00FA9B5F /* HLoginVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HLoginVC.m; sourceTree = "<group>"; };
 		F8788F8B651400FC4EC71577 /* Pods_Hikids.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hikids.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -173,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				9E2DF80728B2214900B0C9DA /* BaseVC */,
+				9EDAFE4728C4CD9600FA9B5F /* LoginVC */,
 				9E2DF82028B222D600B0C9DA /* TodayVC */,
 				9E2DF82128B222DE00B0C9DA /* SleepVC */,
 				9E2DF82228B222EB00B0C9DA /* WalkVC */,
@@ -218,6 +228,8 @@
 				9E2DF7F428B2209E00B0C9DA /* BWBaseReq.m */,
 				9E2DF7F528B2209E00B0C9DA /* BWLoginReq.h */,
 				9E2DF7F328B2209E00B0C9DA /* BWLoginReq.m */,
+				9E8344B628C7912C00AB9D83 /* BWCheckTokenReq.h */,
+				9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */,
 			);
 			path = BWReq;
 			sourceTree = "<group>";
@@ -238,6 +250,8 @@
 				9E2DF7FF28B2209E00B0C9DA /* BWBaseResp.m */,
 				9E2DF7FC28B2209E00B0C9DA /* BWLoginResp.h */,
 				9E2DF7FE28B2209E00B0C9DA /* BWLoginResp.m */,
+				9E8344B928C7913E00AB9D83 /* BWCheckTokenResp.h */,
+				9E8344BA28C7913E00AB9D83 /* BWCheckTokenResp.m */,
 			);
 			path = BWResp;
 			sourceTree = "<group>";
@@ -345,6 +359,15 @@
 				9E2DF83928B2306800B0C9DA /* course_tab@3x.png */,
 			);
 			path = Tabbar;
+			sourceTree = "<group>";
+		};
+		9EDAFE4728C4CD9600FA9B5F /* LoginVC */ = {
+			isa = PBXGroup;
+			children = (
+				9EDAFE4828C4CDBA00FA9B5F /* HLoginVC.h */,
+				9EDAFE4928C4CDBA00FA9B5F /* HLoginVC.m */,
+			);
+			path = LoginVC;
 			sourceTree = "<group>";
 		};
 		B6E1B181B6A7729831560B8F /* Pods */ = {
@@ -504,16 +527,19 @@
 				9E2DF81D28B2225500B0C9DA /* NSArray+safe.m in Sources */,
 				9E2DF83628B223AD00B0C9DA /* HRootVC.m in Sources */,
 				9E2DF82728B2234E00B0C9DA /* HTodayVC.m in Sources */,
+				9E8344B828C7912C00AB9D83 /* BWCheckTokenReq.m in Sources */,
 				9E2DF82D28B2236D00B0C9DA /* HWalkVC.m in Sources */,
 				9E2DF84328B2596600B0C9DA /* HMapVC.m in Sources */,
 				9E0B547B28B21E660026CD86 /* main.m in Sources */,
 				9E2DF80428B2209E00B0C9DA /* BWBaseResp.m in Sources */,
 				9E2DF81B28B2225500B0C9DA /* BWAlertCtrl.m in Sources */,
+				9EDAFE4A28C4CDBA00FA9B5F /* HLoginVC.m in Sources */,
 				9E2DF81E28B2225500B0C9DA /* BWTools.m in Sources */,
 				9E2DF81F28B2225500B0C9DA /* BWFileManager.m in Sources */,
 				9E2DF83028B2237A00B0C9DA /* HReportVC.m in Sources */,
 				9E2DF80A28B2219300B0C9DA /* BaseVC.m in Sources */,
 				9E2DF82A28B2236000B0C9DA /* HSleepVC.m in Sources */,
+				9E8344BB28C7913E00AB9D83 /* BWCheckTokenResp.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
