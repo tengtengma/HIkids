@@ -11,6 +11,7 @@
 #import "BWBaseResp.h"
 #import "AFNetworking.h"
 #import <CommonCrypto/CommonDigest.h>
+#import "BWLoginReq.h"
 
 #define DefineWeakSelf __weak __typeof(self) weakSelf = self
 
@@ -70,15 +71,15 @@
         weakSelf.netState = status;
     }];
     
-   
+    self.manager.requestSerializer = [AFJSONRequestSerializer serializer];//申明请求的数据是json类型
+
     NSString *jwToken = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_Jwtoken];
     NSString *token;
     if (jwToken.length > 0) {
         token = [NSString stringWithFormat:@"Bearer %@",jwToken];
-//        [self.manager.requestSerializer setValue:token forHTTPHeaderField:@"Authorization"];
+        [self.manager.requestSerializer setValue:token forHTTPHeaderField:@"Authorization"];
     }
     
-    self.manager.requestSerializer = [AFJSONRequestSerializer serializer];//申明请求的数据是json类型
 //    self.manager.responseSerializer = [AFJSONResponseSerializer serializer];//申明返回的结果是json类型
 //    self.manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"multipart/form-data", @"application/json", @"text/html", @"image/jpeg", @"image/png", @"application/octet-stream", @"text/json", nil];//如果接受类
     
@@ -86,7 +87,7 @@
     
     NSLog(@"\nRequest url : %@\nRequest body : %@",[request.url absoluteString],parameters);
 
-    [self.manager GET:urlString parameters:parameters headers:@{@"Authorization":token} progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [self.manager GET:urlString parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
        
         NSLog(@"GET请求完整地址：%@",task.response.URL.absoluteString);
         
@@ -122,20 +123,24 @@
         
         weakSelf.netState = status;
     }];
-    
-    NSString *jwToken = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_Jwtoken];
-    NSString *token;
-    if (jwToken.length > 0) {
-        token = [NSString stringWithFormat:@"Bearer %@",jwToken];
-//        [self.manager.requestSerializer setValue:token forHTTPHeaderField:@"Authorization"];
-    }
     self.manager.requestSerializer = [AFJSONRequestSerializer serializer];//申明请求的数据是json类型
+    
+    if (![BWBaseReq isKindOfClass:[BWLoginReq class]]) {
+        NSString *jwToken = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_Jwtoken];
+        NSString *token;
+        if (jwToken.length > 0) {
+            token = [NSString stringWithFormat:@"Bearer %@",jwToken];
+            [self.manager.requestSerializer setValue:token forHTTPHeaderField:@"Authorization"];
+        }
+    }
+
 //    self.manager.responseSerializer = [AFJSONResponseSerializer serializer];//申明返回的结果是json类型
-//    self.manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"multipart/form-data", @"application/json", @"text/html", @"image/jpeg", @"image/png", @"application/octet-stream", @"text/json", nil];//如果接受类
+//    self.manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"multipart/form-data", @"application/json", @"text/html", @"image/jpeg", @"image/png", @"application/octet-stream", @"text/json", nil];
 
     NSMutableDictionary *parameters = [request getRequestParametersDictionary];
     
     NSLog(@"\nRequest url : %@\nRequest body : %@",[request.url absoluteString],parameters);
+        
     
     [self.manager POST:urlString parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 
@@ -231,10 +236,13 @@
     }else{
         
         NSLog(@"ERROR!!\n  \nRequestURL : %@\nResponseCode : %d\nResponseMsg : %@\nResponseBody : %@",request.url.absoluteString,response.errorCode,response.errorMessage,json);
+        
+        if (ResponseCode_Unauthorized == response.errorCode) {
+            NSLog(@"token失效");
+        }
 
         if (response.errorMessage != nil) {
             NSError * error = [NSError errorWithDomain:response.errorMessage code:response.errorCode userInfo:nil];
-            
             
             failure(request,error);
         }
@@ -271,7 +279,7 @@
    
 
 }
--(NSString *)replaceClassName:(id)reqClass
+- (NSString *)replaceClassName:(id)reqClass
 {
     NSString * reqStr = NSStringFromClass([reqClass class]);
     NSString * string1 = reqStr;
@@ -285,53 +293,5 @@
     return respStr;
     
 }
-- (NSString *)getSignStr:(NSDictionary *)paramtersDic
-{
-    NSArray *keys = [paramtersDic allKeys];
-    NSArray *sortedArray = [keys sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2){
-        return [obj2 compare:obj1 options:NSNumericSearch];
-    }];
-    NSMutableArray *values = [[NSMutableArray alloc] init];
-    
-    for (NSString *categoryId in sortedArray) {
-        [values addObject:[paramtersDic objectForKey:categoryId]];
-    }
-    NSMutableString *startStr = [[NSMutableString alloc] init];
-    
-    for (int i = 0; i< sortedArray.count;i++) {
-        NSString *key = [sortedArray objectAtIndex:i];
-        NSString *value = [values objectAtIndex:i];
-        
-        NSString *tempStr = [NSString stringWithFormat:@"\"%@\":\"%@\",",key,value];
-        [startStr appendString:tempStr];
-    }
-    
-    NSString *str0 = [NSString stringWithFormat:@"{%@",startStr];
-    NSRange range0 = [str0 rangeOfString:@"," options:NSBackwardsSearch];
-    NSString *endStr = nil;
-    if (range0.location != NSNotFound) {
-        NSString *str1 = [str0 substringToIndex:range0.location];
-        endStr = [NSString stringWithFormat:@"%@}",str1];
-    }
-    
-    NSString *str = [NSString stringWithFormat:@"%@",endStr == nil ? @"{}":endStr];
-    
-    NSLog(@"sign = %@",str);
-    
-    return [self md5HexDigest:str];
-    
-}
-- (NSString *)md5HexDigest:(NSString*)input
-{
-    const char *cStr = [input UTF8String];
-    unsigned char result[16]= "0123456789abcdef";
-    CC_MD5(cStr, (CC_LONG)strlen(cStr), result); // This is the md5 call
-    return [NSString stringWithFormat:
-            @"%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X",
-            result[0], result[1], result[2], result[3],
-            result[4], result[5], result[6], result[7],
-            result[8], result[9], result[10], result[11],
-            result[12], result[13], result[14], result[15]
-            ];
-}
+
 @end

@@ -56,7 +56,8 @@
         
             
     } failure:^(BWBaseReq *req, NSError *error) {
-            
+        [MBProgressHUD showMessag:error.domain toView:self.view hudModel:MBProgressHUDModeText hide:YES];
+       
     }];
 }
 - (void)checkAction:(id)sender
@@ -65,7 +66,8 @@
     [NetManger getRequest:loginReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
         
     } failure:^(BWBaseReq *req, NSError *error) {
-        
+        [MBProgressHUD showMessag:error.domain toView:self.view hudModel:MBProgressHUDModeText hide:YES];
+
     }];
 }
 

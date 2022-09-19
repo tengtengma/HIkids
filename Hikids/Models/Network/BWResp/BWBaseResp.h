@@ -10,14 +10,15 @@
 typedef enum _ResponseCode
 {
     ResponseCode_Faild = 0,
+    ResponseCode_Unauthorized = 401,
     ResponseCode_Success = 200,
 }ResponseCode;
 
 @interface BWBaseResp : NSObject
-@property (nonatomic, assign)ResponseCode errorCode;
-@property (nonatomic, strong)NSString * errorMessage;
-@property (nonatomic, strong)NSDictionary *item;
-@property (nonatomic, strong)NSArray *items;
+@property (nonatomic, assign) ResponseCode errorCode;
+@property (nonatomic, strong) NSString * errorMessage;
+@property (nonatomic, strong) NSDictionary *item;
+@property (nonatomic, strong) NSArray *items;
 
 - (id)initWithJSONDictionary:(NSDictionary*)jsonDic;
 @end

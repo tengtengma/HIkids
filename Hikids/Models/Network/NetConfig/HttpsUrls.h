@@ -10,7 +10,7 @@
 #define HttpsUrls_h
 
 //#define BaseURL                     @"https://open.ebeiwai.com/zhiketang"                         //正式服务器
-#define BaseURL                      @"http://120.48.175.114:8089/"                    //ceshi服务器
+#define BaseURL                      @"http://api.hikids.blog/"                    //ceshi服务器
 
 
 #define Login_URL                  @"v1/mlogin"                                           //登录接口
