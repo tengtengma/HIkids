@@ -40,7 +40,7 @@
 {
     if (!_manager) {
         _manager = [AFHTTPSessionManager manager];
-        _manager.requestSerializer.timeoutInterval = 45;
+        _manager.requestSerializer.timeoutInterval = 60;
         _manager.responseSerializer = [AFHTTPResponseSerializer serializer];
         
     }
@@ -80,8 +80,6 @@
         [self.manager.requestSerializer setValue:token forHTTPHeaderField:@"Authorization"];
     }
     
-//    self.manager.responseSerializer = [AFJSONResponseSerializer serializer];//申明返回的结果是json类型
-//    self.manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"multipart/form-data", @"application/json", @"text/html", @"image/jpeg", @"image/png", @"application/octet-stream", @"text/json", nil];//如果接受类
     
     NSMutableDictionary *parameters = [request getRequestParametersDictionary];
     
@@ -126,6 +124,7 @@
     self.manager.requestSerializer = [AFJSONRequestSerializer serializer];//申明请求的数据是json类型
     
     if (![BWBaseReq isKindOfClass:[BWLoginReq class]]) {
+        //登陆接口需要单独处理
         NSString *jwToken = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_Jwtoken];
         NSString *token;
         if (jwToken.length > 0) {
@@ -134,14 +133,11 @@
         }
     }
 
-//    self.manager.responseSerializer = [AFJSONResponseSerializer serializer];//申明返回的结果是json类型
-//    self.manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"multipart/form-data", @"application/json", @"text/html", @"image/jpeg", @"image/png", @"application/octet-stream", @"text/json", nil];
-
     NSMutableDictionary *parameters = [request getRequestParametersDictionary];
     
     NSLog(@"\nRequest url : %@\nRequest body : %@",[request.url absoluteString],parameters);
         
-    
+
     [self.manager POST:urlString parameters:parameters headers:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 
         [weakSelf sucessedWithRequest:request responseObject:responseObject withBlock:success failure:failure];

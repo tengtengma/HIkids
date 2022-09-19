@@ -11,6 +11,7 @@
 #import "NetHeader.h"
 #import "Masonry.h"
 #import "MBProgressHUD.h"
+#import "MBProgressHUD+ShowMessage.h"
 #import "UIImageView+WebCache.h"
 #import "HConfig.h"
 #import "SafeObjectHeader.h"

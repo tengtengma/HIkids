@@ -39,6 +39,10 @@
 		9E2DF84628B2606F00B0C9DA /* HCustomNavigationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF84528B2606F00B0C9DA /* HCustomNavigationView.m */; };
 		9E8344B828C7912C00AB9D83 /* BWCheckTokenReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */; };
 		9E8344BB28C7913E00AB9D83 /* BWCheckTokenResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344BA28C7913E00AB9D83 /* BWCheckTokenResp.m */; };
+		9EC72A2128D8349A00494A74 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9EC72A2328D8349A00494A74 /* InfoPlist.strings */; };
+		9EC72A2728D8357A00494A74 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9EC72A2928D8357A00494A74 /* Localizable.strings */; };
+		9EC72A3128D8394F00494A74 /* MBProgressHUD+ShowMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC72A3028D8394F00494A74 /* MBProgressHUD+ShowMessage.m */; };
+		9EC72A3528D84FFA00494A74 /* HInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC72A3428D84FFA00494A74 /* HInputView.m */; };
 		9EDAFE4A28C4CDBA00FA9B5F /* HLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EDAFE4928C4CDBA00FA9B5F /* HLoginVC.m */; };
 /* End PBXBuildFile section */
 
@@ -106,6 +110,20 @@
 		9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWCheckTokenReq.m; sourceTree = "<group>"; };
 		9E8344B928C7913E00AB9D83 /* BWCheckTokenResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWCheckTokenResp.h; sourceTree = "<group>"; };
 		9E8344BA28C7913E00AB9D83 /* BWCheckTokenResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWCheckTokenResp.m; sourceTree = "<group>"; };
+		9EC72A1D28D833A400494A74 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
+		9EC72A1E28D833A400494A74 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		9EC72A2228D8349A00494A74 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9EC72A2428D8349D00494A74 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9EC72A2828D8357A00494A74 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9EC72A2A28D8357C00494A74 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9EC72A2B28D836A200494A74 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		9EC72A2C28D836A200494A74 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		9EC72A2D28D836A200494A74 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		9EC72A2E28D836A200494A74 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		9EC72A2F28D8394F00494A74 /* MBProgressHUD+ShowMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+ShowMessage.h"; sourceTree = "<group>"; };
+		9EC72A3028D8394F00494A74 /* MBProgressHUD+ShowMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+ShowMessage.m"; sourceTree = "<group>"; };
+		9EC72A3328D84FFA00494A74 /* HInputView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HInputView.h; sourceTree = "<group>"; };
+		9EC72A3428D84FFA00494A74 /* HInputView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HInputView.m; sourceTree = "<group>"; };
 		9EDAFE4828C4CDBA00FA9B5F /* HLoginVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HLoginVC.h; sourceTree = "<group>"; };
 		9EDAFE4928C4CDBA00FA9B5F /* HLoginVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HLoginVC.m; sourceTree = "<group>"; };
 		F8788F8B651400FC4EC71577 /* Pods_Hikids.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hikids.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,6 +179,8 @@
 				9E0B547428B21E660026CD86 /* Assets.xcassets */,
 				9E0B547628B21E660026CD86 /* LaunchScreen.storyboard */,
 				9E0B547928B21E660026CD86 /* Info.plist */,
+				9EC72A2328D8349A00494A74 /* InfoPlist.strings */,
+				9EC72A2928D8357A00494A74 /* Localizable.strings */,
 				9E0B547A28B21E660026CD86 /* main.m */,
 				9E2DF80528B220D700B0C9DA /* Hikids.pch */,
 				9E2DF80628B2211700B0C9DA /* HConfig.h */,
@@ -279,6 +299,8 @@
 				9E2DF81A28B2225500B0C9DA /* BWTools.h */,
 				9E2DF81728B2225500B0C9DA /* BWTools.m */,
 				9E2DF81128B2225500B0C9DA /* SafeObject */,
+				9EC72A2F28D8394F00494A74 /* MBProgressHUD+ShowMessage.h */,
+				9EC72A3028D8394F00494A74 /* MBProgressHUD+ShowMessage.m */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -361,9 +383,19 @@
 			path = Tabbar;
 			sourceTree = "<group>";
 		};
+		9EC72A3228D84FE000494A74 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9EC72A3328D84FFA00494A74 /* HInputView.h */,
+				9EC72A3428D84FFA00494A74 /* HInputView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		9EDAFE4728C4CD9600FA9B5F /* LoginVC */ = {
 			isa = PBXGroup;
 			children = (
+				9EC72A3228D84FE000494A74 /* View */,
 				9EDAFE4828C4CDBA00FA9B5F /* HLoginVC.h */,
 				9EDAFE4928C4CDBA00FA9B5F /* HLoginVC.m */,
 			);
@@ -423,6 +455,8 @@
 			knownRegions = (
 				en,
 				Base,
+				ja,
+				"zh-Hans",
 			);
 			mainGroup = 9E0B545C28B21E620026CD86;
 			productRefGroup = 9E0B546628B21E620026CD86 /* Products */;
@@ -440,8 +474,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E0B547828B21E660026CD86 /* LaunchScreen.storyboard in Resources */,
+				9EC72A2128D8349A00494A74 /* InfoPlist.strings in Resources */,
 				9E0B547528B21E660026CD86 /* Assets.xcassets in Resources */,
 				9E2DF83D28B2306800B0C9DA /* course_tab@3x.png in Resources */,
+				9EC72A2728D8357A00494A74 /* Localizable.strings in Resources */,
 				9E2DF83F28B2306800B0C9DA /* course_tab@2x.png in Resources */,
 				9E0B547328B21E620026CD86 /* Main.storyboard in Resources */,
 				9E2DF84028B2306800B0C9DA /* course_tab_active@3x.png in Resources */,
@@ -526,6 +562,7 @@
 				9E2DF81C28B2225500B0C9DA /* NSDictionary+safe.m in Sources */,
 				9E2DF81D28B2225500B0C9DA /* NSArray+safe.m in Sources */,
 				9E2DF83628B223AD00B0C9DA /* HRootVC.m in Sources */,
+				9EC72A3528D84FFA00494A74 /* HInputView.m in Sources */,
 				9E2DF82728B2234E00B0C9DA /* HTodayVC.m in Sources */,
 				9E8344B828C7912C00AB9D83 /* BWCheckTokenReq.m in Sources */,
 				9E2DF82D28B2236D00B0C9DA /* HWalkVC.m in Sources */,
@@ -535,6 +572,7 @@
 				9E2DF81B28B2225500B0C9DA /* BWAlertCtrl.m in Sources */,
 				9EDAFE4A28C4CDBA00FA9B5F /* HLoginVC.m in Sources */,
 				9E2DF81E28B2225500B0C9DA /* BWTools.m in Sources */,
+				9EC72A3128D8394F00494A74 /* MBProgressHUD+ShowMessage.m in Sources */,
 				9E2DF81F28B2225500B0C9DA /* BWFileManager.m in Sources */,
 				9E2DF83028B2237A00B0C9DA /* HReportVC.m in Sources */,
 				9E2DF80A28B2219300B0C9DA /* BaseVC.m in Sources */,
@@ -550,6 +588,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				9E0B547228B21E620026CD86 /* Base */,
+				9EC72A1D28D833A400494A74 /* ja */,
+				9EC72A2B28D836A200494A74 /* zh-Hans */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -558,8 +598,30 @@
 			isa = PBXVariantGroup;
 			children = (
 				9E0B547728B21E660026CD86 /* Base */,
+				9EC72A1E28D833A400494A74 /* ja */,
+				9EC72A2C28D836A200494A74 /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		9EC72A2328D8349A00494A74 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9EC72A2228D8349A00494A74 /* ja */,
+				9EC72A2428D8349D00494A74 /* en */,
+				9EC72A2D28D836A200494A74 /* zh-Hans */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		9EC72A2928D8357A00494A74 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9EC72A2828D8357A00494A74 /* ja */,
+				9EC72A2A28D8357C00494A74 /* en */,
+				9EC72A2E28D836A200494A74 /* zh-Hans */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -569,6 +631,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -628,6 +691,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";

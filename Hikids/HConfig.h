@@ -53,8 +53,8 @@
 //iphonex系列 尺寸比例系数
 #define iPhoneXRatio (SCREEN_HEIGHT / 812)
 //竖屏使用
-#define PAdaptation_x(x) ((x)*SCREEN_WIDTH/375)
-#define PAaptation_y(y) (((y)*(iPhoneX||iPhoneXMaxPro||iPHoneXr ? SCREEN_HEIGHT - 145*iPhoneXRatio : SCREEN_HEIGHT))/667)
+#define PAdaptation_x(x) ((x)*SCREEN_WIDTH/390)
+#define PAaptation_y(y) (((y)*(iPhoneX||iPhoneXMaxPro||iPHoneXr ? SCREEN_HEIGHT - 184*iPhoneXRatio : SCREEN_HEIGHT))/844)
 //横屏使用
 #define LAdaptation_x(x) ((x)*SCREEN_WIDTH/960)
 #define LAdaptation_y(y) ((y)*SCREEN_HEIGHT/600)
