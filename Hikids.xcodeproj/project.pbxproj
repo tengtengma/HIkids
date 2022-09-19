@@ -37,6 +37,8 @@
 		9E2DF84028B2306800B0C9DA /* course_tab_active@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E2DF83C28B2306800B0C9DA /* course_tab_active@3x.png */; };
 		9E2DF84328B2596600B0C9DA /* HMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF84228B2596600B0C9DA /* HMapVC.m */; };
 		9E2DF84628B2606F00B0C9DA /* HCustomNavigationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF84528B2606F00B0C9DA /* HCustomNavigationView.m */; };
+		9E42E69828D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E42E69528D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
+		9E42E69928D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E42E69628D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.m */; };
 		9E8344B828C7912C00AB9D83 /* BWCheckTokenReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */; };
 		9E8344BB28C7913E00AB9D83 /* BWCheckTokenResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344BA28C7913E00AB9D83 /* BWCheckTokenResp.m */; };
 		9EC72A2128D8349A00494A74 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9EC72A2328D8349A00494A74 /* InfoPlist.strings */; };
@@ -106,6 +108,10 @@
 		9E2DF84228B2596600B0C9DA /* HMapVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMapVC.m; sourceTree = "<group>"; };
 		9E2DF84428B2606F00B0C9DA /* HCustomNavigationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCustomNavigationView.h; sourceTree = "<group>"; };
 		9E2DF84528B2606F00B0C9DA /* HCustomNavigationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HCustomNavigationView.m; sourceTree = "<group>"; };
+		9E42E69428D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
+		9E42E69528D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
+		9E42E69628D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
+		9E42E69728D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
 		9E8344B628C7912C00AB9D83 /* BWCheckTokenReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWCheckTokenReq.h; sourceTree = "<group>"; };
 		9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWCheckTokenReq.m; sourceTree = "<group>"; };
 		9E8344B928C7913E00AB9D83 /* BWCheckTokenResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWCheckTokenResp.h; sourceTree = "<group>"; };
@@ -192,6 +198,7 @@
 		9E2DF7EC28B2205100B0C9DA /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				9E42E69228D86F1500F0D7EA /* ThirdLib */,
 				9E2DF83728B2301F00B0C9DA /* UI */,
 				9E2DF80E28B2225500B0C9DA /* Utils */,
 			);
@@ -383,6 +390,25 @@
 			path = Tabbar;
 			sourceTree = "<group>";
 		};
+		9E42E69228D86F1500F0D7EA /* ThirdLib */ = {
+			isa = PBXGroup;
+			children = (
+				9E42E69328D86F2900F0D7EA /* KeyBoardHelp */,
+			);
+			path = ThirdLib;
+			sourceTree = "<group>";
+		};
+		9E42E69328D86F2900F0D7EA /* KeyBoardHelp */ = {
+			isa = PBXGroup;
+			children = (
+				9E42E69428D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.h */,
+				9E42E69628D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.m */,
+				9E42E69728D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.h */,
+				9E42E69528D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.m */,
+			);
+			path = KeyBoardHelp;
+			sourceTree = "<group>";
+		};
 		9EC72A3228D84FE000494A74 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -560,6 +586,7 @@
 				9E2DF80128B2209E00B0C9DA /* BWBaseReq.m in Sources */,
 				9E2DF83328B2238A00B0C9DA /* HSettingVC.m in Sources */,
 				9E2DF81C28B2225500B0C9DA /* NSDictionary+safe.m in Sources */,
+				9E42E69928D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.m in Sources */,
 				9E2DF81D28B2225500B0C9DA /* NSArray+safe.m in Sources */,
 				9E2DF83628B223AD00B0C9DA /* HRootVC.m in Sources */,
 				9EC72A3528D84FFA00494A74 /* HInputView.m in Sources */,
@@ -568,6 +595,7 @@
 				9E2DF82D28B2236D00B0C9DA /* HWalkVC.m in Sources */,
 				9E2DF84328B2596600B0C9DA /* HMapVC.m in Sources */,
 				9E0B547B28B21E660026CD86 /* main.m in Sources */,
+				9E42E69828D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				9E2DF80428B2209E00B0C9DA /* BWBaseResp.m in Sources */,
 				9E2DF81B28B2225500B0C9DA /* BWAlertCtrl.m in Sources */,
 				9EDAFE4A28C4CDBA00FA9B5F /* HLoginVC.m in Sources */,

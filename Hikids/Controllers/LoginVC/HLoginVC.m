@@ -12,8 +12,10 @@
 #import "BWCheckTokenResp.h"
 #import "HInputView.h"
 #import "HRootVC.h"
+#import "TPKeyboardAvoidingScrollView.h"
 
 @interface HLoginVC ()<UITextFieldDelegate>
+@property (nonatomic, strong) TPKeyboardAvoidingScrollView *myScrollView;
 @property (nonatomic, strong) UIImageView *headerView;
 @property (nonatomic, strong) UIImageView *selectImageView;
 @property (nonatomic, strong) UILabel *privacyLabel;
@@ -36,7 +38,12 @@
 }
 - (void)createUI
 {
-    [self.view addSubview:self.helpBtn];
+    [self.view addSubview:self.myScrollView];
+    [self.myScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
+    
+    [self.myScrollView addSubview:self.helpBtn];
     [self.helpBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(PAaptation_y(59));
         make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(24));
@@ -44,7 +51,7 @@
         make.height.mas_equalTo(PAaptation_y(40));
     }];
     
-    [self.view addSubview:self.headerView];
+    [self.myScrollView addSubview:self.headerView];
     [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view).offset(PAaptation_y(257));
         make.centerX.equalTo(self.view);
@@ -52,9 +59,9 @@
         make.height.mas_equalTo(PAaptation_y(58));
     }];
     
-    
+    self.userView.textField.text = @"admin";
     self.userView.textField.placeholder = @"请输入用户名";
-    [self.view addSubview:self.userView];
+    [self.myScrollView addSubview:self.userView];
     [self.userView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.headerView.mas_bottom).offset(PAaptation_y(37.5));
         make.left.equalTo(self.view).offset(PAdaptation_x(50));
@@ -62,8 +69,9 @@
         make.height.mas_equalTo(PAaptation_y(56));
     }];
     
+    self.pwView.textField.text = @"admin123";
     self.pwView.textField.placeholder = @"请输入密码";
-    [self.view addSubview:self.pwView];
+    [self.myScrollView addSubview:self.pwView];
     [self.pwView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.userView.mas_bottom).offset(PAaptation_y(16));
         make.left.equalTo(self.view).offset(PAdaptation_x(50));
@@ -71,7 +79,7 @@
         make.height.mas_equalTo(PAaptation_y(56));
     }];
     
-    [self.view addSubview:self.selectImageView];
+    [self.myScrollView addSubview:self.selectImageView];
     [self.selectImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.pwView.mas_bottom).offset(PAaptation_y(18));
         make.left.equalTo(self.view).offset(PAdaptation_x(122));
@@ -79,13 +87,13 @@
         make.height.mas_equalTo(PAaptation_y(16));
     }];
     
-    [self.view addSubview:self.privacyLabel];
+    [self.myScrollView addSubview:self.privacyLabel];
     [self.privacyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.selectImageView);
         make.left.equalTo(self.selectImageView.mas_right).offset(PAdaptation_x(4));
     }];
     
-    [self.view addSubview:self.loginBtn];
+    [self.myScrollView addSubview:self.loginBtn];
     [self.loginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.privacyLabel.mas_bottom).offset(PAaptation_y(16));
         make.left.equalTo(self.pwView);
@@ -93,7 +101,7 @@
         make.height.equalTo(self.pwView);
     }];
     
-    [self.view addSubview:self.companyLabel];
+    [self.myScrollView addSubview:self.companyLabel];
     [self.companyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_bottom).offset(-PAaptation_y(37));
         make.centerX.equalTo(self.view);
@@ -106,8 +114,8 @@
     
     DefineWeakSelf;
     BWLoginReq *loginReq = [[BWLoginReq alloc] init];
-    loginReq.username = @"admin";
-    loginReq.password = @"admin123";
+    loginReq.username = self.userView.textField.text;
+    loginReq.password = self.pwView.textField.text;
     [NetManger postRequest:loginReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         
@@ -142,6 +150,13 @@
 
 
 #pragma mark - LazyLoad -
+- (TPKeyboardAvoidingScrollView *)myScrollView{
+    if (!_myScrollView) {
+        _myScrollView = [[TPKeyboardAvoidingScrollView alloc]init];
+        _myScrollView.backgroundColor = [UIColor whiteColor];
+    }
+    return _myScrollView;
+}
 - (UIButton *)helpBtn
 {
     if (!_helpBtn) {
@@ -177,6 +192,7 @@
 {
     if (!_pwView) {
         _pwView = [[HInputView alloc] init];
+        _pwView.textField.secureTextEntry = YES;
     }
     return _pwView;
 }
@@ -215,4 +231,5 @@
     }
     return _companyLabel;
 }
+
 @end
