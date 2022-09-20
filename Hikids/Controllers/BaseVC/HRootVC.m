@@ -35,10 +35,10 @@
 - (void)setupTabbar
 {
     NSArray *list = @[@{@"name":@"HTodayVC",@"nomal":@"tab_today.png",@"select":@"tab_today_active.png",@"title":@"今日"},
-        @{@"name":@"HSleepVC",@"nomal":@"course_tab.png",@"select":@"course_tab_active.png",@"title":@"午睡"},
-        @{@"name":@"HWalkVC",@"nomal":@"course_tab.png",@"select":@"course_tab_active.png",@"title":@"散步"},
-        @{@"name":@"HReportVC",@"nomal":@"course_tab.png",@"select":@"course_tab_active.png",@"title":@"报告"},
-        @{@"name":@"HSettingVC",@"nomal":@"course_tab.png",@"select":@"course_tab_active.png",@"title":@"管理"}];
+        @{@"name":@"HSleepVC",@"nomal":@"tab_nap.png",@"select":@"tab_nap_active.png",@"title":@"午睡"},
+        @{@"name":@"HWalkVC",@"nomal":@"tab_walk.png",@"select":@"tap_walk_active.png",@"title":@"散步"},
+        @{@"name":@"HReportVC",@"nomal":@"tap_report.png",@"select":@"tap_report_active.png",@"title":@"报告"},
+        @{@"name":@"HSettingVC",@"nomal":@"tap_manager.png",@"select":@"tap_manager_active.png",@"title":@"管理"}];
     
     for (NSDictionary *dic in list) {
         NSString *name = [dic safeObjectForKey:@"name"];
