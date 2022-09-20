@@ -15,8 +15,8 @@
 
 #define Nomal_FontSize 8.0
 #define Select_FontSize 8.0
-#define Nomal_Color [UIColor lightGrayColor]
-#define Select_Color BWColor(140, 176, 251, 1)
+#define Nomal_Color [UIColor clearColor]
+#define Select_Color [UIColor clearColor]
 
 
 @interface HRootVC ()<UITabBarControllerDelegate>
@@ -34,7 +34,7 @@
 }
 - (void)setupTabbar
 {
-    NSArray *list = @[@{@"name":@"HTodayVC",@"nomal":@"course_tab.png",@"select":@"course_tab_active.png",@"title":@"今日"},
+    NSArray *list = @[@{@"name":@"HTodayVC",@"nomal":@"tab_today.png",@"select":@"tab_today_active.png",@"title":@"今日"},
         @{@"name":@"HSleepVC",@"nomal":@"course_tab.png",@"select":@"course_tab_active.png",@"title":@"午睡"},
         @{@"name":@"HWalkVC",@"nomal":@"course_tab.png",@"select":@"course_tab_active.png",@"title":@"散步"},
         @{@"name":@"HReportVC",@"nomal":@"course_tab.png",@"select":@"course_tab_active.png",@"title":@"报告"},

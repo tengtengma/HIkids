@@ -24,6 +24,9 @@
 @property (nonatomic, strong) UIButton *loginBtn;
 @property (nonatomic, strong) HInputView *userView;
 @property (nonatomic, strong) HInputView *pwView;
+@property (nonatomic, assign) BOOL isSelected;
+@property (nonatomic, assign) BOOL isAgree;
+
 
 
 @end
@@ -53,14 +56,13 @@
     
     [self.myScrollView addSubview:self.headerView];
     [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(PAaptation_y(257));
+        make.top.equalTo(self.helpBtn.mas_bottom).offset(PAaptation_y(157));
         make.centerX.equalTo(self.view);
         make.width.mas_equalTo(PAdaptation_x(290));
         make.height.mas_equalTo(PAaptation_y(58));
     }];
     
-    self.userView.textField.text = @"admin";
-    self.userView.textField.placeholder = @"请输入用户名";
+    self.userView.textField.placeholder = @"メールアドレス";
     [self.myScrollView addSubview:self.userView];
     [self.userView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.headerView.mas_bottom).offset(PAaptation_y(37.5));
@@ -69,8 +71,7 @@
         make.height.mas_equalTo(PAaptation_y(56));
     }];
     
-    self.pwView.textField.text = @"admin123";
-    self.pwView.textField.placeholder = @"请输入密码";
+    self.pwView.textField.placeholder = @"パスワード";
     [self.myScrollView addSubview:self.pwView];
     [self.pwView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.userView.mas_bottom).offset(PAaptation_y(16));
@@ -79,12 +80,14 @@
         make.height.mas_equalTo(PAaptation_y(56));
     }];
     
+    UIImage *selectImg = [UIImage imageNamed:@"icon_check.png"];
+    
     [self.myScrollView addSubview:self.selectImageView];
     [self.selectImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.pwView.mas_bottom).offset(PAaptation_y(18));
         make.left.equalTo(self.view).offset(PAdaptation_x(122));
-        make.width.mas_equalTo(PAdaptation_x(16));
-        make.height.mas_equalTo(PAaptation_y(16));
+        make.width.mas_equalTo(selectImg.size.width);
+        make.height.mas_equalTo(selectImg.size.height);
     }];
     
     [self.myScrollView addSubview:self.privacyLabel];
@@ -106,6 +109,11 @@
         make.top.equalTo(self.view.mas_bottom).offset(-PAaptation_y(37));
         make.centerX.equalTo(self.view);
     }];
+    
+    self.userView.textField.text = @"admin";
+    self.pwView.textField.text = @"admin123";
+    
+
 }
 
 - (void)loginAction:(id)sender
@@ -133,10 +141,60 @@
        
     }];
 }
+- (void)autoLoginAction
+{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *userName = [user objectForKey:KEY_UserName];
+    NSString *passWord = [user objectForKey:KEY_Password];
+    
+    DefineWeakSelf;
+    BWLoginReq *loginReq = [[BWLoginReq alloc] init];
+    loginReq.username = userName;
+    loginReq.password = passWord;
+    [NetManger postRequest:loginReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        
+        BWLoginResp *loginResp = (BWLoginResp *)resp;
+        
+        [weakSelf saveUserInfomationWithDic:loginResp.item];
+            
+    } failure:^(BWBaseReq *req, NSError *error) {
+       
+    }];
+}
 - (void)saveUserInfomationWithDic:(NSDictionary *)userInfo
 {
-    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    [user setObject:self.userView.textField.text forKey:KEY_UserName];
+    [user setObject:self.pwView.textField.text forKey:KEY_Password];
+    [user synchronize];
 }
+- (void)selectAction:(UITapGestureRecognizer *)tap
+{
+    self.isSelected = !self.isSelected;
+
+//    [self checkLoginState];
+
+    if (self.isSelected) {
+        [self.selectImageView setImage:[UIImage imageNamed:@"icon_checked.png"]];
+        self.loginBtn.enabled = YES;
+        [self.loginBtn setImage:[UIImage imageNamed:@"btn_login_available.png"] forState:UIControlStateNormal];
+    }else{
+        [self.selectImageView setImage:[UIImage imageNamed:@"icon_check.png"]];
+        self.loginBtn.enabled = NO;
+        [self.loginBtn setImage:[UIImage imageNamed:@"btn_login_unavailable.png"] forState:UIControlStateNormal];
+    }
+}
+//- (void)checkLoginState
+//{
+//    if (self.isSelected && self.userView.textField.text.length != 0 && self.pwView.textField.text.length != 0) {
+//        self.loginBtn.enabled = YES;
+//        [self.loginBtn setImage:[UIImage imageNamed:@"btn_login_available.png"] forState:UIControlStateNormal];
+//    }else{
+//        self.loginBtn.enabled = NO;
+//        [self.loginBtn setImage:[UIImage imageNamed:@"btn_login_unavailable.png"] forState:UIControlStateNormal];
+//
+//    }
+//}
 - (void)checkAction:(id)sender
 {
     BWCheckTokenReq *loginReq = [[BWCheckTokenReq alloc] init];
@@ -147,7 +205,10 @@
 
     }];
 }
-
+- (void)helpAction:(id)sender
+{
+    NSLog(@"点击了help按钮");
+}
 
 #pragma mark - LazyLoad -
 - (TPKeyboardAvoidingScrollView *)myScrollView{
@@ -166,8 +227,9 @@
         //多语言example
         
         _helpBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_helpBtn addTarget:self action:@selector(helpAction) forControlEvents:UIControlEventTouchUpInside];
-        _helpBtn.backgroundColor = [UIColor redColor];
+        [_helpBtn setImage:[UIImage imageNamed:@"help.png"] forState:UIControlStateNormal];
+        [_helpBtn addTarget:self action:@selector(helpAction:) forControlEvents:UIControlEventTouchUpInside];
+        
     }
     return _helpBtn;
 }
@@ -175,23 +237,26 @@
 {
     if (!_headerView) {
         _headerView = [[UIImageView alloc] init];
-        [_headerView setImage:[UIImage imageNamed:@""]];
+        [_headerView setImage:[UIImage imageNamed:@"logo.png"]];
         _headerView.contentMode = UIViewContentModeScaleAspectFit;
-        _headerView.backgroundColor = [UIColor blueColor];
+        
     }
     return _headerView;
 }
 - (HInputView *)userView
 {
     if (!_userView) {
-        _userView = [[HInputView alloc] init];
+        _userView = [[HInputView alloc] initWithBGImage:[UIImage imageNamed:@"TextArea_Login.png"] IconImg:[UIImage imageNamed:@"icon_mail.png"]];
+        _userView.textField.delegate = self;
+        
     }
     return _userView;
 }
 - (HInputView *)pwView
 {
     if (!_pwView) {
-        _pwView = [[HInputView alloc] init];
+        _pwView = [[HInputView alloc] initWithBGImage:[UIImage imageNamed:@"TextArea_Login.png"] IconImg:[UIImage imageNamed:@"icon_password.png"]];
+        _pwView.textField.delegate = self;
         _pwView.textField.secureTextEntry = YES;
     }
     return _pwView;
@@ -200,7 +265,12 @@
 {
     if (!_selectImageView) {
         _selectImageView = [[UIImageView alloc] init];
-        _selectImageView.backgroundColor = [UIColor greenColor];
+        _selectImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _selectImageView.userInteractionEnabled = YES;
+        [_selectImageView setImage:[UIImage imageNamed:@"icon_check.png"]];
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectAction:)];
+        [_selectImageView addGestureRecognizer:tap];
     }
     return _selectImageView;
 }
@@ -208,7 +278,8 @@
 {
     if (!_privacyLabel) {
         _privacyLabel = [[UILabel alloc] init];
-        _privacyLabel.text = NSLocalizedString(@"privacyContent", nil);
+//        _privacyLabel.text = NSLocalizedString(@"privacyContent", nil);
+        _privacyLabel.text = @"利用規約に同意する";
         _privacyLabel.font = [UIFont systemFontOfSize:14.0];
     }
     return _privacyLabel;
@@ -217,7 +288,8 @@
 {
     if (!_loginBtn) {
         _loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_loginBtn setBackgroundColor:[UIColor yellowColor]];
+        _loginBtn.enabled = NO;
+        [_loginBtn setImage:[UIImage imageNamed:@"btn_login_unavailable.png"] forState:UIControlStateNormal];
         [_loginBtn addTarget:self action:@selector(loginAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _loginBtn;

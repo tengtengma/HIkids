@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HInputView : UIView
 @property (nonatomic, strong) UITextField *textField;
 
-- (instancetype)init;
+- (instancetype)initWithBGImage:(UIImage *)bgImg IconImg:(UIImage *)iconImg;
 @end
 
 NS_ASSUME_NONNULL_END

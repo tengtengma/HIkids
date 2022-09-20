@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HLoginVC : BaseVC
 
+- (void)autoLoginAction;
 @end
 
 NS_ASSUME_NONNULL_END

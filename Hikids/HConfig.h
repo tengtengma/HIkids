@@ -54,7 +54,7 @@
 #define iPhoneXRatio (SCREEN_HEIGHT / 812)
 //竖屏使用
 #define PAdaptation_x(x) ((x)*SCREEN_WIDTH/390)
-#define PAaptation_y(y) (((y)*(iPhoneX||iPhoneXMaxPro||iPHoneXr ? SCREEN_HEIGHT - 184*iPhoneXRatio : SCREEN_HEIGHT))/844)
+#define PAaptation_y(y) (((y)*SCREEN_HEIGHT)/844)
 //横屏使用
 #define LAdaptation_x(x) ((x)*SCREEN_WIDTH/960)
 #define LAdaptation_y(y) ((y)*SCREEN_HEIGHT/600)
@@ -64,8 +64,8 @@
 //用户信息
 #define KEY_Jwtoken       @"jwtoken"
 #define KEY_UserName      @"userName"
-#define KEY_Email         @"email"
 #define KEY_Password      @"password"
+#define KEY_Email         @"email"
 
 
 //谷歌地图key
