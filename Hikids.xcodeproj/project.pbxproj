@@ -25,11 +25,7 @@
 		9E2DF81D28B2225500B0C9DA /* NSArray+safe.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF81628B2225500B0C9DA /* NSArray+safe.m */; };
 		9E2DF81E28B2225500B0C9DA /* BWTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF81728B2225500B0C9DA /* BWTools.m */; };
 		9E2DF81F28B2225500B0C9DA /* BWFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF81828B2225500B0C9DA /* BWFileManager.m */; };
-		9E2DF82728B2234E00B0C9DA /* HTodayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF82628B2234E00B0C9DA /* HTodayVC.m */; };
-		9E2DF82A28B2236000B0C9DA /* HSleepVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF82928B2236000B0C9DA /* HSleepVC.m */; };
 		9E2DF82D28B2236D00B0C9DA /* HWalkVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF82C28B2236D00B0C9DA /* HWalkVC.m */; };
-		9E2DF83028B2237A00B0C9DA /* HReportVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF82F28B2237A00B0C9DA /* HReportVC.m */; };
-		9E2DF83328B2238A00B0C9DA /* HSettingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF83228B2238A00B0C9DA /* HSettingVC.m */; };
 		9E2DF83628B223AD00B0C9DA /* HRootVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF83528B223AD00B0C9DA /* HRootVC.m */; };
 		9E2DF84328B2596600B0C9DA /* HMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF84228B2596600B0C9DA /* HMapVC.m */; };
 		9E2DF84628B2606F00B0C9DA /* HCustomNavigationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF84528B2606F00B0C9DA /* HCustomNavigationView.m */; };
@@ -122,16 +118,8 @@
 		9E2DF81828B2225500B0C9DA /* BWFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWFileManager.m; sourceTree = "<group>"; };
 		9E2DF81928B2225500B0C9DA /* BWAlertCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWAlertCtrl.h; sourceTree = "<group>"; };
 		9E2DF81A28B2225500B0C9DA /* BWTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWTools.h; sourceTree = "<group>"; };
-		9E2DF82528B2234E00B0C9DA /* HTodayVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTodayVC.h; sourceTree = "<group>"; };
-		9E2DF82628B2234E00B0C9DA /* HTodayVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTodayVC.m; sourceTree = "<group>"; };
-		9E2DF82828B2236000B0C9DA /* HSleepVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HSleepVC.h; sourceTree = "<group>"; };
-		9E2DF82928B2236000B0C9DA /* HSleepVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HSleepVC.m; sourceTree = "<group>"; };
 		9E2DF82B28B2236D00B0C9DA /* HWalkVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWalkVC.h; sourceTree = "<group>"; };
 		9E2DF82C28B2236D00B0C9DA /* HWalkVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWalkVC.m; sourceTree = "<group>"; };
-		9E2DF82E28B2237A00B0C9DA /* HReportVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HReportVC.h; sourceTree = "<group>"; };
-		9E2DF82F28B2237A00B0C9DA /* HReportVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HReportVC.m; sourceTree = "<group>"; };
-		9E2DF83128B2238A00B0C9DA /* HSettingVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HSettingVC.h; sourceTree = "<group>"; };
-		9E2DF83228B2238A00B0C9DA /* HSettingVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HSettingVC.m; sourceTree = "<group>"; };
 		9E2DF83428B223AD00B0C9DA /* HRootVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HRootVC.h; sourceTree = "<group>"; };
 		9E2DF83528B223AD00B0C9DA /* HRootVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HRootVC.m; sourceTree = "<group>"; };
 		9E2DF84128B2596600B0C9DA /* HMapVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMapVC.h; sourceTree = "<group>"; };
@@ -278,11 +266,7 @@
 			children = (
 				9E2DF80728B2214900B0C9DA /* BaseVC */,
 				9EDAFE4728C4CD9600FA9B5F /* LoginVC */,
-				9E2DF82028B222D600B0C9DA /* TodayVC */,
-				9E2DF82128B222DE00B0C9DA /* SleepVC */,
 				9E2DF82228B222EB00B0C9DA /* WalkVC */,
-				9E2DF82328B222FC00B0C9DA /* ReportVC */,
-				9E2DF82428B2231500B0C9DA /* SettingVC */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -392,24 +376,6 @@
 			path = SafeObject;
 			sourceTree = "<group>";
 		};
-		9E2DF82028B222D600B0C9DA /* TodayVC */ = {
-			isa = PBXGroup;
-			children = (
-				9E2DF82528B2234E00B0C9DA /* HTodayVC.h */,
-				9E2DF82628B2234E00B0C9DA /* HTodayVC.m */,
-			);
-			path = TodayVC;
-			sourceTree = "<group>";
-		};
-		9E2DF82128B222DE00B0C9DA /* SleepVC */ = {
-			isa = PBXGroup;
-			children = (
-				9E2DF82828B2236000B0C9DA /* HSleepVC.h */,
-				9E2DF82928B2236000B0C9DA /* HSleepVC.m */,
-			);
-			path = SleepVC;
-			sourceTree = "<group>";
-		};
 		9E2DF82228B222EB00B0C9DA /* WalkVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -419,24 +385,6 @@
 				9E2DF84228B2596600B0C9DA /* HMapVC.m */,
 			);
 			path = WalkVC;
-			sourceTree = "<group>";
-		};
-		9E2DF82328B222FC00B0C9DA /* ReportVC */ = {
-			isa = PBXGroup;
-			children = (
-				9E2DF82E28B2237A00B0C9DA /* HReportVC.h */,
-				9E2DF82F28B2237A00B0C9DA /* HReportVC.m */,
-			);
-			path = ReportVC;
-			sourceTree = "<group>";
-		};
-		9E2DF82428B2231500B0C9DA /* SettingVC */ = {
-			isa = PBXGroup;
-			children = (
-				9E2DF83128B2238A00B0C9DA /* HSettingVC.h */,
-				9E2DF83228B2238A00B0C9DA /* HSettingVC.m */,
-			);
-			path = SettingVC;
 			sourceTree = "<group>";
 		};
 		9E2DF83728B2301F00B0C9DA /* UI */ = {
@@ -728,13 +676,11 @@
 				9E0B546A28B21E620026CD86 /* AppDelegate.m in Sources */,
 				9E2DF80228B2209E00B0C9DA /* BWNetManager.m in Sources */,
 				9E2DF80128B2209E00B0C9DA /* BWBaseReq.m in Sources */,
-				9E2DF83328B2238A00B0C9DA /* HSettingVC.m in Sources */,
 				9E2DF81C28B2225500B0C9DA /* NSDictionary+safe.m in Sources */,
 				9E42E69928D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.m in Sources */,
 				9E2DF81D28B2225500B0C9DA /* NSArray+safe.m in Sources */,
 				9E2DF83628B223AD00B0C9DA /* HRootVC.m in Sources */,
 				9EC72A3528D84FFA00494A74 /* HInputView.m in Sources */,
-				9E2DF82728B2234E00B0C9DA /* HTodayVC.m in Sources */,
 				9E8344B828C7912C00AB9D83 /* BWCheckTokenReq.m in Sources */,
 				9E2DF82D28B2236D00B0C9DA /* HWalkVC.m in Sources */,
 				9E2DF84328B2596600B0C9DA /* HMapVC.m in Sources */,
@@ -746,9 +692,7 @@
 				9E2DF81E28B2225500B0C9DA /* BWTools.m in Sources */,
 				9EC72A3128D8394F00494A74 /* MBProgressHUD+ShowMessage.m in Sources */,
 				9E2DF81F28B2225500B0C9DA /* BWFileManager.m in Sources */,
-				9E2DF83028B2237A00B0C9DA /* HReportVC.m in Sources */,
 				9E2DF80A28B2219300B0C9DA /* BaseVC.m in Sources */,
-				9E2DF82A28B2236000B0C9DA /* HSleepVC.m in Sources */,
 				9E8344BB28C7913E00AB9D83 /* BWCheckTokenResp.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

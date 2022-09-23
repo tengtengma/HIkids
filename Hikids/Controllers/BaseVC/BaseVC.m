@@ -39,7 +39,7 @@
         make.top.equalTo(self.view);
         make.left.equalTo(self.view);
         make.width.equalTo(self.view);
-        make.height.mas_equalTo(PAaptation_y(88));
+        make.height.mas_equalTo(BW_TopHeight);
     }];
     
 }
