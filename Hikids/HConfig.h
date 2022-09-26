@@ -50,11 +50,18 @@
 
 #define NAV_HEIGHT  64
 
+#define kStatusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height
+
+#define QM_IS_IPHONEX ((kStatusBarHeight >= 44)?YES:NO)
+
 //iphonex系列 尺寸比例系数
 #define iPhoneXRatio (SCREEN_HEIGHT / 812)
 //竖屏使用
+//#define PAdaptation_x(x) ((x)*SCREEN_WIDTH/390)
+//#define PAaptation_y(y) (((y)*SCREEN_HEIGHT)/844)
+
 #define PAdaptation_x(x) ((x)*SCREEN_WIDTH/390)
-#define PAaptation_y(y) (((y)*SCREEN_HEIGHT)/844)
+#define PAaptation_y(y) (((y)*(!QM_IS_IPHONEX ? (SCREEN_HEIGHT + 145*iPhoneXRatio) : SCREEN_HEIGHT))/844)
 //横屏使用
 #define LAdaptation_x(x) ((x)*SCREEN_WIDTH/960)
 #define LAdaptation_y(y) ((y)*SCREEN_HEIGHT/600)

@@ -92,6 +92,7 @@
     }
     if (indexPath.section == 1) {
         
+        [cell setupCellWithModel:nil withStyle:CellType_Danger];
     }
 
     return cell;
