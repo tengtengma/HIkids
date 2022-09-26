@@ -1,5 +1,5 @@
 //
-//  HWalkVC.h
+//  HSleepVC.h
 //  Hikids
 //
 //  Created by 马腾 on 2022/9/26.
@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HWalkVC : BaseVC
+@interface HSleepVC : BaseVC
 
 @end
 

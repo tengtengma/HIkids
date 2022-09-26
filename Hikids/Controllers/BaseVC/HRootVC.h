@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HRootVC : UIViewController
-
+- (void)replaceController:(UIViewController *)oldController newController:(UIViewController *)newController;
 @end
 
 NS_ASSUME_NONNULL_END

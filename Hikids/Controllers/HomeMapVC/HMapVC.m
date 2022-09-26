@@ -6,11 +6,13 @@
 //
 
 #import "HMapVC.h"
+#import "HMenuHomeVC.h"
 #import <GoogleMaps/GoogleMaps.h>
 #import <GooglePlaces/GooglePlaces.h>
 #import <CoreLocation/CoreLocation.h>
 
 @interface HMapVC ()<GMSMapViewDelegate,GMSAutocompleteViewControllerDelegate,CLLocationManagerDelegate>
+@property (nonatomic,strong) HMenuHomeVC *menuHomeVC;
 @property (nonatomic,strong) GMSMapView *mapView ;
 @property (nonatomic,strong) CLLocationManager *locationManager;
 @property (nonatomic,assign) CLLocationCoordinate2D coordinate2D;
@@ -24,20 +26,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.customNavigationView.titleLabel.text = @"在園中";
+    self.customNavigationView.desLabel.text = @"2022.08.21";
+    self.customNavigationView.markImageView.backgroundColor = [UIColor greenColor];
     
-    self.view.backgroundColor = [UIColor whiteColor];
-    
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn setTitle:@"搜索" forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold];
-    btn.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -5);
-    [btn addTarget:self action:@selector(navRightClick) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
-        
+
     //设置地图view，这里是随便初始化了一个经纬度，在获取到当前用户位置到时候会直接更新的
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:38.02 longitude:114.52 zoom:15];
-    _mapView= [GMSMapView mapWithFrame:CGRectMake(0, 0, SCREEN_WIDTH,SCREEN_HEIGHT - BW_TopHeight) camera:camera];
+    _mapView= [GMSMapView mapWithFrame:CGRectMake(0, PAaptation_y(156), SCREEN_WIDTH,self.view.frame.size.height - PAaptation_y(150)-PAaptation_y(156)) camera:camera];
     _mapView.delegate = self;
     _mapView.settings.compassButton = YES;//显示指南针
     //_mapView.settings.myLocationButton = YES;
@@ -46,13 +42,20 @@
 
     /* 开始定位*/
     [self startLocation];
+    
+    self.menuHomeVC.view.frame = CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(150), SCREEN_WIDTH, SCREEN_HEIGHT);
+    [self.view addSubview:self.menuHomeVC.view];
+    
+
 
 }
+
 -(void)navRightClick{
     GMSAutocompleteViewController *autocompleteViewController = [[GMSAutocompleteViewController alloc] init];
     autocompleteViewController.delegate = self;
     [self presentViewController:autocompleteViewController animated:YES completion:nil];
 }
+
 - (void)startLocation {
     if ([CLLocationManager locationServicesEnabled] &&
         ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways)) {
@@ -69,6 +72,7 @@
 //        [SVProgressHUD dismiss];
     }
 }
+
 #pragma mark - 系统自带location代理定位
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     if ([error code] == kCLErrorDenied) {
@@ -177,4 +181,12 @@ didFailAutocompleteWithError:(NSError *)error {
     _mapView = nil;
 }
 
+#pragma mark - LazyLoad -
+- (HMenuHomeVC *)menuHomeVC
+{
+    if (!_menuHomeVC) {
+        _menuHomeVC = [[HMenuHomeVC alloc] init];
+    }
+    return _menuHomeVC;
+}
 @end

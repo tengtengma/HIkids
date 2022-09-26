@@ -58,6 +58,8 @@
 {
     if (!_backgroundImageView) {
         _backgroundImageView = [[UIImageView alloc] init];
+        [_backgroundImageView setImage:[UIImage imageNamed:@"nav_background.png"]];
+        
     }
     return _backgroundImageView;
 }
@@ -72,7 +74,7 @@
 {
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] init];
-        _titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+        _titleLabel.font = [UIFont boldSystemFontOfSize:36.0];
         _titleLabel.textColor = [UIColor blackColor];
     }
     return _titleLabel;

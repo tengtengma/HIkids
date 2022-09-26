@@ -22,6 +22,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
+    [self setupGoogleMap];
+
+    
     HLoginVC *loginVC = [[HLoginVC alloc] init];
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *userName = [user objectForKey:KEY_UserName];
@@ -32,8 +35,6 @@
         self.window.rootViewController = loginVC;
     }
     [self.window makeKeyAndVisible];
-    
-    [self setupGoogleMap];
     
     return YES;
 }
