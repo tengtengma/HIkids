@@ -24,11 +24,11 @@ PODS:
   - lottie-ios (2.5.3)
   - Masonry (1.1.0)
   - MBProgressHUD (1.2.0)
-  - MJExtension (3.4.1)
-  - MJRefresh (3.7.5)
-  - SDWebImage (5.12.3):
-    - SDWebImage/Core (= 5.12.3)
-  - SDWebImage/Core (5.12.3)
+  - MJExtension (3.2.2)
+  - MJRefresh (3.5.0)
+  - SDWebImage (5.10.0):
+    - SDWebImage/Core (= 5.10.0)
+  - SDWebImage/Core (5.10.0)
 
 DEPENDENCIES:
   - AFNetworking
@@ -60,10 +60,10 @@ SPEC CHECKSUMS:
   lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
-  MJExtension: 21c5f6f8c4d5d8844b7ae8fbae08fed0b501f961
-  MJRefresh: fdf5e979eb406a0341468932d1dfc8b7f9fce961
-  SDWebImage: 53179a2dba77246efa8a9b85f5c5b21f8f43e38f
+  MJExtension: d9b9c74cbdeb724c1e9ecbb157b318276e62e876
+  MJRefresh: 6afc955813966afb08305477dd7a0d9ad5e79a16
+  SDWebImage: 9169792e9eec3e45bba2a0c02f74bf8bd922d1ee
 
 PODFILE CHECKSUM: f2df5498d09a2d8375fa62561616e1f108c6337f
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.11.3
