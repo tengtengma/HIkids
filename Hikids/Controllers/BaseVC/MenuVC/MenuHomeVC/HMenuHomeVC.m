@@ -91,8 +91,14 @@
         
     }
     if (indexPath.section == 1) {
-        
-        [cell setupCellWithModel:nil withStyle:CellType_Danger];
+        if (indexPath.row == 0) {
+            [cell setupCellWithModel:nil withStyle:CellType_Danger];
+
+        }
+        if (indexPath.row == 1) {
+            [cell setupCellWithModel:nil withStyle:CellType_Safe];
+
+        }
     }
 
     return cell;
