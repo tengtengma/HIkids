@@ -21,6 +21,7 @@
 		9E17D1A428ED1E6B005FA5A9 /* safeView@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E17D1A028ED1E6B005FA5A9 /* safeView@3x.png */; };
 		9E17D1A528ED1E6B005FA5A9 /* safeView@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E17D1A128ED1E6B005FA5A9 /* safeView@2x.png */; };
 		9E17D1A928ED3750005FA5A9 /* JZLocationConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17D1A728ED3750005FA5A9 /* JZLocationConverter.m */; };
+		9E17D1B128ED38E9005FA5A9 /* HWalkMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17D1B028ED38E9005FA5A9 /* HWalkMenuVC.m */; };
 		9E1F219E28E168E000C5041B /* nav_background@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E1F219C28E168E000C5041B /* nav_background@3x.png */; };
 		9E1F219F28E168E000C5041B /* nav_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E1F219D28E168E000C5041B /* nav_background@2x.png */; };
 		9E1F21A228E16A6300C5041B /* HBaseMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1F21A128E16A6300C5041B /* HBaseMenuVC.m */; };
@@ -104,6 +105,8 @@
 		9E17D1A128ED1E6B005FA5A9 /* safeView@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "safeView@2x.png"; sourceTree = "<group>"; };
 		9E17D1A728ED3750005FA5A9 /* JZLocationConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JZLocationConverter.m; sourceTree = "<group>"; };
 		9E17D1A828ED3750005FA5A9 /* JZLocationConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JZLocationConverter.h; sourceTree = "<group>"; };
+		9E17D1AF28ED38E9005FA5A9 /* HWalkMenuVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWalkMenuVC.h; sourceTree = "<group>"; };
+		9E17D1B028ED38E9005FA5A9 /* HWalkMenuVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWalkMenuVC.m; sourceTree = "<group>"; };
 		9E1F219C28E168E000C5041B /* nav_background@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_background@3x.png"; sourceTree = "<group>"; };
 		9E1F219D28E168E000C5041B /* nav_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_background@2x.png"; sourceTree = "<group>"; };
 		9E1F21A028E16A6300C5041B /* HBaseMenuVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HBaseMenuVC.h; sourceTree = "<group>"; };
@@ -277,6 +280,44 @@
 			path = JZLocationConverter;
 			sourceTree = "<group>";
 		};
+		9E17D1AB28ED3880005FA5A9 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9E17D1AC28ED3898005FA5A9 /* BaseMenuVC */,
+				9E17D1AE28ED38B3005FA5A9 /* MenuSleepVC */,
+				9E17D1AD28ED38AA005FA5A9 /* MenuWalkVC */,
+				9E1F21C428E19DC500C5041B /* MenuHomeVC */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		9E17D1AC28ED3898005FA5A9 /* BaseMenuVC */ = {
+			isa = PBXGroup;
+			children = (
+				9E1F21A028E16A6300C5041B /* HBaseMenuVC.h */,
+				9E1F21A128E16A6300C5041B /* HBaseMenuVC.m */,
+			);
+			path = BaseMenuVC;
+			sourceTree = "<group>";
+		};
+		9E17D1AD28ED38AA005FA5A9 /* MenuWalkVC */ = {
+			isa = PBXGroup;
+			children = (
+				9E17D1AF28ED38E9005FA5A9 /* HWalkMenuVC.h */,
+				9E17D1B028ED38E9005FA5A9 /* HWalkMenuVC.m */,
+			);
+			path = MenuWalkVC;
+			sourceTree = "<group>";
+		};
+		9E17D1AE28ED38B3005FA5A9 /* MenuSleepVC */ = {
+			isa = PBXGroup;
+			children = (
+				9E1F21BD28E1924B00C5041B /* HMenuSleepVC.h */,
+				9E1F21BE28E1924B00C5041B /* HMenuSleepVC.m */,
+			);
+			path = MenuSleepVC;
+			sourceTree = "<group>";
+		};
 		9E1F219928E1688B00C5041B /* HomeUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -317,12 +358,8 @@
 		9E1F21A728E1720C00C5041B /* MenuVC */ = {
 			isa = PBXGroup;
 			children = (
+				9E17D1AB28ED3880005FA5A9 /* Controllers */,
 				9E1F21A828E1721600C5041B /* UI */,
-				9E1F21A028E16A6300C5041B /* HBaseMenuVC.h */,
-				9E1F21A128E16A6300C5041B /* HBaseMenuVC.m */,
-				9E1F21C428E19DC500C5041B /* MenuHomeVC */,
-				9E1F21BD28E1924B00C5041B /* HMenuSleepVC.h */,
-				9E1F21BE28E1924B00C5041B /* HMenuSleepVC.m */,
 			);
 			path = MenuVC;
 			sourceTree = "<group>";
@@ -787,6 +824,7 @@
 				9E2DF81C28B2225500B0C9DA /* NSDictionary+safe.m in Sources */,
 				9E1F21BF28E1924B00C5041B /* HMenuSleepVC.m in Sources */,
 				9E42E69928D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.m in Sources */,
+				9E17D1B128ED38E9005FA5A9 /* HWalkMenuVC.m in Sources */,
 				9E2DF81D28B2225500B0C9DA /* NSArray+safe.m in Sources */,
 				9E1F21B328E1790900C5041B /* HMenuHomeVC.m in Sources */,
 				9E2DF83628B223AD00B0C9DA /* HRootVC.m in Sources */,
