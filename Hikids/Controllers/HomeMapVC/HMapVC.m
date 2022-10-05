@@ -120,12 +120,12 @@
         // 停止定位
         [_locationManager stopUpdatingLocation];
         //如果是国内，就会转化坐标系，如果是国外坐标，则不会转换。
-//        _coordinate2D = [JZLocationConverter wgs84ToGcj02:location.coordinate];
+        _coordinate2D = [JZLocationConverter wgs84ToGcj02:location.coordinate];
         //移动地图中心到当前位置
         _mapView.camera = [GMSCameraPosition cameraWithTarget:_coordinate2D zoom:15];
 
-//        self.marker = [GMSMarker markerWithPosition:_coordinate2D];
-//        self.marker.map = self.mapView;
+        self.marker = [GMSMarker markerWithPosition:_coordinate2D];
+        self.marker.map = self.mapView;
 
         [self getPlace:_coordinate2D];
     }
@@ -140,7 +140,7 @@
 //    self.marker.map = nil;
 //    self.marker = [GMSMarker markerWithPosition:mapView.camera.target];
 //    self.marker.map = self.mapView;
-    [self getPlace:mapView.camera.target];
+//    [self getPlace:mapView.camera.target];
 }
 -(void)getPlace:(CLLocationCoordinate2D)coordinate2D{
 

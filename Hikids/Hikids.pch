@@ -22,5 +22,6 @@
 #import "BWAlertCtrl.h"
 #import "MJExtension.h"
 #import "HCustomNavigationView.h"
+#import "JZLocationConverter.h"
 
 #endif /* Hikids_pch */
