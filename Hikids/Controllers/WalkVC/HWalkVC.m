@@ -16,9 +16,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.customNavigationView.titleLabel.text = @"散步";
-    self.customNavigationView.desLabel.text = @"散步";
-    self.customNavigationView.markImageView.backgroundColor = [UIColor redColor];
+
 }
 
 

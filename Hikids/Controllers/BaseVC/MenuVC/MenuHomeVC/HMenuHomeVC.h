@@ -10,7 +10,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HMenuHomeVC : HBaseMenuVC
-
+@property (nonatomic, strong) UIView *cardView;
+- (void)clickMenuAction:(UITapGestureRecognizer *)tap;
+- (void)showMenuVC;
+- (void)closeMenuVC;
 @end
 
 NS_ASSUME_NONNULL_END

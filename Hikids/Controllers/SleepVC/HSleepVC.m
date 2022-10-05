@@ -18,12 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.customNavigationView.titleLabel.text = @"午睡";
-    self.customNavigationView.desLabel.text = @"11111";
-    self.customNavigationView.markImageView.backgroundColor = [UIColor yellowColor];
-    
 
-    
     self.menuSleepVC.view.frame = CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(150), SCREEN_WIDTH, SCREEN_HEIGHT);
     [self.view addSubview:self.menuSleepVC.view];
     

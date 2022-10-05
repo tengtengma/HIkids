@@ -73,6 +73,7 @@
         weakSelf.view.frame = CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT);
 
     }];
+
 }
 - (void)closeMenuVC
 {

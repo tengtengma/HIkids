@@ -10,9 +10,11 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import <GooglePlaces/GooglePlaces.h>
 #import <CoreLocation/CoreLocation.h>
+#import "HSmallCardView.h"
 
 @interface HMapVC ()<GMSMapViewDelegate,GMSAutocompleteViewControllerDelegate,CLLocationManagerDelegate>
 @property (nonatomic,strong) HMenuHomeVC *menuHomeVC;
+@property (nonatomic,strong) HSmallCardView *smallMenuView;
 @property (nonatomic,strong) GMSMapView *mapView ;
 @property (nonatomic,strong) CLLocationManager *locationManager;
 @property (nonatomic,assign) CLLocationCoordinate2D coordinate2D;
@@ -26,14 +28,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.customNavigationView.titleLabel.text = @"在園中";
-    self.customNavigationView.desLabel.text = @"2022.08.21";
-    self.customNavigationView.markImageView.backgroundColor = [UIColor greenColor];
+    [self setupNavInfomation];
     
 
     //设置地图view，这里是随便初始化了一个经纬度，在获取到当前用户位置到时候会直接更新的
     GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:38.02 longitude:114.52 zoom:15];
-    _mapView= [GMSMapView mapWithFrame:CGRectMake(0, PAaptation_y(156), SCREEN_WIDTH,self.view.frame.size.height - PAaptation_y(150)-PAaptation_y(156)) camera:camera];
+    _mapView= [GMSMapView mapWithFrame:CGRectMake(0, PAaptation_y(156), SCREEN_WIDTH,self.view.frame.size.height - PAaptation_y(110)-PAaptation_y(156)) camera:camera];
     _mapView.delegate = self;
     _mapView.settings.compassButton = YES;//显示指南针
     //_mapView.settings.myLocationButton = YES;
@@ -43,17 +43,45 @@
     /* 开始定位*/
     [self startLocation];
     
-    self.menuHomeVC.view.frame = CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(150), SCREEN_WIDTH, SCREEN_HEIGHT);
+    self.menuHomeVC.view.frame = CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(110), SCREEN_WIDTH, SCREEN_HEIGHT);
     [self.view addSubview:self.menuHomeVC.view];
     
+    
+    [self createSmallView];
 
-
+}
+- (void)setupNavInfomation{
+    self.customNavigationView.titleLabel.text = @"在園中";
+    self.customNavigationView.stateLabel.text = @"安全";
+    self.customNavigationView.stateLabel.textColor = BWColor(0, 176, 107, 1);
+    
+    self.customNavigationView.updateTimeLabel.text = @"最终更新：3分钟";
+    self.customNavigationView.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
+    
+    self.customNavigationView.userNameLabel.text = @"ひまわり";
+    [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
+    [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
 }
 
 -(void)navRightClick{
     GMSAutocompleteViewController *autocompleteViewController = [[GMSAutocompleteViewController alloc] init];
     autocompleteViewController.delegate = self;
     [self presentViewController:autocompleteViewController animated:YES completion:nil];
+}
+- (void)createSmallView
+{
+    [self.view addSubview:self.smallMenuView];
+    
+    self.menuHomeVC.cardView = self.smallMenuView;
+    
+    self.smallMenuView.safeLabel.text = @"使用中8人";
+    self.smallMenuView.dangerLabel.text = @"アラート0回";
+    
+    self.smallMenuView.clickBlock = ^{
+        
+    };
+    
+    
 }
 
 - (void)startLocation {
@@ -188,5 +216,12 @@ didFailAutocompleteWithError:(NSError *)error {
         _menuHomeVC = [[HMenuHomeVC alloc] init];
     }
     return _menuHomeVC;
+}
+- (HSmallCardView *)smallMenuView
+{
+    if (!_smallMenuView) {
+        _smallMenuView = [[HSmallCardView alloc] initWithFrame:CGRectMake(PAdaptation_x(5), SCREEN_HEIGHT - PAaptation_y(200), PAdaptation_x(115), PAaptation_y(79))];
+    }
+    return _smallMenuView;
 }
 @end
