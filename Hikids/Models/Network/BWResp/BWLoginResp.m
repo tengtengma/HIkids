@@ -16,7 +16,7 @@
         if (self.errorCode == ResponseCode_Success)
         {
             self.item = [jsonDic safeObjectForKey:@"item"];
-            self.items = [jsonDic safeObjectForKey:@"items"];
+            self.itemList = [jsonDic safeObjectForKey:@"itemList"];
             
             NSString *token = [jsonDic safeObjectForKey:@"token"];
             if (token.length != 0) {

@@ -63,11 +63,11 @@
     [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
 }
 
--(void)navRightClick{
-    GMSAutocompleteViewController *autocompleteViewController = [[GMSAutocompleteViewController alloc] init];
-    autocompleteViewController.delegate = self;
-    [self presentViewController:autocompleteViewController animated:YES completion:nil];
-}
+//-(void)navRightClick{
+//    GMSAutocompleteViewController *autocompleteViewController = [[GMSAutocompleteViewController alloc] init];
+//    autocompleteViewController.delegate = self;
+//    [self presentViewController:autocompleteViewController animated:YES completion:nil];
+//}
 - (void)createSmallView
 {
     [self.view addSubview:self.smallMenuView];

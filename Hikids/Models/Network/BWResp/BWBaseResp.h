@@ -18,7 +18,7 @@ typedef enum _ResponseCode
 @property (nonatomic, assign) ResponseCode errorCode;
 @property (nonatomic, strong) NSString * errorMessage;
 @property (nonatomic, strong) NSDictionary *item;
-@property (nonatomic, strong) NSArray *items;
+@property (nonatomic, strong) NSArray *itemList;
 
 - (id)initWithJSONDictionary:(NSDictionary*)jsonDic;
 @end

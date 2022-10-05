@@ -66,7 +66,8 @@
     }
     if (self.ShowSum == 2) {
         menuRect = CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT);
-            
+        cardRect = CGRectMake(0,0,0,0);
+
         self.cardView.hidden = YES;
 
     }
