@@ -80,8 +80,6 @@
     self.smallMenuView.clickBlock = ^{
         
     };
-    
-    
 }
 
 - (void)startLocation {

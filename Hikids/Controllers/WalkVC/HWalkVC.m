@@ -12,15 +12,23 @@
 #import "BWGetDestnationReq.h"
 #import "BWGetDestnationResp.h"
 #import "HDestnationModel.h"
+#import "BWGetStudentReq.h"
+#import "BWGetStudentResp.h"
+#import "HStudent.h"
+#import "HTitleView.h"
+#import "HTeacher.h"
+#import "HTime.h"
 
 @interface HWalkVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property (nonatomic, strong) UIView *bgView;
 @property (nonatomic, strong) HWalkMenuVC *menuVC;
 @property (nonatomic, strong) UIImageView *topView;
 @property (nonatomic, strong) UIView *titleView;
+@property (nonatomic, strong) UIView *footerView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *dateLabel;
 @property (nonatomic, strong) UIButton *backBtn;
+@property (nonatomic, strong) UIButton *startWalkBtn;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSArray *dataArray;
 @property (nonatomic, strong) NSArray *destnationArray; //目的地集合
@@ -37,13 +45,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self startRequest];
+    [self startDestnationRequest];
     
-   
-    [self createUI];
 
 }
-- (void)startRequest
+- (void)startDestnationRequest
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     DefineWeakSelf;
@@ -55,8 +61,28 @@
         
         weakSelf.destnationArray = destResp.itemList;
         
-        [weakSelf.collectionView reloadData];
+        [weakSelf startStudentRequest];
+                
         
+    } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+    }];
+}
+- (void)startStudentRequest
+{
+    DefineWeakSelf;
+    BWGetStudentReq *studentReq = [[BWGetStudentReq alloc] init];
+    [NetManger getRequest:studentReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        
+        BWGetStudentResp *studentResp = (BWGetStudentResp *)resp;
+        
+        weakSelf.studentArray = studentResp.itemList;
+        
+        [weakSelf createUI];
+        [weakSelf.collectionView reloadData];
+
         
     } failure:^(BWBaseReq *req, NSError *error) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
@@ -82,6 +108,28 @@
     
     [self createTableView];
     
+    [self createFooterView];
+    
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    NSArray *timeArray = @[@"自由",@"45分",@"60分",@"90分"];
+    for (NSInteger i = 0; i < timeArray.count; i++) {
+        HTime *time = [[HTime alloc] init];
+        time.tId = i;
+        time.name = [timeArray safeObjectAtIndex:i];
+        [array addObject:time];
+    }
+    self.timeArray = array;
+    
+    NSMutableArray *array1 = [[NSMutableArray alloc] init];
+
+    NSArray *teacherArray = @[@"小林健一",@"山本彩",@"福山湊",@"+新規追加"];
+    for (NSInteger i = 0; i < teacherArray.count; i++) {
+        HTeacher *teacher = [[HTeacher alloc] init];
+        teacher.tId = i;
+        teacher.name = [teacherArray safeObjectAtIndex:i];
+        [array1 addObject:teacher];
+    }
+    self.teacherArray = array1;
     
     self.titleLabel.text = @"散歩モニタリング";
     self.dateLabel.text = @"2022.10.05";
@@ -123,9 +171,36 @@
         make.top.equalTo(self.titleView.mas_bottom);
         make.left.equalTo(self.view);
         make.width.equalTo(self.view);
-        make.bottom.equalTo(self.view.mas_bottom);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-PAaptation_y(80));
     }];
     
+}
+- (void)createFooterView
+{
+    [self.view addSubview:self.footerView];
+    [self.footerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.collectionView.mas_bottom);
+        make.left.equalTo(self.view);
+        make.width.equalTo(self.view);
+        make.height.mas_equalTo(PAaptation_y(80));
+    }];
+    
+    [self.footerView addSubview:self.startWalkBtn];
+    [self.startWalkBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.footerView);
+        make.width.mas_equalTo(PAdaptation_x(240));
+        make.height.mas_equalTo(PAaptation_y(47));
+    }];
+    
+    UIView *lineView = [[UIView alloc] init];
+    lineView.backgroundColor = BWColor(169, 167, 166, 1);
+    [self.footerView addSubview:lineView];
+    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.footerView);
+        make.left.equalTo(self.footerView);
+        make.width.equalTo(self.footerView);
+        make.height.mas_equalTo(PAaptation_y(1));
+    }];
 }
 - (void)backAction:(id)sender
 {
@@ -148,7 +223,7 @@
     if (section == 2) {
         return self.teacherArray.count;
     }
-    return 4;
+    return self.studentArray.count;
 }
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -170,55 +245,70 @@
         [mddView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(cell.contentView);
         }];
+        
+        if (destModel.isSelected) {
+            [mddView cellSelected];
+        }else{
+            [mddView cellNomal];
+        }
 
         
     }
         
     if (indexPath.section == 1) {
         
-        UILabel *label = [[UILabel alloc] init];
-        label.userInteractionEnabled = YES;
-        label.layer.cornerRadius = 8;
-        label.layer.borderWidth = 1;
-        label.layer.borderColor = BWColor(34, 34, 34, 1.0).CGColor;
-        label.text = [self.timeArray safeObjectAtIndex:indexPath.row];
-        label.font = [UIFont boldSystemFontOfSize:16];
-        label.textAlignment = NSTextAlignmentCenter;
-        [cell.contentView addSubview:label];
-
-        [label mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(cell.contentView);
-            make.left.equalTo(cell.contentView);
-            make.width.mas_equalTo(PAdaptation_x(68));
-            make.height.mas_equalTo(PAaptation_y(36));
-        }];
-    }
-    if (indexPath.section == 2) {
-        UILabel *label = [[UILabel alloc] init];
-        label.userInteractionEnabled = YES;
-        label.tag = 2000+indexPath.row;
-        label.layer.cornerRadius = 8;
-        label.layer.borderWidth = 1;
-        label.layer.borderColor = BWColor(34, 34, 34, 1.0).CGColor;
-        label.text = [self.teacherArray safeObjectAtIndex:indexPath.row];
-        label.font = [UIFont boldSystemFontOfSize:16];
-        label.textAlignment = NSTextAlignmentCenter;
-        [cell.contentView addSubview:label];
-
-        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        HTime *timeModel = [self.timeArray safeObjectAtIndex:indexPath.row];
+        
+        HTitleView *timeView = [[HTitleView alloc] init];
+        [timeView setupWithModel:timeModel];
+        [cell.contentView addSubview:timeView];
+        
+        [timeView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(cell.contentView);
         }];
+        
+        if (timeModel.isSelected) {
+            [timeView cellSelected];
+        }else{
+            [timeView cellNomal];
+        }
+    }
+    if (indexPath.section == 2) {
+        
+        HTeacher *teacherModel = [self.teacherArray safeObjectAtIndex:indexPath.row];
+        
+        HTitleView *titView = [[HTitleView alloc] init];
+        [titView setupWithModel:teacherModel];
+        [cell.contentView addSubview:titView];
+        
+        [titView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(cell.contentView);
+        }];
+        
+        if (teacherModel.isSelected) {
+            [titView cellSelected];
+        }else{
+            [titView cellNomal];
+        }
     }
    
     if (indexPath.section == 3) {
         
+        HStudent *student = [self.studentArray safeObjectAtIndex:indexPath.row];
+        
         HStudentView *studentView = [[HStudentView alloc] init];
-        [studentView setupWithModel:nil];
+        [studentView setupWithModel:student];
         [cell.contentView addSubview:studentView];
 
         [studentView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(cell.contentView);
         }];
+        
+        if (student.isSelected) {
+            [studentView cellSelected];
+        }else{
+            [studentView cellNomal];
+        }
 
     }
     
@@ -229,7 +319,72 @@
 #pragma mark- UICollectionViewDataDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-   
+    if (indexPath.section == 0) {
+        
+        HDestnationModel *selectModel = [self.destnationArray safeObjectAtIndex:indexPath.row];
+        if (selectModel.isSelected) {
+            selectModel.isSelected = NO;
+            
+        }else{
+            [self.destnationArray enumerateObjectsUsingBlock:^(HDestnationModel * obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (selectModel.dId.integerValue == obj.dId.integerValue) {
+                    obj.isSelected = YES;
+                    return;
+                }else{
+                    obj.isSelected = NO;
+                }
+            }];
+        }
+
+    }
+    if (indexPath.section == 1) {
+        
+        HTime *selectModel = [self.timeArray safeObjectAtIndex:indexPath.row];
+        if (selectModel.isSelected) {
+            selectModel.isSelected = NO;
+            
+        }else{
+            [self.timeArray enumerateObjectsUsingBlock:^(HTime * obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (selectModel.tId == obj.tId) {
+                    obj.isSelected = YES;
+                    return;
+                }else{
+                    obj.isSelected = NO;
+                }
+            }];
+        }
+        
+    }
+    if (indexPath.section == 2) {
+        
+        HTeacher *selectModel = [self.teacherArray safeObjectAtIndex:indexPath.row];
+        if (selectModel.isSelected) {
+            selectModel.isSelected = NO;
+        }else{
+            [self.teacherArray enumerateObjectsUsingBlock:^(HTeacher * obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (selectModel.tId == obj.tId) {
+                    obj.isSelected = YES;
+                    return;
+                }
+            }];
+        }
+    }
+    if (indexPath.section == 3) {
+       
+        HStudent *selectModel = [self.studentArray safeObjectAtIndex:indexPath.row];
+        if (selectModel.isSelected) {
+            selectModel.isSelected = NO;
+        }else{
+            [self.studentArray enumerateObjectsUsingBlock:^(HStudent * obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (selectModel.sId.integerValue == obj.sId.integerValue) {
+                    obj.isSelected = YES;
+                    return;
+                }
+            }];
+        }
+    }
+    [self.collectionView reloadData];
+
 }
 #pragma mark - UICollectionViewLayoutDelegate -
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -315,7 +470,8 @@
            [v removeFromSuperview];
        
        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(PAdaptation_x(23), headerView.frame.size.height - PAaptation_y(30), SCREEN_WIDTH, PAaptation_y(30))];
-       label.font = [UIFont boldSystemFontOfSize:20];
+       label.font = [UIFont systemFontOfSize:14];
+       label.textColor = BWColor(34, 34, 34, 1.0);
        [headerView addSubview:label];
        
        if (indexPath.section == 0) {
@@ -391,7 +547,6 @@
     }
     return _titleView;
 }
-
 - (UILabel *)titleLabel
 {
     if (!_titleLabel) {
@@ -408,6 +563,7 @@
     }
     return _dateLabel;
 }
+
 - (UIButton *)backBtn
 {
     if (!_backBtn) {
@@ -417,18 +573,23 @@
     }
     return _backBtn;
 }
-- (NSArray *)timeArray
+- (UIView *)footerView
 {
-    if (!_timeArray) {
-        _timeArray = @[@"自由",@"45分",@"60分",@"90分"];
+    if (!_footerView) {
+        _footerView = [[UIView alloc] init];
+        _footerView.backgroundColor = BWColor(244, 244, 244, 1);
+
     }
-    return _timeArray;
+    return _footerView;
 }
-- (NSArray *)teacherArray
+- (UIButton *)startWalkBtn
 {
-    if (!_teacherArray) {
-        _teacherArray = @[@"小林健一",@"山本彩",@"福山湊",@"+新規追加"];
+    if (!_startWalkBtn) {
+        _startWalkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _startWalkBtn.enabled = NO;
+        [_startWalkBtn setImage:[UIImage imageNamed:@"walkStart_no.png"] forState:UIControlStateNormal];
     }
-    return _teacherArray;
+    return _startWalkBtn;
 }
+
 @end

@@ -29,17 +29,10 @@
         
         [self createUI];
         
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickAction:)];
-        [self addGestureRecognizer:tap];
     }
     return self;
 }
-- (void)clickAction:(UITapGestureRecognizer *)tap
-{
-    if (self.clickMddBlock) {
-        self.clickMddBlock(@"a");
-    }
-}
+
 - (void)createUI
 {
     [self addSubview:self.imageView];
@@ -70,15 +63,34 @@
     
     [self.imageView sd_setImageWithURL:[NSURL URLWithString:destModel.picture] placeholderImage:[UIImage imageNamed:@"default_mdd.png"]];
     self.titleLabel.text = destModel.name;
-    self.distanceLabel.text = destModel.distance;
+    self.distanceLabel.text = [NSString stringWithFormat:@"%@m",destModel.distance];
 }
-
-
+- (void)cellNomal
+{
+    self.imageView.layer.borderColor = BWColor(34, 34, 34, 1.0).CGColor;
+    self.titleLabel.textColor = [UIColor blackColor];
+    self.distanceLabel.textColor = [UIColor blackColor];
+    self.layer.borderColor = BWColor(34, 34, 34, 1.0).CGColor;
+    self.backgroundColor = [UIColor whiteColor];
+    
+}
+- (void)cellSelected
+{
+    self.imageView.layer.borderColor = BWColor(191, 76, 13, 1).CGColor;
+    self.titleLabel.textColor = BWColor(191, 76, 13, 1);
+    self.distanceLabel.textColor = [UIColor blackColor];
+    self.layer.borderColor = BWColor(191, 76, 13, 1).CGColor;
+    self.backgroundColor = BWColor(244, 207, 184, 1);
+}
 #pragma mark - LazyLoad -
 - (UIImageView *)imageView
 {
     if (!_imageView) {
         _imageView = [[UIImageView alloc] init];
+        _imageView.layer.masksToBounds = YES;
+        _imageView.layer.cornerRadius = 8;
+        _imageView.layer.borderWidth = 1;
+        _imageView.layer.borderColor = BWColor(34, 34, 34, 1.0).CGColor;
     }
     return _imageView;
 }

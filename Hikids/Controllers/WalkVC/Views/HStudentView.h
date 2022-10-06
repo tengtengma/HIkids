@@ -9,12 +9,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^clickStudentViewAction)(NSString *mId);
 
 @interface HStudentView : UIView
-@property (nonatomic, copy) clickStudentViewAction clickStudentBlock;
-
 - (void)setupWithModel:(id)model;
+- (void)cellSelected;
+- (void)cellNomal;
 @end
 
 NS_ASSUME_NONNULL_END

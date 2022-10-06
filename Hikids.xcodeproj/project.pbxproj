@@ -31,6 +31,16 @@
 		9E17D1C428EDAAF4005FA5A9 /* BWGetDestnationReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17D1C328EDAAF4005FA5A9 /* BWGetDestnationReq.m */; };
 		9E17D1C728EDAB03005FA5A9 /* BWGetDestnationResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17D1C628EDAB03005FA5A9 /* BWGetDestnationResp.m */; };
 		9E17D1CB28EDADD6005FA5A9 /* HDestnationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17D1CA28EDADD6005FA5A9 /* HDestnationModel.m */; };
+		9E17D1CE28EE7261005FA5A9 /* BWGetStudentReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17D1CD28EE7260005FA5A9 /* BWGetStudentReq.m */; };
+		9E17D1D128EE7270005FA5A9 /* BWGetStudentResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17D1D028EE7270005FA5A9 /* BWGetStudentResp.m */; };
+		9E17D1D428EE72AD005FA5A9 /* HStudent.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17D1D328EE72AD005FA5A9 /* HStudent.m */; };
+		9E17D1D928EE7B85005FA5A9 /* walkStart@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E17D1D528EE7B85005FA5A9 /* walkStart@3x.png */; };
+		9E17D1DA28EE7B85005FA5A9 /* walkStart_no@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E17D1D628EE7B85005FA5A9 /* walkStart_no@3x.png */; };
+		9E17D1DB28EE7B85005FA5A9 /* walkStart_no@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E17D1D728EE7B85005FA5A9 /* walkStart_no@2x.png */; };
+		9E17D1DC28EE7B85005FA5A9 /* walkStart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E17D1D828EE7B85005FA5A9 /* walkStart@2x.png */; };
+		9E17D1DF28EEAE9B005FA5A9 /* HTeacher.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17D1DE28EEAE9B005FA5A9 /* HTeacher.m */; };
+		9E17D1E228EEAEA9005FA5A9 /* HTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17D1E128EEAEA9005FA5A9 /* HTime.m */; };
+		9E17D1E528EEAF4B005FA5A9 /* HTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17D1E428EEAF4B005FA5A9 /* HTitleView.m */; };
 		9E1F219E28E168E000C5041B /* nav_background@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E1F219C28E168E000C5041B /* nav_background@3x.png */; };
 		9E1F219F28E168E000C5041B /* nav_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E1F219D28E168E000C5041B /* nav_background@2x.png */; };
 		9E1F21A228E16A6300C5041B /* HBaseMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1F21A128E16A6300C5041B /* HBaseMenuVC.m */; };
@@ -130,6 +140,22 @@
 		9E17D1C628EDAB03005FA5A9 /* BWGetDestnationResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWGetDestnationResp.m; sourceTree = "<group>"; };
 		9E17D1C928EDADD6005FA5A9 /* HDestnationModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDestnationModel.h; sourceTree = "<group>"; };
 		9E17D1CA28EDADD6005FA5A9 /* HDestnationModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDestnationModel.m; sourceTree = "<group>"; };
+		9E17D1CC28EE7260005FA5A9 /* BWGetStudentReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWGetStudentReq.h; sourceTree = "<group>"; };
+		9E17D1CD28EE7260005FA5A9 /* BWGetStudentReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWGetStudentReq.m; sourceTree = "<group>"; };
+		9E17D1CF28EE7270005FA5A9 /* BWGetStudentResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWGetStudentResp.h; sourceTree = "<group>"; };
+		9E17D1D028EE7270005FA5A9 /* BWGetStudentResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWGetStudentResp.m; sourceTree = "<group>"; };
+		9E17D1D228EE72AD005FA5A9 /* HStudent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HStudent.h; sourceTree = "<group>"; };
+		9E17D1D328EE72AD005FA5A9 /* HStudent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HStudent.m; sourceTree = "<group>"; };
+		9E17D1D528EE7B85005FA5A9 /* walkStart@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "walkStart@3x.png"; sourceTree = "<group>"; };
+		9E17D1D628EE7B85005FA5A9 /* walkStart_no@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "walkStart_no@3x.png"; sourceTree = "<group>"; };
+		9E17D1D728EE7B85005FA5A9 /* walkStart_no@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "walkStart_no@2x.png"; sourceTree = "<group>"; };
+		9E17D1D828EE7B85005FA5A9 /* walkStart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "walkStart@2x.png"; sourceTree = "<group>"; };
+		9E17D1DD28EEAE9B005FA5A9 /* HTeacher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTeacher.h; sourceTree = "<group>"; };
+		9E17D1DE28EEAE9B005FA5A9 /* HTeacher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTeacher.m; sourceTree = "<group>"; };
+		9E17D1E028EEAEA9005FA5A9 /* HTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTime.h; sourceTree = "<group>"; };
+		9E17D1E128EEAEA9005FA5A9 /* HTime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTime.m; sourceTree = "<group>"; };
+		9E17D1E328EEAF4B005FA5A9 /* HTitleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTitleView.h; sourceTree = "<group>"; };
+		9E17D1E428EEAF4B005FA5A9 /* HTitleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTitleView.m; sourceTree = "<group>"; };
 		9E1F219C28E168E000C5041B /* nav_background@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_background@3x.png"; sourceTree = "<group>"; };
 		9E1F219D28E168E000C5041B /* nav_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_background@2x.png"; sourceTree = "<group>"; };
 		9E1F21A028E16A6300C5041B /* HBaseMenuVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HBaseMenuVC.h; sourceTree = "<group>"; };
@@ -344,6 +370,10 @@
 		9E17D1B228ED5629005FA5A9 /* WalkUI */ = {
 			isa = PBXGroup;
 			children = (
+				9E17D1D728EE7B85005FA5A9 /* walkStart_no@2x.png */,
+				9E17D1D628EE7B85005FA5A9 /* walkStart_no@3x.png */,
+				9E17D1D828EE7B85005FA5A9 /* walkStart@2x.png */,
+				9E17D1D528EE7B85005FA5A9 /* walkStart@3x.png */,
 				9E17D1BC28ED68B5005FA5A9 /* default_mdd@2x.png */,
 				9E17D1BB28ED68B5005FA5A9 /* default_mdd@3x.png */,
 				9E17D1B328ED563F005FA5A9 /* backBtn@2x.png */,
@@ -359,6 +389,8 @@
 				9E17D1B928ED6655005FA5A9 /* HMddView.m */,
 				9E17D1BF28ED78DC005FA5A9 /* HStudentView.h */,
 				9E17D1C028ED78DC005FA5A9 /* HStudentView.m */,
+				9E17D1E328EEAF4B005FA5A9 /* HTitleView.h */,
+				9E17D1E428EEAF4B005FA5A9 /* HTitleView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -368,6 +400,12 @@
 			children = (
 				9E17D1C928EDADD6005FA5A9 /* HDestnationModel.h */,
 				9E17D1CA28EDADD6005FA5A9 /* HDestnationModel.m */,
+				9E17D1D228EE72AD005FA5A9 /* HStudent.h */,
+				9E17D1D328EE72AD005FA5A9 /* HStudent.m */,
+				9E17D1DD28EEAE9B005FA5A9 /* HTeacher.h */,
+				9E17D1DE28EEAE9B005FA5A9 /* HTeacher.m */,
+				9E17D1E028EEAEA9005FA5A9 /* HTime.h */,
+				9E17D1E128EEAEA9005FA5A9 /* HTime.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -538,6 +576,8 @@
 				9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */,
 				9E17D1C228EDAAF4005FA5A9 /* BWGetDestnationReq.h */,
 				9E17D1C328EDAAF4005FA5A9 /* BWGetDestnationReq.m */,
+				9E17D1CC28EE7260005FA5A9 /* BWGetStudentReq.h */,
+				9E17D1CD28EE7260005FA5A9 /* BWGetStudentReq.m */,
 			);
 			path = BWReq;
 			sourceTree = "<group>";
@@ -562,6 +602,8 @@
 				9E8344BA28C7913E00AB9D83 /* BWCheckTokenResp.m */,
 				9E17D1C528EDAB03005FA5A9 /* BWGetDestnationResp.h */,
 				9E17D1C628EDAB03005FA5A9 /* BWGetDestnationResp.m */,
+				9E17D1CF28EE7270005FA5A9 /* BWGetStudentResp.h */,
+				9E17D1D028EE7270005FA5A9 /* BWGetStudentResp.m */,
 			);
 			path = BWResp;
 			sourceTree = "<group>";
@@ -773,6 +815,7 @@
 				9EC72A2128D8349A00494A74 /* InfoPlist.strings in Resources */,
 				9E1F219F28E168E000C5041B /* nav_background@2x.png in Resources */,
 				9EF21B2A28D985050075CFF0 /* btn_login_unavailable@2x.png in Resources */,
+				9E17D1DB28EE7B85005FA5A9 /* walkStart_no@2x.png in Resources */,
 				9E1F219E28E168E000C5041B /* nav_background@3x.png in Resources */,
 				9E1F21BA28E1805700C5041B /* btn_menu_sleep@3x.png in Resources */,
 				9EF21B3228D985050075CFF0 /* TextArea_Login@2x.png in Resources */,
@@ -788,13 +831,16 @@
 				9EF21B3828D985050075CFF0 /* icon_checked@3x.png in Resources */,
 				9EC72A2728D8357A00494A74 /* Localizable.strings in Resources */,
 				9EF21B3428D985050075CFF0 /* icon_check@3x.png in Resources */,
+				9E17D1DC28EE7B85005FA5A9 /* walkStart@2x.png in Resources */,
 				9EF21B2C28D985050075CFF0 /* help@2x.png in Resources */,
 				9EF21B3028D985050075CFF0 /* logo@3x.png in Resources */,
 				9E0B547328B21E620026CD86 /* Main.storyboard in Resources */,
 				9E1F21D328E2D1E900C5041B /* triangle_small@2x.png in Resources */,
 				9EF21B3628D985050075CFF0 /* btn_login_available@3x.png in Resources */,
+				9E17D1D928EE7B85005FA5A9 /* walkStart@3x.png in Resources */,
 				9E17D1BE28ED68B5005FA5A9 /* default_mdd@2x.png in Resources */,
 				9EF21B2D28D985050075CFF0 /* help@3x.png in Resources */,
+				9E17D1DA28EE7B85005FA5A9 /* walkStart_no@3x.png in Resources */,
 				9EF21B3728D985050075CFF0 /* icon_password@2x.png in Resources */,
 				9E17D1A328ED1E6B005FA5A9 /* dangerView@3x.png in Resources */,
 				9E1F21BB28E1805700C5041B /* btn_menu_walk@3x.png in Resources */,
@@ -878,6 +924,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E17D1E228EEAEA9005FA5A9 /* HTime.m in Sources */,
 				9E17D1C128ED78DC005FA5A9 /* HStudentView.m in Sources */,
 				9E17D1C428EDAAF4005FA5A9 /* BWGetDestnationReq.m in Sources */,
 				9E2DF84628B2606F00B0C9DA /* HCustomNavigationView.m in Sources */,
@@ -894,20 +941,25 @@
 				9E17D1B128ED38E9005FA5A9 /* HWalkMenuVC.m in Sources */,
 				9E2DF81D28B2225500B0C9DA /* NSArray+safe.m in Sources */,
 				9E1F21B328E1790900C5041B /* HMenuHomeVC.m in Sources */,
+				9E17D1D428EE72AD005FA5A9 /* HStudent.m in Sources */,
 				9E2DF83628B223AD00B0C9DA /* HRootVC.m in Sources */,
 				9E17D1C728EDAB03005FA5A9 /* BWGetDestnationResp.m in Sources */,
 				9E1F21A628E16E4300C5041B /* HSleepVC.m in Sources */,
 				9E1F21C328E1972400C5041B /* HWalkVC.m in Sources */,
+				9E17D1CE28EE7261005FA5A9 /* BWGetStudentReq.m in Sources */,
 				9E1F21C828E1A0CC00C5041B /* HHomeStateCell.m in Sources */,
 				9EC72A3528D84FFA00494A74 /* HInputView.m in Sources */,
 				9E8344B828C7912C00AB9D83 /* BWCheckTokenReq.m in Sources */,
 				9E2DF84328B2596600B0C9DA /* HMapVC.m in Sources */,
 				9E17D19D28EACD26005FA5A9 /* HSmallCardView.m in Sources */,
+				9E17D1E528EEAF4B005FA5A9 /* HTitleView.m in Sources */,
 				9E0B547B28B21E660026CD86 /* main.m in Sources */,
 				9E17D1BA28ED6655005FA5A9 /* HMddView.m in Sources */,
+				9E17D1DF28EEAE9B005FA5A9 /* HTeacher.m in Sources */,
 				9E42E69828D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				9E2DF80428B2209E00B0C9DA /* BWBaseResp.m in Sources */,
 				9E2DF81B28B2225500B0C9DA /* BWAlertCtrl.m in Sources */,
+				9E17D1D128EE7270005FA5A9 /* BWGetStudentResp.m in Sources */,
 				9EDAFE4A28C4CDBA00FA9B5F /* HLoginVC.m in Sources */,
 				9E2DF81E28B2225500B0C9DA /* BWTools.m in Sources */,
 				9EC72A3128D8394F00494A74 /* MBProgressHUD+ShowMessage.m in Sources */,

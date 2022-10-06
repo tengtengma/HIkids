@@ -25,7 +25,6 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
 
-    [self createUI];
     [self createNavigationView];
 }
 - (void)createUI

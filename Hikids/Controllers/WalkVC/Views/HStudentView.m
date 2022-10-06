@@ -6,6 +6,7 @@
 //
 
 #import "HStudentView.h"
+#import "HStudent.h"
 
 @interface HStudentView ()
 @property (nonatomic, strong) UIImageView *imageView;
@@ -27,17 +28,10 @@
         
         [self createUI];
         
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickAction:)];
-        [self addGestureRecognizer:tap];
     }
     return self;
 }
-- (void)clickAction:(UITapGestureRecognizer *)tap
-{
-    if (self.clickStudentBlock) {
-        self.clickStudentBlock(@"a");
-    }
-}
+
 - (void)createUI
 {
     [self addSubview:self.imageView];
@@ -58,16 +52,35 @@
 }
 - (void)setupWithModel:(id)model
 {
-    [self.imageView sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@""]];
-    self.titleLabel.text = @"山上　ハナコ";
+    HStudent *student = (HStudent *)model;
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar] placeholderImage:[UIImage imageNamed:@""]];
+    self.titleLabel.text = student.name;
 }
-
+- (void)cellNomal
+{
+    self.imageView.layer.borderColor = BWColor(34, 34, 34, 1.0).CGColor;
+    self.titleLabel.textColor = [UIColor blackColor];
+    self.layer.borderColor = BWColor(34, 34, 34, 1.0).CGColor;
+    self.backgroundColor = [UIColor whiteColor];
+    
+}
+- (void)cellSelected
+{
+    self.imageView.layer.borderColor = BWColor(191, 76, 13, 1).CGColor;
+    self.titleLabel.textColor = BWColor(191, 76, 13, 1);
+    self.layer.borderColor = BWColor(191, 76, 13, 1).CGColor;
+    self.backgroundColor = BWColor(244, 207, 184, 1);
+}
 
 #pragma mark - LazyLoad -
 - (UIImageView *)imageView
 {
     if (!_imageView) {
         _imageView = [[UIImageView alloc] init];
+        _imageView.layer.borderWidth = 2;
+        _imageView.layer.borderColor = BWColor(108, 159, 155, 1).CGColor;
+        _imageView.layer.cornerRadius = PAaptation_y(40)/2;
+        _imageView.layer.masksToBounds = YES;
     }
     return _imageView;
 }
