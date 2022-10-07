@@ -14,6 +14,8 @@
 #import "HDestnationModel.h"
 #import "BWGetStudentReq.h"
 #import "BWGetStudentResp.h"
+#import "BWGetAssistantReq.h"
+#import "BWGetAssistantResp.h"
 #import "HStudent.h"
 #import "HTitleView.h"
 #import "HTeacher.h"
@@ -56,7 +58,6 @@
     BWGetDestnationReq *destReq = [[BWGetDestnationReq alloc] init];
     [NetManger getRequest:destReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
             
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         BWGetDestnationResp *destResp = (BWGetDestnationResp *)resp;
         
         weakSelf.destnationArray = destResp.itemList;
@@ -74,11 +75,29 @@
     DefineWeakSelf;
     BWGetStudentReq *studentReq = [[BWGetStudentReq alloc] init];
     [NetManger getRequest:studentReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         
         BWGetStudentResp *studentResp = (BWGetStudentResp *)resp;
         
         weakSelf.studentArray = studentResp.itemList;
+            
+        [weakSelf startTeacherRequest];
+
+        
+    } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+    }];
+}
+- (void)startTeacherRequest
+{
+    DefineWeakSelf;
+    BWGetAssistantReq *teacherReq = [[BWGetAssistantReq alloc] init];
+    [NetManger getRequest:teacherReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        
+        BWGetAssistantResp *teacherResp = (BWGetAssistantResp *)resp;
+        
+        weakSelf.teacherArray = teacherResp.itemList;
         
         [weakSelf createUI];
         [weakSelf.collectionView reloadData];
@@ -119,17 +138,6 @@
         [array addObject:time];
     }
     self.timeArray = array;
-    
-    NSMutableArray *array1 = [[NSMutableArray alloc] init];
-
-    NSArray *teacherArray = @[@"小林健一",@"山本彩",@"福山湊",@"+新規追加"];
-    for (NSInteger i = 0; i < teacherArray.count; i++) {
-        HTeacher *teacher = [[HTeacher alloc] init];
-        teacher.tId = i;
-        teacher.name = [teacherArray safeObjectAtIndex:i];
-        [array1 addObject:teacher];
-    }
-    self.teacherArray = array1;
     
     self.titleLabel.text = @"散歩モニタリング";
     self.dateLabel.text = @"2022.10.05";
@@ -362,7 +370,7 @@
             selectModel.isSelected = NO;
         }else{
             [self.teacherArray enumerateObjectsUsingBlock:^(HTeacher * obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if (selectModel.tId == obj.tId) {
+                if (selectModel.tId.integerValue == obj.tId.integerValue) {
                     obj.isSelected = YES;
                     return;
                 }
