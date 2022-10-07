@@ -15,6 +15,8 @@
 #import "BWDestnationInfoResp.h"
 #import "HDestnationModel.h"
 #import "HLocation.h"
+#import "BWStudentLocationReq.h"
+#import "BWStudentLocationResp.h"
 
 
 @interface HMapVC ()<GMSMapViewDelegate,GMSAutocompleteViewControllerDelegate,CLLocationManagerDelegate>
@@ -65,6 +67,8 @@
         BWDestnationInfoResp *infoResp = (BWDestnationInfoResp *)resp;
         [weakSelf changeLocationInfoDataWithModel:[infoResp.itemList safeObjectAtIndex:0]];
         
+        [weakSelf startGetStudentLocationRequest];
+        
     } failure:^(BWBaseReq *req, NSError *error) {
         [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
     }];
@@ -97,6 +101,18 @@
     
     [self startDrawFence];
     
+}
+- (void)startGetStudentLocationRequest
+{
+    DefineWeakSelf;
+    BWStudentLocationReq *locationReq = [[BWStudentLocationReq alloc] init];
+    locationReq.latitude = self.myLocation.locationInfo.latitude;
+    locationReq.longitude = self.myLocation.locationInfo.longitude;
+    [NetManger postRequest:locationReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        
+    } failure:^(BWBaseReq *req, NSError *error) {
+        
+    }];
 }
 - (void)startDrawFence
 {

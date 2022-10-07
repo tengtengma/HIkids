@@ -46,6 +46,8 @@
 		9E17D1EE28F005CB005FA5A9 /* BWDestnationInfoReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17D1ED28F005CB005FA5A9 /* BWDestnationInfoReq.m */; };
 		9E17D1F128F005E1005FA5A9 /* BWDestnationInfoResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17D1F028F005E1005FA5A9 /* BWDestnationInfoResp.m */; };
 		9E17D1F428F00CA5005FA5A9 /* HLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17D1F328F00CA5005FA5A9 /* HLocation.m */; };
+		9E17D1F728F03B6D005FA5A9 /* BWStudentLocationReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17D1F628F03B6D005FA5A9 /* BWStudentLocationReq.m */; };
+		9E17D1FA28F03B83005FA5A9 /* BWStudentLocationResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17D1F928F03B83005FA5A9 /* BWStudentLocationResp.m */; };
 		9E1F219E28E168E000C5041B /* nav_background@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E1F219C28E168E000C5041B /* nav_background@3x.png */; };
 		9E1F219F28E168E000C5041B /* nav_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E1F219D28E168E000C5041B /* nav_background@2x.png */; };
 		9E1F21A228E16A6300C5041B /* HBaseMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1F21A128E16A6300C5041B /* HBaseMenuVC.m */; };
@@ -171,6 +173,10 @@
 		9E17D1F028F005E1005FA5A9 /* BWDestnationInfoResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWDestnationInfoResp.m; sourceTree = "<group>"; };
 		9E17D1F228F00CA5005FA5A9 /* HLocation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HLocation.h; sourceTree = "<group>"; };
 		9E17D1F328F00CA5005FA5A9 /* HLocation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HLocation.m; sourceTree = "<group>"; };
+		9E17D1F528F03B6D005FA5A9 /* BWStudentLocationReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWStudentLocationReq.h; sourceTree = "<group>"; };
+		9E17D1F628F03B6D005FA5A9 /* BWStudentLocationReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWStudentLocationReq.m; sourceTree = "<group>"; };
+		9E17D1F828F03B83005FA5A9 /* BWStudentLocationResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWStudentLocationResp.h; sourceTree = "<group>"; };
+		9E17D1F928F03B83005FA5A9 /* BWStudentLocationResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWStudentLocationResp.m; sourceTree = "<group>"; };
 		9E1F219C28E168E000C5041B /* nav_background@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_background@3x.png"; sourceTree = "<group>"; };
 		9E1F219D28E168E000C5041B /* nav_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_background@2x.png"; sourceTree = "<group>"; };
 		9E1F21A028E16A6300C5041B /* HBaseMenuVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HBaseMenuVC.h; sourceTree = "<group>"; };
@@ -599,6 +605,8 @@
 				9E17D1E728F00385005FA5A9 /* BWGetAssistantReq.m */,
 				9E17D1EC28F005CB005FA5A9 /* BWDestnationInfoReq.h */,
 				9E17D1ED28F005CB005FA5A9 /* BWDestnationInfoReq.m */,
+				9E17D1F528F03B6D005FA5A9 /* BWStudentLocationReq.h */,
+				9E17D1F628F03B6D005FA5A9 /* BWStudentLocationReq.m */,
 			);
 			path = BWReq;
 			sourceTree = "<group>";
@@ -629,6 +637,8 @@
 				9E17D1EA28F00398005FA5A9 /* BWGetAssistantResp.m */,
 				9E17D1EF28F005E1005FA5A9 /* BWDestnationInfoResp.h */,
 				9E17D1F028F005E1005FA5A9 /* BWDestnationInfoResp.m */,
+				9E17D1F828F03B83005FA5A9 /* BWStudentLocationResp.h */,
+				9E17D1F928F03B83005FA5A9 /* BWStudentLocationResp.m */,
 			);
 			path = BWResp;
 			sourceTree = "<group>";
@@ -983,6 +993,7 @@
 				9E2DF84328B2596600B0C9DA /* HMapVC.m in Sources */,
 				9E17D19D28EACD26005FA5A9 /* HSmallCardView.m in Sources */,
 				9E17D1E528EEAF4B005FA5A9 /* HTitleView.m in Sources */,
+				9E17D1F728F03B6D005FA5A9 /* BWStudentLocationReq.m in Sources */,
 				9E0B547B28B21E660026CD86 /* main.m in Sources */,
 				9E17D1BA28ED6655005FA5A9 /* HMddView.m in Sources */,
 				9E17D1DF28EEAE9B005FA5A9 /* HTeacher.m in Sources */,
@@ -998,6 +1009,7 @@
 				9E2DF80A28B2219300B0C9DA /* BaseVC.m in Sources */,
 				9E8344BB28C7913E00AB9D83 /* BWCheckTokenResp.m in Sources */,
 				9E17D1CB28EDADD6005FA5A9 /* HDestnationModel.m in Sources */,
+				9E17D1FA28F03B83005FA5A9 /* BWStudentLocationResp.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
