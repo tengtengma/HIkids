@@ -6,18 +6,32 @@
 //
 
 #import "BWStudentLocationResp.h"
+#import "HStudent.h"
 
 @implementation BWStudentLocationResp
 - (id)initWithJSONDictionary:(NSDictionary *)jsonDic
 {
     if (self = [super initWithJSONDictionary:jsonDic]) {
         
-        NSMutableArray *itemList = [[NSMutableArray alloc] init];
+        NSMutableArray *exceptionKids = [[NSMutableArray alloc] init];
         NSDictionary *dic = [jsonDic safeObjectForKey:@"item"];
-//        HDestnationModel *model = [HDestnationModel mj_objectWithKeyValues:dic];
-//        model.dId = [dic safeObjectForKey:@"id"];
-//        [itemList addObject:model];
-        self.itemList = itemList;
+        for (NSDictionary *exceptDic in [dic safeObjectForKey:@"exceptionKids"]) {
+            HStudent *model = [HStudent mj_objectWithKeyValues:exceptDic];
+            model.deviceInfo = [HStudentDeviceInfo mj_objectWithKeyValues:[exceptDic safeObjectForKey:@"data"]];
+            model.sId = [dic safeObjectForKey:@"id"];
+            [exceptionKids addObject:model];
+        }
+        
+        NSMutableArray *nomalKids = [[NSMutableArray alloc] init];
+        for (NSDictionary *nomalDic in [dic safeObjectForKey:@"normalKids"]) {
+            HStudent *model1 = [HStudent mj_objectWithKeyValues:nomalDic];
+            model1.deviceInfo = [HStudentDeviceInfo mj_objectWithKeyValues:[nomalDic safeObjectForKey:@"data"]];
+            model1.sId = [dic safeObjectForKey:@"id"];
+            [nomalKids addObject:model1];
+        }
+
+        self.normalKids = nomalKids;
+        self.exceptionKids = exceptionKids;
 
     }
     return self;

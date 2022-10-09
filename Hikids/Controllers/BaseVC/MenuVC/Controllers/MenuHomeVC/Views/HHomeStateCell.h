@@ -17,7 +17,10 @@ typedef enum _CellType
     CellType_Charge = 3
 }CellType;
 
+typedef void(^expandAction)(void);
+
 @interface HHomeStateCell : UITableViewCell
+@property (nonatomic, copy) expandAction expandBlock;
 
 - (void)setupCellWithModel:(id)model withStyle:(CellType)cellType;
 

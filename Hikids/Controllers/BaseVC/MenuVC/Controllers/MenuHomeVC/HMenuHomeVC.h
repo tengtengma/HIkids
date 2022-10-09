@@ -11,6 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface HMenuHomeVC : HBaseMenuVC
 @property (nonatomic, strong) UIView *cardView;
+@property (nonatomic, strong) NSArray *nomalArray;
+@property (nonatomic, strong) NSArray *exceptArray;
+
 - (void)clickMenuAction:(UITapGestureRecognizer *)tap;
 - (void)showMenuVC;
 - (void)closeMenuVC;

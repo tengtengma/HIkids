@@ -10,3 +10,7 @@
 @implementation HStudent
 
 @end
+
+@implementation HStudentDeviceInfo
+
+@end

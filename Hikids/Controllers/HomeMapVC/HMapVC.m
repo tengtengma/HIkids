@@ -22,9 +22,13 @@
 @interface HMapVC ()<GMSMapViewDelegate,GMSAutocompleteViewControllerDelegate,CLLocationManagerDelegate>
 @property (nonatomic,strong) HMenuHomeVC *menuHomeVC;
 @property (nonatomic,strong) HSmallCardView *smallMenuView;
-@property (nonatomic,strong) GMSMapView *mapView ;
+@property (nonatomic,strong) GMSMapView *mapView;
 @property (nonatomic,strong) CLLocationManager *locationManager;
 @property (nonatomic,assign) CLLocationCoordinate2D coordinate2D;
+@property (nonatomic,strong) NSArray *exceptArray;
+@property (nonatomic,strong) NSArray *nomalArray;
+
+
 @property (nonatomic,assign) BOOL firstLocationUpdate ;
 @property (nonatomic,strong) GMSMarker *marker;//大头针
 @property (nonatomic,strong) GMSPlacesClient * placesClient;//可以获取某个地方的信息
@@ -48,13 +52,6 @@
     //_mapView.myLocationEnabled = NO;
     [self.view addSubview:_mapView];
 
-    
-    self.menuHomeVC.view.frame = CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(110), SCREEN_WIDTH, SCREEN_HEIGHT);
-    [self.view addSubview:self.menuHomeVC.view];
-    
-    
-    [self createSmallView];
-    
     [self startRequest];
 
 }
@@ -82,16 +79,16 @@
         NSString *gpsStr = [fence safeObjectAtIndex:i];
         NSArray *gpsArray = [gpsStr componentsSeparatedByString:@","];
         HLocationInfo *info = [[HLocationInfo alloc] init];
-        info.latitude = [[gpsArray safeObjectAtIndex:0] doubleValue];
-        info.longitude = [[gpsArray safeObjectAtIndex:1] doubleValue];
+        info.longitude = [[gpsArray safeObjectAtIndex:0] doubleValue];
+        info.latitude = [[gpsArray safeObjectAtIndex:1] doubleValue];
         [tempArray addObject:info];
     }
     NSString *currentStr = model.location;
     NSArray *currentArray = [currentStr componentsSeparatedByString:@","];
     myLocation.fenceArray = tempArray;
     HLocationInfo *currentInfo = [[HLocationInfo alloc] init];
-    currentInfo.latitude = [[currentArray safeObjectAtIndex:0] doubleValue];
-    currentInfo.longitude = [[currentArray safeObjectAtIndex:1] doubleValue];
+    currentInfo.longitude = [[currentArray safeObjectAtIndex:0] doubleValue];
+    currentInfo.latitude = [[currentArray safeObjectAtIndex:1] doubleValue];
     myLocation.locationInfo = currentInfo;
     
     self.myLocation = myLocation;
@@ -110,8 +107,16 @@
     locationReq.longitude = self.myLocation.locationInfo.longitude;
     [NetManger postRequest:locationReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
         
-    } failure:^(BWBaseReq *req, NSError *error) {
+        BWStudentLocationResp *locationResp = (BWStudentLocationResp *)resp;
+        weakSelf.nomalArray = locationResp.normalKids;
+        weakSelf.exceptArray = locationResp.exceptionKids;
         
+        [weakSelf createSmallView];
+
+        
+    } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
     }];
 }
 - (void)startDrawFence
@@ -148,9 +153,14 @@
 //}
 - (void)createSmallView
 {
+    self.menuHomeVC.view.frame = CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(110), SCREEN_WIDTH, SCREEN_HEIGHT);
+    [self.view addSubview:self.menuHomeVC.view];
+    
     [self.view addSubview:self.smallMenuView];
     
     self.menuHomeVC.cardView = self.smallMenuView;
+    self.menuHomeVC.nomalArray = self.nomalArray;
+    self.menuHomeVC.exceptArray = self.exceptArray;
     
     self.smallMenuView.safeLabel.text = @"使用中8人";
     self.smallMenuView.dangerLabel.text = @"アラート0回";

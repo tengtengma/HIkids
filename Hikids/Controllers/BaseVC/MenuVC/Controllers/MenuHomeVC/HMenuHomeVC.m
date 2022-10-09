@@ -12,6 +12,9 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *dataArray;
 @property (nonatomic, assign) NSInteger ShowSum;//弹出计数
+@property (nonatomic, assign) BOOL expandSafe;
+@property (nonatomic, assign) BOOL expandDanger;
+
 
 @end
 
@@ -26,7 +29,7 @@
         make.top.equalTo(self.view).offset(PAaptation_y(32));
         make.left.equalTo(self.view);
         make.width.equalTo(self.view);
-        make.height.equalTo(self.view);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-PAaptation_y(32));
     }];
 
 }
@@ -98,7 +101,12 @@
     if (section == 0) {
         return 1;
     }
-    return 4;
+    if (self.exceptArray.count != 0) {
+        return self.expandDanger ? self.exceptArray.count : 2;
+    }else{
+        return self.expandSafe ? self.nomalArray.count : 1;
+    }
+    return 0;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -143,14 +151,25 @@
         
     }
     if (indexPath.section == 1) {
-        if (indexPath.row == 0) {
+        
+        if (self.expandDanger) {
+            
+        }else{
             [cell setupCellWithModel:nil withStyle:CellType_Danger];
-
+            DefineWeakSelf;
+            cell.expandBlock = ^{
+                weakSelf.expandDanger = !weakSelf.expandDanger;
+            };
         }
         if (indexPath.row == 1) {
             [cell setupCellWithModel:nil withStyle:CellType_Safe];
-
+            DefineWeakSelf;
+            cell.expandBlock = ^{
+                weakSelf.expandSafe = !weakSelf.expandSafe;
+            };
         }
+        
+
     }
 
     return cell;

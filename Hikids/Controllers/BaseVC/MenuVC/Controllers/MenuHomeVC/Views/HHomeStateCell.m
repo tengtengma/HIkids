@@ -138,6 +138,12 @@
     self.topView.backgroundColor = BWColor(196, 196, 196, 1);
 
 }
+- (void)clickExpandAction:(UIButton *)button
+{
+    if (self.expandBlock) {
+        self.expandBlock();
+    }
+}
 
 #pragma mark - LazyLoad -
 - (UIView *)bgView

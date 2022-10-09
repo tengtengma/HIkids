@@ -10,6 +10,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BWStudentLocationResp : BWBaseResp
+@property (nonatomic, strong) NSArray *exceptionKids;
+@property (nonatomic, strong) NSArray *normalKids;
+
 - (id)initWithJSONDictionary:(NSDictionary *)jsonDic;
 
 @end
