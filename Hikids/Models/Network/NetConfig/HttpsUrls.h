@@ -11,7 +11,7 @@
 
 //#define BaseURL                     @"https://open.ebeiwai.com/zhiketang"                         //正式服务器
 //#define BaseURL                      @"http://api.hikids.blog/"                    //ceshi服务器
-#define BaseURL                     @"http://45zmqh.natappfree.cc"
+#define BaseURL                     @"http://13.115.114.98:8089"
 
 
 #define Login_URL                  @"/v1/login"                                         //登录接口

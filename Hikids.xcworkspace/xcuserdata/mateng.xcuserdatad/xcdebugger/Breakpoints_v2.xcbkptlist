@@ -16,53 +16,5 @@
             stopOnStyle = "0">
          </BreakpointContent>
       </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7F88CCAD-7D7B-414C-BD02-1F570BB7D0A3"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Hikids/Controllers/BaseVC/MenuVC/Controllers/MenuHomeVC/HMenuHomeVC.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "168"
-            endingLineNumber = "168"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "7F88CCAD-7D7B-414C-BD02-1F570BB7D0A3 - 821e5c5cff96cb5c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[HMenuHomeVC tableView:cellForRowAtIndexPath:]"
-                  moduleName = "Hikids"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Controllers/BaseVC/MenuVC/Controllers/MenuHomeVC/HMenuHomeVC.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "168"
-                  endingLineNumber = "168"
-                  offsetFromSymbolStart = "1680">
-               </Location>
-               <Location
-                  uuid = "7F88CCAD-7D7B-414C-BD02-1F570BB7D0A3 - 821e5c5cff96cb5c"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[HMenuHomeVC tableView:cellForRowAtIndexPath:]"
-                  moduleName = "Hikids"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Controllers/BaseVC/MenuVC/Controllers/MenuHomeVC/HMenuHomeVC.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "168"
-                  endingLineNumber = "168"
-                  offsetFromSymbolStart = "1692">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

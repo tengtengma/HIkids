@@ -7,6 +7,7 @@
 
 #import "HMenuHomeVC.h"
 #import "HHomeStateCell.h"
+#import "HStudent.h"
 
 @interface HMenuHomeVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
@@ -22,7 +23,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -94,6 +94,9 @@
 #pragma mark- UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    if (self.exceptArray.count != 0) {
+        return 3;
+    }
     return 2;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -102,10 +105,19 @@
         return 1;
     }
     if (self.exceptArray.count != 0) {
-        return self.expandDanger ? self.exceptArray.count : 2;
+        if (section == 1) {
+            return self.expandDanger ? self.exceptArray.count : 0;
+        }
+        if (section == 2) {
+            return self.expandSafe ? self.nomalArray.count : 0;
+        }
     }else{
-        return self.expandSafe ? self.nomalArray.count : 1;
+        if (section == 1) {
+            return self.expandSafe ? self.nomalArray.count : 0;
+
+        }
     }
+    
     return 0;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -121,6 +133,11 @@
         [v removeFromSuperview];
     
     if (indexPath.section == 0) {
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(PAdaptation_x(23), 0, SCREEN_WIDTH, PAaptation_y(30))];
+        label.text = @"利用シーン";
+        label.font = [UIFont boldSystemFontOfSize:20];
+        [cell.contentView addSubview:label];
         
         UIButton *sleepBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         sleepBtn.tag = 1000;
@@ -148,29 +165,17 @@
             make.height.mas_equalTo(PAaptation_y(96));
         }];
         
+        UILabel *label1 = [[UILabel alloc] init];
+        label1.text = @"園児リスト";
+        label1.font = [UIFont boldSystemFontOfSize:20];
+        [cell.contentView addSubview:label1];
+        [label1 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(walkBtn.mas_bottom).offset(PAaptation_y(PAaptation_y(24)));
+            make.left.equalTo(label);
+        }];
         
     }
-    if (indexPath.section == 1) {
-        
-        if (self.expandDanger) {
-            
-        }else{
-            [cell setupCellWithModel:nil withStyle:CellType_Danger];
-            DefineWeakSelf;
-            cell.expandBlock = ^{
-                weakSelf.expandDanger = !weakSelf.expandDanger;
-            };
-        }
-        if (indexPath.row == 1) {
-            [cell setupCellWithModel:nil withStyle:CellType_Safe];
-            DefineWeakSelf;
-            cell.expandBlock = ^{
-                weakSelf.expandSafe = !weakSelf.expandSafe;
-            };
-        }
-        
 
-    }
 
     return cell;
 }
@@ -180,7 +185,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        return PAaptation_y(125);
+        return PAaptation_y(125+84);
     }else{
         return PAaptation_y(129);
     }
@@ -189,25 +194,157 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return PAaptation_y(30);
+    if (section == 0) {
+        return 0;
+    }
+    return PAaptation_y(129);
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
+    if (section == 0) {
+        return nil;
+    }
 
     UIView *headerView = [[UIView alloc] init];
     headerView.backgroundColor = [UIColor whiteColor];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(PAdaptation_x(23), 0, SCREEN_WIDTH, PAaptation_y(30))];
-    if (section == 0) {
-        label.text = @"利用シーン";
+
+    UIView *bgView = [[UIView alloc] init];
+    bgView.layer.masksToBounds = YES;
+    bgView.layer.cornerRadius = 12;
+    bgView.layer.borderWidth = 2;
+    bgView.layer.borderColor = BWColor(0.133, 0.133, 0.133, 1.0).CGColor;
+    [headerView addSubview:bgView];
+    
+    [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(headerView);
+        make.left.equalTo(headerView).offset(PAdaptation_x(24));
+        make.right.equalTo(headerView.mas_right).offset(-PAdaptation_x(24));
+        make.bottom.equalTo(headerView.mas_bottom).offset(-PAaptation_y(16));
+    }];
+    
+    UIView *topView = [[UIView alloc] init];
+    topView.backgroundColor = BWColor(255, 75, 0, 1);
+    [bgView addSubview:topView];
+    [topView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(bgView);
+        make.left.equalTo(bgView);
+        make.width.equalTo(bgView);
+        make.height.mas_equalTo(PAaptation_y(40));
+    }];
+    
+    UIImageView *iconView = [[UIImageView alloc] init];
+    iconView.backgroundColor = [UIColor redColor];
+    [bgView addSubview:iconView];
+    [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(topView);
+        make.left.equalTo(topView).offset(PAdaptation_x(16));
+        make.width.mas_equalTo(PAdaptation_x(24));
+        make.height.mas_equalTo(PAaptation_y(24));
+    }];
+    
+    UILabel *stateLabel = [[UILabel alloc] init];
+    stateLabel.textColor = [UIColor whiteColor];
+    stateLabel.font = [UIFont systemFontOfSize:20];
+    [topView addSubview:stateLabel];
+    
+    [stateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(topView);
+        make.left.equalTo(iconView.mas_right).offset(PAdaptation_x(10));
+    }];
+    
+    UIView *numberBg = [[UILabel alloc] init];
+    numberBg.backgroundColor = [UIColor whiteColor];
+    [topView addSubview:numberBg];
+    [numberBg mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(iconView);
+        make.left.equalTo(stateLabel.mas_right).offset(PAdaptation_x(10));
+        make.width.mas_equalTo(PAdaptation_x(59));
+        make.height.mas_equalTo(PAaptation_y(26));
+    }];
+    
+    UILabel *numberLabel = [[UILabel alloc] init];
+    numberLabel.font = [UIFont systemFontOfSize:16];
+    numberLabel.textColor = [UIColor whiteColor];
+    numberLabel.textAlignment = NSTextAlignmentCenter;
+    [topView addSubview:numberLabel];
+    
+    [numberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(numberBg);
+    }];
+    
+    UIButton *expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
+    [expandBtn setImage:[UIImage imageNamed:@"triangle_small.png"] forState:UIControlStateNormal];
+    [topView addSubview:expandBtn];
+    [expandBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(topView);
+        make.right.equalTo(topView.mas_right).offset(-PAdaptation_x(11.5));
+        make.width.mas_equalTo(PAdaptation_x(21));
+        make.height.mas_equalTo(PAaptation_y(24));
+    }];
+    
+    
+    
+    if (self.exceptArray.count != 0) {
+        if (section == 1) {
+            stateLabel.text = @"危険";
+            numberLabel.text = [NSString stringWithFormat:@"%ld人",self.exceptArray.count];
+            topView.backgroundColor = BWColor(255, 75, 0, 1);
+            numberLabel.textColor = BWColor(255, 75, 0, 1);
+            numberBg.backgroundColor = [UIColor whiteColor];
+            [self createStudentViewWithArray:self.exceptArray topView:topView bgView:bgView];
+
+        }
+        if (section == 2) {
+            stateLabel.text = @"安全";
+            numberLabel.text = [NSString stringWithFormat:@"%ld人",self.nomalArray.count];
+            numberBg.backgroundColor = BWColor(5, 70, 11, 1);
+            topView.backgroundColor = BWColor(0, 176, 107, 1);
+            [self createStudentViewWithArray:self.nomalArray topView:topView bgView:bgView];
+
+        }
     }else{
-        label.text = @"園児リスト";
+        if (section == 1) {
+            stateLabel.text = @"安全";
+            numberLabel.text = [NSString stringWithFormat:@"%ld人",self.nomalArray.count];
+            numberBg.backgroundColor = BWColor(5, 70, 11, 1);
+            topView.backgroundColor = BWColor(0, 176, 107, 1);
+            [self createStudentViewWithArray:self.nomalArray topView:topView bgView:bgView];
+
+        }
     }
-    label.font = [UIFont boldSystemFontOfSize:20];
-    [headerView addSubview:label];
+    
+
     
     return headerView;
 }
-
+- (void)createStudentViewWithArray:(NSArray *)array topView:(UIView *)topView bgView:(UIView *)bgView
+{
+    UIImageView *tempView = nil;
+    for (NSInteger i = 0; i < array.count; i++) {
+        
+        HStudent *student = [array safeObjectAtIndex:i];
+        
+        UIImageView *imageView = [[UIImageView alloc] init];
+        [imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
+        imageView.layer.cornerRadius = PAdaptation_x(36)/2;
+        imageView.layer.masksToBounds = YES;
+        [bgView addSubview:imageView];
+        
+        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(topView.mas_bottom).offset(PAaptation_y(12));
+            if (tempView) {
+                make.left.equalTo(tempView.mas_right).offset(PAdaptation_x(6));
+            }else{
+                make.left.equalTo(bgView).offset(PAdaptation_x(6));
+            }
+            make.width.mas_equalTo(PAdaptation_x(36));
+            make.height.mas_equalTo(PAaptation_y(36));
+        }];
+        
+        tempView = imageView;
+    }
+}
 #pragma mark - LazyLoad -
 - (UITableView *)tableView
 {

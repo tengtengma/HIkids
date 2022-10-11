@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		43BDE8DD30B2D7A394F8B296 /* Pods_Hikids.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8788F8B651400FC4EC71577 /* Pods_Hikids.framework */; };
+		9E03E93B28F569E500C30577 /* HStudentStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E03E93A28F569E500C30577 /* HStudentStateView.m */; };
 		9E0B546A28B21E620026CD86 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E0B546928B21E620026CD86 /* AppDelegate.m */; };
 		9E0B547328B21E620026CD86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E0B547128B21E620026CD86 /* Main.storyboard */; };
 		9E0B547528B21E660026CD86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E0B547428B21E660026CD86 /* Assets.xcassets */; };
@@ -113,6 +114,8 @@
 /* Begin PBXFileReference section */
 		33281BEE1161C470B4E9D572 /* Pods-Hikids.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hikids.release.xcconfig"; path = "Target Support Files/Pods-Hikids/Pods-Hikids.release.xcconfig"; sourceTree = "<group>"; };
 		9640EDA3F4B6876B5095B9E8 /* Pods-Hikids.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hikids.debug.xcconfig"; path = "Target Support Files/Pods-Hikids/Pods-Hikids.debug.xcconfig"; sourceTree = "<group>"; };
+		9E03E93928F569E500C30577 /* HStudentStateView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HStudentStateView.h; sourceTree = "<group>"; };
+		9E03E93A28F569E500C30577 /* HStudentStateView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HStudentStateView.m; sourceTree = "<group>"; };
 		9E0B546528B21E620026CD86 /* Hikids.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hikids.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E0B546828B21E620026CD86 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9E0B546928B21E620026CD86 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -564,6 +567,8 @@
 			isa = PBXGroup;
 			children = (
 				9E1F219A28E168A000C5041B /* NavigationView */,
+				9E03E93928F569E500C30577 /* HStudentStateView.h */,
+				9E03E93A28F569E500C30577 /* HStudentStateView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -992,6 +997,7 @@
 				9E8344B828C7912C00AB9D83 /* BWCheckTokenReq.m in Sources */,
 				9E2DF84328B2596600B0C9DA /* HMapVC.m in Sources */,
 				9E17D19D28EACD26005FA5A9 /* HSmallCardView.m in Sources */,
+				9E03E93B28F569E500C30577 /* HStudentStateView.m in Sources */,
 				9E17D1E528EEAF4B005FA5A9 /* HTitleView.m in Sources */,
 				9E17D1F728F03B6D005FA5A9 /* BWStudentLocationReq.m in Sources */,
 				9E0B547B28B21E660026CD86 /* main.m in Sources */,

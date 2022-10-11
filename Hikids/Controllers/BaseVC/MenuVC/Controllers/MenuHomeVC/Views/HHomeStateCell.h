@@ -21,8 +21,11 @@ typedef void(^expandAction)(void);
 
 @interface HHomeStateCell : UITableViewCell
 @property (nonatomic, copy) expandAction expandBlock;
+@property (nonatomic, strong) NSArray *exceptArray;
+@property (nonatomic, strong) NSArray *nomalArray;
 
-- (void)setupCellWithModel:(id)model withStyle:(CellType)cellType;
+- (void)setupCellwithStyle:(CellType)cellType;
+- (void)setupCellWithExpandWithModel:(id)model withIndex:(NSInteger)index;
 
 @end
 
