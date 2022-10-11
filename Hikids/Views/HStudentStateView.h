@@ -9,9 +9,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HStudentStateView : UIView
+typedef void(^closeStateViewAction)(void);
 
-- (instancetype)initWithStudentArray:(NSArray *)array;
+@interface HStudentStateView : UIView
+@property (nonatomic, copy) closeStateViewAction closeBlock;
+
+@property (nonatomic, strong) NSArray *array;
+
+- (instancetype)init;
+- (void)tableReload;
 
 @end
 

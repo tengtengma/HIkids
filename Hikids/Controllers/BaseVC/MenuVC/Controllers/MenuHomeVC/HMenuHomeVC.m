@@ -8,6 +8,7 @@
 #import "HMenuHomeVC.h"
 #import "HHomeStateCell.h"
 #import "HStudent.h"
+#import "HStudentStateView.h"
 
 @interface HMenuHomeVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
@@ -15,6 +16,7 @@
 @property (nonatomic, assign) NSInteger ShowSum;//弹出计数
 @property (nonatomic, assign) BOOL expandSafe;
 @property (nonatomic, assign) BOOL expandDanger;
+@property (nonatomic, strong) HStudentStateView *stateView;
 
 
 @end
@@ -31,6 +33,9 @@
         make.width.equalTo(self.view);
         make.bottom.equalTo(self.view.mas_bottom).offset(-PAaptation_y(32));
     }];
+    
+    [self.stateView setFrame:CGRectMake(0, self.view.frame.size.height, SCREEN_WIDTH, self.view.frame.size.height)];
+    [self.view addSubview:self.stateView];
 
 }
 - (void)gotoVCAction:(UIButton *)button
@@ -273,6 +278,7 @@
     }];
     
     UIButton *expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    expandBtn.tag = section+1000;
     [expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
     [expandBtn setImage:[UIImage imageNamed:@"triangle_small.png"] forState:UIControlStateNormal];
     [topView addSubview:expandBtn];
@@ -345,6 +351,28 @@
         tempView = imageView;
     }
 }
+- (void)clickExpandAction:(UIButton *)button
+{
+    self.stateView.array = button.tag == 1001 ? self.exceptArray : self.nomalArray;
+    [self.stateView tableReload];
+    
+    
+    DefineWeakSelf;
+    [UIView animateWithDuration:0.25 animations:^{
+        
+        [weakSelf.stateView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, self.view.frame.size.height)];
+            
+    }];
+    
+    self.stateView.closeBlock = ^{
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            
+            [weakSelf.stateView setFrame:CGRectMake(0, weakSelf.view.frame.size.height, SCREEN_WIDTH, weakSelf.view.frame.size.height)];
+        }];
+
+    };
+}
 #pragma mark - LazyLoad -
 - (UITableView *)tableView
 {
@@ -354,6 +382,14 @@
         _tableView.dataSource = self;
     }
     return _tableView;
+}
+- (HStudentStateView *)stateView
+{
+    if (!_stateView) {
+        _stateView = [[HStudentStateView alloc] init];
+        _stateView.backgroundColor = [UIColor whiteColor];
+    }
+    return _stateView;
 }
 
 

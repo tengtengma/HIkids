@@ -17,6 +17,7 @@
 #import "HLocation.h"
 #import "BWStudentLocationReq.h"
 #import "BWStudentLocationResp.h"
+#import "HStudent.h"
 
 
 @interface HMapVC ()<GMSMapViewDelegate,GMSAutocompleteViewControllerDelegate,CLLocationManagerDelegate>
@@ -96,7 +97,6 @@
 //    /* 开始定位*/
 //    [self startLocation];
     
-    [self startDrawFence];
     
 }
 - (void)startGetStudentLocationRequest
@@ -112,26 +112,13 @@
         weakSelf.exceptArray = locationResp.exceptionKids;
         
         [weakSelf createSmallView];
+        [weakSelf startDrawFence];
 
         
     } failure:^(BWBaseReq *req, NSError *error) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
     }];
-}
-- (void)startDrawFence
-{
-    //替换自己的坐标
-     CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.myLocation.locationInfo.latitude, self.myLocation.locationInfo.longitude);
-     
-     //如果是国内，就会转化坐标系，如果是国外坐标，则不会转换。
-//        _coordinate2D = [JZLocationConverter wgs84ToGcj02:location.coordinate];
-     //移动地图中心到当前位置
-     self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:18];
-     self.marker = [GMSMarker markerWithPosition:coordinate];
-     self.marker.map = self.mapView;
-     
-     [self drawPolygon];
 }
 - (void)setupNavInfomation{
     self.customNavigationView.titleLabel.text = @"在園中";
@@ -144,6 +131,80 @@
     self.customNavigationView.userNameLabel.text = @"ひまわり";
     [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
     [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
+}
+- (void)startDrawFence
+{
+    //替换自己的坐标
+    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.myLocation.locationInfo.latitude, self.myLocation.locationInfo.longitude);
+     
+     //如果是国内，就会转化坐标系，如果是国外坐标，则不会转换。
+//        _coordinate2D = [JZLocationConverter wgs84ToGcj02:location.coordinate];
+     //移动地图中心到当前位置
+    self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:18];
+    self.marker = [GMSMarker markerWithPosition:coordinate];
+    self.marker.map = self.mapView;
+    
+    [self drawPolygon];//画围栏
+    [self addMarkers]; //添加学生位置坐标
+    
+}
+-(void)drawPolygon
+{
+    GMSMutablePath* path = [[GMSMutablePath alloc] init];
+    
+    for (NSInteger i = 0; i < self.myLocation.fenceArray.count; i++) {
+        HLocationInfo *info = [self.myLocation.fenceArray safeObjectAtIndex:i];
+        [path addCoordinate:CLLocationCoordinate2DMake(info.latitude, info.longitude)];
+    }
+
+    GMSPolygon* poly = [GMSPolygon polygonWithPath:path];
+    poly.strokeWidth = 2.0;
+    poly.strokeColor = BWColor(83, 192, 137, 1);
+    poly.fillColor = BWColor(0, 176, 107, 0.2);
+    poly.map = self.mapView;
+}
+-(void)addMarkers{
+//    NSArray * latArr = @[@(_coordinate2D.latitude +0.004),@(_coordinate2D.latitude +0.008),@(_coordinate2D.latitude +0.007),@(_coordinate2D.latitude -0.0022),@(_coordinate2D.latitude -0.004)];
+//    NSArray * lngArr = @[@(_coordinate2D.longitude+0.007),@(_coordinate2D.longitude+0.001),@(_coordinate2D.longitude+0.003),@(_coordinate2D.longitude+0.003),@(_coordinate2D.longitude-0.008)];
+//
+//
+//    for(int i =0;i < latArr.count; i++){
+//        GMSMarker *sydneyMarker = [[GMSMarker alloc]init];
+//        sydneyMarker.title=@"Sydney!";
+//        sydneyMarker.icon= [UIImage imageNamed:@"marker"];
+//        sydneyMarker.position = CLLocationCoordinate2DMake([latArr[i]doubleValue], [lngArr[i]doubleValue]);
+//        sydneyMarker.map=_mapView;
+//    }
+    for (HStudent *student in self.exceptArray) {
+        
+//        116.289254,39.878584
+        
+        CGRect frame = CGRectMake(0, 0, PAdaptation_x(58), PAdaptation_x(58));
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
+        [imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
+        
+        GMSMarker *sydneyMarker = [[GMSMarker alloc]init];
+        sydneyMarker.title = student.name;
+//        sydneyMarker.icon = [UIImage imageNamed:@"default_mdd.png"];
+        sydneyMarker.iconView = imageView;
+        sydneyMarker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
+//        sydneyMarker.position = CLLocationCoordinate2DMake(39.878584,116.289254);
+
+        sydneyMarker.map = self.mapView;
+    }
+    for (HStudent *student in self.nomalArray) {
+        CGRect frame = CGRectMake(0, 0, PAdaptation_x(58), PAdaptation_x(58));
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
+        imageView.backgroundColor = [UIColor purpleColor];
+        imageView.image = [UIImage imageNamed:@"default_mdd.png"];
+
+        GMSMarker *sydneyMarker = [[GMSMarker alloc]init];
+        sydneyMarker.title = student.name;
+//        sydneyMarker.icon = [UIImage imageNamed:@"marker"];
+        sydneyMarker.iconView = imageView;
+        sydneyMarker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
+        sydneyMarker.map = self.mapView;
+    }
 }
 
 //-(void)navRightClick{
@@ -170,59 +231,59 @@
     };
 }
 
-- (void)startLocation {
-    if ([CLLocationManager locationServicesEnabled] &&
-        ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways)) {
-        //定位功能可用
-        _locationManager = [[CLLocationManager alloc]init];
-        _locationManager.delegate = self;
-        [_locationManager requestWhenInUseAuthorization];
-        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;//设置定位精度
-        _locationManager.distanceFilter = 10;//设置定位频率，每隔多少米定位一次
-        [_locationManager startUpdatingLocation];
-    } else {
-        //定位不能用
-        [self locationPermissionAlert];
-//        [SVProgressHUD dismiss];
-    }
-}
-
-#pragma mark - 系统自带location代理定位
--(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-    if ([error code] == kCLErrorDenied) {
-        NSLog(@"访问被拒绝");
+//- (void)startLocation {
+//    if ([CLLocationManager locationServicesEnabled] &&
+//        ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways)) {
+//        //定位功能可用
+//        _locationManager = [[CLLocationManager alloc]init];
+//        _locationManager.delegate = self;
+//        [_locationManager requestWhenInUseAuthorization];
+//        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;//设置定位精度
+//        _locationManager.distanceFilter = 10;//设置定位频率，每隔多少米定位一次
+//        [_locationManager startUpdatingLocation];
+//    } else {
+//        //定位不能用
 //        [self locationPermissionAlert];
-    }
-    if ([error code] == kCLErrorLocationUnknown) {
-        NSLog(@"无法获取位置信息");
-    }
-//    [SVProgressHUD dismiss];
-}
-- (void)locationManager:(CLLocationManager*)manager didUpdateLocations:(NSArray *)locations {
-    if(!_firstLocationUpdate){
-        _firstLocationUpdate = YES;//只定位一次的标记值
-        // 获取最新定位 手机自己的定位
-//        CLLocation *location = locations.lastObject;
-        // 停止定位
-        [_locationManager stopUpdatingLocation];
-        
-        
-       //替换自己的坐标
-        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.myLocation.locationInfo.latitude, self.myLocation.locationInfo.longitude);
-        
-        //如果是国内，就会转化坐标系，如果是国外坐标，则不会转换。
-//        _coordinate2D = [JZLocationConverter wgs84ToGcj02:location.coordinate];
-        //移动地图中心到当前位置
-        self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:18];
+////        [SVProgressHUD dismiss];
+//    }
+//}
 
-        self.marker = [GMSMarker markerWithPosition:coordinate];
-        self.marker.map = self.mapView;
-        
-        [self drawPolygon];
-
-//        [self getPlace:_coordinate2D];
-    }
-}
+//#pragma mark - 系统自带location代理定位
+//-(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+//    if ([error code] == kCLErrorDenied) {
+//        NSLog(@"访问被拒绝");
+////        [self locationPermissionAlert];
+//    }
+//    if ([error code] == kCLErrorLocationUnknown) {
+//        NSLog(@"无法获取位置信息");
+//    }
+////    [SVProgressHUD dismiss];
+//}
+//- (void)locationManager:(CLLocationManager*)manager didUpdateLocations:(NSArray *)locations {
+//    if(!_firstLocationUpdate){
+//        _firstLocationUpdate = YES;//只定位一次的标记值
+//        // 获取最新定位 手机自己的定位
+////        CLLocation *location = locations.lastObject;
+//        // 停止定位
+//        [_locationManager stopUpdatingLocation];
+//
+//
+//       //替换自己的坐标
+//        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.myLocation.locationInfo.latitude, self.myLocation.locationInfo.longitude);
+//
+//        //如果是国内，就会转化坐标系，如果是国外坐标，则不会转换。
+////        _coordinate2D = [JZLocationConverter wgs84ToGcj02:location.coordinate];
+//        //移动地图中心到当前位置
+//        self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:18];
+//
+//        self.marker = [GMSMarker markerWithPosition:coordinate];
+//        self.marker.map = self.mapView;
+//
+//        [self drawPolygon];
+//
+////        [self getPlace:_coordinate2D];
+//    }
+//}
 -(void)mapViewDidFinishTileRendering:(GMSMapView *)mapView{
 
     
@@ -270,51 +331,27 @@ didFailAutocompleteWithError:(NSError *)error {
 - (void)wasCancelled:(GMSAutocompleteViewController *)viewController {
     [viewController dismissViewControllerAnimated:YES completion:nil];
 }
-//-(void)addMarkers{
-//    NSArray * latArr = @[@(_coordinate2D.latitude +0.004),@(_coordinate2D.latitude +0.008),@(_coordinate2D.latitude +0.007),@(_coordinate2D.latitude -0.0022),@(_coordinate2D.latitude -0.004)];
-//    NSArray * lngArr = @[@(_coordinate2D.longitude+0.007),@(_coordinate2D.longitude+0.001),@(_coordinate2D.longitude+0.003),@(_coordinate2D.longitude+0.003),@(_coordinate2D.longitude-0.008)];
-//    for(int i =0;i < latArr.count; i++){
-//        GMSMarker *sydneyMarker = [[GMSMarker alloc]init];
-//        sydneyMarker.title=@"Sydney!";
-//        sydneyMarker.icon= [UIImage imageNamed:@"marker"];
-//        sydneyMarker.position=CLLocationCoordinate2DMake([latArr[i]doubleValue], [lngArr[i]doubleValue]);
-//        sydneyMarker.map=_mapView;
-//    }
+
+//// 获取当前位置权限提示图
+//- (void)locationPermissionAlert {
+//    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"位置访问权限" message:@"请打开位置访问权限,以便于定位您的位置,添加地址信息" preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+//
+//    }];
+//    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"去设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+//        if ([[UIApplication sharedApplication]canOpenURL:url]) {
+//            [[UIApplication sharedApplication]openURL:url];
+//        }
+//    }];
+//    [alert addAction:cancle];
+//    [alert addAction:confirm];
+//    [self presentViewController:alert animated:YES completion:nil];
 //}
-// 获取当前位置权限提示图
-- (void)locationPermissionAlert {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"位置访问权限" message:@"请打开位置访问权限,以便于定位您的位置,添加地址信息" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
 
-    }];
-    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"去设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-        if ([[UIApplication sharedApplication]canOpenURL:url]) {
-            [[UIApplication sharedApplication]openURL:url];
-        }
-    }];
-    [alert addAction:cancle];
-    [alert addAction:confirm];
-    [self presentViewController:alert animated:YES completion:nil];
-}
--(void)drawPolygon
-{
-    GMSMutablePath* path = [[GMSMutablePath alloc] init];
-    
-    for (NSInteger i = 0; i < self.myLocation.fenceArray.count; i++) {
-        HLocationInfo *info = [self.myLocation.fenceArray safeObjectAtIndex:i];
-        [path addCoordinate:CLLocationCoordinate2DMake(info.latitude, info.longitude)];
-    }
-
-    GMSPolygon* poly = [GMSPolygon polygonWithPath:path];
-    poly.strokeWidth = 2.0;
-    poly.strokeColor = BWColor(83, 192, 137, 1);
-    poly.fillColor = BWColor(0, 176, 107, 0.2);
-    poly.map = self.mapView;
-}
 -(void)dealloc{
 //    [SVProgressHUD dismiss];
-    [_locationManager stopUpdatingLocation];
+//    [_locationManager stopUpdatingLocation];
     _mapView = nil;
 }
 
