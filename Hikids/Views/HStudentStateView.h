@@ -13,7 +13,7 @@ typedef void(^closeStateViewAction)(void);
 
 @interface HStudentStateView : UIView
 @property (nonatomic, copy) closeStateViewAction closeBlock;
-
+@property (nonatomic, assign) BOOL isSafe;
 @property (nonatomic, strong) NSArray *array;
 
 - (instancetype)init;

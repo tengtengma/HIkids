@@ -238,7 +238,6 @@
     }];
     
     UIImageView *iconView = [[UIImageView alloc] init];
-    iconView.backgroundColor = [UIColor redColor];
     [bgView addSubview:iconView];
     [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(topView);
@@ -293,6 +292,7 @@
     
     if (self.exceptArray.count != 0) {
         if (section == 1) {
+            [iconView setImage:[UIImage imageNamed:@"dangerIcon.png"]];
             stateLabel.text = @"危険";
             numberLabel.text = [NSString stringWithFormat:@"%ld人",self.exceptArray.count];
             topView.backgroundColor = BWColor(255, 75, 0, 1);
@@ -302,6 +302,7 @@
 
         }
         if (section == 2) {
+            [iconView setImage:[UIImage imageNamed:@"safeIcon.png"]];
             stateLabel.text = @"安全";
             numberLabel.text = [NSString stringWithFormat:@"%ld人",self.nomalArray.count];
             numberBg.backgroundColor = BWColor(5, 70, 11, 1);
@@ -311,6 +312,7 @@
         }
     }else{
         if (section == 1) {
+            [iconView setImage:[UIImage imageNamed:@"safeIcon.png"]];
             stateLabel.text = @"安全";
             numberLabel.text = [NSString stringWithFormat:@"%ld人",self.nomalArray.count];
             numberBg.backgroundColor = BWColor(5, 70, 11, 1);
@@ -335,6 +337,8 @@
         [imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
         imageView.layer.cornerRadius = PAdaptation_x(36)/2;
         imageView.layer.masksToBounds = YES;
+        imageView.layer.borderWidth = 2;
+        imageView.layer.borderColor = BWColor(108, 159, 155, 1).CGColor;
         [bgView addSubview:imageView];
         
         [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -354,6 +358,7 @@
 - (void)clickExpandAction:(UIButton *)button
 {
     self.stateView.array = button.tag == 1001 ? self.exceptArray : self.nomalArray;
+    self.stateView.isSafe = button.tag == 1001 ? NO : YES;
     [self.stateView tableReload];
     
     

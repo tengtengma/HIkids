@@ -77,9 +77,7 @@
 - (UIImageView *)backgroundImageView
 {
     if (!_backgroundImageView) {
-        _backgroundImageView = [[UIImageView alloc] init];
-        [_backgroundImageView setImage:[UIImage imageNamed:@"nav_background.png"]];
-        
+        _backgroundImageView = [[UIImageView alloc] init];        
     }
     return _backgroundImageView;
 }

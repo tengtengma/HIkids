@@ -29,43 +29,53 @@
 @property (nonatomic,strong) NSArray *exceptArray;
 @property (nonatomic,strong) NSArray *nomalArray;
 
-
 @property (nonatomic,assign) BOOL firstLocationUpdate ;
 @property (nonatomic,strong) GMSMarker *marker;//大头针
 @property (nonatomic,strong) GMSPlacesClient * placesClient;//可以获取某个地方的信息
 @property (nonatomic,strong) HLocation *myLocation;
+@property (nonatomic,strong) NSTimer *timer;
 @end
 
 @implementation HMapVC
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    //开启定时器
+     [self.timer setFireDate:[NSDate distantPast]];
+}
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    //关闭定时器
+    [self.timer setFireDate:[NSDate distantFuture]];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self setupNavInfomation];
-    
-
-    //设置地图view，这里是随便初始化了一个经纬度，在获取到当前用户位置到时候会直接更新的
-    GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:38.02 longitude:114.52 zoom:15];
-    _mapView= [GMSMapView mapWithFrame:CGRectMake(0, PAaptation_y(156), SCREEN_WIDTH,self.view.frame.size.height - PAaptation_y(110)-PAaptation_y(156)) camera:camera];
-    _mapView.delegate = self;
-    _mapView.settings.compassButton = YES;//显示指南针
-    //_mapView.settings.myLocationButton = YES;
-    //_mapView.myLocationEnabled = NO;
-    [self.view addSubview:_mapView];
-
     [self startRequest];
+    
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:15*60 target:self selector:@selector(startGetStudentLocationRequest) userInfo:nil repeats:YES];
+
 
 }
 - (void)startRequest
 {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     DefineWeakSelf;
     BWDestnationInfoReq *infoReq = [[BWDestnationInfoReq alloc] init];
     infoReq.dId = @"1";
     [NetManger getRequest:infoReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        
         BWDestnationInfoResp *infoResp = (BWDestnationInfoResp *)resp;
         [weakSelf changeLocationInfoDataWithModel:[infoResp.itemList safeObjectAtIndex:0]];
         
         [weakSelf startGetStudentLocationRequest];
+
+        
         
     } failure:^(BWBaseReq *req, NSError *error) {
         [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
@@ -94,6 +104,9 @@
     
     self.myLocation = myLocation;
     
+    [self createMapView];
+    [self startDrawFence];
+    
 //    /* 开始定位*/
 //    [self startLocation];
     
@@ -101,18 +114,21 @@
 }
 - (void)startGetStudentLocationRequest
 {
+    NSLog(@"12312312312312312");
     DefineWeakSelf;
     BWStudentLocationReq *locationReq = [[BWStudentLocationReq alloc] init];
     locationReq.latitude = self.myLocation.locationInfo.latitude;
     locationReq.longitude = self.myLocation.locationInfo.longitude;
     [NetManger postRequest:locationReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         
         BWStudentLocationResp *locationResp = (BWStudentLocationResp *)resp;
         weakSelf.nomalArray = locationResp.normalKids;
         weakSelf.exceptArray = locationResp.exceptionKids;
         
         [weakSelf createSmallView];
-        [weakSelf startDrawFence];
+        [weakSelf addMarkers]; //添加学生位置坐标
+        [weakSelf setupNavInfomation];
 
         
     } failure:^(BWBaseReq *req, NSError *error) {
@@ -120,20 +136,43 @@
         [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
     }];
 }
+- (void)createMapView
+{
+    [self.view addSubview:self.mapView];
+}
 - (void)setupNavInfomation{
-    self.customNavigationView.titleLabel.text = @"在園中";
-    self.customNavigationView.stateLabel.text = @"安全";
-    self.customNavigationView.stateLabel.textColor = BWColor(0, 176, 107, 1);
     
-    self.customNavigationView.updateTimeLabel.text = @"最终更新：3分钟";
-    self.customNavigationView.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
+    if (self.exceptArray.count == 0) {
+        
+        self.customNavigationView.titleLabel.text = @"在園中";
+        self.customNavigationView.stateLabel.text = @"安全";
+        self.customNavigationView.stateLabel.textColor = BWColor(0, 176, 107, 1);
+        [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_safe.png"]];
+
+        self.customNavigationView.updateTimeLabel.text = @"最终更新：3分钟";
+        self.customNavigationView.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
+        
+        self.customNavigationView.userNameLabel.text = @"ひまわり";
+        [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
+        [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
+    }else{
+        [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_danger.png"]];
+        self.customNavigationView.titleLabel.text = @"在園中";
+        self.customNavigationView.stateLabel.text = @"危险";
+        self.customNavigationView.stateLabel.textColor = BWColor(164, 0, 0, 1);
+        self.customNavigationView.updateTimeLabel.text = @"最终更新：3分钟";
+        self.customNavigationView.updateTimeLabel.textColor = BWColor(164, 0, 0, 1);
     
-    self.customNavigationView.userNameLabel.text = @"ひまわり";
-    [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
-    [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
+        self.customNavigationView.userNameLabel.text = @"ひまわり";
+        [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"dangerIcon.png"]];
+        [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
+    }
+    
+
 }
 - (void)startDrawFence
 {
+   
     //替换自己的坐标
     CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.myLocation.locationInfo.latitude, self.myLocation.locationInfo.longitude);
      
@@ -141,11 +180,11 @@
 //        _coordinate2D = [JZLocationConverter wgs84ToGcj02:location.coordinate];
      //移动地图中心到当前位置
     self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:18];
-    self.marker = [GMSMarker markerWithPosition:coordinate];
-    self.marker.map = self.mapView;
+//    self.marker = [GMSMarker markerWithPosition:coordinate];
+//    self.marker.map = self.mapView;
     
     [self drawPolygon];//画围栏
-    [self addMarkers]; //添加学生位置坐标
+  
     
 }
 -(void)drawPolygon
@@ -164,46 +203,44 @@
     poly.map = self.mapView;
 }
 -(void)addMarkers{
-//    NSArray * latArr = @[@(_coordinate2D.latitude +0.004),@(_coordinate2D.latitude +0.008),@(_coordinate2D.latitude +0.007),@(_coordinate2D.latitude -0.0022),@(_coordinate2D.latitude -0.004)];
-//    NSArray * lngArr = @[@(_coordinate2D.longitude+0.007),@(_coordinate2D.longitude+0.001),@(_coordinate2D.longitude+0.003),@(_coordinate2D.longitude+0.003),@(_coordinate2D.longitude-0.008)];
-//
-//
-//    for(int i =0;i < latArr.count; i++){
-//        GMSMarker *sydneyMarker = [[GMSMarker alloc]init];
-//        sydneyMarker.title=@"Sydney!";
-//        sydneyMarker.icon= [UIImage imageNamed:@"marker"];
-//        sydneyMarker.position = CLLocationCoordinate2DMake([latArr[i]doubleValue], [lngArr[i]doubleValue]);
-//        sydneyMarker.map=_mapView;
-//    }
+    
+    //先清理掉旧的
+    [self.marker.map clear];
+    self.marker.map = nil;
+    
     for (HStudent *student in self.exceptArray) {
-        
-//        116.289254,39.878584
-        
-        CGRect frame = CGRectMake(0, 0, PAdaptation_x(58), PAdaptation_x(58));
+                
+        CGRect frame = CGRectMake(0, 0, PAdaptation_x(40), PAaptation_y(40));
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
+        imageView.layer.cornerRadius = PAaptation_y(40)/2;
+        imageView.layer.masksToBounds = YES;
+        imageView.layer.borderWidth = 4;
+        imageView.layer.borderColor = BWColor(255, 75, 0, 1).CGColor;
         [imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
         
-        GMSMarker *sydneyMarker = [[GMSMarker alloc]init];
-        sydneyMarker.title = student.name;
-//        sydneyMarker.icon = [UIImage imageNamed:@"default_mdd.png"];
-        sydneyMarker.iconView = imageView;
-        sydneyMarker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
-//        sydneyMarker.position = CLLocationCoordinate2DMake(39.878584,116.289254);
-
-        sydneyMarker.map = self.mapView;
+        
+        GMSMarker *marker = [[GMSMarker alloc]init];
+        marker.title = student.name;
+        marker.iconView = imageView;
+        marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
+        marker.userData = student;
+        marker.map = self.mapView;
     }
     for (HStudent *student in self.nomalArray) {
-        CGRect frame = CGRectMake(0, 0, PAdaptation_x(58), PAdaptation_x(58));
+        CGRect frame = CGRectMake(0, 0, PAdaptation_x(40), PAaptation_y(40));
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
-        imageView.backgroundColor = [UIColor purpleColor];
-        imageView.image = [UIImage imageNamed:@"default_mdd.png"];
+        imageView.layer.cornerRadius = PAaptation_y(40)/2;
+        imageView.layer.masksToBounds = YES;
+        [imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
+        imageView.layer.borderWidth = 4;
+        imageView.layer.borderColor = BWColor(108, 159, 155, 1).CGColor;
 
-        GMSMarker *sydneyMarker = [[GMSMarker alloc]init];
-        sydneyMarker.title = student.name;
-//        sydneyMarker.icon = [UIImage imageNamed:@"marker"];
-        sydneyMarker.iconView = imageView;
-        sydneyMarker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
-        sydneyMarker.map = self.mapView;
+        GMSMarker *marker = [[GMSMarker alloc]init];
+        marker.title = student.name;
+        marker.iconView = imageView;
+        marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
+        marker.userData = student;
+        marker.map = self.mapView;
     }
 }
 
@@ -223,7 +260,7 @@
     self.menuHomeVC.nomalArray = self.nomalArray;
     self.menuHomeVC.exceptArray = self.exceptArray;
     
-    self.smallMenuView.safeLabel.text = @"使用中8人";
+    self.smallMenuView.safeLabel.text = [NSString stringWithFormat:@"使用中%ld人",self.nomalArray.count + self.exceptArray.count];
     self.smallMenuView.dangerLabel.text = @"アラート0回";
     
     self.smallMenuView.clickBlock = ^{
@@ -331,7 +368,12 @@ didFailAutocompleteWithError:(NSError *)error {
 - (void)wasCancelled:(GMSAutocompleteViewController *)viewController {
     [viewController dismissViewControllerAnimated:YES completion:nil];
 }
-
+-(BOOL)mapView:(GMSMapView *) mapView didTapMarker:(GMSMarker *)marker
+{
+    HStudent *student = marker.userData;
+    NSLog(@"点击了%@",student.name);
+    return YES;
+}
 //// 获取当前位置权限提示图
 //- (void)locationPermissionAlert {
 //    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"位置访问权限" message:@"请打开位置访问权限,以便于定位您的位置,添加地址信息" preferredStyle:UIAlertControllerStyleAlert];
@@ -356,6 +398,19 @@ didFailAutocompleteWithError:(NSError *)error {
 }
 
 #pragma mark - LazyLoad -
+- (GMSMapView *)mapView
+{
+    if (!_mapView) {
+        //设置地图view，这里是随便初始化了一个经纬度，在获取到当前用户位置到时候会直接更新的
+        GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:38.02 longitude:114.52 zoom:15];
+        _mapView = [GMSMapView mapWithFrame:CGRectMake(0, PAaptation_y(156), SCREEN_WIDTH,self.view.frame.size.height - PAaptation_y(110)-PAaptation_y(156)) camera:camera];
+        _mapView.delegate = self;
+        _mapView.settings.compassButton = YES;//显示指南针
+        //_mapView.settings.myLocationButton = YES;
+        //_mapView.myLocationEnabled = NO;
+    }
+    return _mapView;
+}
 - (HMenuHomeVC *)menuHomeVC
 {
     if (!_menuHomeVC) {
@@ -370,4 +425,5 @@ didFailAutocompleteWithError:(NSError *)error {
     }
     return _smallMenuView;
 }
+
 @end

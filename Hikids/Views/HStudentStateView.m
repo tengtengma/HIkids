@@ -10,6 +10,11 @@
 
 @interface HStudentStateView()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UIView *topView;
+@property (nonatomic, strong) UIImageView *iconView;
+@property (nonatomic, strong) UILabel *stateLabel;
+@property (nonatomic, strong) UIView *numberBg;
+@property (nonatomic, strong) UILabel *numberLabel;
 
 @end
 
@@ -30,72 +35,72 @@
             make.height.mas_equalTo(PAaptation_y(47));
         }];
 
-        UIView *topView = [[UIView alloc] init];
-        topView.backgroundColor = BWColor(255, 75, 0, 1);
-        [headerView addSubview:topView];
-        [topView mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.topView = [[UIView alloc] init];
+        self.topView.backgroundColor = BWColor(255, 75, 0, 1);
+        [headerView addSubview:self.topView];
+        
+        [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(headerView);
             make.left.equalTo(headerView);
             make.width.equalTo(headerView);
             make.height.mas_equalTo(PAaptation_y(47));
         }];
         
-        UIImageView *iconView = [[UIImageView alloc] init];
-        iconView.backgroundColor = [UIColor redColor];
-        [headerView addSubview:iconView];
-        [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(topView);
-            make.left.equalTo(topView).offset(PAdaptation_x(16));
+        self.iconView = [[UIImageView alloc] init];
+        [self.iconView setImage:[UIImage imageNamed:@"safeIcon.png"]];
+        [headerView addSubview:self.iconView];
+        
+        [self.iconView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.topView);
+            make.left.equalTo(self.topView).offset(PAdaptation_x(16));
             make.width.mas_equalTo(PAdaptation_x(24));
             make.height.mas_equalTo(PAaptation_y(24));
         }];
         
-        UILabel *stateLabel = [[UILabel alloc] init];
-        stateLabel.textColor = [UIColor whiteColor];
-        stateLabel.font = [UIFont systemFontOfSize:20];
-        [topView addSubview:stateLabel];
+        self.stateLabel = [[UILabel alloc] init];
+        self.stateLabel.textColor = [UIColor whiteColor];
+        self.stateLabel.font = [UIFont systemFontOfSize:20];
+        [self.topView addSubview:self.stateLabel];
         
-        [stateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(topView);
-            make.left.equalTo(iconView.mas_right).offset(PAdaptation_x(10));
+        [self.stateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.topView);
+            make.left.equalTo(self.iconView.mas_right).offset(PAdaptation_x(10));
         }];
         
-        UIView *numberBg = [[UILabel alloc] init];
-        numberBg.backgroundColor = [UIColor whiteColor];
-        [topView addSubview:numberBg];
-        [numberBg mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(iconView);
-            make.left.equalTo(stateLabel.mas_right).offset(PAdaptation_x(10));
+        self.numberBg = [[UILabel alloc] init];
+        self.numberBg.backgroundColor = [UIColor whiteColor];
+        [self.topView addSubview:self.numberBg];
+        
+        [self.numberBg mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.iconView);
+            make.left.equalTo(self.stateLabel.mas_right).offset(PAdaptation_x(10));
             make.width.mas_equalTo(PAdaptation_x(59));
             make.height.mas_equalTo(PAaptation_y(26));
         }];
         
-        UILabel *numberLabel = [[UILabel alloc] init];
-        numberLabel.font = [UIFont systemFontOfSize:16];
-        numberLabel.textColor = [UIColor whiteColor];
-        numberLabel.textAlignment = NSTextAlignmentCenter;
-        [topView addSubview:numberLabel];
+        self.numberLabel = [[UILabel alloc] init];
+        self.numberLabel.font = [UIFont systemFontOfSize:16];
+        self.numberLabel.textColor = [UIColor whiteColor];
+        self.numberLabel.textAlignment = NSTextAlignmentCenter;
+        [self.topView addSubview:self.numberLabel];
         
-        [numberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(numberBg);
+        [self.numberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.numberBg);
         }];
         
         UIButton *expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
         [expandBtn setImage:[UIImage imageNamed:@"triangle_small.png"] forState:UIControlStateNormal];
-        [topView addSubview:expandBtn];
+        [self.topView addSubview:expandBtn];
+        
         [expandBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(topView);
-            make.right.equalTo(topView.mas_right).offset(-PAdaptation_x(11.5));
+            make.centerY.equalTo(self.topView);
+            make.right.equalTo(self.topView.mas_right).offset(-PAdaptation_x(11.5));
             make.width.mas_equalTo(PAdaptation_x(21));
             make.height.mas_equalTo(PAaptation_y(24));
         }];
         
-        stateLabel.text = @"安全";
-        numberLabel.text = [NSString stringWithFormat:@"%ld人",self.array.count];
-        numberBg.backgroundColor = BWColor(5, 70, 11, 1);
-        topView.backgroundColor = BWColor(0, 176, 107, 1);
-        
+
         [self addSubview:self.tableView];
         [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(headerView.mas_bottom);
@@ -161,6 +166,22 @@
 
 - (void)tableReload
 {
+    if (self.isSafe) {
+        [self.iconView setImage:[UIImage imageNamed:@"safeIcon.png"]];
+        self.stateLabel.text = @"安全";
+        self.numberLabel.text = [NSString stringWithFormat:@"%ld人",self.array.count];
+        self.numberLabel.textColor = [UIColor whiteColor];
+        self.numberBg.backgroundColor = BWColor(5, 70, 11, 1);
+        self.topView.backgroundColor = BWColor(0, 176, 107, 1);
+    }else{
+        [self.iconView setImage:[UIImage imageNamed:@"dangerIcon.png"]];
+        self.stateLabel.text = @"危険";
+        self.numberLabel.text = [NSString stringWithFormat:@"%ld人",self.array.count];
+        self.numberLabel.textColor = BWColor(255, 75, 0, 1);
+        self.topView.backgroundColor = BWColor(255, 75, 0, 1);
+        self.numberBg.backgroundColor = [UIColor whiteColor];
+    }
+
     [self.tableView reloadData];
 }
 #pragma mark - LazyLoad -
