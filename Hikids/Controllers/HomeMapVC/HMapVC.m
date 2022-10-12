@@ -60,7 +60,6 @@
     
     self.timer = [NSTimer scheduledTimerWithTimeInterval:15*60 target:self selector:@selector(startGetStudentLocationRequest) userInfo:nil repeats:YES];
 
-
 }
 - (void)startRequest
 {
@@ -75,7 +74,6 @@
         
         [weakSelf startGetStudentLocationRequest];
 
-        
         
     } failure:^(BWBaseReq *req, NSError *error) {
         [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
