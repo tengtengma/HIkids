@@ -64,6 +64,31 @@
     
     [self.stateView setFrame:CGRectMake(0, self.view.frame.size.height - PAaptation_y(120), SCREEN_WIDTH, self.view.frame.size.height  - PAaptation_y(120))];
     [self.view addSubview:self.stateView];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showStateView)];
+    [self.stateView addGestureRecognizer:tap];
+    
+    DefineWeakSelf;
+    self.stateView.closeBlock = ^{
+        [UIView animateWithDuration:0.25 animations:^{
+            [weakSelf.stateView setFrame:CGRectMake(0, weakSelf.view.frame.size.height - PAaptation_y(120), SCREEN_WIDTH, weakSelf.view.frame.size.height  - PAaptation_y(120))];
+            
+            [weakSelf.smallMenuView setFrame:CGRectMake(PAdaptation_x(5), SCREEN_HEIGHT - PAaptation_y(224), PAdaptation_x(115), PAaptation_y(79))];
+            
+        }];
+    };
+    
+    
+}
+- (void)showStateView
+{
+    DefineWeakSelf;
+    [UIView animateWithDuration:0.25 animations:^{
+        [weakSelf.stateView setFrame:CGRectMake(0, self.view.frame.size.height/2, SCREEN_WIDTH, self.view.frame.size.height  - self.view.frame.size.height/2)];
+        
+        [weakSelf.smallMenuView setFrame:CGRectMake(PAdaptation_x(5), SCREEN_HEIGHT - self.view.frame.size.height/2 - PAaptation_y(24+79), PAdaptation_x(115), PAaptation_y(79))];
+
+    }];
 }
 - (void)setupNavInfomation{
     
@@ -112,6 +137,8 @@
         [weakSelf createSmallView];
         [weakSelf addMarkers]; //添加学生位置坐标
         [weakSelf setupNavInfomation];
+        
+        
 
         
     } failure:^(BWBaseReq *req, NSError *error) {
@@ -125,8 +152,12 @@
     [self.marker.map clear];
     self.marker.map = nil;
     
+    NSMutableArray *totalArray = [[NSMutableArray alloc] init];
+    
     for (HStudent *student in self.exceptArray) {
                 
+        [totalArray addObject:student];
+        
         CGRect frame = CGRectMake(0, 0, PAdaptation_x(40), PAaptation_y(40));
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
         imageView.layer.cornerRadius = PAaptation_y(40)/2;
@@ -144,6 +175,10 @@
         marker.map = self.mapView;
     }
     for (HStudent *student in self.nomalArray) {
+        
+        [totalArray addObject:student];
+
+        
         CGRect frame = CGRectMake(0, 0, PAdaptation_x(40), PAaptation_y(40));
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
         imageView.layer.cornerRadius = PAaptation_y(40)/2;
@@ -159,6 +194,10 @@
         marker.userData = student;
         marker.map = self.mapView;
     }
+    
+    self.stateView.array = totalArray;
+    self.stateView.isSafe = self.exceptArray.count == 0 ? YES:NO;
+    [self.stateView tableReload];
 }
 
 //-(void)navRightClick{
@@ -281,7 +320,7 @@
 - (HSmallCardView *)smallMenuView
 {
     if (!_smallMenuView) {
-        _smallMenuView = [[HSmallCardView alloc] initWithFrame:CGRectMake(PAdaptation_x(5), SCREEN_HEIGHT - PAaptation_y(200), PAdaptation_x(115), PAaptation_y(79))];
+        _smallMenuView = [[HSmallCardView alloc] initWithFrame:CGRectMake(PAdaptation_x(5), SCREEN_HEIGHT - PAaptation_y(224), PAdaptation_x(115), PAaptation_y(79))];
     }
     return _smallMenuView;
 }
