@@ -48,7 +48,7 @@
         [self replaceController:self.currentVC newController:self.sleepVC];
     }
     if ([name isEqualToString:@"walkVC"]) {
-        [self replaceController:self.currentVC newController:self.walkVC];
+//        [self replaceController:self.currentVC newController:self.walkVC];
     }
     if ([name isEqualToString:@"mapVC"]) {
         [self replaceController:self.currentVC newController:self.mapVC];

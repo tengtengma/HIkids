@@ -215,7 +215,9 @@
 }
 - (void)backAction:(id)sender
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"changeVCNotification" object:@{@"changeName":@"mapVC"}];
+    if (self.closeBlock) {
+        self.closeBlock();
+    }
 }
 #pragma mark - UICollectionViewDataSource -
 

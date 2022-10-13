@@ -18,10 +18,12 @@
 #import "BWStudentLocationReq.h"
 #import "BWStudentLocationResp.h"
 #import "HStudent.h"
+#import "HWalkMenuVC.h"
 
 
 @interface HMapVC ()<GMSMapViewDelegate,GMSAutocompleteViewControllerDelegate,CLLocationManagerDelegate>
 @property (nonatomic,strong) HMenuHomeVC *menuHomeVC;
+@property (nonatomic,strong) HWalkMenuVC *menuWalkVC;
 @property (nonatomic,strong) HSmallCardView *smallMenuView;
 @property (nonatomic,strong) GMSMapView *mapView;
 @property (nonatomic,strong) CLLocationManager *locationManager;
@@ -59,6 +61,9 @@
     [self startRequest];
     
     self.timer = [NSTimer scheduledTimerWithTimeInterval:15*60 target:self selector:@selector(startGetStudentLocationRequest) userInfo:nil repeats:YES];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeVCAction:) name:@"changeVCNotification" object:nil];
+
 
 }
 - (void)startRequest
@@ -252,6 +257,27 @@
     self.menuHomeVC.view.frame = CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(110), SCREEN_WIDTH, SCREEN_HEIGHT);
     [self.view addSubview:self.menuHomeVC.view];
     
+    self.menuWalkVC.view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
+    [self.view addSubview:self.menuWalkVC.view];
+    DefineWeakSelf;
+    self.menuWalkVC.closeBlock = ^{
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            weakSelf.menuWalkVC.view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
+           
+        }];
+    };
+    
+    self.menuWalkVC.startWalkBlock = ^(HWalkTask * _Nonnull walkTask) {
+        [UIView animateWithDuration:0.25 animations:^{
+            weakSelf.menuWalkVC.view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
+           
+        }];
+        
+        
+    };
+    
+    
     [self.view addSubview:self.smallMenuView];
     
     self.menuHomeVC.cardView = self.smallMenuView;
@@ -265,7 +291,15 @@
         
     };
 }
+- (void)changeVCAction:(NSNotification *)noti
+{
+    self.smallMenuView.hidden = YES;
+    DefineWeakSelf;
+    [UIView animateWithDuration:0.25 animations:^{
+        weakSelf.menuWalkVC.view.frame = CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
 
+    }];
+}
 
 -(void)mapViewDidFinishTileRendering:(GMSMapView *)mapView{
 
@@ -348,6 +382,13 @@ didFailAutocompleteWithError:(NSError *)error {
         _menuHomeVC = [[HMenuHomeVC alloc] init];
     }
     return _menuHomeVC;
+}
+- (HWalkMenuVC *)menuWalkVC
+{
+    if (!_menuWalkVC) {
+        _menuWalkVC = [[HWalkMenuVC alloc] init];
+    }
+    return _menuWalkVC;
 }
 - (HSmallCardView *)smallMenuView
 {
