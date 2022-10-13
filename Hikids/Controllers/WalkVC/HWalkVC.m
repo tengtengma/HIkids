@@ -16,6 +16,7 @@
 #import "BWStudentLocationResp.h"
 #import "HStudent.h"
 #import "HSmallCardView.h"
+#import "HStudentStateView.h"
 
 @interface HWalkVC ()<GMSMapViewDelegate,GMSAutocompleteViewControllerDelegate,CLLocationManagerDelegate>
 @property (nonatomic, strong) HWalkMenuVC *menuVC;
@@ -24,13 +25,14 @@
 @property (nonatomic, strong) GMSMapView *mapView;
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate2D;
-@property (nonatomic,strong) NSArray *exceptArray;
-@property (nonatomic,strong) NSArray *nomalArray;
+@property (nonatomic, strong) NSArray *exceptArray;
+@property (nonatomic, strong) NSArray *nomalArray;
 
-@property (nonatomic,assign) BOOL firstLocationUpdate ;
-@property (nonatomic,strong) GMSMarker *marker;//大头针
-@property (nonatomic,strong) GMSPlacesClient * placesClient;//可以获取某个地方的信息
-@property (nonatomic,strong) NSTimer *timer;
+@property (nonatomic, assign) BOOL firstLocationUpdate ;
+@property (nonatomic, strong) GMSMarker *marker;//大头针
+@property (nonatomic, strong) GMSPlacesClient * placesClient;//可以获取某个地方的信息
+@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) HStudentStateView *stateView;
 @end
 
 @implementation HWalkVC
@@ -41,6 +43,7 @@
    
     self.menuVC.view.frame = CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
     [self.view addSubview:self.menuVC.view];
+    
     
     DefineWeakSelf;
     self.menuVC.startWalkBlock = ^(HWalkTask * _Nonnull walkTask) {
@@ -58,6 +61,9 @@
     [self.view addSubview:self.mapView];
     
     [self startLocation];
+    
+    [self.stateView setFrame:CGRectMake(0, self.view.frame.size.height - PAaptation_y(120), SCREEN_WIDTH, self.view.frame.size.height  - PAaptation_y(120))];
+    [self.view addSubview:self.stateView];
 }
 - (void)setupNavInfomation{
     
@@ -220,6 +226,7 @@
         self.marker = [GMSMarker markerWithPosition:coordinate];
         self.marker.map = self.mapView;
 
+        [self startGetStudentLocationRequest];
         
 //        [self getPlace:_coordinate2D];
     }
@@ -278,5 +285,12 @@
     }
     return _smallMenuView;
 }
-
+- (HStudentStateView *)stateView
+{
+    if (!_stateView) {
+        _stateView = [[HStudentStateView alloc] init];
+        _stateView.backgroundColor = [UIColor whiteColor];
+    }
+    return _stateView;
+}
 @end
