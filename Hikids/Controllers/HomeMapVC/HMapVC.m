@@ -112,7 +112,7 @@
 }
 - (void)startGetStudentLocationRequest
 {
-    NSLog(@"12312312312312312");
+    
     DefineWeakSelf;
     BWStudentLocationReq *locationReq = [[BWStudentLocationReq alloc] init];
     locationReq.latitude = self.myLocation.locationInfo.latitude;
@@ -266,59 +266,7 @@
     };
 }
 
-//- (void)startLocation {
-//    if ([CLLocationManager locationServicesEnabled] &&
-//        ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways)) {
-//        //定位功能可用
-//        _locationManager = [[CLLocationManager alloc]init];
-//        _locationManager.delegate = self;
-//        [_locationManager requestWhenInUseAuthorization];
-//        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;//设置定位精度
-//        _locationManager.distanceFilter = 10;//设置定位频率，每隔多少米定位一次
-//        [_locationManager startUpdatingLocation];
-//    } else {
-//        //定位不能用
-//        [self locationPermissionAlert];
-////        [SVProgressHUD dismiss];
-//    }
-//}
 
-//#pragma mark - 系统自带location代理定位
-//-(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
-//    if ([error code] == kCLErrorDenied) {
-//        NSLog(@"访问被拒绝");
-////        [self locationPermissionAlert];
-//    }
-//    if ([error code] == kCLErrorLocationUnknown) {
-//        NSLog(@"无法获取位置信息");
-//    }
-////    [SVProgressHUD dismiss];
-//}
-//- (void)locationManager:(CLLocationManager*)manager didUpdateLocations:(NSArray *)locations {
-//    if(!_firstLocationUpdate){
-//        _firstLocationUpdate = YES;//只定位一次的标记值
-//        // 获取最新定位 手机自己的定位
-////        CLLocation *location = locations.lastObject;
-//        // 停止定位
-//        [_locationManager stopUpdatingLocation];
-//
-//
-//       //替换自己的坐标
-//        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.myLocation.locationInfo.latitude, self.myLocation.locationInfo.longitude);
-//
-//        //如果是国内，就会转化坐标系，如果是国外坐标，则不会转换。
-////        _coordinate2D = [JZLocationConverter wgs84ToGcj02:location.coordinate];
-//        //移动地图中心到当前位置
-//        self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:18];
-//
-//        self.marker = [GMSMarker markerWithPosition:coordinate];
-//        self.marker.map = self.mapView;
-//
-//        [self drawPolygon];
-//
-////        [self getPlace:_coordinate2D];
-//    }
-//}
 -(void)mapViewDidFinishTileRendering:(GMSMapView *)mapView{
 
     
@@ -372,22 +320,7 @@ didFailAutocompleteWithError:(NSError *)error {
     NSLog(@"点击了%@",student.name);
     return YES;
 }
-//// 获取当前位置权限提示图
-//- (void)locationPermissionAlert {
-//    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"位置访问权限" message:@"请打开位置访问权限,以便于定位您的位置,添加地址信息" preferredStyle:UIAlertControllerStyleAlert];
-//    UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-//
-//    }];
-//    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"去设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//        NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-//        if ([[UIApplication sharedApplication]canOpenURL:url]) {
-//            [[UIApplication sharedApplication]openURL:url];
-//        }
-//    }];
-//    [alert addAction:cancle];
-//    [alert addAction:confirm];
-//    [self presentViewController:alert animated:YES completion:nil];
-//}
+
 
 -(void)dealloc{
 //    [SVProgressHUD dismiss];

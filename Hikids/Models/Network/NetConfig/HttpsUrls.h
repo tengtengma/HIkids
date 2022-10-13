@@ -22,6 +22,7 @@
 #define GetAssistantURL            @"/v1/business/assistant/getall"                     //获取助教列表
 #define DestinationInfoURL         @"/v1/business/destination/getById"                  //目的地信息
 #define StudentsLocationURL        @"/v1/business/hikidsTask/uploadLocation"            //查看学生状态
+#define TaskAddURL                 @"/v1/business/hikidsTask/taskAdd"                            //创建任务
 
 
 

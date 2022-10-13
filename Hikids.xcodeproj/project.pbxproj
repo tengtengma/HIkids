@@ -84,6 +84,10 @@
 		9E42E69928D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E42E69628D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.m */; };
 		9E8344B828C7912C00AB9D83 /* BWCheckTokenReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */; };
 		9E8344BB28C7913E00AB9D83 /* BWCheckTokenResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344BA28C7913E00AB9D83 /* BWCheckTokenResp.m */; };
+		9E99397128F7B7B100119CA7 /* BWAddTaskReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E99397028F7B7B100119CA7 /* BWAddTaskReq.m */; };
+		9E99397428F7B7BE00119CA7 /* BWAddTaskResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E99397328F7B7BE00119CA7 /* BWAddTaskResp.m */; };
+		9E99397728F7DD0D00119CA7 /* HWalkTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E99397628F7DD0D00119CA7 /* HWalkTask.m */; };
+		9E99397A28F7E6D100119CA7 /* HWalkInfoVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E99397928F7E6D100119CA7 /* HWalkInfoVC.m */; };
 		9EC72A2128D8349A00494A74 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9EC72A2328D8349A00494A74 /* InfoPlist.strings */; };
 		9EC72A2728D8357A00494A74 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9EC72A2928D8357A00494A74 /* Localizable.strings */; };
 		9EC72A3128D8394F00494A74 /* MBProgressHUD+ShowMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC72A3028D8394F00494A74 /* MBProgressHUD+ShowMessage.m */; };
@@ -251,6 +255,14 @@
 		9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWCheckTokenReq.m; sourceTree = "<group>"; };
 		9E8344B928C7913E00AB9D83 /* BWCheckTokenResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWCheckTokenResp.h; sourceTree = "<group>"; };
 		9E8344BA28C7913E00AB9D83 /* BWCheckTokenResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWCheckTokenResp.m; sourceTree = "<group>"; };
+		9E99396F28F7B7B100119CA7 /* BWAddTaskReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWAddTaskReq.h; sourceTree = "<group>"; };
+		9E99397028F7B7B100119CA7 /* BWAddTaskReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWAddTaskReq.m; sourceTree = "<group>"; };
+		9E99397228F7B7BE00119CA7 /* BWAddTaskResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWAddTaskResp.h; sourceTree = "<group>"; };
+		9E99397328F7B7BE00119CA7 /* BWAddTaskResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWAddTaskResp.m; sourceTree = "<group>"; };
+		9E99397528F7DD0D00119CA7 /* HWalkTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWalkTask.h; sourceTree = "<group>"; };
+		9E99397628F7DD0D00119CA7 /* HWalkTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWalkTask.m; sourceTree = "<group>"; };
+		9E99397828F7E6D100119CA7 /* HWalkInfoVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWalkInfoVC.h; sourceTree = "<group>"; };
+		9E99397928F7E6D100119CA7 /* HWalkInfoVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWalkInfoVC.m; sourceTree = "<group>"; };
 		9EC72A1D28D833A400494A74 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		9EC72A1E28D833A400494A74 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		9EC72A2228D8349A00494A74 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -444,6 +456,8 @@
 				9E17D1DE28EEAE9B005FA5A9 /* HTeacher.m */,
 				9E17D1E028EEAEA9005FA5A9 /* HTime.h */,
 				9E17D1E128EEAEA9005FA5A9 /* HTime.m */,
+				9E99397528F7DD0D00119CA7 /* HWalkTask.h */,
+				9E99397628F7DD0D00119CA7 /* HWalkTask.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -630,6 +644,8 @@
 				9E17D1ED28F005CB005FA5A9 /* BWDestnationInfoReq.m */,
 				9E17D1F528F03B6D005FA5A9 /* BWStudentLocationReq.h */,
 				9E17D1F628F03B6D005FA5A9 /* BWStudentLocationReq.m */,
+				9E99396F28F7B7B100119CA7 /* BWAddTaskReq.h */,
+				9E99397028F7B7B100119CA7 /* BWAddTaskReq.m */,
 			);
 			path = BWReq;
 			sourceTree = "<group>";
@@ -662,6 +678,8 @@
 				9E17D1F028F005E1005FA5A9 /* BWDestnationInfoResp.m */,
 				9E17D1F828F03B83005FA5A9 /* BWStudentLocationResp.h */,
 				9E17D1F928F03B83005FA5A9 /* BWStudentLocationResp.m */,
+				9E99397228F7B7BE00119CA7 /* BWAddTaskResp.h */,
+				9E99397328F7B7BE00119CA7 /* BWAddTaskResp.m */,
 			);
 			path = BWResp;
 			sourceTree = "<group>";
@@ -715,6 +733,8 @@
 				9E17D1B728ED658C005FA5A9 /* Views */,
 				9E1F21C128E1972400C5041B /* HWalkVC.h */,
 				9E1F21C228E1972400C5041B /* HWalkVC.m */,
+				9E99397828F7E6D100119CA7 /* HWalkInfoVC.h */,
+				9E99397928F7E6D100119CA7 /* HWalkInfoVC.m */,
 			);
 			path = WalkVC;
 			sourceTree = "<group>";
@@ -998,6 +1018,8 @@
 				9E2DF80328B2209E00B0C9DA /* BWLoginResp.m in Sources */,
 				9E2DF80028B2209E00B0C9DA /* BWLoginReq.m in Sources */,
 				9E17D1EE28F005CB005FA5A9 /* BWDestnationInfoReq.m in Sources */,
+				9E99397128F7B7B100119CA7 /* BWAddTaskReq.m in Sources */,
+				9E99397428F7B7BE00119CA7 /* BWAddTaskResp.m in Sources */,
 				9E0B546A28B21E620026CD86 /* AppDelegate.m in Sources */,
 				9E17D1A928ED3750005FA5A9 /* JZLocationConverter.m in Sources */,
 				9E2DF80228B2209E00B0C9DA /* BWNetManager.m in Sources */,
@@ -1038,8 +1060,10 @@
 				9E1F21A228E16A6300C5041B /* HBaseMenuVC.m in Sources */,
 				9E2DF80A28B2219300B0C9DA /* BaseVC.m in Sources */,
 				9E8344BB28C7913E00AB9D83 /* BWCheckTokenResp.m in Sources */,
+				9E99397A28F7E6D100119CA7 /* HWalkInfoVC.m in Sources */,
 				9E17D1CB28EDADD6005FA5A9 /* HDestnationModel.m in Sources */,
 				9E17D1FA28F03B83005FA5A9 /* BWStudentLocationResp.m in Sources */,
+				9E99397728F7DD0D00119CA7 /* HWalkTask.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

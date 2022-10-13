@@ -7,39 +7,30 @@
 
 #import "HWalkVC.h"
 #import "HWalkMenuVC.h"
-#import "HMddView.h"
-#import "HStudentView.h"
-#import "BWGetDestnationReq.h"
-#import "BWGetDestnationResp.h"
-#import "HDestnationModel.h"
-#import "BWGetStudentReq.h"
-#import "BWGetStudentResp.h"
-#import "BWGetAssistantReq.h"
-#import "BWGetAssistantResp.h"
+#import "HWalkTask.h"
+#import <GoogleMaps/GoogleMaps.h>
+#import <GooglePlaces/GooglePlaces.h>
+#import <CoreLocation/CoreLocation.h>
+#import "HLocation.h"
+#import "BWStudentLocationReq.h"
+#import "BWStudentLocationResp.h"
 #import "HStudent.h"
-#import "HTitleView.h"
-#import "HTeacher.h"
-#import "HTime.h"
+#import "HSmallCardView.h"
 
-@interface HWalkVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
-@property (nonatomic, strong) UIView *bgView;
+@interface HWalkVC ()<GMSMapViewDelegate,GMSAutocompleteViewControllerDelegate,CLLocationManagerDelegate>
 @property (nonatomic, strong) HWalkMenuVC *menuVC;
-@property (nonatomic, strong) UIImageView *topView;
-@property (nonatomic, strong) UIView *titleView;
-@property (nonatomic, strong) UIView *footerView;
-@property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UILabel *dateLabel;
-@property (nonatomic, strong) UIButton *backBtn;
-@property (nonatomic, strong) UIButton *startWalkBtn;
-@property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) NSArray *dataArray;
-@property (nonatomic, strong) NSArray *destnationArray; //目的地集合
-@property (nonatomic, strong) NSArray *timeArray;       //选择时间集合
-@property (nonatomic, strong) NSArray *teacherArray;     //老师集合
-@property (nonatomic, strong) NSArray *studentArray;     //学生集合
+@property (nonatomic, strong) HWalkTask *myTask;
+@property (nonatomic, strong) HSmallCardView *smallMenuView;
+@property (nonatomic, strong) GMSMapView *mapView;
+@property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, assign) CLLocationCoordinate2D coordinate2D;
+@property (nonatomic,strong) NSArray *exceptArray;
+@property (nonatomic,strong) NSArray *nomalArray;
 
-
-
+@property (nonatomic,assign) BOOL firstLocationUpdate ;
+@property (nonatomic,strong) GMSMarker *marker;//大头针
+@property (nonatomic,strong) GMSPlacesClient * placesClient;//可以获取某个地方的信息
+@property (nonatomic,strong) NSTimer *timer;
 @end
 
 @implementation HWalkVC
@@ -47,481 +38,218 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self startDestnationRequest];
+   
+    self.menuVC.view.frame = CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
+    [self.view addSubview:self.menuVC.view];
+    
+    DefineWeakSelf;
+    self.menuVC.startWalkBlock = ^(HWalkTask * _Nonnull walkTask) {
+        weakSelf.myTask = walkTask;
+        [weakSelf.menuVC.view removeFromSuperview];
+        
+        [weakSelf startMap];
+    };
+    
     
 
 }
-- (void)startDestnationRequest
+- (void)startMap
 {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    DefineWeakSelf;
-    BWGetDestnationReq *destReq = [[BWGetDestnationReq alloc] init];
-    [NetManger getRequest:destReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
-            
-        BWGetDestnationResp *destResp = (BWGetDestnationResp *)resp;
-        
-        weakSelf.destnationArray = destResp.itemList;
-        
-        [weakSelf startStudentRequest];
-                
-        
-    } failure:^(BWBaseReq *req, NSError *error) {
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
-    }];
+    [self.view addSubview:self.mapView];
+    
+    [self startLocation];
 }
-- (void)startStudentRequest
-{
-    DefineWeakSelf;
-    BWGetStudentReq *studentReq = [[BWGetStudentReq alloc] init];
-    [NetManger getRequest:studentReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+- (void)setupNavInfomation{
+    
+    if (self.exceptArray.count == 0) {
         
-        BWGetStudentResp *studentResp = (BWGetStudentResp *)resp;
-        
-        weakSelf.studentArray = studentResp.itemList;
-            
-        [weakSelf startTeacherRequest];
+        self.customNavigationView.titleLabel.text = @"在園中";
+        self.customNavigationView.stateLabel.text = @"安全";
+        self.customNavigationView.stateLabel.textColor = BWColor(0, 176, 107, 1);
+        [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_safe.png"]];
 
+        self.customNavigationView.updateTimeLabel.text = @"最终更新：3分钟";
+        self.customNavigationView.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
         
-    } failure:^(BWBaseReq *req, NSError *error) {
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
-    }];
-}
-- (void)startTeacherRequest
-{
-    DefineWeakSelf;
-    BWGetAssistantReq *teacherReq = [[BWGetAssistantReq alloc] init];
-    [NetManger getRequest:teacherReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        
-        BWGetAssistantResp *teacherResp = (BWGetAssistantResp *)resp;
-        
-        weakSelf.teacherArray = teacherResp.itemList;
-        
-        [weakSelf createUI];
-        [weakSelf.collectionView reloadData];
-
-        
-    } failure:^(BWBaseReq *req, NSError *error) {
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
-    }];
-}
-- (void)createUI
-{
-    [self.view addSubview:self.bgView];
-    [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
+        self.customNavigationView.userNameLabel.text = @"ひまわり";
+        [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
+        [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
+    }else{
+        [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_danger.png"]];
+        self.customNavigationView.titleLabel.text = @"在園中";
+        self.customNavigationView.stateLabel.text = @"危险";
+        self.customNavigationView.stateLabel.textColor = BWColor(164, 0, 0, 1);
+        self.customNavigationView.updateTimeLabel.text = @"最终更新：3分钟";
+        self.customNavigationView.updateTimeLabel.textColor = BWColor(164, 0, 0, 1);
     
-    [self.bgView addSubview:self.topView];
-    [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bgView).offset(PAaptation_y(47));
-        make.left.equalTo(self.bgView);
-        make.width.equalTo(self.bgView);
-        make.height.mas_equalTo(PAaptation_y(32));
-    }];
-    
-    [self createTitleView];
-    
-    [self createTableView];
-    
-    [self createFooterView];
-    
-    NSMutableArray *array = [[NSMutableArray alloc] init];
-    NSArray *timeArray = @[@"自由",@"45分",@"60分",@"90分"];
-    for (NSInteger i = 0; i < timeArray.count; i++) {
-        HTime *time = [[HTime alloc] init];
-        time.tId = i;
-        time.name = [timeArray safeObjectAtIndex:i];
-        [array addObject:time];
+        self.customNavigationView.userNameLabel.text = @"ひまわり";
+        [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"dangerIcon.png"]];
+        [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
     }
-    self.timeArray = array;
     
-    self.titleLabel.text = @"散歩モニタリング";
-    self.dateLabel.text = @"2022.10.05";
+
 }
-- (void)createTitleView
+- (void)startGetStudentLocationRequest
 {
-    [self.bgView addSubview:self.titleView];
-    [self.titleView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.topView.mas_bottom);
-        make.left.equalTo(self.bgView);
-        make.width.equalTo(self.bgView);
-        make.height.mas_equalTo(PAaptation_y(68+24));
-    }];
     
-    [self.titleView addSubview:self.titleLabel];
-    [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.topView.mas_bottom);
-        make.left.equalTo(_titleView).offset(PAdaptation_x(24));
-    }];
-    
-    [self.titleView addSubview:self.dateLabel];
-    [self.dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.mas_bottom).offset(PAaptation_y(8));
-        make.left.equalTo(self.titleLabel);
-    }];
-    
-    [self.titleView addSubview:self.backBtn];
-    [self.backBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.titleLabel);
-        make.right.equalTo(self.titleView.mas_right).offset(-PAdaptation_x(24));
-        make.width.mas_equalTo(PAdaptation_x(40));
-        make.height.mas_equalTo(PAaptation_y(38));
+    DefineWeakSelf;
+    BWStudentLocationReq *locationReq = [[BWStudentLocationReq alloc] init];
+    locationReq.latitude = 11;
+    locationReq.longitude = 1;
+    [NetManger postRequest:locationReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        
+        BWStudentLocationResp *locationResp = (BWStudentLocationResp *)resp;
+        weakSelf.nomalArray = locationResp.normalKids;
+        weakSelf.exceptArray = locationResp.exceptionKids;
+        
+        [weakSelf createSmallView];
+        [weakSelf addMarkers]; //添加学生位置坐标
+        [weakSelf setupNavInfomation];
+
+        
+    } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
     }];
 }
-- (void)createTableView
-{
-    [self.view addSubview:self.collectionView];
-    [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleView.mas_bottom);
-        make.left.equalTo(self.view);
-        make.width.equalTo(self.view);
-        make.bottom.equalTo(self.view.mas_bottom).offset(-PAaptation_y(80));
-    }];
+-(void)addMarkers{
     
+    //先清理掉旧的
+    [self.marker.map clear];
+    self.marker.map = nil;
+    
+    for (HStudent *student in self.exceptArray) {
+                
+        CGRect frame = CGRectMake(0, 0, PAdaptation_x(40), PAaptation_y(40));
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
+        imageView.layer.cornerRadius = PAaptation_y(40)/2;
+        imageView.layer.masksToBounds = YES;
+        imageView.layer.borderWidth = 4;
+        imageView.layer.borderColor = BWColor(255, 75, 0, 1).CGColor;
+        [imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
+        
+        
+        GMSMarker *marker = [[GMSMarker alloc]init];
+        marker.title = student.name;
+        marker.iconView = imageView;
+        marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
+        marker.userData = student;
+        marker.map = self.mapView;
+    }
+    for (HStudent *student in self.nomalArray) {
+        CGRect frame = CGRectMake(0, 0, PAdaptation_x(40), PAaptation_y(40));
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
+        imageView.layer.cornerRadius = PAaptation_y(40)/2;
+        imageView.layer.masksToBounds = YES;
+        [imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
+        imageView.layer.borderWidth = 4;
+        imageView.layer.borderColor = BWColor(108, 159, 155, 1).CGColor;
+
+        GMSMarker *marker = [[GMSMarker alloc]init];
+        marker.title = student.name;
+        marker.iconView = imageView;
+        marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
+        marker.userData = student;
+        marker.map = self.mapView;
+    }
 }
-- (void)createFooterView
+
+//-(void)navRightClick{
+//    GMSAutocompleteViewController *autocompleteViewController = [[GMSAutocompleteViewController alloc] init];
+//    autocompleteViewController.delegate = self;
+//    [self presentViewController:autocompleteViewController animated:YES completion:nil];
+//}
+- (void)createSmallView
 {
-    [self.view addSubview:self.footerView];
-    [self.footerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.collectionView.mas_bottom);
-        make.left.equalTo(self.view);
-        make.width.equalTo(self.view);
-        make.height.mas_equalTo(PAaptation_y(80));
-    }];
     
-    [self.footerView addSubview:self.startWalkBtn];
-    [self.startWalkBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.footerView);
-        make.width.mas_equalTo(PAdaptation_x(240));
-        make.height.mas_equalTo(PAaptation_y(47));
-    }];
+    [self.view addSubview:self.smallMenuView];
+
+    self.smallMenuView.safeLabel.text = [NSString stringWithFormat:@"使用中%ld人",self.nomalArray.count + self.exceptArray.count];
+    self.smallMenuView.dangerLabel.text = @"アラート0回";
     
-    UIView *lineView = [[UIView alloc] init];
-    lineView.backgroundColor = BWColor(169, 167, 166, 1);
-    [self.footerView addSubview:lineView];
-    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.footerView);
-        make.left.equalTo(self.footerView);
-        make.width.equalTo(self.footerView);
-        make.height.mas_equalTo(PAaptation_y(1));
+    self.smallMenuView.clickBlock = ^{
+        
+    };
+}
+- (void)startLocation {
+    if ([CLLocationManager locationServicesEnabled] &&
+        ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways)) {
+        //定位功能可用
+        _locationManager = [[CLLocationManager alloc]init];
+        _locationManager.delegate = self;
+        [_locationManager requestWhenInUseAuthorization];
+        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;//设置定位精度
+        _locationManager.distanceFilter = 10;//设置定位频率，每隔多少米定位一次
+        [_locationManager startUpdatingLocation];
+    } else {
+        //定位不能用
+        [self locationPermissionAlert];
+//        [SVProgressHUD dismiss];
+    }
+}
+
+#pragma mark - 系统自带location代理定位
+-(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    if ([error code] == kCLErrorDenied) {
+        NSLog(@"访问被拒绝");
+        [self locationPermissionAlert];
+    }
+    if ([error code] == kCLErrorLocationUnknown) {
+        NSLog(@"无法获取位置信息");
+    }
+//    [SVProgressHUD dismiss];
+}
+- (void)locationManager:(CLLocationManager*)manager didUpdateLocations:(NSArray *)locations {
+    if(!_firstLocationUpdate){
+//        _firstLocationUpdate = YES;//只定位一次的标记值
+        // 获取最新定位 手机自己的定位
+        CLLocation *location = locations.lastObject;
+        // 停止定位
+//        [_locationManager stopUpdatingLocation];
+
+
+       //替换自己的坐标
+        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude);
+
+        //如果是国内，就会转化坐标系，如果是国外坐标，则不会转换。
+//        _coordinate2D = [JZLocationConverter wgs84ToGcj02:location.coordinate];
+        //移动地图中心到当前位置
+        self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:18];
+
+        self.marker = [GMSMarker markerWithPosition:coordinate];
+        self.marker.map = self.mapView;
+
+        
+//        [self getPlace:_coordinate2D];
+    }
+}
+// 获取当前位置权限提示图
+- (void)locationPermissionAlert {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"位置访问权限" message:@"请打开位置访问权限,以便于定位您的位置,添加地址信息" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancle = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+
     }];
+    UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"去设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+        if ([[UIApplication sharedApplication]canOpenURL:url]) {
+            [[UIApplication sharedApplication]openURL:url];
+        }
+    }];
+    [alert addAction:cancle];
+    [alert addAction:confirm];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+-(void)dealloc{
+//    [SVProgressHUD dismiss];
+    [_locationManager stopUpdatingLocation];
+    self.mapView = nil;
 }
 - (void)backAction:(id)sender
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"changeVCNotification" object:@{@"changeName":@"mapVC"}];
 }
-#pragma mark - UICollectionViewDataSource -
-
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
-{
-    return 4;
-}
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
-    if (section == 0) {
-        return self.destnationArray.count;
-    }
-    if (section == 1) {
-        return self.timeArray.count;
-    }
-    if (section == 2) {
-        return self.teacherArray.count;
-    }
-    return self.studentArray.count;
-}
-- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString * CellIdentifier = @"UICollectionViewCell";
-    UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor whiteColor];
-    
-    for (id v in cell.contentView.subviews)
-        [v removeFromSuperview];
-    
-    if (indexPath.section == 0) {
-        
-        HDestnationModel *destModel = [self.destnationArray safeObjectAtIndex:indexPath.row];
-        
-        HMddView *mddView = [[HMddView alloc] init];
-        [mddView setupWithModel:destModel];
-        [cell.contentView addSubview:mddView];
-        
-        [mddView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(cell.contentView);
-        }];
-        
-        if (destModel.isSelected) {
-            [mddView cellSelected];
-        }else{
-            [mddView cellNomal];
-        }
-
-        
-    }
-        
-    if (indexPath.section == 1) {
-        
-        HTime *timeModel = [self.timeArray safeObjectAtIndex:indexPath.row];
-        
-        HTitleView *timeView = [[HTitleView alloc] init];
-        [timeView setupWithModel:timeModel];
-        [cell.contentView addSubview:timeView];
-        
-        [timeView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(cell.contentView);
-        }];
-        
-        if (timeModel.isSelected) {
-            [timeView cellSelected];
-        }else{
-            [timeView cellNomal];
-        }
-    }
-    if (indexPath.section == 2) {
-        
-        HTeacher *teacherModel = [self.teacherArray safeObjectAtIndex:indexPath.row];
-        
-        HTitleView *titView = [[HTitleView alloc] init];
-        [titView setupWithModel:teacherModel];
-        [cell.contentView addSubview:titView];
-        
-        [titView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(cell.contentView);
-        }];
-        
-        if (teacherModel.isSelected) {
-            [titView cellSelected];
-        }else{
-            [titView cellNomal];
-        }
-    }
-   
-    if (indexPath.section == 3) {
-        
-        HStudent *student = [self.studentArray safeObjectAtIndex:indexPath.row];
-        
-        HStudentView *studentView = [[HStudentView alloc] init];
-        [studentView setupWithModel:student];
-        [cell.contentView addSubview:studentView];
-
-        [studentView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(cell.contentView);
-        }];
-        
-        if (student.isSelected) {
-            [studentView cellSelected];
-        }else{
-            [studentView cellNomal];
-        }
-
-    }
-    
-
-    return cell;
-}
-
-#pragma mark- UICollectionViewDataDelegate
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == 0) {
-        
-        HDestnationModel *selectModel = [self.destnationArray safeObjectAtIndex:indexPath.row];
-        if (selectModel.isSelected) {
-            selectModel.isSelected = NO;
-            
-        }else{
-            [self.destnationArray enumerateObjectsUsingBlock:^(HDestnationModel * obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if (selectModel.dId.integerValue == obj.dId.integerValue) {
-                    obj.isSelected = YES;
-                    return;
-                }else{
-                    obj.isSelected = NO;
-                }
-            }];
-        }
-
-    }
-    if (indexPath.section == 1) {
-        
-        HTime *selectModel = [self.timeArray safeObjectAtIndex:indexPath.row];
-        if (selectModel.isSelected) {
-            selectModel.isSelected = NO;
-            
-        }else{
-            [self.timeArray enumerateObjectsUsingBlock:^(HTime * obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if (selectModel.tId == obj.tId) {
-                    obj.isSelected = YES;
-                    return;
-                }else{
-                    obj.isSelected = NO;
-                }
-            }];
-        }
-        
-    }
-    if (indexPath.section == 2) {
-        
-        HTeacher *selectModel = [self.teacherArray safeObjectAtIndex:indexPath.row];
-        if (selectModel.isSelected) {
-            selectModel.isSelected = NO;
-        }else{
-            [self.teacherArray enumerateObjectsUsingBlock:^(HTeacher * obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if (selectModel.tId.integerValue == obj.tId.integerValue) {
-                    obj.isSelected = YES;
-                    return;
-                }
-            }];
-        }
-    }
-    if (indexPath.section == 3) {
-       
-        HStudent *selectModel = [self.studentArray safeObjectAtIndex:indexPath.row];
-        if (selectModel.isSelected) {
-            selectModel.isSelected = NO;
-        }else{
-            [self.studentArray enumerateObjectsUsingBlock:^(HStudent * obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if (selectModel.sId.integerValue == obj.sId.integerValue) {
-                    obj.isSelected = YES;
-                    return;
-                }
-            }];
-        }
-    }
-    [self.collectionView reloadData];
-
-}
-#pragma mark - UICollectionViewLayoutDelegate -
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == 0) {
-        return CGSizeMake(PAdaptation_x(170), PAaptation_y(76));
-
-    }
-    if (indexPath.section == 1) {
-        return CGSizeMake(PAdaptation_x(68), PAaptation_y(36));
-
-    }
-    if (indexPath.section == 2) {
-        return CGSizeMake(PAdaptation_x(75), PAaptation_y(36));
-    }
-    return CGSizeMake(PAdaptation_x(170), PAaptation_y(54));
-}
-- (CGFloat)collectionView:(UICollectionView *)collectionView
-                   layout:(UICollectionViewLayout*)collectionViewLayout
-                    minimumLineSpacingForSectionAtIndex:(NSInteger)section
-{
-    if (section == 0) {
-        return PAdaptation_x(10);
-
-    }
-    if (section == 1) {
-        return 0;
-
-    }
-    if (section == 2) {
-        return 0;
-    }
-    return PAdaptation_x(10);
-}
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
-{
-    if (section == 0) {
-        return PAaptation_y(10);
-
-    }
-    if (section == 1) {
-        return 0;
-
-    }
-    if (section == 2) {
-        return 0;
-    }
-    return PAaptation_y(10);
-}
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
-{
-    if (section == 0) {
-        return CGSizeMake(SCREEN_WIDTH, PAaptation_y(30));
-    }
-    return CGSizeMake(SCREEN_WIDTH, PAaptation_y(73));
-}
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-{
-    if (section == 0) {
-        return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(18));
-    }
-    if (section == 1) {
-        return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(10));
-    }
-    if (section == 2) {
-        return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(10));
-    }
-
-    return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(18));
-
-}
-//显示header和footer的回调方法
-
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
-{
-   if (kind == UICollectionElementKindSectionHeader)
-   {
-       //如果想要自定义header，只需要定义UICollectionReusableView的子类A，然后在该处使用，注意AIdentifier要设为注册的字符串，此处为“header”
-
-       UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"header" forIndexPath:indexPath];
-       
-       for (id v in headerView.subviews)
-           [v removeFromSuperview];
-       
-       UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(PAdaptation_x(23), headerView.frame.size.height - PAaptation_y(30), SCREEN_WIDTH, PAaptation_y(30))];
-       label.font = [UIFont systemFontOfSize:14];
-       label.textColor = BWColor(34, 34, 34, 1.0);
-       [headerView addSubview:label];
-       
-       if (indexPath.section == 0) {
-           label.text = @"目的地選択:";
-       }else if(indexPath.section == 1){
-           label.text = @"散歩予定時間:";
-       }else if(indexPath.section == 2){
-           label.text = @"確認者(複数選択可):";
-       }else{
-           label.text = @"参加児童:";
-       }
-       
-       NSLog(@"11111111");
-
-       return headerView;
-   }
-
-   return nil;
-
-}
 #pragma mark - LazyLoad -
-- (UICollectionView *)collectionView
-{
-    if (!_collectionView) {
-        
-        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        // 设置滚动条方向
-        layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-        _collectionView.backgroundColor = [UIColor whiteColor];
-        _collectionView.showsVerticalScrollIndicator = NO;   //是否显示滚动条
-        _collectionView.scrollEnabled = YES;  //滚动使能
-        _collectionView.delegate = self;
-        _collectionView.dataSource = self;
-        //注册Cell，必须要有
-        [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"UICollectionViewCell"];
-        [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"header"];//注册header的view
-
-    }
-    return _collectionView;
-}
 - (HWalkMenuVC *)menuVC
 {
     if (!_menuVC) {
@@ -529,75 +257,26 @@
     }
     return _menuVC;
 }
-- (UIView *)bgView
+- (GMSMapView *)mapView
 {
-    if (!_bgView) {
-        _bgView = [[UIView alloc] init];
-        _bgView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
+    if (!_mapView) {
+        //设置地图view，这里是随便初始化了一个经纬度，在获取到当前用户位置到时候会直接更新的
+        GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:38.02 longitude:114.52 zoom:15];
+        _mapView = [GMSMapView mapWithFrame:CGRectMake(0, PAaptation_y(156), SCREEN_WIDTH,self.view.frame.size.height - PAaptation_y(110)-PAaptation_y(156)) camera:camera];
+        _mapView.delegate = self;
+        _mapView.settings.compassButton = YES;//显示指南针
+        //_mapView.settings.myLocationButton = YES;
+        //_mapView.myLocationEnabled = NO;
     }
-    return _bgView;
-}
-- (UIImageView *)topView
-{
-    if (!_topView) {
-        _topView = [[UIImageView alloc] init];
-        [_topView setImage:[UIImage imageNamed:@"menu_header.png"]];
-    }
-    return _topView;
-    
-}
-- (UIView *)titleView
-{
-    if (!_titleView) {
-        _titleView = [[UIView alloc] init];
-        _titleView.backgroundColor = [UIColor whiteColor];
-
-    }
-    return _titleView;
-}
-- (UILabel *)titleLabel
-{
-    if (!_titleLabel) {
-        _titleLabel = [[UILabel alloc] init];
-        _titleLabel.font = [UIFont boldSystemFontOfSize:32];
-    }
-    return _titleLabel;
-}
-- (UILabel *)dateLabel
-{
-    if (!_dateLabel) {
-        _dateLabel = [[UILabel alloc] init];
-        _dateLabel.font = [UIFont systemFontOfSize:14];
-    }
-    return _dateLabel;
+    return _mapView;
 }
 
-- (UIButton *)backBtn
+- (HSmallCardView *)smallMenuView
 {
-    if (!_backBtn) {
-        _backBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_backBtn setImage:[UIImage imageNamed:@"backBtn.png"] forState:UIControlStateNormal];
-        [_backBtn addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
+    if (!_smallMenuView) {
+        _smallMenuView = [[HSmallCardView alloc] initWithFrame:CGRectMake(PAdaptation_x(5), SCREEN_HEIGHT - PAaptation_y(200), PAdaptation_x(115), PAaptation_y(79))];
     }
-    return _backBtn;
-}
-- (UIView *)footerView
-{
-    if (!_footerView) {
-        _footerView = [[UIView alloc] init];
-        _footerView.backgroundColor = BWColor(244, 244, 244, 1);
-
-    }
-    return _footerView;
-}
-- (UIButton *)startWalkBtn
-{
-    if (!_startWalkBtn) {
-        _startWalkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _startWalkBtn.enabled = NO;
-        [_startWalkBtn setImage:[UIImage imageNamed:@"walkStart_no.png"] forState:UIControlStateNormal];
-    }
-    return _startWalkBtn;
+    return _smallMenuView;
 }
 
 @end
