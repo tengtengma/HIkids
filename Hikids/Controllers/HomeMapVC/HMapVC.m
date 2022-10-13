@@ -110,9 +110,6 @@
     [self createMapView];
     [self startDrawFence];
     
-//    /* 开始定位*/
-//    [self startLocation];
-    
     
 }
 - (void)startGetStudentLocationRequest
@@ -274,6 +271,8 @@
            
         }];
         
+        [weakSelf startWalkMode];
+        
         
     };
     
@@ -299,6 +298,68 @@
         weakSelf.menuWalkVC.view.frame = CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
 
     }];
+}
+//开启散步模式
+- (void)startWalkMode
+{
+    [self.mapView clear];
+    
+    [self startLocation];
+}
+- (void)startLocation {
+    if ([CLLocationManager locationServicesEnabled] &&
+        ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways)) {
+        //定位功能可用
+        _locationManager = [[CLLocationManager alloc]init];
+        _locationManager.delegate = self;
+        [_locationManager requestWhenInUseAuthorization];
+        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;//设置定位精度
+        _locationManager.distanceFilter = 10;//设置定位频率，每隔多少米定位一次
+        [_locationManager startUpdatingLocation];
+    } else {
+        //定位不能用
+//        [self locationPermissionAlert];
+//        [SVProgressHUD dismiss];
+    }
+
+}
+
+#pragma mark - 系统自带location代理定位
+-(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    if ([error code] == kCLErrorDenied) {
+        NSLog(@"访问被拒绝");
+//        [self locationPermissionAlert];
+    }
+    if ([error code] == kCLErrorLocationUnknown) {
+        NSLog(@"无法获取位置信息");
+    }
+//    [SVProgressHUD dismiss];
+}
+- (void)locationManager:(CLLocationManager*)manager didUpdateLocations:(NSArray *)locations {
+    if(!_firstLocationUpdate){
+        _firstLocationUpdate = YES;//只定位一次的标记值
+        // 获取最新定位 手机自己的定位
+        CLLocation *location = locations.lastObject;
+        // 停止定位
+        [_locationManager stopUpdatingLocation];
+
+
+       //替换自己的坐标
+        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude);
+
+        //如果是国内，就会转化坐标系，如果是国外坐标，则不会转换。
+//        _coordinate2D = [JZLocationConverter wgs84ToGcj02:location.coordinate];
+        //移动地图中心到当前位置
+        self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:18];
+
+        self.marker = [GMSMarker markerWithPosition:coordinate];
+        self.marker.map = self.mapView;
+        self.mapView.settings.myLocationButton = YES;
+        
+        [self startGetStudentLocationRequest];
+
+//        [self getPlace:_coordinate2D];
+    }
 }
 
 -(void)mapViewDidFinishTileRendering:(GMSMapView *)mapView{
