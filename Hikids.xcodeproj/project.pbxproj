@@ -101,6 +101,16 @@
 		9EDF521928F6FB5C0066BFDC /* navBG_danger@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EDF521528F6FB5B0066BFDC /* navBG_danger@3x.png */; };
 		9EDF521A28F6FB5C0066BFDC /* navBG_safe@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EDF521628F6FB5B0066BFDC /* navBG_safe@3x.png */; };
 		9EDF521B28F6FB5C0066BFDC /* navBG_danger@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EDF521728F6FB5B0066BFDC /* navBG_danger@2x.png */; };
+		9EDF521E28FA82C00066BFDC /* HWalkStudentStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EDF521D28FA82C00066BFDC /* HWalkStudentStateView.m */; };
+		9EDF522128FA99D60066BFDC /* HStudentStateInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EDF522028FA99D60066BFDC /* HStudentStateInfoView.m */; };
+		9EDF522A28FA9B480066BFDC /* guihualujing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EDF522428FA9B480066BFDC /* guihualujing@2x.png */; };
+		9EDF522B28FA9B480066BFDC /* guihualujing@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EDF522528FA9B480066BFDC /* guihualujing@3x.png */; };
+		9EDF522C28FA9B480066BFDC /* thirdlujing@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EDF522628FA9B480066BFDC /* thirdlujing@2x.png */; };
+		9EDF522D28FA9B480066BFDC /* thirdlujing@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EDF522728FA9B480066BFDC /* thirdlujing@3x.png */; };
+		9EDF522E28FA9B480066BFDC /* naoling@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EDF522828FA9B480066BFDC /* naoling@3x.png */; };
+		9EDF522F28FA9B480066BFDC /* naoling@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EDF522928FA9B480066BFDC /* naoling@2x.png */; };
+		9EDF523228FAA4510066BFDC /* walkEnd@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EDF523028FAA4510066BFDC /* walkEnd@2x.png */; };
+		9EDF523328FAA4510066BFDC /* walkEnd@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EDF523128FAA4510066BFDC /* walkEnd@3x.png */; };
 		9EF21B2A28D985050075CFF0 /* btn_login_unavailable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EF21B1828D985050075CFF0 /* btn_login_unavailable@2x.png */; };
 		9EF21B2B28D985050075CFF0 /* btn_login_unavailable@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EF21B1928D985050075CFF0 /* btn_login_unavailable@3x.png */; };
 		9EF21B2C28D985050075CFF0 /* help@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EF21B1A28D985050075CFF0 /* help@2x.png */; };
@@ -287,6 +297,18 @@
 		9EDF521528F6FB5B0066BFDC /* navBG_danger@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navBG_danger@3x.png"; sourceTree = "<group>"; };
 		9EDF521628F6FB5B0066BFDC /* navBG_safe@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navBG_safe@3x.png"; sourceTree = "<group>"; };
 		9EDF521728F6FB5B0066BFDC /* navBG_danger@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navBG_danger@2x.png"; sourceTree = "<group>"; };
+		9EDF521C28FA82C00066BFDC /* HWalkStudentStateView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWalkStudentStateView.h; sourceTree = "<group>"; };
+		9EDF521D28FA82C00066BFDC /* HWalkStudentStateView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWalkStudentStateView.m; sourceTree = "<group>"; };
+		9EDF521F28FA99D60066BFDC /* HStudentStateInfoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HStudentStateInfoView.h; sourceTree = "<group>"; };
+		9EDF522028FA99D60066BFDC /* HStudentStateInfoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HStudentStateInfoView.m; sourceTree = "<group>"; };
+		9EDF522428FA9B480066BFDC /* guihualujing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "guihualujing@2x.png"; sourceTree = "<group>"; };
+		9EDF522528FA9B480066BFDC /* guihualujing@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "guihualujing@3x.png"; sourceTree = "<group>"; };
+		9EDF522628FA9B480066BFDC /* thirdlujing@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thirdlujing@2x.png"; sourceTree = "<group>"; };
+		9EDF522728FA9B480066BFDC /* thirdlujing@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thirdlujing@3x.png"; sourceTree = "<group>"; };
+		9EDF522828FA9B480066BFDC /* naoling@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "naoling@3x.png"; sourceTree = "<group>"; };
+		9EDF522928FA9B480066BFDC /* naoling@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "naoling@2x.png"; sourceTree = "<group>"; };
+		9EDF523028FAA4510066BFDC /* walkEnd@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "walkEnd@2x.png"; sourceTree = "<group>"; };
+		9EDF523128FAA4510066BFDC /* walkEnd@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "walkEnd@3x.png"; sourceTree = "<group>"; };
 		9EF21B1828D985050075CFF0 /* btn_login_unavailable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_login_unavailable@2x.png"; sourceTree = "<group>"; };
 		9EF21B1928D985050075CFF0 /* btn_login_unavailable@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_login_unavailable@3x.png"; sourceTree = "<group>"; };
 		9EF21B1A28D985050075CFF0 /* help@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "help@2x.png"; sourceTree = "<group>"; };
@@ -418,6 +440,8 @@
 		9E17D1B228ED5629005FA5A9 /* WalkUI */ = {
 			isa = PBXGroup;
 			children = (
+				9EDF523028FAA4510066BFDC /* walkEnd@2x.png */,
+				9EDF523128FAA4510066BFDC /* walkEnd@3x.png */,
 				9E17D1D728EE7B85005FA5A9 /* walkStart_no@2x.png */,
 				9E17D1D628EE7B85005FA5A9 /* walkStart_no@3x.png */,
 				9E17D1D828EE7B85005FA5A9 /* walkStart@2x.png */,
@@ -601,6 +625,9 @@
 				9E1F219A28E168A000C5041B /* NavigationView */,
 				9E03E93928F569E500C30577 /* HStudentStateView.h */,
 				9E03E93A28F569E500C30577 /* HStudentStateView.m */,
+				9EDF521C28FA82C00066BFDC /* HWalkStudentStateView.h */,
+				9EDF521D28FA82C00066BFDC /* HWalkStudentStateView.m */,
+				9EDF522228FA9B250066BFDC /* HStudentStateInfoView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -788,6 +815,29 @@
 			path = LoginVC;
 			sourceTree = "<group>";
 		};
+		9EDF522228FA9B250066BFDC /* HStudentStateInfoView */ = {
+			isa = PBXGroup;
+			children = (
+				9EDF522328FA9B360066BFDC /* UI */,
+				9EDF521F28FA99D60066BFDC /* HStudentStateInfoView.h */,
+				9EDF522028FA99D60066BFDC /* HStudentStateInfoView.m */,
+			);
+			path = HStudentStateInfoView;
+			sourceTree = "<group>";
+		};
+		9EDF522328FA9B360066BFDC /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				9EDF522428FA9B480066BFDC /* guihualujing@2x.png */,
+				9EDF522528FA9B480066BFDC /* guihualujing@3x.png */,
+				9EDF522928FA9B480066BFDC /* naoling@2x.png */,
+				9EDF522828FA9B480066BFDC /* naoling@3x.png */,
+				9EDF522628FA9B480066BFDC /* thirdlujing@2x.png */,
+				9EDF522728FA9B480066BFDC /* thirdlujing@3x.png */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		9EF21B1728D985050075CFF0 /* loginUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -884,6 +934,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9EDF522D28FA9B480066BFDC /* thirdlujing@3x.png in Resources */,
 				9E1F21AF28E174AA00C5041B /* line@2x.png in Resources */,
 				9E0B547828B21E660026CD86 /* LaunchScreen.storyboard in Resources */,
 				9EF21B3928D985050075CFF0 /* icon_checked@2x.png in Resources */,
@@ -897,6 +948,7 @@
 				9EDF521B28F6FB5C0066BFDC /* navBG_danger@2x.png in Resources */,
 				9E1F21BA28E1805700C5041B /* btn_menu_sleep@3x.png in Resources */,
 				9EF21B3228D985050075CFF0 /* TextArea_Login@2x.png in Resources */,
+				9EDF522B28FA9B480066BFDC /* guihualujing@3x.png in Resources */,
 				9E17D1B528ED563F005FA5A9 /* backBtn@2x.png in Resources */,
 				9E17D1BD28ED68B5005FA5A9 /* default_mdd@3x.png in Resources */,
 				9E17D19A28EABD96005FA5A9 /* safe@3x.png in Resources */,
@@ -906,7 +958,9 @@
 				9E1F21B028E174AA00C5041B /* line@3x.png in Resources */,
 				9E17D19928EABD96005FA5A9 /* safe@2x.png in Resources */,
 				9E17D1B628ED563F005FA5A9 /* backBtn@3x.png in Resources */,
+				9EDF522E28FA9B480066BFDC /* naoling@3x.png in Resources */,
 				9EF21B3828D985050075CFF0 /* icon_checked@3x.png in Resources */,
+				9EDF523328FAA4510066BFDC /* walkEnd@3x.png in Resources */,
 				9EC72A2728D8357A00494A74 /* Localizable.strings in Resources */,
 				9EF21B3428D985050075CFF0 /* icon_check@3x.png in Resources */,
 				9E17D1DC28EE7B85005FA5A9 /* walkStart@2x.png in Resources */,
@@ -931,11 +985,15 @@
 				9E1F21D228E2D1E900C5041B /* triangle_small@3x.png in Resources */,
 				9E17D1A528ED1E6B005FA5A9 /* safeView@2x.png in Resources */,
 				9E1F21BC28E1805700C5041B /* btn_menu_walk@2x.png in Resources */,
+				9EDF522F28FA9B480066BFDC /* naoling@2x.png in Resources */,
 				9EF21B3528D985050075CFF0 /* icon_mail@2x.png in Resources */,
 				9EF21B3328D985050075CFF0 /* logo@2x.png in Resources */,
 				9EDF521128F6F69A0066BFDC /* safeIcon@2x.png in Resources */,
+				9EDF522C28FA9B480066BFDC /* thirdlujing@2x.png in Resources */,
+				9EDF523228FAA4510066BFDC /* walkEnd@2x.png in Resources */,
 				9EDF521A28F6FB5C0066BFDC /* navBG_safe@3x.png in Resources */,
 				9E1F21AB28E1722500C5041B /* menu_header@3x.png in Resources */,
+				9EDF522A28FA9B480066BFDC /* guihualujing@2x.png in Resources */,
 				9EF21B3128D985050075CFF0 /* TextArea_Login@3x.png in Resources */,
 				9EDF521828F6FB5C0066BFDC /* navBG_safe@2x.png in Resources */,
 				9EF21B2F28D985050075CFF0 /* icon_check@2x.png in Resources */,
@@ -1034,10 +1092,12 @@
 				9E17D1D428EE72AD005FA5A9 /* HStudent.m in Sources */,
 				9E2DF83628B223AD00B0C9DA /* HRootVC.m in Sources */,
 				9E17D1C728EDAB03005FA5A9 /* BWGetDestnationResp.m in Sources */,
+				9EDF521E28FA82C00066BFDC /* HWalkStudentStateView.m in Sources */,
 				9E1F21A628E16E4300C5041B /* HSleepVC.m in Sources */,
 				9E1F21C328E1972400C5041B /* HWalkVC.m in Sources */,
 				9E17D1F128F005E1005FA5A9 /* BWDestnationInfoResp.m in Sources */,
 				9E17D1CE28EE7261005FA5A9 /* BWGetStudentReq.m in Sources */,
+				9EDF522128FA99D60066BFDC /* HStudentStateInfoView.m in Sources */,
 				9E1F21C828E1A0CC00C5041B /* HHomeStateCell.m in Sources */,
 				9EC72A3528D84FFA00494A74 /* HInputView.m in Sources */,
 				9E8344B828C7912C00AB9D83 /* BWCheckTokenReq.m in Sources */,

@@ -378,6 +378,10 @@
 
     };
 }
+- (void)tableReload
+{
+    [self.tableView reloadData];
+}
 #pragma mark - LazyLoad -
 - (UITableView *)tableView
 {

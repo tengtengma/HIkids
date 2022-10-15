@@ -19,6 +19,8 @@
 #import "BWStudentLocationResp.h"
 #import "HStudent.h"
 #import "HWalkMenuVC.h"
+#import "HWalkStudentStateView.h"
+#import "HStudentStateInfoView.h"
 
 
 @interface HMapVC ()<GMSMapViewDelegate,GMSAutocompleteViewControllerDelegate,CLLocationManagerDelegate>
@@ -36,6 +38,11 @@
 @property (nonatomic,strong) GMSPlacesClient * placesClient;//可以获取某个地方的信息
 @property (nonatomic,strong) HLocation *myLocation;
 @property (nonatomic,strong) NSTimer *timer;
+@property (nonatomic,strong) HWalkStudentStateView *walkStateView;
+@property (nonatomic,strong) NSString *type; //0校园内。1散步 2目的地
+@property (nonatomic,strong) HStudentStateInfoView *stateInfoView;
+
+
 @end
 
 @implementation HMapVC
@@ -58,16 +65,73 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self startRequest];
     
     self.timer = [NSTimer scheduledTimerWithTimeInterval:15*60 target:self selector:@selector(startGetStudentLocationRequest) userInfo:nil repeats:YES];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeVCAction:) name:@"changeVCNotification" object:nil];
+    
+    
+    [self.view addSubview:self.mapView];
+
+    [self.view addSubview:self.walkStateView];
+    
+    self.menuHomeVC.view.frame = CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(110), SCREEN_WIDTH, SCREEN_HEIGHT);
+    [self.view addSubview:self.menuHomeVC.view];
+    
+    self.menuWalkVC.view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
+    [self.view addSubview:self.menuWalkVC.view];
+
+    
+    [self.view addSubview:self.smallMenuView];
+    
+    [self.stateInfoView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, PAaptation_y(351))];
+    [self.view addSubview:self.stateInfoView];
+    
+    
+    
+    [self startStayMode];
+    
+    
+    [self modeChangeBlock];
 
 
 }
+//开启园内模式
+- (void)startStayMode
+{
+    self.type = @"0";
+    [self startRequest];
+
+}
+//开启散步模式
+- (void)startWalkMode
+{
+    self.type = @"1";
+    
+    [self.mapView clear];
+    
+    //开启定位
+    [self startLocation];
+    
+    self.menuHomeVC.view.hidden = YES;
+        
+    self.walkStateView.hidden = NO;
+    
+}
+//开启目的地模式
+- (void)startDestMode
+{
+    self.type = @"2";
+}
+//开启返程模式
+- (void)startBackMode
+{
+    self.type = @"3";
+}
+
 - (void)startRequest
 {
+    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     DefineWeakSelf;
     BWDestnationInfoReq *infoReq = [[BWDestnationInfoReq alloc] init];
@@ -107,7 +171,6 @@
     
     self.myLocation = myLocation;
     
-    [self createMapView];
     [self startDrawFence];
     
     
@@ -129,6 +192,19 @@
         [weakSelf createSmallView];
         [weakSelf addMarkers]; //添加学生位置坐标
         [weakSelf setupNavInfomation];
+        
+        weakSelf.walkStateView.nomalArray = weakSelf.nomalArray;
+        weakSelf.walkStateView.exceptArray = weakSelf.exceptArray;
+        
+        
+        if (weakSelf.exceptArray.count == 0) {
+            [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(140), SCREEN_WIDTH, PAaptation_y(140))];
+        }else{
+            [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(280), SCREEN_WIDTH, PAaptation_y(280))];
+        }
+
+        [weakSelf.walkStateView tableReload];
+        [weakSelf.menuHomeVC tableReload];
 
         
     } failure:^(BWBaseReq *req, NSError *error) {
@@ -136,37 +212,146 @@
         [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
     }];
 }
-- (void)createMapView
+
+- (void)modeChangeBlock
 {
-    [self.view addSubview:self.mapView];
+    DefineWeakSelf;
+    //关闭开始散步菜单
+    self.menuWalkVC.closeBlock = ^{
+        
+        [UIView animateWithDuration:0.25 animations:^{
+            weakSelf.menuWalkVC.view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
+           
+        }];
+    };
+    
+    //开启散步模式
+    self.menuWalkVC.startWalkBlock = ^(HWalkTask * _Nonnull walkTask) {
+        [UIView animateWithDuration:0.25 animations:^{
+            weakSelf.menuWalkVC.view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
+           
+        }];
+        
+        [weakSelf startWalkMode];
+        
+        
+    };
+    
+    //结束散步模式
+    self.walkStateView.walkEndBlock = ^{
+        weakSelf.type = @"1";
+        [weakSelf startStayMode];
+        
+        weakSelf.menuHomeVC.view.hidden = NO;
+        weakSelf.walkStateView.hidden = YES;
+        weakSelf.mapView.myLocationEnabled = NO;
+        
+        [weakSelf.locationManager stopUpdatingLocation];
+
+    };
+    
+    //小窗口点击
+    self.smallMenuView.clickBlock = ^{
+        
+    };
+    
+    
+    //marks的详情
+    self.stateInfoView.closeBlock = ^{
+        [weakSelf hideStateInfoView];
+
+    };
 }
 - (void)setupNavInfomation{
     
-    if (self.exceptArray.count == 0) {
-        
-        self.customNavigationView.titleLabel.text = @"在園中";
-        self.customNavigationView.stateLabel.text = @"安全";
-        self.customNavigationView.stateLabel.textColor = BWColor(0, 176, 107, 1);
-        [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_safe.png"]];
+    if (self.type.integerValue == 0) {
+        NSLog(@"在园中模式");
+        if (self.exceptArray.count == 0) {
+            
+            self.customNavigationView.titleLabel.text = @"在園中";
+            self.customNavigationView.stateLabel.text = @"安全";
+            self.customNavigationView.stateLabel.textColor = BWColor(0, 176, 107, 1);
+            [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_safe.png"]];
 
-        self.customNavigationView.updateTimeLabel.text = @"最终更新：3分钟";
-        self.customNavigationView.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
+            self.customNavigationView.updateTimeLabel.text = @"最终更新：3分钟";
+            self.customNavigationView.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
+            
+            self.customNavigationView.userNameLabel.text = @"ひまわり";
+            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
+            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
+        }else{
+            [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_danger.png"]];
+            self.customNavigationView.titleLabel.text = @"在園中";
+            self.customNavigationView.stateLabel.text = @"危险";
+            self.customNavigationView.stateLabel.textColor = BWColor(164, 0, 0, 1);
+            self.customNavigationView.updateTimeLabel.text = @"最终更新：3分钟";
+            self.customNavigationView.updateTimeLabel.textColor = BWColor(164, 0, 0, 1);
         
-        self.customNavigationView.userNameLabel.text = @"ひまわり";
-        [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
-        [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
-    }else{
-        [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_danger.png"]];
-        self.customNavigationView.titleLabel.text = @"在園中";
-        self.customNavigationView.stateLabel.text = @"危险";
-        self.customNavigationView.stateLabel.textColor = BWColor(164, 0, 0, 1);
-        self.customNavigationView.updateTimeLabel.text = @"最终更新：3分钟";
-        self.customNavigationView.updateTimeLabel.textColor = BWColor(164, 0, 0, 1);
-    
-        self.customNavigationView.userNameLabel.text = @"ひまわり";
-        [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"dangerIcon.png"]];
-        [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
+            self.customNavigationView.userNameLabel.text = @"ひまわり";
+            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"dangerIcon.png"]];
+            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
+        }
     }
+    if (self.type.integerValue == 1) {
+        NSLog(@"散步模式");
+        
+        if (self.exceptArray.count == 0) {
+            
+            self.customNavigationView.titleLabel.text = @"散歩中（経路）";
+            self.customNavigationView.stateLabel.text = @"安全";
+            self.customNavigationView.stateLabel.textColor = BWColor(0, 176, 107, 1);
+            [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_safe.png"]];
+
+            self.customNavigationView.updateTimeLabel.text = @"最终更新：3分钟";
+            self.customNavigationView.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
+            
+            self.customNavigationView.userNameLabel.text = @"ひまわり";
+            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
+            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
+        }else{
+            [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_danger.png"]];
+            self.customNavigationView.titleLabel.text = @"散歩中（経路）";
+            self.customNavigationView.stateLabel.text = @"危险";
+            self.customNavigationView.stateLabel.textColor = BWColor(164, 0, 0, 1);
+            self.customNavigationView.updateTimeLabel.text = @"最终更新：3分钟";
+            self.customNavigationView.updateTimeLabel.textColor = BWColor(164, 0, 0, 1);
+        
+            self.customNavigationView.userNameLabel.text = @"ひまわり";
+            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"dangerIcon.png"]];
+            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
+        }
+    }
+    if (self.type.integerValue == 3) {
+        NSLog(@"目的地模式");
+        
+        if (self.exceptArray.count == 0) {
+            
+            self.customNavigationView.titleLabel.text = @"散歩中（経路）";
+            self.customNavigationView.stateLabel.text = @"安全";
+            self.customNavigationView.stateLabel.textColor = BWColor(0, 176, 107, 1);
+            [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_safe.png"]];
+
+            self.customNavigationView.updateTimeLabel.text = @"最终更新：3分钟";
+            self.customNavigationView.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
+            
+            self.customNavigationView.userNameLabel.text = @"ひまわり";
+            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
+            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
+        }else{
+            [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_danger.png"]];
+            self.customNavigationView.titleLabel.text = @"散歩中（経路）";
+            self.customNavigationView.stateLabel.text = @"危险";
+            self.customNavigationView.stateLabel.textColor = BWColor(164, 0, 0, 1);
+            self.customNavigationView.updateTimeLabel.text = @"最终更新：3分钟";
+            self.customNavigationView.updateTimeLabel.textColor = BWColor(164, 0, 0, 1);
+        
+            self.customNavigationView.userNameLabel.text = @"ひまわり";
+            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"dangerIcon.png"]];
+            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
+        }
+    }
+
+
     
 
 }
@@ -251,34 +436,7 @@
 //}
 - (void)createSmallView
 {
-    self.menuHomeVC.view.frame = CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(110), SCREEN_WIDTH, SCREEN_HEIGHT);
-    [self.view addSubview:self.menuHomeVC.view];
-    
-    self.menuWalkVC.view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
-    [self.view addSubview:self.menuWalkVC.view];
-    DefineWeakSelf;
-    self.menuWalkVC.closeBlock = ^{
-        
-        [UIView animateWithDuration:0.25 animations:^{
-            weakSelf.menuWalkVC.view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
-           
-        }];
-    };
-    
-    self.menuWalkVC.startWalkBlock = ^(HWalkTask * _Nonnull walkTask) {
-        [UIView animateWithDuration:0.25 animations:^{
-            weakSelf.menuWalkVC.view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
-           
-        }];
-        
-        [weakSelf startWalkMode];
-        
-        
-    };
-    
-    
-    [self.view addSubview:self.smallMenuView];
-    
+
     self.menuHomeVC.cardView = self.smallMenuView;
     self.menuHomeVC.nomalArray = self.nomalArray;
     self.menuHomeVC.exceptArray = self.exceptArray;
@@ -286,9 +444,6 @@
     self.smallMenuView.safeLabel.text = [NSString stringWithFormat:@"使用中%ld人",self.nomalArray.count + self.exceptArray.count];
     self.smallMenuView.dangerLabel.text = @"アラート0回";
     
-    self.smallMenuView.clickBlock = ^{
-        
-    };
 }
 - (void)changeVCAction:(NSNotification *)noti
 {
@@ -299,23 +454,13 @@
 
     }];
 }
-//开启散步模式
-- (void)startWalkMode
-{
-    [self.mapView clear];
-    
-    [self startLocation];
-}
+
 - (void)startLocation {
     if ([CLLocationManager locationServicesEnabled] &&
         ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways)) {
         //定位功能可用
-        _locationManager = [[CLLocationManager alloc]init];
-        _locationManager.delegate = self;
-        [_locationManager requestWhenInUseAuthorization];
-        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;//设置定位精度
-        _locationManager.distanceFilter = 10;//设置定位频率，每隔多少米定位一次
-        [_locationManager startUpdatingLocation];
+
+        [self.locationManager startUpdatingLocation];
     } else {
         //定位不能用
 //        [self locationPermissionAlert];
@@ -336,12 +481,12 @@
 //    [SVProgressHUD dismiss];
 }
 - (void)locationManager:(CLLocationManager*)manager didUpdateLocations:(NSArray *)locations {
-    if(!_firstLocationUpdate){
-        _firstLocationUpdate = YES;//只定位一次的标记值
+//    if(!_firstLocationUpdate){
+//        _firstLocationUpdate = YES;//只定位一次的标记值
         // 获取最新定位 手机自己的定位
         CLLocation *location = locations.lastObject;
         // 停止定位
-        [_locationManager stopUpdatingLocation];
+        [self.locationManager stopUpdatingLocation];
 
 
        //替换自己的坐标
@@ -355,11 +500,12 @@
         self.marker = [GMSMarker markerWithPosition:coordinate];
         self.marker.map = self.mapView;
         self.mapView.settings.myLocationButton = YES;
+        self.mapView.myLocationEnabled = YES;
         
         [self startGetStudentLocationRequest];
 
 //        [self getPlace:_coordinate2D];
-    }
+//    }
 }
 
 -(void)mapViewDidFinishTileRendering:(GMSMapView *)mapView{
@@ -411,11 +557,30 @@ didFailAutocompleteWithError:(NSError *)error {
 }
 -(BOOL)mapView:(GMSMapView *) mapView didTapMarker:(GMSMarker *)marker
 {
+    [self hideStateInfoView];
+    
     HStudent *student = marker.userData;
     NSLog(@"点击了%@",student.name);
+    [self.stateInfoView setInfomationWithModel:student];
+    [self showStateInfoView];
+    
+
     return YES;
 }
-
+- (void)showStateInfoView
+{
+    DefineWeakSelf;
+    [UIView animateWithDuration:0.25 animations:^{
+        [weakSelf.stateInfoView setFrame:CGRectMake(0, SCREEN_HEIGHT - PAaptation_y(351), SCREEN_WIDTH, PAaptation_y(351))];
+    }];
+}
+- (void)hideStateInfoView
+{
+    DefineWeakSelf;
+    [UIView animateWithDuration:0.25 animations:^{
+        [weakSelf.stateInfoView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, PAaptation_y(351))];
+    }];
+}
 
 -(void)dealloc{
 //    [SVProgressHUD dismiss];
@@ -458,5 +623,31 @@ didFailAutocompleteWithError:(NSError *)error {
     }
     return _smallMenuView;
 }
-
+- (HWalkStudentStateView *)walkStateView
+{
+    if (!_walkStateView) {
+        _walkStateView = [[HWalkStudentStateView alloc] init];
+        _walkStateView.hidden = YES;
+    }
+    return _walkStateView;
+}
+- (HStudentStateInfoView *)stateInfoView
+{
+    if (!_stateInfoView) {
+        _stateInfoView = [[HStudentStateInfoView alloc] init];
+        _stateInfoView.backgroundColor = [UIColor whiteColor];
+    }
+    return _stateInfoView;
+}
+- (CLLocationManager *)locationManager
+{
+    if (!_locationManager) {
+        _locationManager = [[CLLocationManager alloc]init];
+        _locationManager.delegate = self;
+        [_locationManager requestWhenInUseAuthorization];
+        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;//设置定位精度
+        _locationManager.distanceFilter = 10;//设置定位频率，每隔多少米定位一次
+    }
+    return _locationManager;
+}
 @end

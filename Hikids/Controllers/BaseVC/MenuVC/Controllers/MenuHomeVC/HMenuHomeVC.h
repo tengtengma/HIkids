@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)clickMenuAction:(UITapGestureRecognizer *)tap;
 - (void)showMenuVC;
 - (void)closeMenuVC;
+- (void)tableReload;
 @end
 
 NS_ASSUME_NONNULL_END
