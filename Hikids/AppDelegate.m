@@ -11,6 +11,8 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import <GooglePlaces/GooglePlaces.h>
 #import <CoreLocation/CoreLocation.h>
+#import <UserNotifications/UserNotifications.h>
+
 
 @interface AppDelegate ()
 
@@ -36,6 +38,8 @@
     }
     [self.window makeKeyAndVisible];
     
+    [self registerAPN];
+    
     return YES;
 }
 #pragma mark - 初始化google地图
@@ -43,6 +47,19 @@
 {
     [GMSServices provideAPIKey:APIKEY_Google];
     [GMSPlacesClient provideAPIKey:APIKEY_Google];
+}
+#pragma mark - 初始化本地推送 -
+- (void)registerAPN {
+
+    if (@available(iOS 10.0, *)) {
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert + UNAuthorizationOptionSound) completionHandler:^(BOOL granted, NSError * _Nullable error) {
+            
+        }];
+    } else {
+        UIUserNotificationSettings *setting = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:setting];
+    }
 }
 
 

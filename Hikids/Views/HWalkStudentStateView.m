@@ -9,6 +9,7 @@
 #import "HStudent.h"
 
 @interface HWalkStudentStateView()<UITableViewDelegate,UITableViewDataSource>
+@property (nonatomic, strong) UIImageView *topView;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *dataArray;
 @property (nonatomic, strong) UIView *footerView;
@@ -21,10 +22,20 @@
 {
     if (self = [super init]) {
         
+        [self addSubview:self.topView];
+        [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self);
+            make.left.equalTo(self);
+            make.width.equalTo(self);
+            make.height.mas_equalTo(PAaptation_y(32));
+        }];
         
         [self addSubview:self.tableView];
         [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self);
+            make.top.equalTo(self.topView.mas_bottom);
+            make.left.equalTo(self);
+            make.width.equalTo(self);
+            make.height.equalTo(self);
         }];
                 
         
@@ -221,11 +232,17 @@
         self.walkEndBlock();
     }
 }
+- (void)clickTopViewAction
+{
+    if (self.ShowOrHideWalkStateViewBlock) {
+        self.ShowOrHideWalkStateViewBlock();
+    }
+}
 - (void)clickExpandAction:(UIButton *)button
 {
-//    if (self.closeBlock) {
-//        self.closeBlock();
-//    }
+    if (self.closeExpandBlock) {
+        self.closeExpandBlock();
+    }
 }
 - (void)createStudentViewWithArray:(NSArray *)array topView:(UIView *)topView bgView:(UIView *)bgView
 {
@@ -258,9 +275,11 @@
 }
 - (void)tableReload
 {
-
     [self.tableView reloadData];
 }
+
+
+#pragma mark - LazyLoad -
 - (UITableView *)tableView
 {
     if (!_tableView) {
@@ -269,5 +288,28 @@
         _tableView.dataSource = self;
     }
     return _tableView;
+}
+- (UIImageView *)topView
+{
+    if (!_topView) {
+        _topView = [[UIImageView alloc] init];
+        _topView.userInteractionEnabled = YES;
+        [_topView setImage:[UIImage imageNamed:@"menu_header.png"]];
+        
+        UIImageView *lineView = [[UIImageView alloc] init];
+        [lineView setImage:[UIImage imageNamed:@"line.png"]];
+        [_topView addSubview:lineView];
+        
+        [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(_topView);
+            make.width.mas_equalTo(PAdaptation_x(64));
+            make.height.mas_equalTo(PAaptation_y(6));
+        }];
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickTopViewAction)];
+        [_topView addGestureRecognizer:tap];
+    }
+    return _topView;
+    
 }
 @end

@@ -1306,8 +1306,9 @@
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "访问蓝牙权限以用于设备数据读取和发送";
 				INFOPLIST_KEY_NSCameraUsageDescription = "需要修改用户头像功能，是否允许此App使用你的相机？";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "需要局域网权限用来播放本地离线视频，是否允许使用？";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "App需要获取定位权限来选择您的地址";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "我们需要通过您的位置获取周边信息";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "App需要获取定位权限来选择您的地址";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "我们需要通过您的位置获取周边信息";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "需要保存图片，是否允许此App使用你的图片库？";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "需要修改用户头像或者反馈功能，是否允许此App访问你的媒体资料库？";
 				INFOPLIST_KEY_NSUserTrackingUsageDescription = "需要使用您的设备ID，用来进行bug统计及app数据分析";
@@ -1351,8 +1352,9 @@
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "访问蓝牙权限以用于设备数据读取和发送";
 				INFOPLIST_KEY_NSCameraUsageDescription = "需要修改用户头像功能，是否允许此App使用你的相机？";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "需要局域网权限用来播放本地离线视频，是否允许使用？";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "App需要获取定位权限来选择您的地址";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "我们需要通过您的位置获取周边信息";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "App需要获取定位权限来选择您的地址";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "我们需要通过您的位置获取周边信息";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "需要保存图片，是否允许此App使用你的图片库？";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "需要修改用户头像或者反馈功能，是否允许此App访问你的媒体资料库？";
 				INFOPLIST_KEY_NSUserTrackingUsageDescription = "需要使用您的设备ID，用来进行bug统计及app数据分析";

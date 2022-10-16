@@ -22,6 +22,12 @@
 #import "HWalkStudentStateView.h"
 #import "HStudentStateInfoView.h"
 
+#import <AudioToolbox/AudioToolbox.h>
+
+#import <UserNotifications/UserNotifications.h>
+
+
+
 
 @interface HMapVC ()<GMSMapViewDelegate,GMSAutocompleteViewControllerDelegate,CLLocationManagerDelegate>
 @property (nonatomic,strong) HMenuHomeVC *menuHomeVC;
@@ -41,7 +47,7 @@
 @property (nonatomic,strong) HWalkStudentStateView *walkStateView;
 @property (nonatomic,strong) NSString *type; //0校园内。1散步 2目的地
 @property (nonatomic,strong) HStudentStateInfoView *stateInfoView;
-
+@property (nonatomic,strong) NSTimer *shakeTimer;
 
 @end
 
@@ -51,12 +57,20 @@
 {
     [super viewWillAppear:animated];
     
+    //设置屏幕常亮
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+
     //开启定时器
      [self.timer setFireDate:[NSDate distantPast]];
 }
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+    
+    //取消设置屏幕常亮
+    
+    [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
     
     //关闭定时器
     [self.timer setFireDate:[NSDate distantFuture]];
@@ -67,6 +81,10 @@
     
     
     self.timer = [NSTimer scheduledTimerWithTimeInterval:15*60 target:self selector:@selector(startGetStudentLocationRequest) userInfo:nil repeats:YES];
+    
+//    self.shakeTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(showAlertAction) userInfo:nil repeats:YES];
+//    [[NSRunLoop currentRunLoop] addTimer:self.shakeTimer forMode:NSDefaultRunLoopMode];
+
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeVCAction:) name:@"changeVCNotification" object:nil];
     
@@ -93,6 +111,9 @@
     
     
     [self modeChangeBlock];
+    
+    [self setupNavInfomation];
+
 
 
 }
@@ -114,8 +135,11 @@
     [self startLocation];
     
     self.menuHomeVC.view.hidden = YES;
+    [self.menuHomeVC closeMenuVC];
         
     self.walkStateView.hidden = NO;
+    
+    self.smallMenuView.hidden = YES;
     
 }
 //开启目的地模式
@@ -135,7 +159,7 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     DefineWeakSelf;
     BWDestnationInfoReq *infoReq = [[BWDestnationInfoReq alloc] init];
-    infoReq.dId = @"1";
+    infoReq.dId = @"3"; //1目的地   3园区
     [NetManger getRequest:infoReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
         
         BWDestnationInfoResp *infoResp = (BWDestnationInfoResp *)resp;
@@ -197,14 +221,15 @@
         weakSelf.walkStateView.exceptArray = weakSelf.exceptArray;
         
         
-        if (weakSelf.exceptArray.count == 0) {
-            [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(140), SCREEN_WIDTH, PAaptation_y(140))];
-        }else{
-            [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(280), SCREEN_WIDTH, PAaptation_y(280))];
-        }
+//        if (weakSelf.exceptArray.count == 0) {
+            [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(120), SCREEN_WIDTH, PAaptation_y(140))];
+//        }else{
+//            [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(280), SCREEN_WIDTH, PAaptation_y(280))];
+//        }
 
         [weakSelf.walkStateView tableReload];
         [weakSelf.menuHomeVC tableReload];
+        
 
         
     } failure:^(BWBaseReq *req, NSError *error) {
@@ -219,18 +244,13 @@
     //关闭开始散步菜单
     self.menuWalkVC.closeBlock = ^{
         
-        [UIView animateWithDuration:0.25 animations:^{
-            weakSelf.menuWalkVC.view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
-           
-        }];
+        weakSelf.smallMenuView.hidden = NO;
+        [weakSelf hideWalkMenuVC];
     };
     
     //开启散步模式
     self.menuWalkVC.startWalkBlock = ^(HWalkTask * _Nonnull walkTask) {
-        [UIView animateWithDuration:0.25 animations:^{
-            weakSelf.menuWalkVC.view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
-           
-        }];
+        [weakSelf hideWalkMenuVC];
         
         [weakSelf startWalkMode];
         
@@ -261,13 +281,41 @@
         [weakSelf hideStateInfoView];
 
     };
+    
+    __block BOOL isShow = NO;
+    //散步时学生状态view
+    self.walkStateView.ShowOrHideWalkStateViewBlock = ^{
+        if (!isShow) {
+            
+            [UIView animateWithDuration:0.25 animations:^{
+                if (weakSelf.exceptArray.count == 0) {
+                    [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(120), SCREEN_WIDTH, PAaptation_y(140))];
+                }else{
+                    [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(280), SCREEN_WIDTH, PAaptation_y(280))];
+                }
+            }];
+
+        }else{
+            [UIView animateWithDuration:0.25 animations:^{
+                [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(120), SCREEN_WIDTH, PAaptation_y(140))];
+            }];
+
+        }
+        isShow = !isShow;
+    };
+    
+    self.walkStateView.closeExpandBlock = ^{
+        
+    };
 }
 - (void)setupNavInfomation{
+    
     
     if (self.type.integerValue == 0) {
         NSLog(@"在园中模式");
         if (self.exceptArray.count == 0) {
             
+
             self.customNavigationView.titleLabel.text = @"在園中";
             self.customNavigationView.stateLabel.text = @"安全";
             self.customNavigationView.stateLabel.textColor = BWColor(0, 176, 107, 1);
@@ -280,6 +328,10 @@
             [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
             [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
         }else{
+
+            [self showAlertAction];
+
+            
             [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_danger.png"]];
             self.customNavigationView.titleLabel.text = @"在園中";
             self.customNavigationView.stateLabel.text = @"危险";
@@ -309,6 +361,11 @@
             [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
             [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
         }else{
+            
+            [self showAlertAction];
+
+            
+            
             [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_danger.png"]];
             self.customNavigationView.titleLabel.text = @"散歩中（経路）";
             self.customNavigationView.stateLabel.text = @"危险";
@@ -338,6 +395,10 @@
             [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
             [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
         }else{
+            
+            [self showAlertAction];
+
+            
             [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_danger.png"]];
             self.customNavigationView.titleLabel.text = @"散歩中（経路）";
             self.customNavigationView.stateLabel.text = @"危险";
@@ -360,14 +421,9 @@
    
     //替换自己的坐标
     CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.myLocation.locationInfo.latitude, self.myLocation.locationInfo.longitude);
-     
-     //如果是国内，就会转化坐标系，如果是国外坐标，则不会转换。
-//        _coordinate2D = [JZLocationConverter wgs84ToGcj02:location.coordinate];
      //移动地图中心到当前位置
     self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:18];
-//    self.marker = [GMSMarker markerWithPosition:coordinate];
-//    self.marker.map = self.mapView;
-    
+
     [self drawPolygon];//画围栏
   
     
@@ -448,11 +504,7 @@
 - (void)changeVCAction:(NSNotification *)noti
 {
     self.smallMenuView.hidden = YES;
-    DefineWeakSelf;
-    [UIView animateWithDuration:0.25 animations:^{
-        weakSelf.menuWalkVC.view.frame = CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
-
-    }];
+    [self showWalkMenuVC];
 }
 
 - (void)startLocation {
@@ -465,9 +517,113 @@
         //定位不能用
 //        [self locationPermissionAlert];
 //        [SVProgressHUD dismiss];
+        [MBProgressHUD showMessag:@"定位不可用，请开启定位设置" toView:self.view hudModel:MBProgressHUDModeText hide:YES];
     }
 
 }
+- (void)showAlertAction
+{
+    NSLog(@"sadfsdfsadfsadf");
+//    [self.shakeTimer setFireDate:[NSDate distantPast]];
+
+    [self addLocalNotice];
+    //调用系统震动
+    [self getChatMessageGoToShake];
+    //调用系统声音
+    [self getChatMessageGoToSound];
+    
+    DefineWeakSelf;
+    [BWAlertCtrl alertControllerWithTitle:@"ご注意ください！" buttonArray:@[@"アラート停止"] message:@"Here’s to the crazy ones, the misfits, the rebels, the troublemakers..." preferredStyle:UIAlertControllerStyleAlert clickBlock:^(NSString *buttonTitle) {
+        
+        if ([buttonTitle isEqualToString:@"アラート停止"]) {
+//            [weakSelf.shakeTimer setFireDate:[NSDate distantFuture]];
+
+        }
+        
+    }];
+}
+#pragma  -mark -调用系统震动
+- (void)getChatMessageGoToShake
+{
+     //调用系统震动
+     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    
+
+}
+
+#pragma -mark -调用系统声音
+- (void)getChatMessageGoToSound
+{
+    //调用系统声音
+    NSString *path = [NSString stringWithFormat:@"/System/Library/Audio/UISounds/%@.%@",@"sms-received3",@"caf"];
+    if (path) {
+        SystemSoundID sd;
+        OSStatus error = AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:path],&sd);
+        //获取声音的时候出现错误
+        if (error != kAudioServicesNoError) {
+            NSLog(@"----调用系统声音出错----");
+            sd = 0;
+        }
+        AudioServicesPlaySystemSound(sd);
+    }
+}
+- (void)addLocalNotice {
+    if (@available(iOS 10.0, *)) {
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
+        // 标题
+        content.title = @"ご注意ください！";
+        content.subtitle = @"危険";
+        // 内容
+        content.body = @"Here’s to the crazy ones, the misfits, the rebels, the troublemakers...";
+        // 声音
+//        content.sound = [UNNotificationSound defaultSound];
+        content.sound = [UNNotificationSound soundNamed:@"Alert_ActivityGoalAttained_Salient_Haptic.caf"];
+        // 角标 （我这里测试的角标无效，暂时没找到原因）
+        content.badge = @1;
+        // 多少秒后发送,可以将固定的日期转化为时间
+        NSTimeInterval time = [[NSDate dateWithTimeIntervalSinceNow:3] timeIntervalSinceNow];
+        //        NSTimeInterval time = 10;
+                // repeats，是否重复，如果重复的话时间必须大于60s，要不会报错
+                UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:time repeats:NO];
+                
+                /*
+                //如果想重复可以使用这个,按日期
+                // 周一早上 8：00 上班
+                NSDateComponents *components = [[NSDateComponents alloc] init];
+                // 注意，weekday默认是从周日开始
+                components.weekday = 2;
+                components.hour = 8;
+                UNCalendarNotificationTrigger *calendarTrigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:components repeats:YES];
+                */
+                // 添加通知的标识符，可以用于移除，更新等操作
+                NSString *identifier = @"noticeId";
+                UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:identifier content:content trigger:trigger];
+                
+                [center addNotificationRequest:request withCompletionHandler:^(NSError *_Nullable error) {
+                    NSLog(@"成功添加推送");
+                }];
+    }else{
+        UILocalNotification *notif = [[UILocalNotification alloc] init];
+         // 发出推送的日期
+         notif.fireDate = [NSDate dateWithTimeIntervalSinceNow:10];
+         // 推送的内容
+         notif.alertBody = @"ご注意ください！";
+         // 可以添加特定信息
+         notif.userInfo = @{@"noticeId":@"00001"};
+         // 角标
+         notif.applicationIconBadgeNumber = 1;
+         // 提示音
+         notif.soundName = UILocalNotificationDefaultSoundName;
+         // 每周循环提醒
+         notif.repeatInterval = NSCalendarUnitWeekOfYear;
+         
+         [[UIApplication sharedApplication] scheduleLocalNotification:notif];
+
+    }
+}
+
+        
 
 #pragma mark - 系统自带location代理定位
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
@@ -485,8 +641,8 @@
 //        _firstLocationUpdate = YES;//只定位一次的标记值
         // 获取最新定位 手机自己的定位
         CLLocation *location = locations.lastObject;
-        // 停止定位
-        [self.locationManager stopUpdatingLocation];
+//        // 停止定位
+//        [self.locationManager stopUpdatingLocation];
 
 
        //替换自己的坐标
@@ -501,11 +657,15 @@
         self.marker.map = self.mapView;
         self.mapView.settings.myLocationButton = YES;
         self.mapView.myLocationEnabled = YES;
+    
+//        [MBProgressHUD showMessag:@"11111111" toView:self.view hudModel:MBProgressHUDModeText hide:YES];
+
         
         [self startGetStudentLocationRequest];
 
 //        [self getPlace:_coordinate2D];
 //    }
+    
 }
 
 -(void)mapViewDidFinishTileRendering:(GMSMapView *)mapView{
@@ -521,25 +681,25 @@
 //    self.marker.map = self.mapView;
 //    [self getPlace:mapView.camera.target];
 }
--(void)getPlace:(CLLocationCoordinate2D)coordinate2D{
-
-    [[GMSGeocoder geocoder] reverseGeocodeCoordinate:CLLocationCoordinate2DMake(coordinate2D.latitude, coordinate2D.longitude) completionHandler:^(GMSReverseGeocodeResponse * _Nullable response, NSError * _Nullable error) {
-        if(!error){
-            GMSAddress* addressObj = response.firstResult;
-            NSLog(@"coordinate.latitude=%f", addressObj.coordinate.latitude);
-            NSLog(@"coordinate.longitude=%f", addressObj.coordinate.longitude);
-            NSLog(@"thoroughfare=%@", addressObj.thoroughfare);
-            NSLog(@"locality=%@", addressObj.locality);
-            NSLog(@"subLocality=%@", addressObj.subLocality);
-            NSLog(@"administrativeArea=%@", addressObj.administrativeArea);
-            NSLog(@"postalCode=%@", addressObj.postalCode);
-            NSLog(@"country=%@", addressObj.country);
-            NSLog(@"lines=%@", addressObj.lines);
-        }else{
-            NSLog(@"地理反编码错误");
-        }
-    }];
-}
+//-(void)getPlace:(CLLocationCoordinate2D)coordinate2D{
+//
+//    [[GMSGeocoder geocoder] reverseGeocodeCoordinate:CLLocationCoordinate2DMake(coordinate2D.latitude, coordinate2D.longitude) completionHandler:^(GMSReverseGeocodeResponse * _Nullable response, NSError * _Nullable error) {
+//        if(!error){
+//            GMSAddress* addressObj = response.firstResult;
+//            NSLog(@"coordinate.latitude=%f", addressObj.coordinate.latitude);
+//            NSLog(@"coordinate.longitude=%f", addressObj.coordinate.longitude);
+//            NSLog(@"thoroughfare=%@", addressObj.thoroughfare);
+//            NSLog(@"locality=%@", addressObj.locality);
+//            NSLog(@"subLocality=%@", addressObj.subLocality);
+//            NSLog(@"administrativeArea=%@", addressObj.administrativeArea);
+//            NSLog(@"postalCode=%@", addressObj.postalCode);
+//            NSLog(@"country=%@", addressObj.country);
+//            NSLog(@"lines=%@", addressObj.lines);
+//        }else{
+//            NSLog(@"地理反编码错误");
+//        }
+//    }];
+//}
 //选择了位置后的回调方法
 - (void)viewController:(GMSAutocompleteViewController*)viewController didAutocompleteWithPlace:(GMSPlace*)place {
     //移动地图中心到选择的位置
@@ -581,6 +741,20 @@ didFailAutocompleteWithError:(NSError *)error {
         [weakSelf.stateInfoView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, PAaptation_y(351))];
     }];
 }
+- (void)showWalkMenuVC
+{
+    DefineWeakSelf;
+    [UIView animateWithDuration:0.25 animations:^{
+        weakSelf.menuWalkVC.view.frame = CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
+    }];
+}
+- (void)hideWalkMenuVC
+{
+    DefineWeakSelf;
+    [UIView animateWithDuration:0.25 animations:^{
+        weakSelf.menuWalkVC.view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
+    }];
+}
 
 -(void)dealloc{
 //    [SVProgressHUD dismiss];
@@ -596,7 +770,7 @@ didFailAutocompleteWithError:(NSError *)error {
         GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:38.02 longitude:114.52 zoom:15];
         _mapView = [GMSMapView mapWithFrame:CGRectMake(0, PAaptation_y(156), SCREEN_WIDTH,self.view.frame.size.height - PAaptation_y(110)-PAaptation_y(156)) camera:camera];
         _mapView.delegate = self;
-        _mapView.settings.compassButton = YES;//显示指南针
+//        _mapView.settings.compassButton = YES;//显示指南针
         //_mapView.settings.myLocationButton = YES;
         //_mapView.myLocationEnabled = NO;
     }
@@ -647,6 +821,8 @@ didFailAutocompleteWithError:(NSError *)error {
         [_locationManager requestWhenInUseAuthorization];
         _locationManager.desiredAccuracy = kCLLocationAccuracyBest;//设置定位精度
         _locationManager.distanceFilter = 10;//设置定位频率，每隔多少米定位一次
+        _locationManager.pausesLocationUpdatesAutomatically = NO;
+        _locationManager.allowsBackgroundLocationUpdates = YES;
     }
     return _locationManager;
 }
