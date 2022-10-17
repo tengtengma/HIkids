@@ -21,10 +21,13 @@
 #import "HWalkMenuVC.h"
 #import "HWalkStudentStateView.h"
 #import "HStudentStateInfoView.h"
-
 #import <AudioToolbox/AudioToolbox.h>
-
 #import <UserNotifications/UserNotifications.h>
+#import "BWGetKindergartenReq.h"
+#import "BWGetKindergartenResp.h"
+#import "BWGetTaskReq.h"
+#import "BWGetTaskResp.h"
+#import "HWalkTask.h"
 
 
 
@@ -38,16 +41,16 @@
 @property (nonatomic,assign) CLLocationCoordinate2D coordinate2D;
 @property (nonatomic,strong) NSArray *exceptArray;
 @property (nonatomic,strong) NSArray *nomalArray;
-
-@property (nonatomic,assign) BOOL firstLocationUpdate ;
+@property (nonatomic,assign) BOOL firstLocationUpdate;
 @property (nonatomic,strong) GMSMarker *marker;//大头针
 @property (nonatomic,strong) GMSPlacesClient * placesClient;//可以获取某个地方的信息
 @property (nonatomic,strong) HLocation *myLocation;
 @property (nonatomic,strong) NSTimer *timer;
 @property (nonatomic,strong) HWalkStudentStateView *walkStateView;
-@property (nonatomic,strong) NSString *type; //0校园内。1散步 2目的地
 @property (nonatomic,strong) HStudentStateInfoView *stateInfoView;
 @property (nonatomic,strong) NSTimer *shakeTimer;
+@property (nonatomic,strong) HWalkTask *currentTask;//当前任务
+
 
 @end
 
@@ -81,9 +84,6 @@
     
     
     self.timer = [NSTimer scheduledTimerWithTimeInterval:15*60 target:self selector:@selector(startGetStudentLocationRequest) userInfo:nil repeats:YES];
-    
-//    self.shakeTimer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(showAlertAction) userInfo:nil repeats:YES];
-//    [[NSRunLoop currentRunLoop] addTimer:self.shakeTimer forMode:NSDefaultRunLoopMode];
 
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeVCAction:) name:@"changeVCNotification" object:nil];
@@ -106,28 +106,66 @@
     [self.view addSubview:self.stateInfoView];
     
     
+//    [self startStayMode];
     
-    [self startStayMode];
-    
+    [self getTaskRequest];
     
     [self modeChangeBlock];
     
     [self setupNavInfomation];
 
 
+}
+//获取当前任务状态
+- (void)getTaskRequest
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    DefineWeakSelf;
+    BWGetTaskReq *getTaskReq = [[BWGetTaskReq alloc] init];
+    [NetManger getRequest:getTaskReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
 
+        BWGetTaskResp *getTaskResp = (BWGetTaskResp *)resp;
+        weakSelf.currentTask = [getTaskResp.itemList safeObjectAtIndex:0];
+        //任务状态，1新建 2途中，3目的地，4回程，5结束
+        
+        if ([weakSelf.currentTask.status isEqualToString:@"1"]) {
+            
+            [weakSelf startStayMode];
+        }
+        if ([weakSelf.currentTask.status isEqualToString:@"2"]) {
+            
+            [weakSelf startWalkMode];
+        }
+        if ([weakSelf.currentTask.status isEqualToString:@"3"]) {
+           
+            [weakSelf startDestMode];
+        }
+        if ([weakSelf.currentTask.status isEqualToString:@"4"]) {
+            
+            [weakSelf startBackMode];
+        }
+        if ([weakSelf.currentTask.status isEqualToString:@"5"]) {
+            
+            [weakSelf endMode];
+        }
+
+        
+    } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+    }];
 }
 //开启园内模式
 - (void)startStayMode
 {
-    self.type = @"0";
-    [self startRequest];
-
+    
+    [self getKinderRequest];
 }
 //开启散步模式
 - (void)startWalkMode
 {
-    self.type = @"1";
     
     [self.mapView clear];
     
@@ -141,25 +179,62 @@
     
     self.smallMenuView.hidden = YES;
     
+    [self startDestRequest];
+    
 }
 //开启目的地模式
 - (void)startDestMode
 {
-    self.type = @"2";
+    
+    //开启定位
+    [self startLocation];
+    
+    self.menuHomeVC.view.hidden = YES;
+    [self.menuHomeVC closeMenuVC];
+        
+    self.walkStateView.hidden = NO;
+    
+    self.smallMenuView.hidden = YES;
+    
+    [self startDestRequest];
 }
 //开启返程模式
 - (void)startBackMode
 {
-    self.type = @"3";
+    
 }
-
-- (void)startRequest
+//结束任务模式
+- (void)endMode
 {
     
+}
+
+//获取园区接口数据
+- (void)getKinderRequest
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    DefineWeakSelf;
+    BWGetKindergartenReq *kinderReq = [[BWGetKindergartenReq alloc] init];
+    [NetManger getRequest:kinderReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        
+        BWGetKindergartenResp *kinderResp = (BWGetKindergartenResp *)resp;
+//        [weakSelf changeLocationInfoDataWithModel:[infoResp.itemList safeObjectAtIndex:0]];
+        
+        [weakSelf startGetStudentLocationRequest];
+
+        
+    } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+    }];
+}
+
+//获取目的地接口数据
+- (void)startDestRequest
+{
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     DefineWeakSelf;
     BWDestnationInfoReq *infoReq = [[BWDestnationInfoReq alloc] init];
-    infoReq.dId = @"3"; //1目的地   3园区
+    infoReq.dId = self.currentTask.destinationId; //1目的地
     [NetManger getRequest:infoReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
         
         BWDestnationInfoResp *infoResp = (BWDestnationInfoResp *)resp;
@@ -213,24 +288,18 @@
         weakSelf.nomalArray = locationResp.normalKids;
         weakSelf.exceptArray = locationResp.exceptionKids;
         
-        [weakSelf createSmallView];
+        [weakSelf reloadData];
         [weakSelf addMarkers]; //添加学生位置坐标
         [weakSelf setupNavInfomation];
         
         weakSelf.walkStateView.nomalArray = weakSelf.nomalArray;
         weakSelf.walkStateView.exceptArray = weakSelf.exceptArray;
         
+        [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(120), SCREEN_WIDTH, PAaptation_y(140))];
         
-//        if (weakSelf.exceptArray.count == 0) {
-            [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(120), SCREEN_WIDTH, PAaptation_y(140))];
-//        }else{
-//            [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(280), SCREEN_WIDTH, PAaptation_y(280))];
-//        }
-
         [weakSelf.walkStateView tableReload];
         [weakSelf.menuHomeVC tableReload];
         
-
         
     } failure:^(BWBaseReq *req, NSError *error) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
@@ -259,7 +328,7 @@
     
     //结束散步模式
     self.walkStateView.walkEndBlock = ^{
-        weakSelf.type = @"1";
+       
         [weakSelf startStayMode];
         
         weakSelf.menuHomeVC.view.hidden = NO;
@@ -311,7 +380,7 @@
 - (void)setupNavInfomation{
     
     
-    if (self.type.integerValue == 0) {
+    if (self.currentTask.status.integerValue == 0) {
         NSLog(@"在园中模式");
         if (self.exceptArray.count == 0) {
             
@@ -344,7 +413,7 @@
             [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
         }
     }
-    if (self.type.integerValue == 1) {
+    if (self.currentTask.status.integerValue == 1) {
         NSLog(@"散步模式");
         
         if (self.exceptArray.count == 0) {
@@ -378,7 +447,7 @@
             [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
         }
     }
-    if (self.type.integerValue == 3) {
+    if (self.currentTask.status.integerValue == 3) {
         NSLog(@"目的地模式");
         
         if (self.exceptArray.count == 0) {
@@ -424,7 +493,7 @@
      //移动地图中心到当前位置
     self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:18];
 
-    [self drawPolygon];//画围栏
+  
   
     
 }
@@ -483,6 +552,8 @@
         marker.userData = student;
         marker.map = self.mapView;
     }
+    
+    [self drawPolygon];//画围栏
 }
 
 //-(void)navRightClick{
@@ -490,16 +561,14 @@
 //    autocompleteViewController.delegate = self;
 //    [self presentViewController:autocompleteViewController animated:YES completion:nil];
 //}
-- (void)createSmallView
+- (void)reloadData
 {
-
     self.menuHomeVC.cardView = self.smallMenuView;
     self.menuHomeVC.nomalArray = self.nomalArray;
     self.menuHomeVC.exceptArray = self.exceptArray;
     
     self.smallMenuView.safeLabel.text = [NSString stringWithFormat:@"使用中%ld人",self.nomalArray.count + self.exceptArray.count];
     self.smallMenuView.dangerLabel.text = @"アラート0回";
-    
 }
 - (void)changeVCAction:(NSNotification *)noti
 {
@@ -548,7 +617,6 @@
      //调用系统震动
      AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     
-
 }
 
 #pragma -mark -调用系统声音
@@ -826,4 +894,5 @@ didFailAutocompleteWithError:(NSError *)error {
     }
     return _locationManager;
 }
+
 @end
