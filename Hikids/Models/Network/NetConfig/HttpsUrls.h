@@ -25,7 +25,7 @@
 #define StudentsLocationURL        @"/v1/business/hikidsTask/uploadLocation"            //查看学生状态
 #define TaskAddURL                 @"/v1/business/hikidsTask/taskAdd"                   //创建任务
 #define GetTaskURL                 @"/v1/business/hikidsTask/getNowTask"                //获取当前任务信息
-
+#define ChangeTaskStateURL         @"/v1/business/hikidsTask/changeStatus"              //修改任务状态
 
 #endif /* HttpsUrls_h */
 

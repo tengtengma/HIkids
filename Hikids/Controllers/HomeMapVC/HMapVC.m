@@ -28,6 +28,8 @@
 #import "BWGetTaskReq.h"
 #import "BWGetTaskResp.h"
 #import "HWalkTask.h"
+#import "BWChangeTaskStateReq.h"
+#import "BWChangeTaskStateResp.h"
 
 
 
@@ -110,9 +112,12 @@
     
     [self getTaskRequest];
     
+    
     [self modeChangeBlock];
     
     [self setupNavInfomation];
+    
+    
 
 
 }
@@ -151,10 +156,28 @@
             [weakSelf endMode];
         }
 
+//        [weakSelf changeTaskStateRequest];
+
         
     } failure:^(BWBaseReq *req, NSError *error) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+    }];
+}
+- (void)changeTaskStateRequestWithStatus:(NSString *)status
+{
+    DefineWeakSelf;
+    BWChangeTaskStateReq *changeReq = [[BWChangeTaskStateReq alloc] init];
+    changeReq.tId = self.currentTask.tId;
+    changeReq.status = status;
+    [NetManger postRequest:changeReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        
+        BWChangeTaskStateResp *changeResp = (BWChangeTaskStateResp *)resp;
+        weakSelf.currentTask = [changeResp.itemList safeObjectAtIndex:0];
+        
+        
+    } failure:^(BWBaseReq *req, NSError *error) {
+        
     }];
 }
 //开启园内模式
@@ -180,6 +203,7 @@
     self.smallMenuView.hidden = YES;
     
     [self startDestRequest];
+    [self changeTaskStateRequestWithStatus:@"2"];
     
 }
 //开启目的地模式
@@ -216,14 +240,16 @@
     DefineWeakSelf;
     BWGetKindergartenReq *kinderReq = [[BWGetKindergartenReq alloc] init];
     [NetManger getRequest:kinderReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
-        
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+
         BWGetKindergartenResp *kinderResp = (BWGetKindergartenResp *)resp;
-//        [weakSelf changeLocationInfoDataWithModel:[infoResp.itemList safeObjectAtIndex:0]];
+        [weakSelf changeLocationInfoDataWithModel:[kinderResp.itemList safeObjectAtIndex:0]];
         
         [weakSelf startGetStudentLocationRequest];
 
         
     } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
     }];
 }
@@ -236,6 +262,7 @@
     BWDestnationInfoReq *infoReq = [[BWDestnationInfoReq alloc] init];
     infoReq.dId = self.currentTask.destinationId; //1目的地
     [NetManger getRequest:infoReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         
         BWDestnationInfoResp *infoResp = (BWDestnationInfoResp *)resp;
         [weakSelf changeLocationInfoDataWithModel:[infoResp.itemList safeObjectAtIndex:0]];
@@ -244,36 +271,11 @@
 
         
     } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
     }];
 }
-- (void)changeLocationInfoDataWithModel:(HDestnationModel *)model
-{
-    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
-    HLocation *myLocation = [[HLocation alloc] init];
-    NSArray *fence = [model.fence componentsSeparatedByString:@"_"];
-    for (NSInteger i = 0; i< fence.count; i++) {
-        NSString *gpsStr = [fence safeObjectAtIndex:i];
-        NSArray *gpsArray = [gpsStr componentsSeparatedByString:@","];
-        HLocationInfo *info = [[HLocationInfo alloc] init];
-        info.longitude = [[gpsArray safeObjectAtIndex:0] doubleValue];
-        info.latitude = [[gpsArray safeObjectAtIndex:1] doubleValue];
-        [tempArray addObject:info];
-    }
-    NSString *currentStr = model.location;
-    NSArray *currentArray = [currentStr componentsSeparatedByString:@","];
-    myLocation.fenceArray = tempArray;
-    HLocationInfo *currentInfo = [[HLocationInfo alloc] init];
-    currentInfo.longitude = [[currentArray safeObjectAtIndex:0] doubleValue];
-    currentInfo.latitude = [[currentArray safeObjectAtIndex:1] doubleValue];
-    myLocation.locationInfo = currentInfo;
-    
-    self.myLocation = myLocation;
-    
-    [self startDrawFence];
-    
-    
-}
+//获取学生坐标信息
 - (void)startGetStudentLocationRequest
 {
     
@@ -307,6 +309,50 @@
     }];
 }
 
+//画围栏
+- (void)changeLocationInfoDataWithModel:(HDestnationModel *)model
+{
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    HLocation *myLocation = [[HLocation alloc] init];
+    NSArray *fence = [model.fence componentsSeparatedByString:@"_"];
+    for (NSInteger i = 0; i< fence.count; i++) {
+        NSString *gpsStr = [fence safeObjectAtIndex:i];
+        NSArray *gpsArray = [gpsStr componentsSeparatedByString:@","];
+        HLocationInfo *info = [[HLocationInfo alloc] init];
+        info.longitude = [[gpsArray safeObjectAtIndex:0] doubleValue];
+        info.latitude = [[gpsArray safeObjectAtIndex:1] doubleValue];
+        [tempArray addObject:info];
+    }
+    NSString *currentStr = model.location;
+    NSArray *currentArray = [currentStr componentsSeparatedByString:@","];
+    myLocation.fenceArray = tempArray;
+    HLocationInfo *currentInfo = [[HLocationInfo alloc] init];
+    currentInfo.longitude = [[currentArray safeObjectAtIndex:0] doubleValue];
+    currentInfo.latitude = [[currentArray safeObjectAtIndex:1] doubleValue];
+    myLocation.locationInfo = currentInfo;
+    
+    self.myLocation = myLocation;
+    
+    if (self.currentTask.status.integerValue == 1) {
+        //替换自己的坐标
+        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.myLocation.locationInfo.latitude, self.myLocation.locationInfo.longitude);
+         //移动地图中心到当前位置
+        self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:18];
+        
+        [self drawPolygon];//画围栏
+
+    }
+    if (self.currentTask.status.integerValue == 2) {
+        [self drawPolygon];//画围栏
+
+    }
+    if (self.currentTask.status.integerValue == 3) {
+        [self drawPolygon];//画围栏
+
+    }
+
+    
+}
 - (void)modeChangeBlock
 {
     DefineWeakSelf;
@@ -380,7 +426,7 @@
 - (void)setupNavInfomation{
     
     
-    if (self.currentTask.status.integerValue == 0) {
+    if (self.currentTask.status.integerValue == 1) {
         NSLog(@"在园中模式");
         if (self.exceptArray.count == 0) {
             
@@ -413,7 +459,7 @@
             [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
         }
     }
-    if (self.currentTask.status.integerValue == 1) {
+    if (self.currentTask.status.integerValue == 2) {
         NSLog(@"散步模式");
         
         if (self.exceptArray.count == 0) {
@@ -485,18 +531,7 @@
     
 
 }
-- (void)startDrawFence
-{
-   
-    //替换自己的坐标
-    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.myLocation.locationInfo.latitude, self.myLocation.locationInfo.longitude);
-     //移动地图中心到当前位置
-    self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:18];
 
-  
-  
-    
-}
 -(void)drawPolygon
 {
     GMSMutablePath* path = [[GMSMutablePath alloc] init];
@@ -553,7 +588,6 @@
         marker.map = self.mapView;
     }
     
-    [self drawPolygon];//画围栏
 }
 
 //-(void)navRightClick{
