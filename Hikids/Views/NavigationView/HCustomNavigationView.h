@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)init;
 
+- (void)defautInfomation;
+
 
 @end
 

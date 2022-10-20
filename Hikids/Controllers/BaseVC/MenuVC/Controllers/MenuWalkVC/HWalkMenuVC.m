@@ -612,6 +612,8 @@
         _collectionView.scrollEnabled = YES;  //滚动使能
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
+        _collectionView.bounces = NO;
+        _collectionView.userInteractionEnabled = NO;
         //注册Cell，必须要有
         [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"UICollectionViewCell"];
         [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"header"];//注册header的view

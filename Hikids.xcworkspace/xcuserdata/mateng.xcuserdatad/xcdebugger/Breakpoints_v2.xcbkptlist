@@ -19,31 +19,63 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5FB8E2CB-1BF5-4DE9-B815-FB66AB46BFD5"
+            uuid = "675C818F-DE77-4945-AFFE-AE24E8A1E6CE"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "390"
-            endingLineNumber = "390"
-            landmarkName = "-modeChangeBlock"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
+            landmarkName = "-startWalkMode"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "2C0FF295-0FDC-4696-BE65-44E3A2C3C57E"
+            uuid = "D93C9F42-708A-4DE8-82D6-954035136437"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "537"
-            endingLineNumber = "537"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
+            landmarkName = "-changeTaskStateRequestWithStatus:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "84AC3CD0-8D40-4036-9050-55435AF187D5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "351"
+            endingLineNumber = "351"
+            landmarkName = "-changeLocationInfoDataWithModel:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A21F3820-DD41-47EA-AE48-FEBA741812D1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "536"
+            endingLineNumber = "536"
             landmarkName = "-drawPolygon"
             landmarkType = "7">
          </BreakpointContent>

@@ -36,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *sportsteps;
 @property (nonatomic, strong) NSString *sporttime;
 @property (nonatomic, strong) NSString *zone;
+@property (nonatomic, strong) NSString *currentLocation;
 
 @end
 

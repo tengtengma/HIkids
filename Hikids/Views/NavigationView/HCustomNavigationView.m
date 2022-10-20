@@ -70,7 +70,18 @@
         make.centerX.equalTo(self.userImageView);
     }];
 }
+- (void)defautInfomation
+{
+    self.titleLabel.text = @"--";
+    self.stateLabel.text = @"--";
+    self.stateLabel.textColor = BWColor(0, 176, 107, 1);
 
+    self.updateTimeLabel.text = @"--";
+    self.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
+    
+    self.userNameLabel.text = @"--";
+
+}
 
 
 #pragma mark - LazyLoad -
