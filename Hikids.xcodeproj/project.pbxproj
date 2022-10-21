@@ -117,6 +117,7 @@
 		9EDF523F28FD84FF0066BFDC /* BWGetTaskResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EDF523E28FD84FF0066BFDC /* BWGetTaskResp.m */; };
 		9EDF5242290029C20066BFDC /* BWChangeTaskStateReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EDF5241290029C20066BFDC /* BWChangeTaskStateReq.m */; };
 		9EDF5245290029D10066BFDC /* BWChangeTaskStateResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EDF5244290029D10066BFDC /* BWChangeTaskStateResp.m */; };
+		9EDF5248290199E90066BFDC /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EDF5246290199E80066BFDC /* UIView+Frame.m */; };
 		9EF21B2A28D985050075CFF0 /* btn_login_unavailable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EF21B1828D985050075CFF0 /* btn_login_unavailable@2x.png */; };
 		9EF21B2B28D985050075CFF0 /* btn_login_unavailable@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EF21B1928D985050075CFF0 /* btn_login_unavailable@3x.png */; };
 		9EF21B2C28D985050075CFF0 /* help@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EF21B1A28D985050075CFF0 /* help@2x.png */; };
@@ -327,6 +328,8 @@
 		9EDF5241290029C20066BFDC /* BWChangeTaskStateReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWChangeTaskStateReq.m; sourceTree = "<group>"; };
 		9EDF5243290029D10066BFDC /* BWChangeTaskStateResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWChangeTaskStateResp.h; sourceTree = "<group>"; };
 		9EDF5244290029D10066BFDC /* BWChangeTaskStateResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWChangeTaskStateResp.m; sourceTree = "<group>"; };
+		9EDF5246290199E80066BFDC /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
+		9EDF5247290199E90066BFDC /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
 		9EF21B1828D985050075CFF0 /* btn_login_unavailable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_login_unavailable@2x.png"; sourceTree = "<group>"; };
 		9EF21B1928D985050075CFF0 /* btn_login_unavailable@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_login_unavailable@3x.png"; sourceTree = "<group>"; };
 		9EF21B1A28D985050075CFF0 /* help@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "help@2x.png"; sourceTree = "<group>"; };
@@ -640,6 +643,8 @@
 		9E2DF7EE28B2205200B0C9DA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9EDF5247290199E90066BFDC /* UIView+Frame.h */,
+				9EDF5246290199E80066BFDC /* UIView+Frame.m */,
 				9E1F219A28E168A000C5041B /* NavigationView */,
 				9E03E93928F569E500C30577 /* HStudentStateView.h */,
 				9E03E93A28F569E500C30577 /* HStudentStateView.m */,
@@ -1114,6 +1119,7 @@
 				9E17D1A928ED3750005FA5A9 /* JZLocationConverter.m in Sources */,
 				9E2DF80228B2209E00B0C9DA /* BWNetManager.m in Sources */,
 				9E2DF80128B2209E00B0C9DA /* BWBaseReq.m in Sources */,
+				9EDF5248290199E90066BFDC /* UIView+Frame.m in Sources */,
 				9E2DF81C28B2225500B0C9DA /* NSDictionary+safe.m in Sources */,
 				9E1F21BF28E1924B00C5041B /* HMenuSleepVC.m in Sources */,
 				9E42E69928D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.m in Sources */,

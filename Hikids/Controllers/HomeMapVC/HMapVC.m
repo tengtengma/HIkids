@@ -51,9 +51,10 @@
 @property (nonatomic,strong) GMSPlacesClient * placesClient;//可以获取某个地方的信息
 @property (nonatomic,strong) HLocation *myLocation;
 @property (nonatomic,strong) NSTimer *timer;
+@property (nonatomic,strong) NSTimer *shakeTimer;
+@property (nonatomic,strong) NSTimer *dangerTimer;
 @property (nonatomic,strong) HWalkStudentStateView *walkStateView;
 @property (nonatomic,strong) HStudentStateInfoView *stateInfoView;
-@property (nonatomic,strong) NSTimer *shakeTimer;
 @property (nonatomic,strong) HWalkTask *currentTask;//当前任务
 
 
@@ -88,7 +89,9 @@
     [super viewDidLoad];
     
     
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:15*60 target:self selector:@selector(startGetStudentLocationRequest) userInfo:nil repeats:YES];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:15*6 target:self selector:@selector(updateLocationInfomation) userInfo:nil repeats:YES];
+    
+//    self.dangerTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(checkDangerState) userInfo:nil repeats:YES];
 
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeVCAction:) name:@"changeVCNotification" object:nil];
@@ -158,7 +161,7 @@
             [weakSelf endMode];
         }
 
-        [weakSelf changeTaskStateRequestWithStatus:@"5"];
+//        [weakSelf changeTaskStateRequestWithStatus:@"5"];
 
         
     } failure:^(BWBaseReq *req, NSError *error) {
@@ -294,7 +297,6 @@
 //获取学生坐标信息
 - (void)startGetStudentLocationRequest
 {
-    
     DefineWeakSelf;
     BWStudentLocationReq *locationReq = [[BWStudentLocationReq alloc] init];
     locationReq.latitude = self.myLocation.locationInfo.latitude;
@@ -307,16 +309,21 @@
         weakSelf.exceptArray = locationResp.exceptionKids;
         
         [weakSelf reloadData];
-        [weakSelf addMarkers]; //添加学生位置坐标
-        [weakSelf setupNavInfomation];
+//        [weakSelf addMarkers]; //添加学生位置坐标
+//        [weakSelf setupNavInfomation];
         
         weakSelf.walkStateView.nomalArray = weakSelf.nomalArray;
         weakSelf.walkStateView.exceptArray = weakSelf.exceptArray;
         
-        [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(120), SCREEN_WIDTH, PAaptation_y(140))];
+//        [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(120), SCREEN_WIDTH, PAaptation_y(140))];
         
         [weakSelf.walkStateView tableReload];
         [weakSelf.menuHomeVC tableReload];
+        
+        if (!self.isDrawFence) {
+            return;
+        }
+        [self updateLocationInfomation];
         
         
     } failure:^(BWBaseReq *req, NSError *error) {
@@ -403,15 +410,15 @@
             
             [UIView animateWithDuration:0.25 animations:^{
                 if (weakSelf.exceptArray.count == 0) {
-                    [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(120), SCREEN_WIDTH, PAaptation_y(140))];
+                    [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(120), SCREEN_WIDTH, SCREEN_HEIGHT-PAaptation_y(140))];
                 }else{
-                    [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(280), SCREEN_WIDTH, PAaptation_y(280))];
+                    [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(280), SCREEN_WIDTH, SCREEN_HEIGHT-PAaptation_y(280))];
                 }
             }];
 
         }else{
             [UIView animateWithDuration:0.25 animations:^{
-                [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(120), SCREEN_WIDTH, PAaptation_y(140))];
+                [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(120), SCREEN_WIDTH, SCREEN_HEIGHT-PAaptation_y(140))];
             }];
 
         }
@@ -528,9 +535,27 @@
     
 
 }
+- (void)updateLocationInfomation
+{
+    if (self.myLocation.fenceArray.count == 0) {
+        return;
+    }
+    //先清理掉旧的
+    [self.marker.map clear];
+    self.marker.map = nil;
+    
+    [self addMarkers];
+    [self drawPolygon];
+    [self setupNavInfomation];
+}
+
 //画围栏
 -(void)drawPolygon
 {
+    if (!self.isDrawFence) {
+        return;
+    }
+
     GMSMutablePath* path = [[GMSMutablePath alloc] init];
     
     for (NSInteger i = 0; i < self.myLocation.fenceArray.count; i++) {
@@ -543,14 +568,11 @@
     poly.strokeColor = BWColor(83, 192, 137, 1);
     poly.fillColor = BWColor(0, 176, 107, 0.2);
     poly.map = self.mapView;
+    
+    self.isDrawFence = NO;
+    
 }
 -(void)addMarkers{
-    
-    //先清理掉旧的
-    [self.marker.map clear];
-    self.marker.map = nil;
-    
-
     
     for (HStudent *student in self.exceptArray) {
                 
@@ -591,37 +613,35 @@
         
         [self dealWithTaskStateChangeWithStudent:student withNomal:YES];
 
-        
     }
     
 
-    
-    if (self.myLocation.fenceArray.count == 0) {
-        return;
-    }
-    
-    if (self.isDrawFence) {
-    
-        if (self.currentTask.status.integerValue == 1 || self.currentTask.status.integerValue == 3) {
-            //替换自己的坐标
-            CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.myLocation.locationInfo.latitude, self.myLocation.locationInfo.longitude);
-             //移动地图中心到当前位置
-            self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:18];
-            
-        }
-        
-        [self drawPolygon];//画围栏
-        
-        self.isDrawFence = NO;//每个状态围栏就画一次
-
-    }
+//
+//    if (self.myLocation.fenceArray.count == 0) {
+//        return;
+//    }
+//
+//    if (self.isDrawFence) {
+//
+//        if (self.currentTask.status.integerValue == 1) {
+//            //替换自己的坐标
+//            CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.myLocation.locationInfo.latitude, self.myLocation.locationInfo.longitude);
+//             //移动地图中心到当前位置
+//            self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:18];
+//
+//        }
+//
+//        [self drawPolygon];//画围栏
+//
+//        self.isDrawFence = NO;//每个状态围栏就画一次
+//
+//    }
     
 }
 //分析当前任务状态及切换
 - (void)dealWithTaskStateChangeWithStudent:(HStudent *)student withNomal:(BOOL)isNomal
 {
 
-    
     if (self.currentTask.status.integerValue == 1) {
         NSLog(@"当前为院内模式");
 
@@ -981,7 +1001,8 @@ didFailAutocompleteWithError:(NSError *)error {
 - (HWalkStudentStateView *)walkStateView
 {
     if (!_walkStateView) {
-        _walkStateView = [[HWalkStudentStateView alloc] init];
+        _walkStateView = [[HWalkStudentStateView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(120), SCREEN_WIDTH, SCREEN_HEIGHT-PAaptation_y(140))];
+        _walkStateView.topH = PAaptation_y(140);
         _walkStateView.hidden = YES;
     }
     return _walkStateView;

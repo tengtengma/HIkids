@@ -80,6 +80,7 @@
     self.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
     
     self.userNameLabel.text = @"--";
+    [self.backgroundImageView setImage:[UIImage imageNamed:@"navBG_safe.png"]];
 
 }
 

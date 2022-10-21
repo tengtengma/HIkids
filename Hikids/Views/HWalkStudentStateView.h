@@ -14,11 +14,14 @@ typedef void(^ShowOrHideWalkStateView)(void);
 typedef void(^CloseExpandAction)(void);
 
 @interface HWalkStudentStateView : UIView
+@property (nonatomic,assign) float topH;//上滑后距离顶部的距离
 @property (nonatomic, strong) NSArray *nomalArray;
 @property (nonatomic, strong) NSArray *exceptArray;
 @property (nonatomic, copy) WalkEndAction walkEndBlock;
 @property (nonatomic, copy) ShowOrHideWalkStateView ShowOrHideWalkStateViewBlock;
 @property (nonatomic, copy) CloseExpandAction closeExpandBlock;
+
+- (instancetype)initWithFrame:(CGRect)frame;
 
 - (void)tableReload;
 @end
