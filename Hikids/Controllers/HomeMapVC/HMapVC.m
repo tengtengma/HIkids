@@ -315,7 +315,9 @@
         weakSelf.walkStateView.nomalArray = weakSelf.nomalArray;
         weakSelf.walkStateView.exceptArray = weakSelf.exceptArray;
         
-//        [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(120), SCREEN_WIDTH, PAaptation_y(140))];
+//        if (weakSelf.exceptArray.count != 0) {
+//            [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- SCREEN_HEIGHT/2, SCREEN_WIDTH, SCREEN_HEIGHT)];
+//        }
         
         [weakSelf.walkStateView tableReload];
         [weakSelf.menuHomeVC tableReload];
@@ -1001,8 +1003,8 @@ didFailAutocompleteWithError:(NSError *)error {
 - (HWalkStudentStateView *)walkStateView
 {
     if (!_walkStateView) {
-        _walkStateView = [[HWalkStudentStateView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(120), SCREEN_WIDTH, SCREEN_HEIGHT-PAaptation_y(140))];
-        _walkStateView.topH = PAaptation_y(140);
+        _walkStateView = [[HWalkStudentStateView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(100), SCREEN_WIDTH, SCREEN_HEIGHT-PAaptation_y(120))];
+        _walkStateView.topH = PAaptation_y(120);
         _walkStateView.hidden = YES;
     }
     return _walkStateView;

@@ -49,7 +49,7 @@
         
         self.bottomH = self.top;
         
-        
+        self.dangerIsExpand = YES;
         
         
     }
@@ -290,27 +290,28 @@
 - (void)tableReload
 {
     
-    NSMutableArray *except = [[NSMutableArray alloc] init];
-    for (NSInteger i = 0; i<10; i++) {
-        HStudent *student = [[HStudent alloc] init];
-        student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
-        student.sId = [NSString stringWithFormat:@"%ld",100+i];
-        student.name = @"asdfsa";
-        [except addObject:student];
-    }
-    
-    self.exceptArray = except;
-        
-    NSMutableArray *nomal = [[NSMutableArray alloc] init];
-    for (NSInteger i = 0; i<2; i++) {
-        HStudent *student = [[HStudent alloc] init];
-        student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
-        student.sId = [NSString stringWithFormat:@"%ld",300+i];
-        student.name = @"asdfsa";
-        [nomal addObject:student];
-    }
-    
-    self.nomalArray = nomal;
+//    //测试用
+//    NSMutableArray *except = [[NSMutableArray alloc] init];
+//    for (NSInteger i = 0; i<10; i++) {
+//        HStudent *student = [[HStudent alloc] init];
+//        student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
+//        student.sId = [NSString stringWithFormat:@"%ld",100+i];
+//        student.name = @"asdfsa";
+//        [except addObject:student];
+//    }
+//
+//    self.exceptArray = except;
+//
+//    NSMutableArray *nomal = [[NSMutableArray alloc] init];
+//    for (NSInteger i = 0; i<2; i++) {
+//        HStudent *student = [[HStudent alloc] init];
+//        student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
+//        student.sId = [NSString stringWithFormat:@"%ld",300+i];
+//        student.name = @"asdfsa";
+//        [nomal addObject:student];
+//    }
+//
+//    self.nomalArray = nomal;
     
     
     if (self.exceptArray.count == 0) {
@@ -435,7 +436,6 @@
 - (void)createExceptView
 {
     UIView *tempBottomView;
-
     if (self.dangerIsExpand) {
         
         
