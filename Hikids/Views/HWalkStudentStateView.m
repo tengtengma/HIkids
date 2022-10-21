@@ -241,9 +241,22 @@
 }
 - (void)clickExpandAction:(UIButton *)button
 {
-    if (self.closeExpandBlock) {
-        self.closeExpandBlock();
+//    if (self.closeExpandBlock) {
+//        self.closeExpandBlock();
+//    }
+    for (id v in self.scrollView.subviews)
+        [v removeFromSuperview];
+    
+    
+    if (button.tag == 1000) {
+        self.safeIsExpand = !self.safeIsExpand;
+    }else{
+        self.dangerIsExpand = !self.dangerIsExpand;
     }
+    
+    [self tableReload];
+    
+
 }
 - (void)createStudentViewWithArray:(NSArray *)array topView:(UIView *)topView bgView:(UIView *)bgView
 {
@@ -278,7 +291,7 @@
 {
     
     NSMutableArray *except = [[NSMutableArray alloc] init];
-    for (NSInteger i = 0; i<1; i++) {
+    for (NSInteger i = 0; i<10; i++) {
         HStudent *student = [[HStudent alloc] init];
         student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
         student.sId = [NSString stringWithFormat:@"%ld",100+i];
@@ -287,7 +300,7 @@
     }
     
     self.exceptArray = except;
-    
+        
     NSMutableArray *nomal = [[NSMutableArray alloc] init];
     for (NSInteger i = 0; i<2; i++) {
         HStudent *student = [[HStudent alloc] init];
@@ -298,6 +311,7 @@
     }
     
     self.nomalArray = nomal;
+    
     
     if (self.exceptArray.count == 0) {
         [self createNomalView];
@@ -311,18 +325,19 @@
     bgView.layer.masksToBounds = YES;
     bgView.layer.cornerRadius = 12;
     bgView.layer.borderWidth = 2;
-    bgView.layer.borderColor = BWColor(0.133, 0.133, 0.133, 1.0).CGColor;
     [self.scrollView addSubview:bgView];
 
     [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.scrollView);
-        make.left.equalTo(self.scrollView).offset(PAdaptation_x(24));
-        make.right.equalTo(self.scrollView.mas_right).offset(-PAdaptation_x(24));
+        make.left.equalTo(self).offset(PAdaptation_x(24));
+        make.right.equalTo(self.mas_right).offset(-PAdaptation_x(24));
         make.height.mas_equalTo(PAaptation_y(129));
     }];
 
     UIView *topView = [[UIView alloc] init];
-    topView.backgroundColor = BWColor(255, 75, 0, 1);
+//    topView.backgroundColor = BWColor(255, 75, 0, 1);
+    topView.userInteractionEnabled = YES;
+
     [bgView addSubview:topView];
     [topView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(bgView);
@@ -351,7 +366,7 @@
     }];
 
     UIView *numberBg = [[UILabel alloc] init];
-    numberBg.backgroundColor = [UIColor whiteColor];
+    numberBg.backgroundColor = BWColor(5, 70, 11, 1);
     [topView addSubview:numberBg];
     [numberBg mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(iconView);
@@ -371,7 +386,7 @@
     }];
 
     UIButton *expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    expandBtn.tag = indexPath.row+1000;
+    expandBtn.tag = 1000;
     [expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
     [expandBtn setImage:[UIImage imageNamed:@"triangle_small.png"] forState:UIControlStateNormal];
     [topView addSubview:expandBtn];
@@ -409,12 +424,18 @@
         tempView = imageView;
     }
     
+    bgView.layer.borderColor = BWColor(0, 102, 10, 1).CGColor;
+    topView.backgroundColor = BWColor(0, 176, 107, 1);
+    [iconView setImage:[UIImage imageNamed:@"safeIcon.png"]];
+    stateLabel.text = @"安全エリア内";
+    numberLabel.text = [NSString stringWithFormat:@"%ld人",self.nomalArray.count];
+
+    
 }
 - (void)createExceptView
 {
     UIView *tempBottomView;
 
-    self.dangerIsExpand = YES;
     if (self.dangerIsExpand) {
         
         
@@ -425,16 +446,18 @@
             if (i == 0) {
 
                 UIView *topView = [[UIView alloc] init];
+                topView.userInteractionEnabled = YES;
                 topView.backgroundColor = BWColor(255, 75, 0, 1);
                 [self.scrollView addSubview:topView];
                 [topView mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.top.equalTo(self.scrollView);
-                    make.left.equalTo(self.scrollView);
-                    make.width.equalTo(self.scrollView);
+                    make.left.equalTo(self).offset(PAdaptation_x(24));
+                    make.right.equalTo(self.mas_right).offset(-PAdaptation_x(24));
                     make.height.mas_equalTo(PAaptation_y(40));
                 }];
 
                 UIImageView *iconView = [[UIImageView alloc] init];
+                [iconView setImage:[UIImage imageNamed:@"dangerIcon.png"]];
                 [topView addSubview:iconView];
                 
                 [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -445,6 +468,7 @@
                 }];
 
                 UILabel *stateLabel = [[UILabel alloc] init];
+                stateLabel.text = @"危険";
                 stateLabel.textColor = [UIColor whiteColor];
                 stateLabel.font = [UIFont systemFontOfSize:20];
                 [topView addSubview:stateLabel];
@@ -465,8 +489,9 @@
                 }];
 
                 UILabel *numberLabel = [[UILabel alloc] init];
+                numberLabel.text = [NSString stringWithFormat:@"%ld人",self.exceptArray.count];
                 numberLabel.font = [UIFont systemFontOfSize:16];
-                numberLabel.textColor = [UIColor whiteColor];
+                numberLabel.textColor = BWColor(255, 75, 0, 1);
                 numberLabel.textAlignment = NSTextAlignmentCenter;
                 [topView addSubview:numberLabel];
 
@@ -475,7 +500,7 @@
                 }];
 
                 UIButton *expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            //    expandBtn.tag = indexPath.row+1000;
+                expandBtn.tag = 1001;
                 [expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
                 [expandBtn setImage:[UIImage imageNamed:@"triangle_small.png"] forState:UIControlStateNormal];
                 [topView addSubview:expandBtn];
@@ -488,11 +513,11 @@
                 
             }
             UIView *bottomView = [[UIView alloc] init];
-            bottomView.backgroundColor = [UIColor yellowColor];
+            bottomView.backgroundColor = [UIColor whiteColor];
             if (i == 0) {
-                [bottomView setFrame:CGRectMake(PAdaptation_x(0), PAaptation_y(40), SCREEN_WIDTH, PAaptation_y(89))];
+                [bottomView setFrame:CGRectMake(PAdaptation_x(24), PAaptation_y(40), SCREEN_WIDTH - PAdaptation_x(48), PAaptation_y(89))];
             }else {
-                [bottomView setFrame:CGRectMake(PAdaptation_x(0), PAaptation_y(40)+ PAaptation_y(89)*i, SCREEN_WIDTH, PAaptation_y(89))];
+                [bottomView setFrame:CGRectMake(PAdaptation_x(24), PAaptation_y(40)+ PAaptation_y(89)*i, SCREEN_WIDTH -PAdaptation_x(48), PAaptation_y(89))];
 
             }
             [self.scrollView addSubview:bottomView];
@@ -506,9 +531,117 @@
         }
     }else{
         
+        float height = PAaptation_y(0);
+                                         
+        UIView *bgView = [[UIView alloc] init];
+        bgView.layer.masksToBounds = YES;
+        bgView.layer.cornerRadius = 12;
+        bgView.layer.borderWidth = 2;
+        [self.scrollView addSubview:bgView];
+
+        [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(height);
+            make.left.equalTo(self).offset(PAdaptation_x(24));
+            make.right.equalTo(self.mas_right).offset(-PAdaptation_x(24));
+            make.height.mas_equalTo(PAaptation_y(129));
+        }];
+
+        UIView *topView = [[UIView alloc] init];
+        topView.userInteractionEnabled = YES;
+        [bgView addSubview:topView];
+        [topView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(bgView);
+            make.left.equalTo(bgView);
+            make.width.equalTo(bgView);
+            make.height.mas_equalTo(PAaptation_y(40));
+        }];
+
+        UIImageView *iconView = [[UIImageView alloc] init];
+        [bgView addSubview:iconView];
+        [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(topView);
+            make.left.equalTo(topView).offset(PAdaptation_x(16));
+            make.width.mas_equalTo(PAdaptation_x(24));
+            make.height.mas_equalTo(PAaptation_y(24));
+        }];
+
+        UILabel *stateLabel = [[UILabel alloc] init];
+        stateLabel.textColor = [UIColor whiteColor];
+        stateLabel.font = [UIFont systemFontOfSize:20];
+        [topView addSubview:stateLabel];
+
+        [stateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(topView);
+            make.left.equalTo(iconView.mas_right).offset(PAdaptation_x(10));
+        }];
+
+        UIView *numberBg = [[UILabel alloc] init];
+        [topView addSubview:numberBg];
+        [numberBg mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(iconView);
+            make.left.equalTo(stateLabel.mas_right).offset(PAdaptation_x(10));
+            make.width.mas_equalTo(PAdaptation_x(59));
+            make.height.mas_equalTo(PAaptation_y(26));
+        }];
+
+        UILabel *numberLabel = [[UILabel alloc] init];
+        numberLabel.font = [UIFont systemFontOfSize:16];
+        numberLabel.textAlignment = NSTextAlignmentCenter;
+        [topView addSubview:numberLabel];
+
+        [numberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(numberBg);
+        }];
+
+        UIButton *expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        expandBtn.tag = 1001;
+        [expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
+        [expandBtn setImage:[UIImage imageNamed:@"triangle_small.png"] forState:UIControlStateNormal];
+        [topView addSubview:expandBtn];
+        [expandBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(topView);
+            make.right.equalTo(topView.mas_right).offset(-PAdaptation_x(11.5));
+            make.width.mas_equalTo(PAdaptation_x(21));
+            make.height.mas_equalTo(PAaptation_y(24));
+        }];
+        
+        UIImageView *tempView = nil;
+        for (NSInteger i = 0; i < self.exceptArray.count; i++) {
+            
+            HStudent *student = [self.nomalArray safeObjectAtIndex:i];
+            
+            UIImageView *imageView = [[UIImageView alloc] init];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
+            imageView.layer.cornerRadius = PAdaptation_x(36)/2;
+            imageView.layer.masksToBounds = YES;
+            imageView.layer.borderWidth = 2;
+            imageView.layer.borderColor = BWColor(108, 159, 155, 1).CGColor;
+            [bgView addSubview:imageView];
+            
+            [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(topView.mas_bottom).offset(PAaptation_y(12));
+                if (tempView) {
+                    make.left.equalTo(tempView.mas_right).offset(PAdaptation_x(6));
+                }else{
+                    make.left.equalTo(bgView).offset(PAdaptation_x(6));
+                }
+                make.width.mas_equalTo(PAdaptation_x(36));
+                make.height.mas_equalTo(PAaptation_y(36));
+            }];
+            
+            tempView = imageView;
+        }
+        
+        bgView.layer.borderColor = BWColor(0, 102, 10, 1).CGColor;
+        topView.backgroundColor = BWColor(255, 75, 0, 1);
+        [iconView setImage:[UIImage imageNamed:@"dangerIcon.png"]];
+        stateLabel.text = @"危険";
+        numberLabel.text = [NSString stringWithFormat:@"%ld人",self.exceptArray.count];
+        numberLabel.textColor = BWColor(255, 75, 0, 1);
+        numberBg.backgroundColor = [UIColor whiteColor];
+
     }
  
-    self.safeIsExpand = YES;
     
     if (self.safeIsExpand) {
         for (NSInteger i = 0; i < self.nomalArray.count; i++) {
@@ -516,14 +649,20 @@
             HStudent *student = [self.nomalArray safeObjectAtIndex:i];
 
             if (i == 0) {
+                
+                float height;
+                if (self.dangerIsExpand) {
+                    height = PAaptation_y(40)+ PAaptation_y(89)*self.exceptArray.count;
+                }else{
+                    height = PAaptation_y(40)+ PAaptation_y(89)*1;
+                }
 
                 UIView *topView = [[UIView alloc] init];
-                topView.backgroundColor = BWColor(255, 75, 0, 1);
                 [self.scrollView addSubview:topView];
                 [topView mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.top.mas_equalTo(PAaptation_y(40)+ PAaptation_y(89)*self.exceptArray.count);
-                    make.left.equalTo(self.scrollView);
-                    make.width.equalTo(self.scrollView);
+                    make.top.mas_equalTo(height);
+                    make.left.equalTo(self).offset(PAdaptation_x(24));
+                    make.right.equalTo(self.mas_right).offset(-PAdaptation_x(24));
                     make.height.mas_equalTo(PAaptation_y(40));
                 }];
 
@@ -548,7 +687,7 @@
                 }];
 
                 UIView *numberBg = [[UILabel alloc] init];
-                numberBg.backgroundColor = [UIColor whiteColor];
+                numberBg.backgroundColor = BWColor(5, 70, 11, 1);
                 [topView addSubview:numberBg];
                 [numberBg mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.centerY.equalTo(iconView);
@@ -568,7 +707,7 @@
                 }];
 
                 UIButton *expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            //    expandBtn.tag = indexPath.row+1000;
+                expandBtn.tag = 1000;
                 [expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
                 [expandBtn setImage:[UIImage imageNamed:@"triangle_small.png"] forState:UIControlStateNormal];
                 [topView addSubview:expandBtn];
@@ -579,14 +718,34 @@
                     make.height.mas_equalTo(PAaptation_y(24));
                 }];
                 
+                topView.backgroundColor = BWColor(0, 176, 107, 1);
+                [iconView setImage:[UIImage imageNamed:@"safeIcon.png"]];
+                stateLabel.text = @"安全エリア内";
+                numberLabel.text = [NSString stringWithFormat:@"%ld人",self.nomalArray.count];
+                
             }
             UIView *bottomView = [[UIView alloc] init];
-            bottomView.backgroundColor = [UIColor greenColor];
+            bottomView.backgroundColor = [UIColor whiteColor];
+            float height;
             if (i == 0) {
-                [bottomView setFrame:CGRectMake(PAdaptation_x(0), PAaptation_y(40)+(PAaptation_y(40)+PAaptation_y(89)*self.exceptArray.count), SCREEN_WIDTH, PAaptation_y(89))];
+                if (self.dangerIsExpand) {
+                    height = (PAaptation_y(40)+ (PAaptation_y(40)+PAaptation_y(89)*self.exceptArray.count))+i*PAaptation_y(89);
+
+                }else{
+                    height = (PAaptation_y(40)+ (PAaptation_y(40)+PAaptation_y(89)*1))+i*PAaptation_y(89);
+                }
+
+                [bottomView setFrame:CGRectMake(PAdaptation_x(24), height, SCREEN_WIDTH - PAdaptation_x(48), PAaptation_y(89))];
             }else {
-                float height = (PAaptation_y(40)+ (PAaptation_y(40)+PAaptation_y(89)*self.exceptArray.count))+i*PAaptation_y(89);
-                [bottomView setFrame:CGRectMake(PAdaptation_x(0),height , SCREEN_WIDTH, PAaptation_y(89))];
+                
+                if (self.dangerIsExpand) {
+                    height = (PAaptation_y(40)+ (PAaptation_y(40)+PAaptation_y(89)*self.exceptArray.count))+i*PAaptation_y(89);
+
+                }else{
+                    height = (PAaptation_y(40)+ (PAaptation_y(40)+PAaptation_y(89)*1))+i*PAaptation_y(89);
+                }
+                
+                [bottomView setFrame:CGRectMake(PAdaptation_x(24), height, SCREEN_WIDTH - PAdaptation_x(48), PAaptation_y(89))];
 
             }
             [self.scrollView addSubview:bottomView];
@@ -599,6 +758,119 @@
         
     }else{
         
+        float height;
+        if (self.dangerIsExpand) {
+            height = (PAaptation_y(40)+PAaptation_y(89)*self.exceptArray.count);
+        }else{
+            height = PAaptation_y(40)+ PAaptation_y(89)*1;
+        }
+                                                 
+        UIView *bgView = [[UIView alloc] init];
+        bgView.layer.masksToBounds = YES;
+        bgView.layer.cornerRadius = 12;
+        bgView.layer.borderWidth = 2;
+        [self.scrollView addSubview:bgView];
+
+        [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(height);
+            make.left.equalTo(self).offset(PAdaptation_x(24));
+            make.right.equalTo(self.mas_right).offset(-PAdaptation_x(24));
+            make.height.mas_equalTo(PAaptation_y(129));
+        }];
+
+        UIView *topView = [[UIView alloc] init];
+    //    topView.backgroundColor = BWColor(255, 75, 0, 1);
+        [bgView addSubview:topView];
+        [topView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(bgView);
+            make.left.equalTo(bgView);
+            make.width.equalTo(bgView);
+            make.height.mas_equalTo(PAaptation_y(40));
+        }];
+
+        UIImageView *iconView = [[UIImageView alloc] init];
+        [bgView addSubview:iconView];
+        [iconView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(topView);
+            make.left.equalTo(topView).offset(PAdaptation_x(16));
+            make.width.mas_equalTo(PAdaptation_x(24));
+            make.height.mas_equalTo(PAaptation_y(24));
+        }];
+
+        UILabel *stateLabel = [[UILabel alloc] init];
+        stateLabel.textColor = [UIColor whiteColor];
+        stateLabel.font = [UIFont systemFontOfSize:20];
+        [topView addSubview:stateLabel];
+
+        [stateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(topView);
+            make.left.equalTo(iconView.mas_right).offset(PAdaptation_x(10));
+        }];
+
+        UIView *numberBg = [[UILabel alloc] init];
+        numberBg.backgroundColor = BWColor(5, 70, 11, 1);
+        [topView addSubview:numberBg];
+        [numberBg mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(iconView);
+            make.left.equalTo(stateLabel.mas_right).offset(PAdaptation_x(10));
+            make.width.mas_equalTo(PAdaptation_x(59));
+            make.height.mas_equalTo(PAaptation_y(26));
+        }];
+
+        UILabel *numberLabel = [[UILabel alloc] init];
+        numberLabel.font = [UIFont systemFontOfSize:16];
+        numberLabel.textColor = [UIColor whiteColor];
+        numberLabel.textAlignment = NSTextAlignmentCenter;
+        [topView addSubview:numberLabel];
+
+        [numberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(numberBg);
+        }];
+
+        UIButton *expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        expandBtn.tag = 1000;
+        [expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
+        [expandBtn setImage:[UIImage imageNamed:@"triangle_small.png"] forState:UIControlStateNormal];
+        [topView addSubview:expandBtn];
+        [expandBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(topView);
+            make.right.equalTo(topView.mas_right).offset(-PAdaptation_x(11.5));
+            make.width.mas_equalTo(PAdaptation_x(21));
+            make.height.mas_equalTo(PAaptation_y(24));
+        }];
+        
+        UIImageView *tempView = nil;
+        for (NSInteger i = 0; i < self.nomalArray.count; i++) {
+            
+            HStudent *student = [self.nomalArray safeObjectAtIndex:i];
+            
+            UIImageView *imageView = [[UIImageView alloc] init];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
+            imageView.layer.cornerRadius = PAdaptation_x(36)/2;
+            imageView.layer.masksToBounds = YES;
+            imageView.layer.borderWidth = 2;
+            imageView.layer.borderColor = BWColor(108, 159, 155, 1).CGColor;
+            [bgView addSubview:imageView];
+            
+            [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(topView.mas_bottom).offset(PAaptation_y(12));
+                if (tempView) {
+                    make.left.equalTo(tempView.mas_right).offset(PAdaptation_x(6));
+                }else{
+                    make.left.equalTo(bgView).offset(PAdaptation_x(6));
+                }
+                make.width.mas_equalTo(PAdaptation_x(36));
+                make.height.mas_equalTo(PAaptation_y(36));
+            }];
+            
+            tempView = imageView;
+        }
+        
+        bgView.layer.borderColor = BWColor(0, 102, 10, 1).CGColor;
+        topView.backgroundColor = BWColor(0, 176, 107, 1);
+        [iconView setImage:[UIImage imageNamed:@"safeIcon.png"]];
+        stateLabel.text = @"安全エリア内";
+        numberLabel.text = [NSString stringWithFormat:@"%ld人",self.nomalArray.count];
     }
     
     if (self.dangerIsExpand && self.safeIsExpand) {
@@ -613,6 +885,10 @@
     }
     if (self.dangerIsExpand == NO && self.safeIsExpand == YES) {
         self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, PAaptation_y(40)+PAaptation_y(40)+PAaptation_y(89)+self.nomalArray.count * PAaptation_y(89));
+        return;
+    }
+    if (self.dangerIsExpand == NO && self.safeIsExpand == NO) {
+        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT);
         return;
     }
 }
