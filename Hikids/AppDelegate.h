@@ -10,6 +10,9 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 @property (nonatomic, strong) UIWindow *window;
 
+@property (nonatomic, assign) BOOL isSafeExpand;
+@property (nonatomic, assign) BOOL isDangerExpand;
+
 
 @end
 

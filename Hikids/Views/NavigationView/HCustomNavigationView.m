@@ -24,6 +24,8 @@
 }
 - (void)createUI
 {
+    self.backgroundColor = [UIColor clearColor];
+    
     [self addSubview:self.backgroundImageView];
     [self.backgroundImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self);
@@ -31,7 +33,7 @@
     
     [self.backgroundImageView addSubview:self.titleLabel];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self).offset(PAaptation_y(BW_StatusBarHeight+7));
+        make.top.equalTo(self).offset(PAaptation_y(BW_StatusBarHeight+5));
         make.left.equalTo(self).offset(PAdaptation_x(12));
         make.width.mas_equalTo(PAdaptation_x(300));
     }];
@@ -52,7 +54,7 @@
     
     [self.backgroundImageView addSubview:self.updateTimeLabel];
     [self.updateTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.stateLabel.mas_bottom).offset(PAaptation_y(4));
+        make.top.equalTo(self.stateLabel.mas_bottom).offset(PAaptation_y(2));
         make.left.equalTo(self.stateImageView);
     }];
     
@@ -80,7 +82,7 @@
     self.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
     
     self.userNameLabel.text = @"--";
-    [self.backgroundImageView setImage:[UIImage imageNamed:@"navBG_safe.png"]];
+    [self.backgroundImageView setImage:[UIImage imageNamed:@"title_back.png"]];
 
 }
 

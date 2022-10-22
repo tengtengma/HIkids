@@ -123,7 +123,7 @@
     }];
     self.manager.requestSerializer = [AFJSONRequestSerializer serializer];//申明请求的数据是json类型
     
-    if (![BWBaseReq isKindOfClass:[BWLoginReq class]]) {
+    if (![request isKindOfClass:[BWLoginReq class]]) {
         //登陆接口需要单独处理
         NSString *jwToken = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_Jwtoken];
         NSString *token;

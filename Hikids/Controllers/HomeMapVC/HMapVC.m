@@ -56,6 +56,7 @@
 @property (nonatomic,strong) HWalkStudentStateView *walkStateView;
 @property (nonatomic,strong) HStudentStateInfoView *stateInfoView;
 @property (nonatomic,strong) HWalkTask *currentTask;//当前任务
+@property (nonatomic,strong) NSMutableArray *makerList;//保存所有孩子maker
 
 
 @end
@@ -89,11 +90,8 @@
     [super viewDidLoad];
     
     
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:15*6 target:self selector:@selector(updateLocationInfomation) userInfo:nil repeats:YES];
-    
-//    self.dangerTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(checkDangerState) userInfo:nil repeats:YES];
-
-    
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(startGetStudentLocationRequest) userInfo:nil repeats:YES];
+        
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeVCAction:) name:@"changeVCNotification" object:nil];
     
     
@@ -112,7 +110,6 @@
     
     [self.stateInfoView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, PAaptation_y(351))];
     [self.view addSubview:self.stateInfoView];
-    
     
     
     [self getTaskRequest];
@@ -191,6 +188,7 @@
     self.isDrawFence = YES;
     
     [self.mapView clear];
+    [self.makerList removeAllObjects];
 
     [self getKinderRequest];
 }
@@ -198,6 +196,8 @@
 - (void)startWalkMode
 {
     self.isDrawFence = YES;
+    
+    [self.makerList removeAllObjects];
 
     [self.mapView clear];
     
@@ -219,6 +219,8 @@
 //开启目的地模式
 - (void)startDestMode
 {
+    [self.makerList removeAllObjects];
+
     self.isDrawFence = YES;
 
     [self.mapView clear];
@@ -238,6 +240,8 @@
 //开启返程模式
 - (void)startBackMode
 {
+    [self.makerList removeAllObjects];
+
     self.isDrawFence = YES;
 
     [self.mapView clear];
@@ -246,6 +250,8 @@
 //结束任务模式
 - (void)endMode
 {
+    [self.makerList removeAllObjects];
+
     self.isDrawFence = YES;
 
     [self.mapView clear];
@@ -309,8 +315,9 @@
         weakSelf.exceptArray = locationResp.exceptionKids;
         
         [weakSelf reloadData];
-//        [weakSelf addMarkers]; //添加学生位置坐标
-//        [weakSelf setupNavInfomation];
+        [weakSelf addMarkers]; //添加学生位置坐标
+        [weakSelf drawPolygon];
+        [weakSelf setupNavInfomation];
         
         weakSelf.walkStateView.nomalArray = weakSelf.nomalArray;
         weakSelf.walkStateView.exceptArray = weakSelf.exceptArray;
@@ -322,10 +329,6 @@
         [weakSelf.walkStateView tableReload];
         [weakSelf.menuHomeVC tableReload];
         
-        if (!self.isDrawFence) {
-            return;
-        }
-        [self updateLocationInfomation];
         
         
     } failure:^(BWBaseReq *req, NSError *error) {
@@ -444,12 +447,12 @@
             self.customNavigationView.stateLabel.textColor = BWColor(0, 176, 107, 1);
             [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_safe.png"]];
 
-            self.customNavigationView.updateTimeLabel.text = @"最终更新：3分钟";
+            self.customNavigationView.updateTimeLabel.text = @"最終更新：20秒";
             self.customNavigationView.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
             
             self.customNavigationView.userNameLabel.text = @"ひまわり";
             [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
-            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
+            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"teacher.png"]];
         }else{
 
             [self showAlertAction];
@@ -459,12 +462,12 @@
             self.customNavigationView.titleLabel.text = @"在園中";
             self.customNavigationView.stateLabel.text = @"危险";
             self.customNavigationView.stateLabel.textColor = BWColor(164, 0, 0, 1);
-            self.customNavigationView.updateTimeLabel.text = @"最终更新：3分钟";
+            self.customNavigationView.updateTimeLabel.text = @"最終更新：20秒";
             self.customNavigationView.updateTimeLabel.textColor = BWColor(164, 0, 0, 1);
         
             self.customNavigationView.userNameLabel.text = @"ひまわり";
-            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"dangerIcon.png"]];
-            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
+            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"dangerNav.png"]];
+            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"teacher.png"]];
         }
     }
     if (self.currentTask.status.integerValue == 2) {
@@ -477,12 +480,12 @@
             self.customNavigationView.stateLabel.textColor = BWColor(0, 176, 107, 1);
             [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_safe.png"]];
 
-            self.customNavigationView.updateTimeLabel.text = @"最终更新：3分钟";
+            self.customNavigationView.updateTimeLabel.text = @"最終更新：20秒";
             self.customNavigationView.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
             
             self.customNavigationView.userNameLabel.text = @"ひまわり";
             [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
-            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
+            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"teacher.png"]];
         }else{
             
             [self showAlertAction];
@@ -491,12 +494,12 @@
             self.customNavigationView.titleLabel.text = @"散歩中（経路）";
             self.customNavigationView.stateLabel.text = @"危险";
             self.customNavigationView.stateLabel.textColor = BWColor(164, 0, 0, 1);
-            self.customNavigationView.updateTimeLabel.text = @"最终更新：3分钟";
+            self.customNavigationView.updateTimeLabel.text = @"最終更新：20秒";
             self.customNavigationView.updateTimeLabel.textColor = BWColor(164, 0, 0, 1);
         
             self.customNavigationView.userNameLabel.text = @"ひまわり";
-            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"dangerIcon.png"]];
-            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
+            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"dangerNav.png"]];
+            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"teacher.png"]];
         }
     }
     if (self.currentTask.status.integerValue == 3) {
@@ -509,12 +512,12 @@
             self.customNavigationView.stateLabel.textColor = BWColor(0, 176, 107, 1);
             [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_safe.png"]];
 
-            self.customNavigationView.updateTimeLabel.text = @"最终更新：3分钟";
+            self.customNavigationView.updateTimeLabel.text = @"最終更新：20秒";
             self.customNavigationView.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
             
             self.customNavigationView.userNameLabel.text = @"ひまわり";
             [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
-            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
+            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"teacher.png"]];
         }else{
             
             [self showAlertAction];
@@ -524,31 +527,18 @@
             self.customNavigationView.titleLabel.text = @"散歩中（経路）";
             self.customNavigationView.stateLabel.text = @"危险";
             self.customNavigationView.stateLabel.textColor = BWColor(164, 0, 0, 1);
-            self.customNavigationView.updateTimeLabel.text = @"最终更新：3分钟";
+            self.customNavigationView.updateTimeLabel.text = @"最終更新：20秒";
             self.customNavigationView.updateTimeLabel.textColor = BWColor(164, 0, 0, 1);
         
             self.customNavigationView.userNameLabel.text = @"ひまわり";
-            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"dangerIcon.png"]];
-            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"safe.png"]];
+            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"dangerNav.png"]];
+            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"teacher.png"]];
         }
     }
 
 
     
 
-}
-- (void)updateLocationInfomation
-{
-    if (self.myLocation.fenceArray.count == 0) {
-        return;
-    }
-    //先清理掉旧的
-    [self.marker.map clear];
-    self.marker.map = nil;
-    
-    [self addMarkers];
-    [self drawPolygon];
-    [self setupNavInfomation];
 }
 
 //画围栏
@@ -576,28 +566,46 @@
 }
 -(void)addMarkers{
     
-    for (HStudent *student in self.exceptArray) {
+    for (NSInteger i = 0;i<self.exceptArray.count;i++) {
                 
-        CGRect frame = CGRectMake(0, 0, PAdaptation_x(40), PAaptation_y(40));
+        HStudent *student = [self.exceptArray safeObjectAtIndex:i];
+
+        CGRect ellipseframe = CGRectMake(0, 0, PAdaptation_x(80), PAaptation_y(80));
+        UIImageView *ellipseView = [[UIImageView alloc] initWithFrame:ellipseframe];
+        [ellipseView setImage:[UIImage imageNamed:@"Ellipse.png"]];
+        
+        CGRect frame = CGRectMake(PAdaptation_x(80)/2 - PAdaptation_x(40)/2, PAaptation_y(80)/2 - PAaptation_y(40)/2, PAdaptation_x(40), PAaptation_y(40));
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
         imageView.layer.cornerRadius = PAaptation_y(40)/2;
         imageView.layer.masksToBounds = YES;
         imageView.layer.borderWidth = 4;
         imageView.layer.borderColor = BWColor(255, 75, 0, 1).CGColor;
         [imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
+        [ellipseView addSubview:imageView];
         
         
-        GMSMarker *marker = [[GMSMarker alloc]init];
+        GMSMarker *marker = [self.makerList safeObjectAtIndex:i];
+        if (marker == nil) {
+            marker = [[GMSMarker alloc] init];
+        }
         marker.title = student.name;
-        marker.iconView = imageView;
+        marker.iconView = ellipseView;
+        marker.tracksViewChanges = YES;
         marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
         marker.userData = student;
         marker.map = self.mapView;
         
         [self dealWithTaskStateChangeWithStudent:student withNomal:NO];
         
+        
+        if (![self.makerList containsObject:marker]) {
+            [self.makerList addObject:marker];
+        }
+        
     }
-    for (HStudent *student in self.nomalArray) {
+    for (NSInteger i = 0;i<self.nomalArray.count;i++) {
+        HStudent *student = [self.nomalArray safeObjectAtIndex:i];
+        
         CGRect frame = CGRectMake(0, 0, PAdaptation_x(40), PAaptation_y(40));
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
         imageView.layer.cornerRadius = PAaptation_y(40)/2;
@@ -606,7 +614,11 @@
         imageView.layer.borderWidth = 4;
         imageView.layer.borderColor = BWColor(108, 159, 155, 1).CGColor;
 
-        GMSMarker *marker = [[GMSMarker alloc]init];
+
+        GMSMarker *marker = [self.makerList safeObjectAtIndex:i];
+        if (marker == nil) {
+            marker = [[GMSMarker alloc] init];
+        }
         marker.title = student.name;
         marker.iconView = imageView;
         marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
@@ -614,7 +626,10 @@
         marker.map = self.mapView;
         
         [self dealWithTaskStateChangeWithStudent:student withNomal:YES];
-
+        
+        if (![self.makerList containsObject:marker]) {
+            [self.makerList addObject:marker];
+        }
     }
     
 
@@ -736,7 +751,7 @@
     [self getChatMessageGoToSound];
     
     DefineWeakSelf;
-    [BWAlertCtrl alertControllerWithTitle:@"ご注意ください！" buttonArray:@[@"アラート停止"] message:@"Here’s to the crazy ones, the misfits, the rebels, the troublemakers..." preferredStyle:UIAlertControllerStyleAlert clickBlock:^(NSString *buttonTitle) {
+    [BWAlertCtrl alertControllerWithTitle:@"ご注意ください！" buttonArray:@[@"アラート停止"] message:@"安全地帯を出てしまったお子さんもいるかもしれませんので、ご確認ください。" preferredStyle:UIAlertControllerStyleAlert clickBlock:^(NSString *buttonTitle) {
         
         if ([buttonTitle isEqualToString:@"アラート停止"]) {
 //            [weakSelf.shakeTimer setFireDate:[NSDate distantFuture]];
@@ -840,50 +855,36 @@
 }
 - (void)locationManager:(CLLocationManager*)manager didUpdateLocations:(NSArray *)locations {
 
-        // 获取最新定位 手机自己的定位
-        CLLocation *location = locations.lastObject;
+    // 获取最新定位 手机自己的定位
+    CLLocation *location = locations.lastObject;
 
+    if (location.horizontalAccuracy < 200 && location.horizontalAccuracy != -1){   //Many many code here...
+        //数据可用
+        //散步模式和返程模式 需要手机真实坐标
+        self.myLocation.locationInfo.longitude = location.coordinate.longitude;
+        self.myLocation.locationInfo.latitude = location.coordinate.latitude;
+        //替换自己的坐标
+         CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude);
 
-       //替换自己的坐标
-        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude);
-
-        //如果是国内，就会转化坐标系，如果是国外坐标，则不会转换。
-//        _coordinate2D = [JZLocationConverter wgs84ToGcj02:location.coordinate];
-        //移动地图中心到当前位置
-        self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:18];
-
-        self.marker = [GMSMarker markerWithPosition:coordinate];
-        self.marker.map = self.mapView;
-        self.mapView.settings.myLocationButton = YES;
-        self.mapView.myLocationEnabled = YES;
-    
-//        [MBProgressHUD showMessag:@"11111111" toView:self.view hudModel:MBProgressHUDModeText hide:YES];
-
-    
-    //散步模式和返程模式 需要手机真实坐标
-    self.myLocation.locationInfo.longitude = location.coordinate.longitude;
-    self.myLocation.locationInfo.latitude = location.coordinate.latitude;
-
+         //如果是国内，就会转化坐标系，如果是国外坐标，则不会转换。
+ //        _coordinate2D = [JZLocationConverter wgs84ToGcj02:location.coordinate];
+         //移动地图中心到当前位置
+         self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:18];
         [self startGetStudentLocationRequest];
+
+    } else {
+        [self.locationManager stopUpdatingLocation]; //停止获取
+        [NSThread sleepForTimeInterval:10]; //阻塞10秒
+        [self.locationManager startUpdatingLocation]; //重新获取
+        
+    }
 
 //        [self getPlace:_coordinate2D];
 //    }
     
 }
 
--(void)mapViewDidFinishTileRendering:(GMSMapView *)mapView{
 
-    
-}
-//地图移动后的代理方法，我这里的需求是地图移动需要刷新网络请求，查找附近的店铺
--(void)mapView:(GMSMapView*)mapView idleAtCameraPosition:(GMSCameraPosition*)position{
-//    //点击一次先清除上一次的大头针
-//    [self.marker.map clear];
-//    self.marker.map = nil;
-//    self.marker = [GMSMarker markerWithPosition:mapView.camera.target];
-//    self.marker.map = self.mapView;
-//    [self getPlace:mapView.camera.target];
-}
 //-(void)getPlace:(CLLocationCoordinate2D)coordinate2D{
 //
 //    [[GMSGeocoder geocoder] reverseGeocodeCoordinate:CLLocationCoordinate2DMake(coordinate2D.latitude, coordinate2D.longitude) completionHandler:^(GMSReverseGeocodeResponse * _Nullable response, NSError * _Nullable error) {
@@ -903,21 +904,7 @@
 //        }
 //    }];
 //}
-//选择了位置后的回调方法
-- (void)viewController:(GMSAutocompleteViewController*)viewController didAutocompleteWithPlace:(GMSPlace*)place {
-    //移动地图中心到选择的位置
-    _mapView.camera = [GMSCameraPosition cameraWithTarget:place.coordinate zoom:15];
-    [viewController dismissViewControllerAnimated:YES completion:nil];
-}
-//失败回调
-- (void)viewController:(GMSAutocompleteViewController *)viewController
-didFailAutocompleteWithError:(NSError *)error {
-    [viewController dismissViewControllerAnimated:YES completion:nil];
-}
-//取消回调
-- (void)wasCancelled:(GMSAutocompleteViewController *)viewController {
-    [viewController dismissViewControllerAnimated:YES completion:nil];
-}
+
 -(BOOL)mapView:(GMSMapView *) mapView didTapMarker:(GMSMarker *)marker
 {
     [self hideStateInfoView];
@@ -926,7 +913,6 @@ didFailAutocompleteWithError:(NSError *)error {
     NSLog(@"点击了%@",student.name);
     [self.stateInfoView setInfomationWithModel:student];
     [self showStateInfoView];
-    
 
     return YES;
 }
@@ -961,8 +947,8 @@ didFailAutocompleteWithError:(NSError *)error {
 
 -(void)dealloc{
 //    [SVProgressHUD dismiss];
-//    [_locationManager stopUpdatingLocation];
-    _mapView = nil;
+    [self.locationManager stopUpdatingLocation];
+    self.mapView = nil;
 }
 
 #pragma mark - LazyLoad -
@@ -971,11 +957,10 @@ didFailAutocompleteWithError:(NSError *)error {
     if (!_mapView) {
         //设置地图view，这里是随便初始化了一个经纬度，在获取到当前用户位置到时候会直接更新的
         GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:38.02 longitude:114.52 zoom:15];
-        _mapView = [GMSMapView mapWithFrame:CGRectMake(0, PAaptation_y(156), SCREEN_WIDTH,self.view.frame.size.height - PAaptation_y(110)-PAaptation_y(156)) camera:camera];
+        _mapView = [GMSMapView mapWithFrame:CGRectMake(0, PAaptation_y(156), SCREEN_WIDTH,self.view.frame.size.height - PAaptation_y(110)-PAaptation_y(140)) camera:camera];
         _mapView.delegate = self;
-//        _mapView.settings.compassButton = YES;//显示指南针
-        //_mapView.settings.myLocationButton = YES;
-        //_mapView.myLocationEnabled = NO;
+        _mapView.settings.myLocationButton = YES;
+        _mapView.myLocationEnabled = YES;
     }
     return _mapView;
 }
@@ -1024,11 +1009,17 @@ didFailAutocompleteWithError:(NSError *)error {
         _locationManager.delegate = self;
         [_locationManager requestWhenInUseAuthorization];
         _locationManager.desiredAccuracy = kCLLocationAccuracyBest;//设置定位精度
-        _locationManager.distanceFilter = 10;//设置定位频率，每隔多少米定位一次
+        _locationManager.distanceFilter = 20;//设置定位频率，每隔多少米定位一次
         _locationManager.pausesLocationUpdatesAutomatically = NO;
         _locationManager.allowsBackgroundLocationUpdates = YES;
     }
     return _locationManager;
 }
-
+- (NSMutableArray *)makerList
+{
+    if (!_makerList) {
+        _makerList = [[NSMutableArray alloc] init];
+    }
+    return _makerList;
+}
 @end

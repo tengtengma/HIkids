@@ -128,4 +128,6 @@
  */
 + (void)setCookieWithItem:(NSDictionary *)item;
 
++ (void)setBorderWithView:(UIView *)view top:(BOOL)top left:(BOOL)left bottom:(BOOL)bottom right:(BOOL)right borderColor:(UIColor *)color borderWidth:(CGFloat)width;
+
 @end
