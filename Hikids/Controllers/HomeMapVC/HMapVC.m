@@ -30,11 +30,12 @@
 #import "HWalkTask.h"
 #import "BWChangeTaskStateReq.h"
 #import "BWChangeTaskStateResp.h"
+#import "HCustomNavigationView.h"
 
 
 
 
-@interface HMapVC ()<GMSMapViewDelegate,GMSAutocompleteViewControllerDelegate,CLLocationManagerDelegate>
+@interface HMapVC ()<GMSMapViewDelegate,CLLocationManagerDelegate>
 @property (nonatomic,strong) HMenuHomeVC *menuHomeVC;
 @property (nonatomic,strong) HWalkMenuVC *menuWalkVC;
 @property (nonatomic,strong) HSmallCardView *smallMenuView;
@@ -57,6 +58,8 @@
 @property (nonatomic,strong) HStudentStateInfoView *stateInfoView;
 @property (nonatomic,strong) HWalkTask *currentTask;//当前任务
 @property (nonatomic,strong) NSMutableArray *makerList;//保存所有孩子maker
+@property (nonatomic,strong) HCustomNavigationView *customNavigationView;
+@property (nonatomic,strong) UIButton *gpsButton;
 
 
 @end
@@ -96,8 +99,17 @@
     
     
     [self.view addSubview:self.mapView];
+    
+    [self.view addSubview:self.customNavigationView];
+    [self.customNavigationView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view);
+        make.left.equalTo(self.view);
+        make.width.equalTo(self.view);
+        make.height.mas_equalTo(PAaptation_y(156));
+    }];
 
     [self.view addSubview:self.walkStateView];
+    [self.view bringSubviewToFront:self.walkStateView];
     
     self.menuHomeVC.view.frame = CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(110), SCREEN_WIDTH, SCREEN_HEIGHT);
     [self.view addSubview:self.menuHomeVC.view];
@@ -118,6 +130,9 @@
     [self modeChangeBlock];
     
     [self.customNavigationView defautInfomation];
+    
+    
+
     
     
 
@@ -583,14 +598,13 @@
         [imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
         [ellipseView addSubview:imageView];
         
+        GMSMarker *marker = [self findMarkerWithStudentId:student.sId];
         
-        GMSMarker *marker = [self.makerList safeObjectAtIndex:i];
         if (marker == nil) {
             marker = [[GMSMarker alloc] init];
         }
         marker.title = student.name;
         marker.iconView = ellipseView;
-        marker.tracksViewChanges = YES;
         marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
         marker.userData = student;
         marker.map = self.mapView;
@@ -613,9 +627,8 @@
         [imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
         imageView.layer.borderWidth = 4;
         imageView.layer.borderColor = BWColor(108, 159, 155, 1).CGColor;
-
-
-        GMSMarker *marker = [self.makerList safeObjectAtIndex:i];
+        
+        GMSMarker *marker = [self findMarkerWithStudentId:student.sId];
         if (marker == nil) {
             marker = [[GMSMarker alloc] init];
         }
@@ -654,6 +667,16 @@
 //
 //    }
     
+}
+- (GMSMarker *)findMarkerWithStudentId:(NSString *)studentId
+{
+    for (GMSMarker *marker in self.makerList) {
+        HStudent *student = (HStudent *)marker.userData;
+        if (student.sId.integerValue == studentId.integerValue) {
+            return marker;
+        }
+    }
+    return nil;
 }
 //分析当前任务状态及切换
 - (void)dealWithTaskStateChangeWithStudent:(HStudent *)student withNomal:(BOOL)isNomal
@@ -792,7 +815,7 @@
         content.title = @"ご注意ください！";
         content.subtitle = @"危険";
         // 内容
-        content.body = @"Here’s to the crazy ones, the misfits, the rebels, the troublemakers...";
+        content.body = @"安全地帯を出てしまったお子さんもいるかもしれませんので、ご確認ください。";
         // 声音
 //        content.sound = [UNNotificationSound defaultSound];
         content.sound = [UNNotificationSound soundNamed:@"Alert_ActivityGoalAttained_Salient_Haptic.caf"];
@@ -957,9 +980,9 @@
     if (!_mapView) {
         //设置地图view，这里是随便初始化了一个经纬度，在获取到当前用户位置到时候会直接更新的
         GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:38.02 longitude:114.52 zoom:15];
-        _mapView = [GMSMapView mapWithFrame:CGRectMake(0, PAaptation_y(156), SCREEN_WIDTH,self.view.frame.size.height - PAaptation_y(110)-PAaptation_y(140)) camera:camera];
+        _mapView = [GMSMapView mapWithFrame:CGRectMake(0, PAaptation_y(148), SCREEN_WIDTH,self.view.frame.size.height - PAaptation_y(110)-PAaptation_y(130)) camera:camera];
         _mapView.delegate = self;
-        _mapView.settings.myLocationButton = YES;
+        _mapView.settings.myLocationButton = NO;
         _mapView.myLocationEnabled = YES;
     }
     return _mapView;
@@ -999,6 +1022,7 @@
     if (!_stateInfoView) {
         _stateInfoView = [[HStudentStateInfoView alloc] init];
         _stateInfoView.backgroundColor = [UIColor whiteColor];
+        
     }
     return _stateInfoView;
 }
@@ -1021,5 +1045,22 @@
         _makerList = [[NSMutableArray alloc] init];
     }
     return _makerList;
+}
+#pragma mark - LazyLoad -
+- (HCustomNavigationView *)customNavigationView
+{
+    if (!_customNavigationView) {
+        _customNavigationView = [[HCustomNavigationView alloc] init];
+    }
+    return _customNavigationView;
+}
+- (UIButton *)gpsButton
+{
+    if (!_gpsButton) {
+        _gpsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_gpsButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
+        [_gpsButton addTarget:self action:@selector(locationAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _gpsButton;
 }
 @end

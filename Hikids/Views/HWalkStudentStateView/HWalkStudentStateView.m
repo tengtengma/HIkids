@@ -180,8 +180,7 @@
     for (id v in self.scrollView.subviews)
         [v removeFromSuperview];
     
-    
-//    //测试用
+////    //测试用
 //    NSMutableArray *except = [[NSMutableArray alloc] init];
 //    for (NSInteger i = 0; i<10; i++) {
 //        HStudent *student = [[HStudent alloc] init];
@@ -194,7 +193,7 @@
 //    }
 //
 //    self.exceptArray = except;
-//
+////
 //    NSMutableArray *nomal = [[NSMutableArray alloc] init];
 //    for (NSInteger i = 0; i<12; i++) {
 //        HStudent *student = [[HStudent alloc] init];
@@ -206,237 +205,284 @@
 //
 //    self.nomalArray = nomal;
     
-    
-    if (self.exceptArray.count == 0) {
-        [self createNomalView];
-    }else{
-        [self createExceptView];
-    }
+    [self createStudentView];
 }
-- (void)createNomalView
+
+- (void)createStudentView
 {
-
-    HStudentCloseView *bgView = [[HStudentCloseView alloc] initWithArray:self.nomalArray];
-    [self.scrollView addSubview:bgView];
-
-    [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.scrollView);
-        make.left.equalTo(self).offset(PAdaptation_x(24));
-        make.right.equalTo(self.mas_right).offset(-PAdaptation_x(24));
-        make.height.mas_equalTo(PAaptation_y(129));
-    }];
-
-}
-- (void)createExceptView
-{
-    if (self.dangerIsExpand) {
+    if (self.exceptArray.count != 0) {
         
-        HStudentTopView *topView = [[HStudentTopView alloc] init];
-        topView.tag = 10000;
-        [topView setDangerStyleWithStudentCount:self.exceptArray.count];
-        [self.scrollView addSubview:topView];
-        
-        [topView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.scrollView);
-            make.left.equalTo(self).offset(PAdaptation_x(24));
-            make.right.equalTo(self.mas_right).offset(-PAdaptation_x(24));
-            make.height.mas_equalTo(PAaptation_y(40));
-        }];
-        
-        UIButton *expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        expandBtn.tag = 1000;
-        [expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
-        [expandBtn setImage:[UIImage imageNamed:@"expand.png"] forState:UIControlStateNormal];
-        [topView addSubview:expandBtn];
-        
-        [expandBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(topView);
-            make.right.equalTo(topView.mas_right).offset(-PAdaptation_x(11.5));
-            make.width.mas_equalTo(PAdaptation_x(21));
-            make.height.mas_equalTo(PAaptation_y(24));
-        }];
-        
-        DefineWeakSelf;
-        topView.expandBlock = ^{
-            weakSelf.dangerIsExpand = !weakSelf.dangerIsExpand;
-            [weakSelf tableReload];
-        };
-        
-        for (NSInteger i = 0; i < self.exceptArray.count; i++) {
-            
-            HStudent *student = [self.exceptArray safeObjectAtIndex:i];
-
-            HStudentFooterView *bottomView = [[HStudentFooterView alloc] init];
-            bottomView.backgroundColor = [UIColor whiteColor];
-            [bottomView setFrame:CGRectMake(PAdaptation_x(24), PAaptation_y(40)+ PAaptation_y(89)*i, SCREEN_WIDTH -PAdaptation_x(48), PAaptation_y(89))];
-            
-            if (i == self.exceptArray.count -1) {
-                //最后一个单独处理圆角
-                
-                UIImageView *listBottomView = [[UIImageView alloc] initWithFrame:bottomView.bounds];
-                listBottomView.userInteractionEnabled = YES;
-                [listBottomView setImage:[UIImage imageNamed:@"listBottom_danger@2x.png"]];
-                [bottomView addSubview:listBottomView];
-                                
-            }else{
-                [BWTools setBorderWithView:bottomView top:NO left:YES bottom:NO right:YES borderColor:BWColor(83, 38, 2, 1) borderWidth:2];
-            }
-            [bottomView setupWithModel:student];
-            [self.scrollView addSubview:bottomView];
-            
-        }
-    }else{
-        
-        float height = PAaptation_y(0);
-    
-        HStudentCloseView *bgView = [[HStudentCloseView alloc] initWithArray:self.exceptArray];
-        [self.scrollView addSubview:bgView];
-    
-        [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(height);
-            make.left.equalTo(self).offset(PAdaptation_x(24));
-            make.right.equalTo(self.mas_right).offset(-PAdaptation_x(24));
-            make.height.mas_equalTo(PAaptation_y(129));
-        }];
-        
-        DefineWeakSelf;
-        bgView.expandBlock = ^{
-            weakSelf.dangerIsExpand = !weakSelf.dangerIsExpand;
-            AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-            app.isDangerExpand = weakSelf.dangerIsExpand;
-            [weakSelf tableReload];
-        };
-        
-        
-        UIButton *expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        expandBtn.tag = 1001;
-        [expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
-        [expandBtn setImage:[UIImage imageNamed:@"close_state.png"] forState:UIControlStateNormal];
-        [bgView addSubview:expandBtn];
-        
-        [expandBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(bgView.topView);
-            make.right.equalTo(bgView.mas_right).offset(-PAdaptation_x(11.5));
-            make.width.mas_equalTo(PAdaptation_x(21));
-            make.height.mas_equalTo(PAaptation_y(24));
-        }];
-
-    }
-
-    
-    if (self.safeIsExpand) {
-        
-        float height;
         if (self.dangerIsExpand) {
-            height = PAaptation_y(40) + PAaptation_y(40)+ PAaptation_y(89)*self.exceptArray.count;
-        }else{
-            height = PAaptation_y(40) + PAaptation_y(40)+ PAaptation_y(89)*1;
-        }
+            
+            HStudentTopView *topView = [[HStudentTopView alloc] init];
+            topView.tag = 10000;
+            [topView setDangerStyleWithStudentCount:self.exceptArray.count];
+            [self.scrollView addSubview:topView];
+            
+            [topView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(self.scrollView);
+                make.left.equalTo(self).offset(PAdaptation_x(24));
+                make.right.equalTo(self.mas_right).offset(-PAdaptation_x(24));
+                make.height.mas_equalTo(PAaptation_y(40));
+            }];
+            
+            UIButton *expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            expandBtn.tag = 1000;
+            [expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
+            [expandBtn setImage:[UIImage imageNamed:@"expand.png"] forState:UIControlStateNormal];
+            [topView addSubview:expandBtn];
+            
+            [expandBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(topView);
+                make.right.equalTo(topView.mas_right).offset(-PAdaptation_x(11.5));
+                make.width.mas_equalTo(PAdaptation_x(21));
+                make.height.mas_equalTo(PAaptation_y(24));
+            }];
+            
+            
+            for (NSInteger i = 0; i < self.exceptArray.count; i++) {
+                
+                HStudent *student = [self.exceptArray safeObjectAtIndex:i];
 
-        HStudentTopView *topView = [[HStudentTopView alloc] init];
-        topView.tag = 10001;
-        [topView setSafeStyleWithStudentCount:self.nomalArray.count];
-        [self.scrollView addSubview:topView];
-        
-        [topView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(height);
-            make.left.equalTo(self).offset(PAdaptation_x(24));
-            make.right.equalTo(self.mas_right).offset(-PAdaptation_x(24));
-            make.height.mas_equalTo(PAaptation_y(40));
-        }];
-        
-        UIButton *expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        expandBtn.tag = 1002;
-        [expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
-        [expandBtn setImage:[UIImage imageNamed:@"expand.png"] forState:UIControlStateNormal];
-        [topView addSubview:expandBtn];
-        
-        [expandBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(topView);
-            make.right.equalTo(topView.mas_right).offset(-PAdaptation_x(11.5));
-            make.width.mas_equalTo(PAdaptation_x(21));
-            make.height.mas_equalTo(PAaptation_y(24));
-        }];
-        
-        DefineWeakSelf;
-        topView.expandBlock = ^{
-            weakSelf.safeIsExpand = !weakSelf.safeIsExpand;
-            AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-            app.isSafeExpand = weakSelf.safeIsExpand;
-            [weakSelf tableReload];
-        };
-        
-        
-        for (NSInteger i = 0; i < self.nomalArray.count; i++) {
-            
-            HStudentFooterView *bottomView = [[HStudentFooterView alloc] init];
-            bottomView.backgroundColor = [UIColor whiteColor];
-            
-            if (self.dangerIsExpand) {
-                height = (PAaptation_y(40) + PAaptation_y(40)+ (PAaptation_y(40)+PAaptation_y(89)*self.exceptArray.count))+i*PAaptation_y(89);
-            }else{
-                height = (PAaptation_y(40)+PAaptation_y(40)+ (PAaptation_y(40)+PAaptation_y(89)*1))+i*PAaptation_y(89);
+                HStudentFooterView *bottomView = [[HStudentFooterView alloc] init];
+                bottomView.backgroundColor = [UIColor whiteColor];
+                [bottomView setFrame:CGRectMake(PAdaptation_x(24), PAaptation_y(40)+ PAaptation_y(89)*i, SCREEN_WIDTH -PAdaptation_x(48), PAaptation_y(89))];
+                
+                if (i == self.exceptArray.count -1) {
+                    //最后一个单独处理圆角
+                    
+                    UIImageView *listBottomView = [[UIImageView alloc] initWithFrame:bottomView.bounds];
+                    listBottomView.userInteractionEnabled = YES;
+                    [listBottomView setImage:[UIImage imageNamed:@"listBottom_danger@2x.png"]];
+                    [bottomView addSubview:listBottomView];
+                                    
+                }else{
+                    [BWTools setBorderWithView:bottomView top:NO left:YES bottom:NO right:YES borderColor:BWColor(83, 38, 2, 1) borderWidth:2];
+                }
+                [bottomView setupWithModel:student];
+                [self.scrollView addSubview:bottomView];
+                
             }
+        }else{
             
-            [bottomView setFrame:CGRectMake(PAdaptation_x(24), height, SCREEN_WIDTH - PAdaptation_x(48), PAaptation_y(89))];
-            if (i == self.nomalArray.count -1) {
-                //最后一个单独处理圆角
-                UIImageView *listBottomView = [[UIImageView alloc] initWithFrame:bottomView.bounds];
-                listBottomView.userInteractionEnabled = YES;
-                [listBottomView setImage:[UIImage imageNamed:@"listBottom_safe@2x.png"]];
-                [bottomView addSubview:listBottomView];
+            float height = PAaptation_y(0);
+        
+            HStudentCloseView *bgView = [[HStudentCloseView alloc] initWithArray:self.exceptArray];
+            [self.scrollView addSubview:bgView];
+        
+            [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.mas_equalTo(height);
+                make.left.equalTo(self).offset(PAdaptation_x(24));
+                make.right.equalTo(self.mas_right).offset(-PAdaptation_x(24));
+                make.height.mas_equalTo(PAaptation_y(129));
+            }];
+        
+        
+            UIButton *expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            expandBtn.tag = 1001;
+            [expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
+            [expandBtn setImage:[UIImage imageNamed:@"close_state.png"] forState:UIControlStateNormal];
+            [bgView addSubview:expandBtn];
+            
+            [expandBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(bgView.topView);
+                make.right.equalTo(bgView.mas_right).offset(-PAdaptation_x(11.5));
+                make.width.mas_equalTo(PAdaptation_x(21));
+                make.height.mas_equalTo(PAaptation_y(24));
+            }];
+
+        }
+        
+        if (self.nomalArray.count != 0) {
+            if (self.safeIsExpand) {
+                
+                float height;
+                if (self.dangerIsExpand) {
+                    height = PAaptation_y(40) + PAaptation_y(40)+ PAaptation_y(89)*self.exceptArray.count;
+                }else{
+                    height = PAaptation_y(40) + PAaptation_y(40)+ PAaptation_y(89)*1;
+                }
+
+                HStudentTopView *topView = [[HStudentTopView alloc] init];
+                topView.tag = 10001;
+                [topView setSafeStyleWithStudentCount:self.nomalArray.count];
+                [self.scrollView addSubview:topView];
+                
+                [topView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.top.mas_equalTo(height);
+                    make.left.equalTo(self).offset(PAdaptation_x(24));
+                    make.right.equalTo(self.mas_right).offset(-PAdaptation_x(24));
+                    make.height.mas_equalTo(PAaptation_y(40));
+                }];
+                
+                UIButton *expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                expandBtn.tag = 1002;
+                [expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
+                [expandBtn setImage:[UIImage imageNamed:@"expand.png"] forState:UIControlStateNormal];
+                [topView addSubview:expandBtn];
+                
+                [expandBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerY.equalTo(topView);
+                    make.right.equalTo(topView.mas_right).offset(-PAdaptation_x(11.5));
+                    make.width.mas_equalTo(PAdaptation_x(21));
+                    make.height.mas_equalTo(PAaptation_y(24));
+                }];
+                
+                
+                for (NSInteger i = 0; i < self.nomalArray.count; i++) {
+                    
+                    HStudentFooterView *bottomView = [[HStudentFooterView alloc] init];
+                    bottomView.backgroundColor = [UIColor whiteColor];
+                    
+                    if (self.dangerIsExpand) {
+                        height = (PAaptation_y(40) + PAaptation_y(40)+ (PAaptation_y(40)+PAaptation_y(89)*self.exceptArray.count))+i*PAaptation_y(89);
+                    }else{
+                        height = (PAaptation_y(40)+PAaptation_y(40)+ (PAaptation_y(40)+PAaptation_y(89)*1))+i*PAaptation_y(89);
+                    }
+                    
+                    [bottomView setFrame:CGRectMake(PAdaptation_x(24), height, SCREEN_WIDTH - PAdaptation_x(48), PAaptation_y(89))];
+                    if (i == self.nomalArray.count -1) {
+                        //最后一个单独处理圆角
+                        UIImageView *listBottomView = [[UIImageView alloc] initWithFrame:bottomView.bounds];
+                        listBottomView.userInteractionEnabled = YES;
+                        [listBottomView setImage:[UIImage imageNamed:@"listBottom_safe@2x.png"]];
+                        [bottomView addSubview:listBottomView];
+                        
+                    }else{
+                        [BWTools setBorderWithView:bottomView top:NO left:YES bottom:NO right:YES borderColor:BWColor(83, 38, 2, 1) borderWidth:2];
+                    }
+                    [bottomView setupWithModel:[self.nomalArray safeObjectAtIndex:i]];
+
+                    [self.scrollView addSubview:bottomView];
+
+                }
                 
             }else{
-                [BWTools setBorderWithView:bottomView top:NO left:YES bottom:NO right:YES borderColor:BWColor(83, 38, 2, 1) borderWidth:2];
+                
+                float height;
+                if (self.dangerIsExpand) {
+                    height = (PAaptation_y(30) + PAaptation_y(40)+PAaptation_y(89)*self.exceptArray.count);
+                }else{
+                    height = PAaptation_y(30) + PAaptation_y(40)+ PAaptation_y(89)*1;
+                }
+                                                         
+                HStudentCloseView *bgView = [[HStudentCloseView alloc] initWithArray:self.nomalArray];
+                [self.scrollView addSubview:bgView];
+            
+                [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.top.mas_equalTo(height);
+                    make.left.equalTo(self).offset(PAdaptation_x(24));
+                    make.right.equalTo(self.mas_right).offset(-PAdaptation_x(24));
+                    make.height.mas_equalTo(PAaptation_y(129));
+                }];
+                
+                
+                UIButton *expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                expandBtn.tag = 1003;
+                [expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
+                [expandBtn setImage:[UIImage imageNamed:@"close_state.png"] forState:UIControlStateNormal];
+                [bgView addSubview:expandBtn];
+                
+                [expandBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerY.equalTo(bgView.topView);
+                    make.right.equalTo(bgView.mas_right).offset(-PAdaptation_x(11.5));
+                    make.width.mas_equalTo(PAdaptation_x(21));
+                    make.height.mas_equalTo(PAaptation_y(24));
+                }];
+
             }
-            [bottomView setupWithModel:[self.nomalArray safeObjectAtIndex:i]];
-
-            [self.scrollView addSubview:bottomView];
-
         }
         
+
     }else{
-        
-        float height;
-        if (self.dangerIsExpand) {
-            height = (PAaptation_y(30) + PAaptation_y(40)+PAaptation_y(89)*self.exceptArray.count);
-        }else{
-            height = PAaptation_y(30) + PAaptation_y(40)+ PAaptation_y(89)*1;
+        if (self.nomalArray.count != 0) {
+            if (self.safeIsExpand) {
+                
+                float height = 0;
+
+                HStudentTopView *topView = [[HStudentTopView alloc] init];
+                topView.tag = 10001;
+                [topView setSafeStyleWithStudentCount:self.nomalArray.count];
+                [self.scrollView addSubview:topView];
+                
+                [topView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.top.mas_equalTo(height);
+                    make.left.equalTo(self).offset(PAdaptation_x(24));
+                    make.right.equalTo(self.mas_right).offset(-PAdaptation_x(24));
+                    make.height.mas_equalTo(PAaptation_y(40));
+                }];
+                
+                UIButton *expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                expandBtn.tag = 1002;
+                [expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
+                [expandBtn setImage:[UIImage imageNamed:@"expand.png"] forState:UIControlStateNormal];
+                [topView addSubview:expandBtn];
+                
+                [expandBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerY.equalTo(topView);
+                    make.right.equalTo(topView.mas_right).offset(-PAdaptation_x(11.5));
+                    make.width.mas_equalTo(PAdaptation_x(21));
+                    make.height.mas_equalTo(PAaptation_y(24));
+                }];
+                
+                
+                for (NSInteger i = 0; i < self.nomalArray.count; i++) {
+                    
+                    HStudentFooterView *bottomView = [[HStudentFooterView alloc] init];
+                    bottomView.backgroundColor = [UIColor whiteColor];
+                    
+                    height = PAaptation_y(40)+i*PAaptation_y(89);
+
+                    [bottomView setFrame:CGRectMake(PAdaptation_x(24), height, SCREEN_WIDTH - PAdaptation_x(48), PAaptation_y(89))];
+                    if (i == self.nomalArray.count -1) {
+                        //最后一个单独处理圆角
+                        UIImageView *listBottomView = [[UIImageView alloc] initWithFrame:bottomView.bounds];
+                        listBottomView.userInteractionEnabled = YES;
+                        [listBottomView setImage:[UIImage imageNamed:@"listBottom_safe@2x.png"]];
+                        [bottomView addSubview:listBottomView];
+                        
+                    }else{
+                        [BWTools setBorderWithView:bottomView top:NO left:YES bottom:NO right:YES borderColor:BWColor(83, 38, 2, 1) borderWidth:2];
+                    }
+                    [bottomView setupWithModel:[self.nomalArray safeObjectAtIndex:i]];
+
+                    [self.scrollView addSubview:bottomView];
+
+                }
+                
+            }else{
+                
+                float height = 0;
+                                                         
+                HStudentCloseView *bgView = [[HStudentCloseView alloc] initWithArray:self.nomalArray];
+                [self.scrollView addSubview:bgView];
+            
+                [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.top.mas_equalTo(height);
+                    make.left.equalTo(self).offset(PAdaptation_x(24));
+                    make.right.equalTo(self.mas_right).offset(-PAdaptation_x(24));
+                    make.height.mas_equalTo(PAaptation_y(129));
+                }];
+                
+                
+                UIButton *expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+                expandBtn.tag = 1003;
+                [expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
+                [expandBtn setImage:[UIImage imageNamed:@"close_state.png"] forState:UIControlStateNormal];
+                [bgView addSubview:expandBtn];
+                
+                [expandBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerY.equalTo(bgView.topView);
+                    make.right.equalTo(bgView.mas_right).offset(-PAdaptation_x(11.5));
+                    make.width.mas_equalTo(PAdaptation_x(21));
+                    make.height.mas_equalTo(PAaptation_y(24));
+                }];
+
+            }
         }
-                                                 
-        HStudentCloseView *bgView = [[HStudentCloseView alloc] initWithArray:self.nomalArray];
-        [self.scrollView addSubview:bgView];
-    
-        [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(height);
-            make.left.equalTo(self).offset(PAdaptation_x(24));
-            make.right.equalTo(self.mas_right).offset(-PAdaptation_x(24));
-            make.height.mas_equalTo(PAaptation_y(129));
-        }];
-        
-        DefineWeakSelf;
-        bgView.expandBlock = ^{
-            weakSelf.safeIsExpand = !weakSelf.safeIsExpand;
-            AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-            app.isSafeExpand = weakSelf.safeIsExpand;
-            [weakSelf tableReload];
-        };
-        
-        UIButton *expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        expandBtn.tag = 1003;
-        [expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
-        [expandBtn setImage:[UIImage imageNamed:@"close_state.png"] forState:UIControlStateNormal];
-        [bgView addSubview:expandBtn];
-        
-        [expandBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(bgView.topView);
-            make.right.equalTo(bgView.mas_right).offset(-PAdaptation_x(11.5));
-            make.width.mas_equalTo(PAdaptation_x(21));
-            make.height.mas_equalTo(PAaptation_y(24));
-        }];
 
     }
-    
+
     if (self.dangerIsExpand && self.safeIsExpand) {
         self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, PAaptation_y(40)+PAaptation_y(40)+PAaptation_y(89)+self.nomalArray.count*PAaptation_y(89)+self.exceptArray.count * PAaptation_y(89));
 
@@ -476,8 +522,8 @@
     if (button.tag == 1003) {
         NSLog(@"1003");
         self.safeIsExpand = !self.safeIsExpand;
-
     }
+
     [self tableReload];
 }
 

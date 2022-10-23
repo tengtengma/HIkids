@@ -54,10 +54,16 @@
             
             UIImageView *imageView = [[UIImageView alloc] init];
             [imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
+            
+            if (student.exceptionTime) {
+                imageView.layer.borderColor = BWColor(255, 75, 0, 1).CGColor;
+
+            }else{
+                imageView.layer.borderColor = BWColor(108, 159, 155, 1).CGColor;
+            }
             imageView.layer.cornerRadius = PAdaptation_x(36)/2;
             imageView.layer.masksToBounds = YES;
             imageView.layer.borderWidth = 2;
-            imageView.layer.borderColor = BWColor(108, 159, 155, 1).CGColor;
             [self addSubview:imageView];
             
             [imageView mas_makeConstraints:^(MASConstraintMaker *make) {

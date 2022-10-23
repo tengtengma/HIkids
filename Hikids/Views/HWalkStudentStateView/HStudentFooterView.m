@@ -45,16 +45,16 @@
         [self.batteryImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.titleLabel);
             make.left.equalTo(self.titleLabel.mas_right).offset(PAdaptation_x(11));
-            make.width.mas_equalTo(PAdaptation_x(26));
-            make.height.mas_equalTo(PAaptation_y(19));
+            make.width.mas_equalTo(PAdaptation_x(30));
+            make.height.mas_equalTo(PAaptation_y(30));
         }];
         
         [self addSubview:self.wifiImageView];
         [self.wifiImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.titleLabel);
             make.left.equalTo(self.batteryImageView.mas_right).offset(PAdaptation_x(11));
-            make.width.mas_equalTo(PAdaptation_x(22));
-            make.height.mas_equalTo(PAaptation_y(19));
+            make.width.mas_equalTo(PAdaptation_x(30));
+            make.height.mas_equalTo(PAaptation_y(30));
         }];
         
         [self addSubview:self.gpsImageView];
@@ -102,7 +102,7 @@
 - (void)setupWithModel:(HStudent *)model;
 {
     [self.headerView sd_setImageWithURL:[NSURL URLWithString:model.avatar]];
-    [self.batteryImageView setImage:[UIImage imageNamed:@"dianchi.png"]];
+    [self.batteryImageView setImage:[UIImage imageNamed:@"battery.png"]];
     [self.wifiImageView setImage:[UIImage imageNamed:@"wifi.png"]];
 
     if (model.exceptionTime) {
@@ -114,7 +114,12 @@
     }else{
         [self.gpsImageView setImage:[UIImage imageNamed:@"xintiao.png"]];
         self.distanceLabel.textColor = BWColor(0, 176, 107, 1);
-        self.distanceLabel.text = [NSString stringWithFormat:@"%@bpm",model.deviceInfo.averangheart];
+        if (model.deviceInfo.averangheart.length != 0) {
+            self.distanceLabel.text = [NSString stringWithFormat:@"%@bpm",model.deviceInfo.averangheart];
+        }else{
+            self.distanceLabel.text = [NSString stringWithFormat:@"--bpm"];
+
+        }
         self.headerView.layer.borderColor = BWColor(0, 176, 107, 1).CGColor;
 
     }
@@ -135,6 +140,7 @@
 {
     if (!_batteryImageView) {
         _batteryImageView = [[UIImageView alloc] init];
+        _batteryImageView.contentMode = UIViewContentModeScaleAspectFit;
     }
     return _batteryImageView;
 }
@@ -142,6 +148,7 @@
 {
     if (!_wifiImageView) {
         _wifiImageView = [[UIImageView alloc] init];
+        _wifiImageView.contentMode = UIViewContentModeScaleAspectFit;
     }
     return _wifiImageView;
 }

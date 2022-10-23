@@ -18,7 +18,7 @@
         for (NSDictionary *exceptDic in [dic safeObjectForKey:@"exceptionKids"]) {
             HStudent *model = [HStudent mj_objectWithKeyValues:exceptDic];
             model.deviceInfo = [HStudentDeviceInfo mj_objectWithKeyValues:[exceptDic safeObjectForKey:@"data"]];
-            model.sId = [dic safeObjectForKey:@"id"];
+            model.sId = [exceptDic safeObjectForKey:@"id"];
             [exceptionKids addObject:model];
         }
         
@@ -26,7 +26,7 @@
         for (NSDictionary *nomalDic in [dic safeObjectForKey:@"normalKids"]) {
             HStudent *model1 = [HStudent mj_objectWithKeyValues:nomalDic];
             model1.deviceInfo = [HStudentDeviceInfo mj_objectWithKeyValues:[nomalDic safeObjectForKey:@"data"]];
-            model1.sId = [dic safeObjectForKey:@"id"];
+            model1.sId = [nomalDic safeObjectForKey:@"id"];
             [nomalKids addObject:model1];
         }
 

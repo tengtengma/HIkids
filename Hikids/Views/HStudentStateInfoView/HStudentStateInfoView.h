@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class HStudent;
 
 typedef void(^closeAction)(void);
-
+typedef void(^lujingAction)(HStudent *student);
 
 @interface HStudentStateInfoView : UIView
 @property (nonatomic, copy) closeAction closeBlock;

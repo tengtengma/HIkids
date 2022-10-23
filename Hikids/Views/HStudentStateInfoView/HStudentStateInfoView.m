@@ -87,6 +87,10 @@
         self.closeBlock();
     }
 }
+- (void)lujingAction
+{
+    
+}
 
 #pragma mark - LazyLoad -
 - (UIImageView *)headerView
@@ -116,6 +120,10 @@
     if (!_lujingView) {
         _lujingView = [[UIImageView alloc] init];
         [_lujingView setImage:[UIImage imageNamed:@"guihualujing.png"]];
+        _lujingView.userInteractionEnabled = YES;
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(lujingAction)];
+        [_lujingView addGestureRecognizer:tap];
     }
     return _lujingView;
 }

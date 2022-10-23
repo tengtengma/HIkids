@@ -6,6 +6,7 @@
 //
 
 #import "HCustomNavigationView.h"
+#import "HLoginVC.h"
 
 @interface HCustomNavigationView()
 
@@ -85,13 +86,37 @@
     [self.backgroundImageView setImage:[UIImage imageNamed:@"title_back.png"]];
 
 }
+- (void)loginOutAction:(UITapGestureRecognizer *)tap
+{
+    DefineWeakSelf;
+    [BWAlertCtrl alertControllerWithTitle:@"提示" buttonArray:@[@"确定",@"取消"] message:@"是否退出登陆？" preferredStyle:UIAlertControllerStyleAlert clickBlock:^(NSString *buttonTitle) {
+       
+        if ([buttonTitle isEqualToString:@"确定"]) {
+            [weakSelf loginOut];
+        }
+    }];
+}
+- (void)loginOut
+{
+    HLoginVC *loginVC = [[HLoginVC alloc] init];
 
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    app.window.rootViewController = loginVC;
+    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    [user setObject:nil forKey:KEY_UserName];
+    [user setObject:nil forKey:KEY_Password];
+    [user setObject:nil forKey:KEY_Jwtoken];
+    [user synchronize];
+    
+}
 
 #pragma mark - LazyLoad -
 - (UIImageView *)backgroundImageView
 {
     if (!_backgroundImageView) {
-        _backgroundImageView = [[UIImageView alloc] init];        
+        _backgroundImageView = [[UIImageView alloc] init];
+        _backgroundImageView.userInteractionEnabled = YES;
     }
     return _backgroundImageView;
 }
@@ -135,6 +160,10 @@
 {
     if (!_userImageView) {
         _userImageView = [[UIImageView alloc] init];
+        _userImageView.userInteractionEnabled = YES;
+        
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(loginOutAction:)];
+        [_userImageView addGestureRecognizer:tap];
     }
     return _userImageView;
 }
