@@ -41,74 +41,42 @@
 }
 - (void)createUI
 {
+    [self.myScrollView setFrame:self.view.bounds];
     [self.view addSubview:self.myScrollView];
-    [self.myScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
     
+    [self.helpBtn setFrame:CGRectMake(SCREEN_WIDTH - PAdaptation_x(24) - PAdaptation_x(40), PAaptation_y(59), PAdaptation_x(40), PAaptation_y(40))];
     [self.myScrollView addSubview:self.helpBtn];
-    [self.helpBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(PAaptation_y(59));
-        make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(24));
-        make.width.mas_equalTo(PAdaptation_x(40));
-        make.height.mas_equalTo(PAaptation_y(40));
-    }];
-    
+
+
+    [self.headerView setFrame:CGRectMake(SCREEN_WIDTH/2 - PAdaptation_x(290)/2, PAaptation_y(216), PAdaptation_x(290), PAaptation_y(58))];
     [self.myScrollView addSubview:self.headerView];
-    [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.helpBtn.mas_bottom).offset(PAaptation_y(157));
-        make.centerX.equalTo(self.view);
-        make.width.mas_equalTo(PAdaptation_x(290));
-        make.height.mas_equalTo(PAaptation_y(58));
-    }];
+
     
     self.userView.textField.placeholder = @"メールアドレス";
+    [self.userView setFrame:CGRectMake(PAdaptation_x(50), CGRectGetMaxY(self.headerView.frame)+PAaptation_y(40), PAdaptation_x(290), PAaptation_y(56))];
     [self.myScrollView addSubview:self.userView];
-    [self.userView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.headerView.mas_bottom).offset(PAaptation_y(37.5));
-        make.left.equalTo(self.view).offset(PAdaptation_x(50));
-        make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(50));
-        make.height.mas_equalTo(PAaptation_y(56));
-    }];
+
     
     self.pwView.textField.placeholder = @"パスワード";
+    [self.pwView setFrame:CGRectMake(PAdaptation_x(50), CGRectGetMaxY(self.userView.frame)+PAaptation_y(16), PAdaptation_x(290), PAaptation_y(56))];
     [self.myScrollView addSubview:self.pwView];
-    [self.pwView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.userView.mas_bottom).offset(PAaptation_y(16));
-        make.left.equalTo(self.view).offset(PAdaptation_x(50));
-        make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(50));
-        make.height.mas_equalTo(PAaptation_y(56));
-    }];
+
     
     UIImage *selectImg = [UIImage imageNamed:@"icon_check.png"];
-    
+    [self.selectImageView setFrame:CGRectMake(PAdaptation_x(122), CGRectGetMaxY(self.pwView.frame)+PAaptation_y(18), selectImg.size.width, selectImg.size.height)];
     [self.myScrollView addSubview:self.selectImageView];
-    [self.selectImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.pwView.mas_bottom).offset(PAaptation_y(18));
-        make.left.equalTo(self.view).offset(PAdaptation_x(122));
-        make.width.mas_equalTo(selectImg.size.width);
-        make.height.mas_equalTo(selectImg.size.height);
-    }];
     
+
+    [self.privacyLabel setFrame:CGRectMake(CGRectGetMaxX(self.selectImageView.frame)+PAdaptation_x(4), CGRectGetMaxY(self.pwView.frame)+PAaptation_y(16), PAdaptation_x(200), PAaptation_y(20))];
     [self.myScrollView addSubview:self.privacyLabel];
-    [self.privacyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.selectImageView);
-        make.left.equalTo(self.selectImageView.mas_right).offset(PAdaptation_x(4));
-    }];
-    
+
+
+    [self.loginBtn setFrame:CGRectMake(SCREEN_WIDTH/2 - PAdaptation_x(290)/2, CGRectGetMaxY(self.privacyLabel.frame)+PAaptation_y(16), PAdaptation_x(290), PAaptation_y(56))];
     [self.myScrollView addSubview:self.loginBtn];
-    [self.loginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.privacyLabel.mas_bottom).offset(PAaptation_y(16));
-        make.left.equalTo(self.pwView);
-        make.width.equalTo(self.pwView);
-        make.height.equalTo(self.pwView);
-    }];
-    
-    [self.myScrollView addSubview:self.companyLabel];
-    [self.companyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_bottom).offset(-PAaptation_y(37));
-        make.centerX.equalTo(self.view);
-    }];
+
+    [self.companyLabel setFrame:CGRectMake(0, SCREEN_HEIGHT - PAaptation_y(37), SCREEN_WIDTH, PAaptation_y(37))];
+    [self.view addSubview:self.companyLabel];
+
     
     self.userView.textField.text = @"admin";
     self.pwView.textField.text = @"admin123";
@@ -300,6 +268,7 @@
         _companyLabel = [[UILabel alloc] init];
         _companyLabel.text = @"Power by YOHAKUBUNKA, Inc.";
         _companyLabel.font = [UIFont systemFontOfSize:10];
+        _companyLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _companyLabel;
 }
