@@ -9,11 +9,15 @@
 #import "HStudent.h"
 
 @interface HStudentStateInfoView()
+@property (nonatomic, strong) UIImageView *topView;
 @property (nonatomic, strong) UIImageView *headerView;
 @property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *locationLabel;
 @property (nonatomic, strong) UIImageView *naolingView;
 @property (nonatomic, strong) UIImageView *lujingView;
 @property (nonatomic, strong) UIImageView *thirdlujingView;
+@property (nonatomic, strong) UIImageView *batteryImageView;
+@property (nonatomic, strong) UIImageView *wifiImageView;
 @property (nonatomic, strong) UIButton *quitBtn;
 
 
@@ -25,12 +29,36 @@
 {
     if (self = [super init]) {
         
+        [self addSubview:self.topView];
+        [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self);
+            make.left.equalTo(self);
+            make.width.equalTo(self);
+            make.height.mas_equalTo(PAaptation_y(32));
+        }];
+        
         [self addSubview:self.headerView];
         [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self).offset(PAaptation_y(32));
+            make.top.equalTo(self.topView.mas_bottom);
             make.left.equalTo(self).offset(PAdaptation_x(25));
             make.width.mas_equalTo(PAdaptation_x(52));
             make.height.mas_equalTo(PAaptation_y(52));
+        }];
+        
+        [self addSubview:self.batteryImageView];
+        [self.batteryImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.headerView.mas_bottom);
+            make.left.equalTo(self).offset(PAdaptation_x(25));
+            make.width.mas_equalTo(PAdaptation_x(26));
+            make.height.mas_equalTo(PAaptation_y(19));
+        }];
+        
+        [self addSubview:self.wifiImageView];
+        [self.wifiImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.headerView.mas_bottom);
+            make.left.equalTo(self.batteryImageView.mas_right).offset(PAdaptation_x(5));
+            make.width.mas_equalTo(PAdaptation_x(20));
+            make.height.mas_equalTo(PAaptation_y(19));
         }];
         
         [self addSubview:self.titleLabel];
@@ -39,9 +67,16 @@
             make.left.equalTo(self.headerView.mas_right).offset(PAdaptation_x(21));
         }];
         
+        [self addSubview:self.locationLabel];
+        [self.locationLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.titleLabel.mas_bottom);
+            make.left.equalTo(self.titleLabel);
+            make.right.equalTo(self.mas_right).offset(-PAdaptation_x(53));
+        }];
+        
         [self addSubview:self.naolingView];
         [self.naolingView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.headerView.mas_bottom).offset(PAaptation_y(48));
+            make.top.equalTo(self.headerView.mas_bottom).offset(PAaptation_y(30));
             make.left.equalTo(self.headerView);
             make.width.mas_equalTo(PAdaptation_x(160));
             make.height.mas_equalTo(PAaptation_y(100));
@@ -69,7 +104,7 @@
             make.centerY.equalTo(self.titleLabel);
             make.right.equalTo(self.mas_right).offset(-PAdaptation_x(24));
             make.width.mas_equalTo(PAdaptation_x(40));
-            make.height.mas_equalTo(PAaptation_y(38));
+            make.height.mas_equalTo(PAaptation_y(40));
         }];
         
     }
@@ -78,7 +113,11 @@
 - (void)setInfomationWithModel:(HStudent *)student
 {
     self.titleLabel.text = student.name;
+    self.locationLabel.text = @"〒460-0008、愛知県名古屋市中区栄４丁目６−８ 名古屋東急ホテル";
     [self.headerView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
+    
+    [self.batteryImageView setImage:[UIImage imageNamed:@"battery.png"]];
+    [self.wifiImageView setImage:[UIImage imageNamed:@"wifi.png"]];
     
 }
 - (void)backAction:(id)sender
@@ -104,8 +143,20 @@
 {
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] init];
+        _titleLabel.font = [UIFont systemFontOfSize:20];
     }
     return _titleLabel;
+}
+- (UILabel *)locationLabel
+{
+    if (!_locationLabel) {
+        _locationLabel = [[UILabel alloc] init];
+        _locationLabel.font = [UIFont systemFontOfSize:12];
+        _locationLabel.numberOfLines = 2;
+        _locationLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        _locationLabel.textColor = BWColor(118, 144, 156, 1);
+    }
+    return _locationLabel;
 }
 - (UIImageView *)naolingView
 {
@@ -145,5 +196,29 @@
     }
     return _quitBtn;
 }
-
+- (UIImageView *)topView
+{
+    if (!_topView) {
+        _topView = [[UIImageView alloc] init];
+        [_topView setImage:[UIImage imageNamed:@"menu_header.png"]];
+    }
+    return _topView;
+    
+}
+- (UIImageView *)batteryImageView
+{
+    if (!_batteryImageView) {
+        _batteryImageView = [[UIImageView alloc] init];
+        _batteryImageView.contentMode = UIViewContentModeScaleAspectFit;
+    }
+    return _batteryImageView;
+}
+- (UIImageView *)wifiImageView
+{
+    if (!_wifiImageView) {
+        _wifiImageView = [[UIImageView alloc] init];
+        _wifiImageView.contentMode = UIViewContentModeScaleAspectFit;
+    }
+    return _wifiImageView;
+}
 @end

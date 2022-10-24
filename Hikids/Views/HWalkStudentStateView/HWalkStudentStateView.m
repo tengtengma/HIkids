@@ -20,6 +20,7 @@
 @property (nonatomic, assign) float stop_y;//tableView滑动停止的位置
 @property (nonatomic, assign) BOOL dangerIsExpand;
 @property (nonatomic, assign) BOOL safeIsExpand;
+@property (nonatomic, assign) NSInteger state; //0  1  2 三个档位
 
 @end
 
@@ -49,6 +50,14 @@
         panGestureRecognizer.delegate = self;
         [self addGestureRecognizer:panGestureRecognizer];
         
+//        UISwipeGestureRecognizer *upSwipRec = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(upAction:)];
+//        upSwipRec.direction = UISwipeGestureRecognizerDirectionUp;
+//        [self addGestureRecognizer:upSwipRec];
+//
+//        UISwipeGestureRecognizer *downSwipRec = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(downAction:)];
+//        downSwipRec.direction = UISwipeGestureRecognizerDirectionDown;
+//        [self addGestureRecognizer:downSwipRec];
+        
         self.bottomH = self.top;
         
         self.dangerIsExpand = YES;
@@ -56,6 +65,31 @@
         
     }
     return self;
+}
+- (void)upAction:(UISwipeGestureRecognizer *)up
+{
+    NSLog(@"up");
+    self.state++;
+    if (self.state > 2) {
+        self.state = 2;
+    }
+    
+    if (self.ShowOrHideWalkStateViewBlock) {
+        self.ShowOrHideWalkStateViewBlock(self.state);
+    }
+}
+- (void)downAction:(UISwipeGestureRecognizer *)down
+{
+    NSLog(@"down");
+    
+    self.state--;
+    if (self.state < 0) {
+        self.state = 0;
+    }
+    
+    if (self.ShowOrHideWalkStateViewBlock) {
+        self.ShowOrHideWalkStateViewBlock(self.state);
+    }
 }
 - (void)panAction:(UIPanGestureRecognizer *)pan
 {
@@ -77,6 +111,7 @@
     // self.bottomH是视图在底部时距离顶部的距离
     if (self.top > self.bottomH) {
         self.top = self.bottomH;
+
     }
     
     // 在滑动手势结束时判断滑动视图距离顶部的距离是否超过了屏幕的一半，如果超过了一半就往下滑到底部
@@ -85,7 +120,8 @@
         
         // 滑动速度
         CGPoint velocity = [pan velocityInView:self];
-        CGFloat speed = 350;
+        CGFloat speed = 600;
+        NSLog(@"%f",velocity.y);
         if (velocity.y < -speed) {
             [self goTop];
             [pan setTranslation:CGPointMake(0, 0) inView:self];
@@ -94,13 +130,17 @@
             [self goBack];
             [pan setTranslation:CGPointMake(0, 0) inView:self];
             return;
+        }else{
+            [self goCenter];
+            [pan setTranslation:CGPointMake(0, 0) inView:self];
+            
         }
         
-        if (self.top > SCREEN_HEIGHT/2) {
-            [self goBack];
-        }else{
-            [self goTop];
-        }
+//        if (self.top > SCREEN_HEIGHT/2) {
+//            [self goBack];
+//        }else{
+//            [self goTop];
+//        }
     }
     
     [pan setTranslation:CGPointMake(0, 0) inView:self];
@@ -123,6 +163,9 @@
     }completion:^(BOOL finished) {
         self.scrollView.userInteractionEnabled = YES;
     }];
+    if (self.ShowOrHideWalkStateViewBlock) {
+        self.ShowOrHideWalkStateViewBlock(2);
+    }
 }
 
 - (void)goBack {
@@ -131,20 +174,30 @@
     }completion:^(BOOL finished) {
         self.scrollView.userInteractionEnabled = NO;
     }];
+    
+    if (self.ShowOrHideWalkStateViewBlock) {
+        self.ShowOrHideWalkStateViewBlock(0);
+    }
 }
-
+- (void)goCenter
+{
+    if (self.ShowOrHideWalkStateViewBlock) {
+        self.ShowOrHideWalkStateViewBlock(1);
+    }
+}
 - (void)walkEndAction
 {
     if (self.walkEndBlock) {
         self.walkEndBlock();
     }
 }
-- (void)clickTopViewAction
-{
-    if (self.ShowOrHideWalkStateViewBlock) {
-        self.ShowOrHideWalkStateViewBlock();
-    }
-}
+//暂时不用
+//- (void)clickTopViewAction
+//{
+//    if (self.ShowOrHideWalkStateViewBlock) {
+//        self.ShowOrHideWalkStateViewBlock(self.state);
+//    }
+//}
 
 - (void)createStudentViewWithArray:(NSArray *)array topView:(UIView *)topView bgView:(UIView *)bgView
 {
@@ -556,8 +609,8 @@
             make.height.mas_equalTo(PAaptation_y(6));
         }];
         
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickTopViewAction)];
-        [_topView addGestureRecognizer:tap];
+//        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickTopViewAction)];
+//        [_topView addGestureRecognizer:tap];
     }
     return _topView;
     

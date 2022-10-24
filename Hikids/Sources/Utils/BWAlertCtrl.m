@@ -24,7 +24,7 @@
         
         if ([[array safeObjectAtIndex:i] isEqualToString:@"アラート停止"]) {
             action = [UIAlertAction actionWithTitle:[array safeObjectAtIndex:i] style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-                
+                clickAction(action.title);
             }];
         }else{
             action = [UIAlertAction actionWithTitle:[array safeObjectAtIndex:i] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {

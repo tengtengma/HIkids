@@ -27,14 +27,14 @@
     [self setupGoogleMap];
 
     HLoginVC *loginVC = [[HLoginVC alloc] init];
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *userName = [user objectForKey:KEY_UserName];
-    if (userName.length != 0) {
-        [loginVC autoLoginAction];//此处为了刷新一下token
-        self.window.rootViewController = [[HRootVC alloc] init];
-    }else{
+//    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+//    NSString *userName = [user objectForKey:KEY_UserName];
+//    if (userName.length != 0) {
+//        [loginVC autoLoginAction];//此处为了刷新一下token
+//        self.window.rootViewController = [[HRootVC alloc] init];
+//    }else{
         self.window.rootViewController = loginVC;
-    }
+//    }
     [self.window makeKeyAndVisible];
     
     [self registerAPN];

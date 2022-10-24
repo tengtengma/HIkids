@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^WalkEndAction)(void);
-typedef void(^ShowOrHideWalkStateView)(void);
+typedef void(^ShowOrHideWalkStateView)(NSInteger state);
 typedef void(^CloseExpandAction)(void);
 
 @interface HWalkStudentStateView : UIView
