@@ -102,32 +102,42 @@
 
     }
     
+
+    
+    NSLog(@"top %f",self.top);
+    
     // 在滑动手势结束时判断滑动视图距离顶部的距离是否超过了屏幕的一半，如果超过了一半就往下滑到底部
     // 如果小于一半就往上滑到顶部
     if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled) {
         
+
+        if (self.top <= 150) {
+            [self goTop];
+        }else if(self.top > 150 && self.top < 360){
+            [self goCenter];
+        }else{
+            [self goBack];
+        }
+        
         // 滑动速度
         CGPoint velocity = [pan velocityInView:self];
         
-        
-        NSLog(@"%f",velocity.y);
-
-        CGFloat speed = 1000;
+    
+        CGFloat speed = 350;
         if (velocity.y < -speed) {
-            [self goTop];
             [pan setTranslation:CGPointMake(0, 0) inView:self];
             return;
         }else if (velocity.y > speed){
-            [self goBack];
             [pan setTranslation:CGPointMake(0, 0) inView:self];
             return;
         }else{
-            [self goCenter];
             [pan setTranslation:CGPointMake(0, 0) inView:self];
-            return;
             
         }
         
+
+//        NSLog(@"%f",self.top);
+//
 //        if (self.top > SCREEN_HEIGHT/2) {
 //            [self goBack];
 //        }else{
@@ -136,6 +146,10 @@
     }
     
     [pan setTranslation:CGPointMake(0, 0) inView:self];
+}
+- (void)changeScreenHeight
+{
+    
 }
 
 
