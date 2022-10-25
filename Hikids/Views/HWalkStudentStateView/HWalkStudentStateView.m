@@ -11,9 +11,12 @@
 #import "HStudentTopView.h"
 #import "HStudentFooterView.h"
 #import "HStudentCloseView.h"
+#import "HSmallCardView.h"
 
 
 @interface HWalkStudentStateView()<UIGestureRecognizerDelegate,UIScrollViewDelegate>
+@property (nonatomic, strong) HSmallCardView *smallMenuView;
+@property (nonatomic, strong) UIButton *gpsButton;
 @property (nonatomic, strong) UIImageView *topView;
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, assign) float bottomH;//下滑后距离顶部的距离
@@ -29,10 +32,26 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
+                
+        [self addSubview:self.smallMenuView];
+        [self.smallMenuView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self);
+            make.left.equalTo(self).offset(PAdaptation_x(10));
+            make.width.mas_equalTo(PAdaptation_x(115));
+            make.height.mas_equalTo(PAaptation_y(79));
+        }];
+        
+        [self addSubview:self.gpsButton];
+        [self.gpsButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.smallMenuView.mas_bottom);
+            make.right.equalTo(self.mas_right).offset(-PAdaptation_x(10));
+            make.width.mas_equalTo(PAdaptation_x(52));
+            make.height.mas_equalTo(PAaptation_y(52));
+        }];
         
         [self addSubview:self.topView];
         [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self);
+            make.top.equalTo(self.smallMenuView.mas_bottom).offset(PAaptation_y(13));
             make.left.equalTo(self);
             make.width.equalTo(self);
             make.height.mas_equalTo(PAaptation_y(32));
@@ -50,14 +69,6 @@
         panGestureRecognizer.delegate = self;
         [self addGestureRecognizer:panGestureRecognizer];
         
-//        UISwipeGestureRecognizer *upSwipRec = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(upAction:)];
-//        upSwipRec.direction = UISwipeGestureRecognizerDirectionUp;
-//        [self addGestureRecognizer:upSwipRec];
-//
-//        UISwipeGestureRecognizer *downSwipRec = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(downAction:)];
-//        downSwipRec.direction = UISwipeGestureRecognizerDirectionDown;
-//        [self addGestureRecognizer:downSwipRec];
-        
         self.bottomH = self.top;
         
         self.dangerIsExpand = YES;
@@ -66,35 +77,12 @@
     }
     return self;
 }
-- (void)upAction:(UISwipeGestureRecognizer *)up
-{
-    NSLog(@"up");
-    self.state++;
-    if (self.state > 2) {
-        self.state = 2;
-    }
-    
-    if (self.ShowOrHideWalkStateViewBlock) {
-        self.ShowOrHideWalkStateViewBlock(self.state);
-    }
-}
-- (void)downAction:(UISwipeGestureRecognizer *)down
-{
-    NSLog(@"down");
-    
-    self.state--;
-    if (self.state < 0) {
-        self.state = 0;
-    }
-    
-    if (self.ShowOrHideWalkStateViewBlock) {
-        self.ShowOrHideWalkStateViewBlock(self.state);
-    }
-}
+
 - (void)panAction:(UIPanGestureRecognizer *)pan
 {
     // 获取视图偏移量
     CGPoint point = [pan translationInView:self];
+
     // stop_y是tableview的偏移量，当tableview的偏移量大于0时则不去处理视图滑动的事件
     if (self.stop_y>0) {
         // 将视频偏移量重置为0
@@ -158,11 +146,16 @@
 //    }
 }
 - (void)goTop {
+    
     [UIView animateWithDuration:0.5 animations:^{
         self.top = self.topH;
     }completion:^(BOOL finished) {
         self.scrollView.userInteractionEnabled = YES;
     }];
+    
+    self.smallMenuView.hidden = YES;
+    self.gpsButton.hidden = YES;
+    
     if (self.ShowOrHideWalkStateViewBlock) {
         self.ShowOrHideWalkStateViewBlock(2);
     }
@@ -175,12 +168,18 @@
         self.scrollView.userInteractionEnabled = NO;
     }];
     
+    self.smallMenuView.hidden = NO;
+    self.gpsButton.hidden = NO;
+    
     if (self.ShowOrHideWalkStateViewBlock) {
         self.ShowOrHideWalkStateViewBlock(0);
     }
 }
 - (void)goCenter
 {
+    self.smallMenuView.hidden = NO;
+    self.gpsButton.hidden = NO;
+    
     if (self.ShowOrHideWalkStateViewBlock) {
         self.ShowOrHideWalkStateViewBlock(1);
     }
@@ -259,6 +258,9 @@
 //    self.nomalArray = nomal;
     
     [self createStudentView];
+    
+    self.smallMenuView.safeLabel.text = [NSString stringWithFormat:@"使用中%ld人",self.nomalArray.count + self.exceptArray.count];
+    self.smallMenuView.dangerLabel.text = @"アラート0回";
 }
 
 - (void)createStudentView
@@ -579,7 +581,12 @@
 
     [self tableReload];
 }
-
+- (void)locationAction:(id)sender
+{
+    if (self.clickGpsBlock) {
+        self.clickGpsBlock();
+    }
+}
 #pragma mark - LazyLoad -
 - (UIScrollView *)scrollView
 {
@@ -609,32 +616,25 @@
             make.height.mas_equalTo(PAaptation_y(6));
         }];
         
-//        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickTopViewAction)];
-//        [_topView addGestureRecognizer:tap];
     }
     return _topView;
     
 }
-//- (UIButton *)expandBtn
-//{
-//    if (!_expandBtn) {
-//        _expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        _expandBtn.tag = 1001;
-//        [_expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
-//
-//        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-//        if (app.isDangerExpand || app.isSafeExpand) {
-//            [_expandBtn setImage:[UIImage imageNamed:@"expand.png"] forState:UIControlStateNormal];
-//            return _expandBtn;
-//
-//        }else{
-//            [_expandBtn setImage:[UIImage imageNamed:@"close_state.png"] forState:UIControlStateNormal];
-//            return _expandBtn;
-//
-//        }
-//
-//
-//    }
-//    return _expandBtn;
-//}
+- (HSmallCardView *)smallMenuView
+{
+    if (!_smallMenuView) {
+        _smallMenuView = [[HSmallCardView alloc] initWithFrame:CGRectMake(PAdaptation_x(5), SCREEN_HEIGHT - PAaptation_y(189), PAdaptation_x(115), PAaptation_y(79))];
+    }
+    return _smallMenuView;
+}
+- (UIButton *)gpsButton
+{
+    if (!_gpsButton) {
+        _gpsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_gpsButton setFrame:CGRectMake(SCREEN_WIDTH - PAdaptation_x(62), SCREEN_HEIGHT - PAaptation_y(162), PAdaptation_x(52), PAaptation_y(52))];
+        [_gpsButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
+        [_gpsButton addTarget:self action:@selector(locationAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _gpsButton;
+}
 @end

@@ -10,7 +10,7 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import <GooglePlaces/GooglePlaces.h>
 #import <CoreLocation/CoreLocation.h>
-#import "HSmallCardView.h"
+
 #import "BWDestnationInfoReq.h"
 #import "BWDestnationInfoResp.h"
 #import "HDestnationModel.h"
@@ -38,7 +38,6 @@
 @interface HMapVC ()<GMSMapViewDelegate,CLLocationManagerDelegate>
 @property (nonatomic,strong) HMenuHomeVC *menuHomeVC;
 @property (nonatomic,strong) HWalkMenuVC *menuWalkVC;
-@property (nonatomic,strong) HSmallCardView *smallMenuView;
 @property (nonatomic,strong) GMSMapView *mapView;
 @property (nonatomic,strong) CLLocationManager *locationManager;
 @property (nonatomic,assign) CLLocationCoordinate2D coordinate2D;
@@ -119,10 +118,6 @@
     self.menuWalkVC.view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
     [self.view addSubview:self.menuWalkVC.view];
 
-    
-    [self.view addSubview:self.smallMenuView];
-    
-    [self.view addSubview:self.gpsButton];
     
     [self.stateInfoView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, PAaptation_y(351))];
     [self.view addSubview:self.stateInfoView];
@@ -227,9 +222,7 @@
     [self.menuHomeVC closeMenuVC];
         
     self.walkStateView.hidden = NO;
-    
-    self.smallMenuView.hidden = YES;
-    
+        
     [self startDestRequest];
     
 //    [self changeTaskStateRequestWithStatus:@"2"];
@@ -251,9 +244,7 @@
     [self.menuHomeVC closeMenuVC];
         
     self.walkStateView.hidden = NO;
-    
-    self.smallMenuView.hidden = NO;
-    
+        
     self.gpsButton.hidden = NO;
     
     [self startDestRequest];
@@ -343,9 +334,9 @@
         weakSelf.walkStateView.nomalArray = weakSelf.nomalArray;
         weakSelf.walkStateView.exceptArray = weakSelf.exceptArray;
         
-        if (weakSelf.exceptArray.count != 0) {
-            self.walkStateView.ShowOrHideWalkStateViewBlock(1);
-        }
+//        if (weakSelf.exceptArray.count != 0) {
+//            self.walkStateView.ShowOrHideWalkStateViewBlock(1);
+//        }
         
         [weakSelf.walkStateView tableReload];
         [weakSelf.menuHomeVC tableReload];
@@ -391,7 +382,6 @@
     //关闭开始散步菜单
     self.menuWalkVC.closeBlock = ^{
         
-        weakSelf.smallMenuView.hidden = NO;
         [weakSelf hideWalkMenuVC];
     };
     
@@ -417,11 +407,6 @@
 
     };
     
-    //小窗口点击
-    self.smallMenuView.clickBlock = ^{
-        
-    };
-    
     
     //marks的详情
     self.stateInfoView.closeBlock = ^{
@@ -434,50 +419,35 @@
         
         if (state == 0) {
             [UIView animateWithDuration:0.25 animations:^{
-                [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(100), SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight)];
+                [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(161), SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight)];
                 
-                [weakSelf.smallMenuView setFrame:CGRectMake(PAdaptation_x(5), SCREEN_HEIGHT - PAaptation_y(189), PAdaptation_x(115), PAaptation_y(79))];
-                
-                [weakSelf.gpsButton setFrame:CGRectMake(SCREEN_WIDTH - PAdaptation_x(62), SCREEN_HEIGHT - PAaptation_y(162), PAdaptation_x(52), PAaptation_y(52))];
-                
-                [weakSelf.mapView setFrame:CGRectMake(0, PAaptation_y(148), SCREEN_WIDTH,self.view.frame.size.height - PAaptation_y(110)-PAaptation_y(130))];
-                
-                weakSelf.smallMenuView.alpha = 1.0f;
-                weakSelf.smallMenuView.hidden = NO;
-                
-                weakSelf.gpsButton.alpha = 1.0f;
-                weakSelf.gpsButton.hidden = NO;
+//                [weakSelf.mapView setFrame:CGRectMake(0, PAaptation_y(148), SCREEN_WIDTH,self.view.frame.size.height - PAaptation_y(110)-PAaptation_y(130))];
+
             }];
         }else if (state == 1){
 
             [UIView animateWithDuration:0.25 animations:^{
                 [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(340), SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight)];
                 
-                [weakSelf.smallMenuView setFrame:CGRectMake(PAdaptation_x(5), SCREEN_HEIGHT - PAaptation_y(429), PAdaptation_x(115), PAaptation_y(79))];
                 
                 [weakSelf.gpsButton setFrame:CGRectMake(SCREEN_WIDTH - PAdaptation_x(62), SCREEN_HEIGHT - PAaptation_y(402), PAdaptation_x(52), PAaptation_y(52))];
                 
-                [weakSelf.mapView setFrame:CGRectMake(0, PAaptation_y(148), SCREEN_WIDTH,SCREEN_HEIGHT - PAaptation_y(340)-PAaptation_y(148))];
+//                [weakSelf.mapView setFrame:CGRectMake(0, PAaptation_y(148), SCREEN_WIDTH,SCREEN_HEIGHT - PAaptation_y(340)-PAaptation_y(148))];
 
-                
-                weakSelf.smallMenuView.alpha = 1.0f;
-                weakSelf.smallMenuView.hidden = NO;
-                
-                weakSelf.gpsButton.alpha = 1.0f;
-                weakSelf.gpsButton.hidden = NO;
+
             }];
         }else{
             [UIView animateWithDuration:0.25 animations:^{
                 [weakSelf.walkStateView setFrame:CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight)];
-                
-                weakSelf.smallMenuView.alpha = 0.0f;
-                weakSelf.smallMenuView.hidden = YES;
-                
-                weakSelf.gpsButton.alpha = 0.0f;
-                weakSelf.gpsButton.hidden = YES;
             }];
         }
                 
+    };
+    
+    self.walkStateView.clickGpsBlock = ^{
+        //替换自己的坐标
+         CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(weakSelf.gpsLocation.coordinate.latitude, weakSelf.gpsLocation.coordinate.longitude);
+        weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:18];
     };
 }
 
@@ -768,16 +738,13 @@
 //}
 - (void)reloadData
 {
-    self.menuHomeVC.cardView = self.smallMenuView;
     self.menuHomeVC.nomalArray = self.nomalArray;
     self.menuHomeVC.exceptArray = self.exceptArray;
     
-    self.smallMenuView.safeLabel.text = [NSString stringWithFormat:@"使用中%ld人",self.nomalArray.count + self.exceptArray.count];
-    self.smallMenuView.dangerLabel.text = @"アラート0回";
+
 }
 - (void)changeVCAction:(NSNotification *)noti
 {
-    self.smallMenuView.hidden = YES;
     [self showWalkMenuVC];
 }
 
@@ -975,13 +942,6 @@
 
     return YES;
 }
-- (void)locationAction:(UIButton *)button
-{
-    //替换自己的坐标
-     CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.gpsLocation.coordinate.latitude, self.gpsLocation.coordinate.longitude);
-    self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:18];
-
-}
 - (void)showStateInfoView
 {
     DefineWeakSelf;
@@ -1023,7 +983,7 @@
     if (!_mapView) {
         //设置地图view，这里是随便初始化了一个经纬度，在获取到当前用户位置到时候会直接更新的
         GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:38.02 longitude:114.52 zoom:15];
-        _mapView = [GMSMapView mapWithFrame:CGRectMake(0, PAaptation_y(148), SCREEN_WIDTH,self.view.frame.size.height - PAaptation_y(110)-PAaptation_y(130)) camera:camera];
+        _mapView = [GMSMapView mapWithFrame:CGRectMake(0, PAaptation_y(148), SCREEN_WIDTH,self.view.frame.size.height - PAaptation_y(161)) camera:camera];
         _mapView.delegate = self;
         _mapView.settings.myLocationButton = NO;
         _mapView.myLocationEnabled = YES;
@@ -1044,27 +1004,11 @@
     }
     return _menuWalkVC;
 }
-- (HSmallCardView *)smallMenuView
-{
-    if (!_smallMenuView) {
-        _smallMenuView = [[HSmallCardView alloc] initWithFrame:CGRectMake(PAdaptation_x(5), SCREEN_HEIGHT - PAaptation_y(189), PAdaptation_x(115), PAaptation_y(79))];
-    }
-    return _smallMenuView;
-}
-- (UIButton *)gpsButton
-{
-    if (!_gpsButton) {
-        _gpsButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_gpsButton setFrame:CGRectMake(SCREEN_WIDTH - PAdaptation_x(62), SCREEN_HEIGHT - PAaptation_y(162), PAdaptation_x(52), PAaptation_y(52))];
-        [_gpsButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
-        [_gpsButton addTarget:self action:@selector(locationAction:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _gpsButton;
-}
+
 - (HWalkStudentStateView *)walkStateView
 {
     if (!_walkStateView) {
-        _walkStateView = [[HWalkStudentStateView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(100), SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight)];
+        _walkStateView = [[HWalkStudentStateView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(161), SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight)];
         _walkStateView.topH = BW_StatusBarHeight;
         _walkStateView.hidden = YES;
     }
