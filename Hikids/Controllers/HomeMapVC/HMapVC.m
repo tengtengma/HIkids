@@ -334,9 +334,9 @@
         weakSelf.walkStateView.nomalArray = weakSelf.nomalArray;
         weakSelf.walkStateView.exceptArray = weakSelf.exceptArray;
         
-//        if (weakSelf.exceptArray.count != 0) {
-//            self.walkStateView.ShowOrHideWalkStateViewBlock(1);
-//        }
+        if (weakSelf.exceptArray.count != 0) {
+            weakSelf.walkStateView.ShowOrHideWalkStateViewBlock(1);
+        }
         
         [weakSelf.walkStateView tableReload];
         [weakSelf.menuHomeVC tableReload];
@@ -447,7 +447,7 @@
     self.walkStateView.clickGpsBlock = ^{
         //替换自己的坐标
          CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(weakSelf.gpsLocation.coordinate.latitude, weakSelf.gpsLocation.coordinate.longitude);
-        weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:18];
+        weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:16];
     };
 }
 
@@ -895,7 +895,7 @@
          //如果是国内，就会转化坐标系，如果是国外坐标，则不会转换。
  //        _coordinate2D = [JZLocationConverter wgs84ToGcj02:location.coordinate];
          //移动地图中心到当前位置
-         self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:18];
+         self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:16];
         [self startGetStudentLocationRequest];
 
     } else {

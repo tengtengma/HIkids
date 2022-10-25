@@ -108,8 +108,11 @@
         
         // 滑动速度
         CGPoint velocity = [pan velocityInView:self];
-        CGFloat speed = 600;
+        
+        
         NSLog(@"%f",velocity.y);
+
+        CGFloat speed = 1000;
         if (velocity.y < -speed) {
             [self goTop];
             [pan setTranslation:CGPointMake(0, 0) inView:self];
@@ -121,6 +124,7 @@
         }else{
             [self goCenter];
             [pan setTranslation:CGPointMake(0, 0) inView:self];
+            return;
             
         }
         
@@ -133,6 +137,9 @@
     
     [pan setTranslation:CGPointMake(0, 0) inView:self];
 }
+
+
+
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     return YES;
 }
@@ -156,6 +163,13 @@
     self.smallMenuView.hidden = YES;
     self.gpsButton.hidden = YES;
     
+    [self.topView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self);
+        make.left.equalTo(self);
+        make.width.equalTo(self);
+        make.height.mas_equalTo(PAaptation_y(32));
+    }];
+    
     if (self.ShowOrHideWalkStateViewBlock) {
         self.ShowOrHideWalkStateViewBlock(2);
     }
@@ -171,6 +185,13 @@
     self.smallMenuView.hidden = NO;
     self.gpsButton.hidden = NO;
     
+    [self.topView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.smallMenuView.mas_bottom).offset(PAaptation_y(13));
+        make.left.equalTo(self);
+        make.width.equalTo(self);
+        make.height.mas_equalTo(PAaptation_y(32));
+    }];
+    
     if (self.ShowOrHideWalkStateViewBlock) {
         self.ShowOrHideWalkStateViewBlock(0);
     }
@@ -179,6 +200,13 @@
 {
     self.smallMenuView.hidden = NO;
     self.gpsButton.hidden = NO;
+    
+    [self.topView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.smallMenuView.mas_bottom).offset(PAaptation_y(13));
+        make.left.equalTo(self);
+        make.width.equalTo(self);
+        make.height.mas_equalTo(PAaptation_y(32));
+    }];
     
     if (self.ShowOrHideWalkStateViewBlock) {
         self.ShowOrHideWalkStateViewBlock(1);
@@ -353,9 +381,9 @@
                 
                 float height;
                 if (self.dangerIsExpand) {
-                    height = PAaptation_y(40) + PAaptation_y(40)+ PAaptation_y(89)*self.exceptArray.count;
+                    height = PAaptation_y(30) + PAaptation_y(40)+ PAaptation_y(89)*self.exceptArray.count;
                 }else{
-                    height = PAaptation_y(40) + PAaptation_y(40)+ PAaptation_y(89)*1;
+                    height = PAaptation_y(30) + PAaptation_y(40)+ PAaptation_y(89)*1;
                 }
 
                 HStudentTopView *topView = [[HStudentTopView alloc] init];
@@ -390,9 +418,9 @@
                     bottomView.backgroundColor = [UIColor whiteColor];
                     
                     if (self.dangerIsExpand) {
-                        height = (PAaptation_y(40) + PAaptation_y(40)+ (PAaptation_y(40)+PAaptation_y(89)*self.exceptArray.count))+i*PAaptation_y(89);
+                        height = (PAaptation_y(30) + PAaptation_y(40)+ (PAaptation_y(40)+PAaptation_y(89)*self.exceptArray.count))+i*PAaptation_y(89);
                     }else{
-                        height = (PAaptation_y(40)+PAaptation_y(40)+ (PAaptation_y(40)+PAaptation_y(89)*1))+i*PAaptation_y(89);
+                        height = (PAaptation_y(30)+PAaptation_y(40)+ (PAaptation_y(40)+PAaptation_y(89)*1))+i*PAaptation_y(89);
                     }
                     
                     [bottomView setFrame:CGRectMake(PAdaptation_x(24), height, SCREEN_WIDTH - PAdaptation_x(48), PAaptation_y(89))];
