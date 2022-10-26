@@ -31,6 +31,7 @@
 #import "BWChangeTaskStateReq.h"
 #import "BWChangeTaskStateResp.h"
 #import "HCustomNavigationView.h"
+#import "HSmallCardView.h"
 
 
 
@@ -94,7 +95,7 @@
     [super viewDidLoad];
     
     
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(startGetStudentLocationRequest) userInfo:nil repeats:YES];
+//    self.timer = [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(startGetStudentLocationRequest) userInfo:nil repeats:YES];
         
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeVCAction:) name:@"changeVCNotification" object:nil];
     
@@ -334,9 +335,9 @@
         weakSelf.walkStateView.nomalArray = weakSelf.nomalArray;
         weakSelf.walkStateView.exceptArray = weakSelf.exceptArray;
         
-        if (weakSelf.exceptArray.count != 0) {
-            weakSelf.walkStateView.ShowOrHideWalkStateViewBlock(1);
-        }
+//        if (weakSelf.exceptArray.count != 0) {
+//            [weakSelf.walkStateView goCenter];;
+//        }
         
         [weakSelf.walkStateView tableReload];
         [weakSelf.menuHomeVC tableReload];
@@ -407,41 +408,10 @@
 
     };
     
-    
     //marks的详情
     self.stateInfoView.closeBlock = ^{
         [weakSelf hideStateInfoView];
 
-    };
-    
-    //散步时学生状态view
-    self.walkStateView.ShowOrHideWalkStateViewBlock = ^(NSInteger state) {
-        
-        if (state == 0) {
-            [UIView animateWithDuration:0.25 animations:^{
-                [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(161), SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight)];
-                
-//                [weakSelf.mapView setFrame:CGRectMake(0, PAaptation_y(148), SCREEN_WIDTH,self.view.frame.size.height - PAaptation_y(110)-PAaptation_y(130))];
-
-            }];
-        }else if (state == 1){
-
-            [UIView animateWithDuration:0.25 animations:^{
-                [weakSelf.walkStateView setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(340), SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight)];
-                
-                
-                [weakSelf.gpsButton setFrame:CGRectMake(SCREEN_WIDTH - PAdaptation_x(62), SCREEN_HEIGHT - PAaptation_y(402), PAdaptation_x(52), PAaptation_y(52))];
-                
-//                [weakSelf.mapView setFrame:CGRectMake(0, PAaptation_y(148), SCREEN_WIDTH,SCREEN_HEIGHT - PAaptation_y(340)-PAaptation_y(148))];
-
-
-            }];
-        }else{
-            [UIView animateWithDuration:0.25 animations:^{
-                [weakSelf.walkStateView setFrame:CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight)];
-            }];
-        }
-                
     };
     
     self.walkStateView.clickGpsBlock = ^{
@@ -896,7 +866,7 @@
  //        _coordinate2D = [JZLocationConverter wgs84ToGcj02:location.coordinate];
          //移动地图中心到当前位置
          self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:16];
-        [self startGetStudentLocationRequest];
+//        [self startGetStudentLocationRequest];
 
     } else {
         [self.locationManager stopUpdatingLocation]; //停止获取

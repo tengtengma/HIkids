@@ -125,6 +125,10 @@
     }
     self.titleLabel.text = model.name;
 }
+- (void)clickBackupAction
+{
+    NSLog(@"backup");
+}
 
 - (UIImageView *)headerView
 {
@@ -164,6 +168,7 @@
     if (!_backupBtn) {
         _backupBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_backupBtn setImage:[UIImage imageNamed:@"backup.png"] forState:UIControlStateNormal];
+        [_backupBtn addTarget:self action:@selector(clickBackupAction) forControlEvents:UIControlEventTouchUpInside];
     }
     return _backupBtn;
 }

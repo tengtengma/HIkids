@@ -32,7 +32,7 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-                
+                        
         [self addSubview:self.smallMenuView];
         [self.smallMenuView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self);
@@ -111,9 +111,9 @@
     if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled) {
         
 
-        if (self.top <= 150) {
+        if (self.top <= 250) {
             [self goTop];
-        }else if(self.top > 150 && self.top < 360){
+        }else if(self.top > 150 && self.top < 500){
             [self goCenter];
         }else{
             [self goBack];
@@ -170,6 +170,8 @@
     
     [UIView animateWithDuration:0.5 animations:^{
         self.top = self.topH;
+        [self setFrame:CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight)];
+
     }completion:^(BOOL finished) {
         self.scrollView.userInteractionEnabled = YES;
     }];
@@ -184,14 +186,16 @@
         make.height.mas_equalTo(PAaptation_y(32));
     }];
     
-    if (self.ShowOrHideWalkStateViewBlock) {
-        self.ShowOrHideWalkStateViewBlock(2);
-    }
+
 }
 
 - (void)goBack {
+    
+
     [UIView animateWithDuration:0.5 animations:^{
         self.top = self.bottomH;
+        [self setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(161), SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight)];
+
     }completion:^(BOOL finished) {
         self.scrollView.userInteractionEnabled = NO;
     }];
@@ -206,14 +210,31 @@
         make.height.mas_equalTo(PAaptation_y(32));
     }];
     
-    if (self.ShowOrHideWalkStateViewBlock) {
-        self.ShowOrHideWalkStateViewBlock(0);
-    }
+    [self.smallMenuView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self);
+        make.left.equalTo(self).offset(PAdaptation_x(10));
+        make.width.mas_equalTo(PAdaptation_x(115));
+        make.height.mas_equalTo(PAaptation_y(79));
+    }];
+    
+    [self.gpsButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.smallMenuView.mas_bottom);
+        make.right.equalTo(self.mas_right).offset(-PAdaptation_x(10));
+        make.width.mas_equalTo(PAdaptation_x(52));
+        make.height.mas_equalTo(PAaptation_y(52));
+    }];
+    
+
 }
 - (void)goCenter
 {
     self.smallMenuView.hidden = NO;
     self.gpsButton.hidden = NO;
+    
+    
+    [UIView animateWithDuration:0.25 animations:^{
+        [self setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(340), SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight)];
+    }];
     
     [self.topView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.smallMenuView.mas_bottom).offset(PAaptation_y(13));
@@ -222,9 +243,20 @@
         make.height.mas_equalTo(PAaptation_y(32));
     }];
     
-    if (self.ShowOrHideWalkStateViewBlock) {
-        self.ShowOrHideWalkStateViewBlock(1);
-    }
+    [self.smallMenuView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self);
+        make.left.equalTo(self).offset(PAdaptation_x(10));
+        make.width.mas_equalTo(PAdaptation_x(115));
+        make.height.mas_equalTo(PAaptation_y(79));
+    }];
+    
+    [self.gpsButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.smallMenuView.mas_bottom);
+        make.right.equalTo(self.mas_right).offset(-PAdaptation_x(10));
+        make.width.mas_equalTo(PAdaptation_x(52));
+        make.height.mas_equalTo(PAaptation_y(52));
+    }];
+    
 }
 - (void)walkEndAction
 {
@@ -352,6 +384,8 @@
                     listBottomView.userInteractionEnabled = YES;
                     [listBottomView setImage:[UIImage imageNamed:@"listBottom_danger@2x.png"]];
                     [bottomView addSubview:listBottomView];
+                    [bottomView sendSubviewToBack:listBottomView];
+
                                     
                 }else{
                     [BWTools setBorderWithView:bottomView top:NO left:YES bottom:NO right:YES borderColor:BWColor(83, 38, 2, 1) borderWidth:2];
@@ -444,6 +478,8 @@
                         listBottomView.userInteractionEnabled = YES;
                         [listBottomView setImage:[UIImage imageNamed:@"listBottom_safe@2x.png"]];
                         [bottomView addSubview:listBottomView];
+                        [bottomView sendSubviewToBack:listBottomView];
+
                         
                     }else{
                         [BWTools setBorderWithView:bottomView top:NO left:YES bottom:NO right:YES borderColor:BWColor(83, 38, 2, 1) borderWidth:2];
@@ -537,6 +573,7 @@
                         listBottomView.userInteractionEnabled = YES;
                         [listBottomView setImage:[UIImage imageNamed:@"listBottom_safe@2x.png"]];
                         [bottomView addSubview:listBottomView];
+                        [bottomView sendSubviewToBack:listBottomView];
                         
                     }else{
                         [BWTools setBorderWithView:bottomView top:NO left:YES bottom:NO right:YES borderColor:BWColor(83, 38, 2, 1) borderWidth:2];
@@ -636,7 +673,7 @@
         _scrollView = [[UIScrollView alloc] init];
         _scrollView.delegate = self;
         _scrollView.bounces = NO;
-        _scrollView.userInteractionEnabled = NO;
+//        _scrollView.userInteractionEnabled = NO;
         _scrollView.backgroundColor = [UIColor whiteColor];
     }
     return _scrollView;

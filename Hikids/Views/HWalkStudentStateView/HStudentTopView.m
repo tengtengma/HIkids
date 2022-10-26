@@ -24,10 +24,7 @@
         
         [self addSubview:self.bgView];
         [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self);
-            make.left.equalTo(self);
-            make.right.equalTo(self.mas_right);
-            make.bottom.equalTo(self.mas_bottom);
+            make.edges.equalTo(self);
         }];
         
         [self.bgView addSubview:self.iconView];

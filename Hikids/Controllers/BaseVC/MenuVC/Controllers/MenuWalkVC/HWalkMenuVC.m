@@ -519,8 +519,6 @@
            label.text = @"参加児童:";
        }
        
-       NSLog(@"11111111");
-
        return headerView;
    }
 
