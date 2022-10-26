@@ -866,7 +866,7 @@
  //        _coordinate2D = [JZLocationConverter wgs84ToGcj02:location.coordinate];
          //移动地图中心到当前位置
          self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:16];
-//        [self startGetStudentLocationRequest];
+        [self startGetStudentLocationRequest];
 
     } else {
         [self.locationManager stopUpdatingLocation]; //停止获取
