@@ -23,13 +23,18 @@
         self.layer.cornerRadius = 12;
         self.layer.borderWidth = 2;
         
+        
         self.topView = [[HStudentTopView alloc] init];
         
         HStudent *student = [array safeObjectAtIndex:0];
         if (student.exceptionTime) {
             [self.topView setDangerStyleWithStudentCount:array.count];
+            self.layer.borderColor = BWColor(83, 38, 2, 1).CGColor;
+
         }else{
             [self.topView setSafeStyleWithStudentCount:array.count];
+            self.layer.borderColor = BWColor(0, 102, 10, 1).CGColor;
+
         }
         [self addSubview:self.topView];
 

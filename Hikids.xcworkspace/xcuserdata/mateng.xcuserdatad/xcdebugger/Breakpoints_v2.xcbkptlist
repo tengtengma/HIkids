@@ -26,8 +26,8 @@
             filePath = "Hikids/Views/HWalkStudentStateView/HStudentCloseView.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
             landmarkName = "-initWithArray:"
             landmarkType = "7">
          </BreakpointContent>
@@ -44,7 +44,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "88"
             endingLineNumber = "88"
-            landmarkName = "-setSafeStyleWithStudentCount:"
+            landmarkName = "-clickExpandAction:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

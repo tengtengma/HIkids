@@ -111,9 +111,9 @@
     if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled) {
         
 
-        if (self.top <= 250) {
+        if (self.top <= PAaptation_y(220)) {
             [self goTop];
-        }else if(self.top > 150 && self.top < 500){
+        }else if(self.top > PAaptation_y(220) && self.top < PAaptation_y(450)){
             [self goCenter];
         }else{
             [self goBack];
@@ -173,12 +173,13 @@
         [self setFrame:CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight)];
 
     }completion:^(BOOL finished) {
-        self.scrollView.userInteractionEnabled = YES;
+//        self.scrollView.userInteractionEnabled = YES;
     }];
     
     self.smallMenuView.hidden = YES;
     self.gpsButton.hidden = YES;
-    
+    self.scrollView.scrollEnabled = YES;
+
     [self.topView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self);
         make.left.equalTo(self);
@@ -197,12 +198,13 @@
         [self setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(161), SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight)];
 
     }completion:^(BOOL finished) {
-        self.scrollView.userInteractionEnabled = NO;
+//        self.scrollView.userInteractionEnabled = NO;
     }];
     
     self.smallMenuView.hidden = NO;
     self.gpsButton.hidden = NO;
-    
+    self.scrollView.scrollEnabled = NO;
+
     [self.topView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.smallMenuView.mas_bottom).offset(PAaptation_y(13));
         make.left.equalTo(self);
@@ -230,7 +232,7 @@
 {
     self.smallMenuView.hidden = NO;
     self.gpsButton.hidden = NO;
-    
+    self.scrollView.scrollEnabled = NO;
     
     [UIView animateWithDuration:0.25 animations:^{
         [self setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(340), SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight)];
@@ -378,6 +380,9 @@
                 [bottomView setFrame:CGRectMake(PAdaptation_x(24), PAaptation_y(40)+ PAaptation_y(89)*i, SCREEN_WIDTH -PAdaptation_x(48), PAaptation_y(89))];
                 
                 if (i == self.exceptArray.count -1) {
+                    
+                    bottomView.lineView.hidden = YES;
+
                     //最后一个单独处理圆角
                     
                     UIImageView *listBottomView = [[UIImageView alloc] initWithFrame:bottomView.bounds];
@@ -473,6 +478,9 @@
                     
                     [bottomView setFrame:CGRectMake(PAdaptation_x(24), height, SCREEN_WIDTH - PAdaptation_x(48), PAaptation_y(89))];
                     if (i == self.nomalArray.count -1) {
+                        
+                        bottomView.lineView.hidden = YES;
+
                         //最后一个单独处理圆角
                         UIImageView *listBottomView = [[UIImageView alloc] initWithFrame:bottomView.bounds];
                         listBottomView.userInteractionEnabled = YES;
@@ -482,7 +490,7 @@
 
                         
                     }else{
-                        [BWTools setBorderWithView:bottomView top:NO left:YES bottom:NO right:YES borderColor:BWColor(83, 38, 2, 1) borderWidth:2];
+                        [BWTools setBorderWithView:bottomView top:NO left:YES bottom:NO right:YES borderColor:BWColor(0, 102, 10, 1) borderWidth:2];
                     }
                     [bottomView setupWithModel:[self.nomalArray safeObjectAtIndex:i]];
 
@@ -568,6 +576,7 @@
 
                     [bottomView setFrame:CGRectMake(PAdaptation_x(24), height, SCREEN_WIDTH - PAdaptation_x(48), PAaptation_y(89))];
                     if (i == self.nomalArray.count -1) {
+                        bottomView.lineView.hidden = YES;
                         //最后一个单独处理圆角
                         UIImageView *listBottomView = [[UIImageView alloc] initWithFrame:bottomView.bounds];
                         listBottomView.userInteractionEnabled = YES;
@@ -673,7 +682,7 @@
         _scrollView = [[UIScrollView alloc] init];
         _scrollView.delegate = self;
         _scrollView.bounces = NO;
-//        _scrollView.userInteractionEnabled = NO;
+        _scrollView.userInteractionEnabled = YES;
         _scrollView.backgroundColor = [UIColor whiteColor];
     }
     return _scrollView;

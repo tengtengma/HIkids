@@ -16,7 +16,6 @@
 @property (nonatomic, strong) UIButton *clockBtn;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *distanceLabel;
-@property (nonatomic, strong) UIView *lineView;
 
 
 @end

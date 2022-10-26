@@ -11,6 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HStudentFooterView : UIView
+@property (nonatomic, strong) UIView *lineView;
+
 - (instancetype)init;
 - (void)setupWithModel:(HStudent *)model;
 @end

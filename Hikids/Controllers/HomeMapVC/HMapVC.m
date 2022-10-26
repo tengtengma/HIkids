@@ -95,7 +95,7 @@
     [super viewDidLoad];
     
     
-//    self.timer = [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(startGetStudentLocationRequest) userInfo:nil repeats:YES];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(startGetStudentLocationRequest) userInfo:nil repeats:YES];
         
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeVCAction:) name:@"changeVCNotification" object:nil];
     
@@ -335,9 +335,9 @@
         weakSelf.walkStateView.nomalArray = weakSelf.nomalArray;
         weakSelf.walkStateView.exceptArray = weakSelf.exceptArray;
         
-//        if (weakSelf.exceptArray.count != 0) {
-//            [weakSelf.walkStateView goCenter];;
-//        }
+        if (weakSelf.exceptArray.count != 0) {
+            [weakSelf.walkStateView goCenter];;
+        }
         
         [weakSelf.walkStateView tableReload];
         [weakSelf.menuHomeVC tableReload];
@@ -494,7 +494,7 @@
         
         if (self.exceptArray.count == 0) {
             
-            self.customNavigationView.titleLabel.text = @"散歩中（経路）";
+            self.customNavigationView.titleLabel.text = @"散歩中（目的地）";
             self.customNavigationView.stateLabel.text = @"安全";
             self.customNavigationView.stateLabel.textColor = BWColor(0, 176, 107, 1);
             [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_safe.png"]];
@@ -511,7 +511,7 @@
 
             
             [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_danger.png"]];
-            self.customNavigationView.titleLabel.text = @"散歩中（経路）";
+            self.customNavigationView.titleLabel.text = @"散歩中（目的地）";
             self.customNavigationView.stateLabel.text = @"危险";
             self.customNavigationView.stateLabel.textColor = BWColor(164, 0, 0, 1);
             self.customNavigationView.updateTimeLabel.text = @"最終更新：20秒";
