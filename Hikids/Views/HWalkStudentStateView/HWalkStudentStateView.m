@@ -13,6 +13,9 @@
 #import "HStudentCloseView.h"
 #import "HSmallCardView.h"
 
+#define OFFSET1               72
+#define OFFSET2               self.frame.size.height - 294
+#define OFFSET3               self.frame.size.height - 108
 
 @interface HWalkStudentStateView()<UIGestureRecognizerDelegate,UIScrollViewDelegate>
 @property (nonatomic, strong) HSmallCardView *smallMenuView;
@@ -65,11 +68,21 @@
             make.height.equalTo(self);
         }];
         
-        UIPanGestureRecognizer * panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panAction:)];
-        panGestureRecognizer.delegate = self;
-        [self addGestureRecognizer:panGestureRecognizer];
+//        UIPanGestureRecognizer * panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panAction:)];
+//        panGestureRecognizer.delegate = self;
+//        [self addGestureRecognizer:panGestureRecognizer];
         
-        self.bottomH = self.top;
+//        self.bottomH = self.top;
+        
+        UISwipeGestureRecognizer *downSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
+        downSwipe.direction = UISwipeGestureRecognizerDirectionDown ; // 设置手势方向
+        downSwipe.delegate = self;
+        [self addGestureRecognizer:downSwipe];
+        
+        UISwipeGestureRecognizer *upSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
+        upSwipe.direction = UISwipeGestureRecognizerDirectionUp; // 设置手势方向
+        upSwipe.delegate = self;
+        [self addGestureRecognizer:upSwipe];
         
         self.dangerIsExpand = YES;
         
@@ -78,94 +91,165 @@
     return self;
 }
 
-- (void)panAction:(UIPanGestureRecognizer *)pan
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
-    // 获取视图偏移量
-    CGPoint point = [pan translationInView:self];
-
-    // stop_y是tableview的偏移量，当tableview的偏移量大于0时则不去处理视图滑动的事件
-    if (self.stop_y>0) {
-        // 将视频偏移量重置为0
-        [pan setTranslation:CGPointMake(0, 0) inView:self];
-        return;
+    // 当table Enabled且offsetY不为0时，让swipe响应
+    if (self.scrollView.scrollEnabled == YES && self.scrollView.contentOffset.y != 0) {
+        return NO;
     }
-    
-    // self.top是视图距离顶部的距离
-    self.top += point.y;
-    if (self.top < self.topH) {
-        self.top = self.topH;
+    if (self.scrollView.scrollEnabled == YES) {
+        return YES;
     }
-    
-    // self.bottomH是视图在底部时距离顶部的距离
-    if (self.top > self.bottomH) {
-        self.top = self.bottomH;
+    return NO;
+}
 
-    }
+- (void)swipe:(UISwipeGestureRecognizer *)swipe
+{
+    float stopY = 0;     // 停留的位置
+    float animateY = 0;  // 做弹性动画的Y
+    float margin = 30;   // 动画的幅度
+    float offsetY = self.frame.origin.y; // 这是上一次Y的位置
+    //    NSLog(@"==== === %f == =====",self.vc.table.contentOffset.y);
     
-
-    
-    NSLog(@"top %f",self.top);
-    
-    // 在滑动手势结束时判断滑动视图距离顶部的距离是否超过了屏幕的一半，如果超过了一半就往下滑到底部
-    // 如果小于一半就往上滑到顶部
-    if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled) {
+    if (swipe.direction == UISwipeGestureRecognizerDirectionDown) {
         
-
-        if (self.top <= PAaptation_y(220)) {
-            [self goTop];
-        }else if(self.top > PAaptation_y(220) && self.top < PAaptation_y(450)){
-            [self goCenter];
-        }else{
-            [self goBack];
+        // 当vc.table滑到头 且是下滑时，让vc.table禁止滑动
+        if (self.scrollView.contentOffset.y == 0) {
+            self.scrollView.scrollEnabled = NO;
         }
         
-        // 滑动速度
-        CGPoint velocity = [pan velocityInView:self];
-        
-    
-        CGFloat speed = 350;
-        if (velocity.y < -speed) {
-            [pan setTranslation:CGPointMake(0, 0) inView:self];
-            return;
-        }else if (velocity.y > speed){
-            [pan setTranslation:CGPointMake(0, 0) inView:self];
-            return;
-        }else{
-            [pan setTranslation:CGPointMake(0, 0) inView:self];
+        if (offsetY >= OFFSET1 && offsetY < OFFSET2) {
+            // 停在y2的位置
+            stopY = OFFSET2;
+
+        }else if (offsetY >= OFFSET2 ){
+            // 停在y3的位置
+            stopY = OFFSET3;
             
+        }else{
+            stopY = OFFSET1;
         }
+        animateY = stopY + margin;
+    }
+    if (swipe.direction == UISwipeGestureRecognizerDirectionUp) {
+        //        NSLog(@"==== up =====");
         
-
-//        NSLog(@"%f",self.top);
-//
-//        if (self.top > SCREEN_HEIGHT/2) {
-//            [self goBack];
-//        }else{
-//            [self goTop];
-//        }
+        if (offsetY <= OFFSET2) {
+            // 停在y1的位置
+            stopY = OFFSET1;
+            // 当停在Y1位置 且是上划时，让vc.table不再禁止滑动
+            self.scrollView.scrollEnabled = YES;
+        }else if (offsetY > OFFSET2 && offsetY <= OFFSET3 ){
+            // 停在y2的位置
+            // 当停在Y1位置 且是上划时，让vc.table不再禁止滑动
+//            self.tableViewController.tableView.scrollEnabled = YES;
+            stopY = OFFSET2;
+        }else{
+            stopY = OFFSET3;
+        }
+        animateY = stopY - margin;
     }
     
-    [pan setTranslation:CGPointMake(0, 0) inView:self];
-}
-- (void)changeScreenHeight
-{
+    [UIView animateWithDuration:0.4 animations:^{
+        
+        self.frame = CGRectMake(0, animateY, self.frame.size.width, [UIScreen mainScreen].bounds.size.height);
+        
+    } completion:^(BOOL finished) {
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            self.frame = CGRectMake(0, stopY, self.frame.size.width, [UIScreen mainScreen].bounds.size.height);
+        }];
+    }];
     
+    // 记录shadowView在第一个视图中的位置
+    self.topH = stopY;
 }
 
-
-
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    return YES;
-}
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    CGFloat currentPostion = scrollView.contentOffset.y;
-    self.stop_y = currentPostion;
-    
-//    if (self.top>self.topH) {
-//        [scrollView setContentOffset:CGPointMake(0, 0)];
+//- (void)panAction:(UIPanGestureRecognizer *)pan
+//{
+//    // 获取视图偏移量
+//    CGPoint point = [pan translationInView:self];
+//
+//    // stop_y是tableview的偏移量，当tableview的偏移量大于0时则不去处理视图滑动的事件
+//    if (self.stop_y>0) {
+//        // 将视频偏移量重置为0
+//        [pan setTranslation:CGPointMake(0, 0) inView:self];
+//        return;
 //    }
-}
+//
+//    // self.top是视图距离顶部的距离
+//    self.top += point.y;
+//    if (self.top < self.topH) {
+//        self.top = self.topH;
+//    }
+//
+//    // self.bottomH是视图在底部时距离顶部的距离
+//    if (self.top > self.bottomH) {
+//        self.top = self.bottomH;
+//
+//    }
+//
+//
+//
+//    NSLog(@"top %f",self.top);
+//
+//    // 在滑动手势结束时判断滑动视图距离顶部的距离是否超过了屏幕的一半，如果超过了一半就往下滑到底部
+//    // 如果小于一半就往上滑到顶部
+//    if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled) {
+//
+//
+//        if (self.top <= PAaptation_y(220)) {
+//            [self goTop];
+//        }else if(self.top > PAaptation_y(220) && self.top < PAaptation_y(450)){
+//            [self goCenter];
+//        }else{
+//            [self goBack];
+//        }
+//
+//        // 滑动速度
+//        CGPoint velocity = [pan velocityInView:self];
+//
+//
+//        CGFloat speed = 350;
+//        if (velocity.y < -speed) {
+//            [pan setTranslation:CGPointMake(0, 0) inView:self];
+//            return;
+//        }else if (velocity.y > speed){
+//            [pan setTranslation:CGPointMake(0, 0) inView:self];
+//            return;
+//        }else{
+//            [pan setTranslation:CGPointMake(0, 0) inView:self];
+//
+//        }
+//
+//
+////        NSLog(@"%f",self.top);
+////
+////        if (self.top > SCREEN_HEIGHT/2) {
+////            [self goBack];
+////        }else{
+////            [self goTop];
+////        }
+//    }
+//
+//    [pan setTranslation:CGPointMake(0, 0) inView:self];
+//}
+
+
+
+
+//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+//    return YES;
+//}
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+//{
+//    CGFloat currentPostion = scrollView.contentOffset.y;
+//    self.stop_y = currentPostion;
+//
+////    if (self.top>self.topH) {
+////        [scrollView setContentOffset:CGPointMake(0, 0)];
+////    }
+//}
 - (void)goTop {
     
     [UIView animateWithDuration:0.5 animations:^{
