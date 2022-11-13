@@ -13,9 +13,9 @@
 #import "HStudentCloseView.h"
 #import "HSmallCardView.h"
 
-#define OFFSET1               72
+#define OFFSET1               44
 #define OFFSET2               self.frame.size.height - 294
-#define OFFSET3               self.frame.size.height - 108
+#define OFFSET3               self.frame.size.height - 158
 
 @interface HWalkStudentStateView()<UIGestureRecognizerDelegate,UIScrollViewDelegate>
 @property (nonatomic, strong) HSmallCardView *smallMenuView;
@@ -107,7 +107,7 @@
 {
     float stopY = 0;     // 停留的位置
     float animateY = 0;  // 做弹性动画的Y
-    float margin = 30;   // 动画的幅度
+    float margin = 10;   // 动画的幅度
     float offsetY = self.frame.origin.y; // 这是上一次Y的位置
     //    NSLog(@"==== === %f == =====",self.vc.table.contentOffset.y);
     
@@ -121,10 +121,17 @@
         if (offsetY >= OFFSET1 && offsetY < OFFSET2) {
             // 停在y2的位置
             stopY = OFFSET2;
+            NSLog(@"center2222");
+
+            self.smallMenuView.hidden = NO;
+            self.gpsButton.hidden = NO;
 
         }else if (offsetY >= OFFSET2 ){
             // 停在y3的位置
             stopY = OFFSET3;
+            
+            self.smallMenuView.hidden = NO;
+            self.gpsButton.hidden = NO;
             
         }else{
             stopY = OFFSET1;
@@ -139,11 +146,17 @@
             stopY = OFFSET1;
             // 当停在Y1位置 且是上划时，让vc.table不再禁止滑动
             self.scrollView.scrollEnabled = YES;
+            
+            self.smallMenuView.hidden = YES;
+            self.gpsButton.hidden = YES;
+            
         }else if (offsetY > OFFSET2 && offsetY <= OFFSET3 ){
             // 停在y2的位置
             // 当停在Y1位置 且是上划时，让vc.table不再禁止滑动
 //            self.tableViewController.tableView.scrollEnabled = YES;
             stopY = OFFSET2;
+            NSLog(@"center11111");
+            
         }else{
             stopY = OFFSET3;
         }
@@ -250,98 +263,48 @@
 ////        [scrollView setContentOffset:CGPointMake(0, 0)];
 ////    }
 //}
-- (void)goTop {
-    
-    [UIView animateWithDuration:0.5 animations:^{
-        self.top = self.topH;
-        [self setFrame:CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight)];
 
-    }completion:^(BOOL finished) {
-//        self.scrollView.userInteractionEnabled = YES;
-    }];
-    
-    self.smallMenuView.hidden = YES;
-    self.gpsButton.hidden = YES;
-    self.scrollView.scrollEnabled = YES;
-
-    [self.topView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self);
-        make.left.equalTo(self);
-        make.width.equalTo(self);
-        make.height.mas_equalTo(PAaptation_y(32));
-    }];
-    
-
-}
-
-- (void)goBack {
-    
-
-    [UIView animateWithDuration:0.5 animations:^{
-        self.top = self.bottomH;
-        [self setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(161), SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight)];
-
-    }completion:^(BOOL finished) {
-//        self.scrollView.userInteractionEnabled = NO;
-    }];
-    
-    self.smallMenuView.hidden = NO;
-    self.gpsButton.hidden = NO;
-    self.scrollView.scrollEnabled = NO;
-
-    [self.topView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.smallMenuView.mas_bottom).offset(PAaptation_y(13));
-        make.left.equalTo(self);
-        make.width.equalTo(self);
-        make.height.mas_equalTo(PAaptation_y(32));
-    }];
-    
-    [self.smallMenuView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self);
-        make.left.equalTo(self).offset(PAdaptation_x(10));
-        make.width.mas_equalTo(PAdaptation_x(115));
-        make.height.mas_equalTo(PAaptation_y(79));
-    }];
-    
-    [self.gpsButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.smallMenuView.mas_bottom);
-        make.right.equalTo(self.mas_right).offset(-PAdaptation_x(10));
-        make.width.mas_equalTo(PAdaptation_x(52));
-        make.height.mas_equalTo(PAaptation_y(52));
-    }];
-    
-
-}
 - (void)goCenter
 {
     self.smallMenuView.hidden = NO;
     self.gpsButton.hidden = NO;
     self.scrollView.scrollEnabled = NO;
     
-    [UIView animateWithDuration:0.25 animations:^{
-        [self setFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(340), SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight)];
+    float stopY = OFFSET2;
+    
+    float animateY = stopY - 10;
+    
+    [UIView animateWithDuration:0.4 animations:^{
+        
+        self.frame = CGRectMake(0, animateY, self.frame.size.width, [UIScreen mainScreen].bounds.size.height);
+        
+    } completion:^(BOOL finished) {
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            self.frame = CGRectMake(0, stopY, self.frame.size.width, [UIScreen mainScreen].bounds.size.height);
+        }];
     }];
     
-    [self.topView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.smallMenuView.mas_bottom).offset(PAaptation_y(13));
-        make.left.equalTo(self);
-        make.width.equalTo(self);
-        make.height.mas_equalTo(PAaptation_y(32));
-    }];
-    
-    [self.smallMenuView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self);
-        make.left.equalTo(self).offset(PAdaptation_x(10));
-        make.width.mas_equalTo(PAdaptation_x(115));
-        make.height.mas_equalTo(PAaptation_y(79));
-    }];
-    
-    [self.gpsButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.smallMenuView.mas_bottom);
-        make.right.equalTo(self.mas_right).offset(-PAdaptation_x(10));
-        make.width.mas_equalTo(PAdaptation_x(52));
-        make.height.mas_equalTo(PAaptation_y(52));
-    }];
+//    [self.topView mas_remakeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.smallMenuView.mas_bottom).offset(PAaptation_y(13));
+//        make.left.equalTo(self);
+//        make.width.equalTo(self);
+//        make.height.mas_equalTo(PAaptation_y(32));
+//    }];
+//
+//    [self.smallMenuView mas_remakeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self);
+//        make.left.equalTo(self).offset(PAdaptation_x(10));
+//        make.width.mas_equalTo(PAdaptation_x(115));
+//        make.height.mas_equalTo(PAaptation_y(79));
+//    }];
+//
+//    [self.gpsButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+//        make.bottom.equalTo(self.smallMenuView.mas_bottom);
+//        make.right.equalTo(self.mas_right).offset(-PAdaptation_x(10));
+//        make.width.mas_equalTo(PAdaptation_x(52));
+//        make.height.mas_equalTo(PAaptation_y(52));
+//    }];
     
 }
 - (void)walkEndAction
