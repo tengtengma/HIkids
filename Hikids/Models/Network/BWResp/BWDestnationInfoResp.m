@@ -15,10 +15,13 @@
         
         NSMutableArray *itemList = [[NSMutableArray alloc] init];
         NSDictionary *dic = [jsonDic safeObjectForKey:@"item"];
-        HDestnationModel *model = [HDestnationModel mj_objectWithKeyValues:dic];
-        model.dId = [dic safeObjectForKey:@"id"];
-        [itemList addObject:model];
-        self.itemList = itemList;
+        if (dic) {
+            HDestnationModel *model = [HDestnationModel mj_objectWithKeyValues:dic];
+            model.dId = [dic safeObjectForKey:@"id"];
+            [itemList addObject:model];
+            self.itemList = itemList;
+        }
+
 
     }
     return self;

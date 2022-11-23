@@ -5,19 +5,16 @@
 //  Created by 马腾 on 2022/10/5.
 //
 
-#import "HBaseMenuVC.h"
+#import "BaseVC.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class HWalkTask;
 
 typedef void(^startWalkAction)(HWalkTask *walkTask);
-typedef void(^closeAction)(void);
 
-
-@interface HWalkMenuVC : HBaseMenuVC
+@interface HWalkMenuVC : BaseVC
 @property (nonatomic, copy) startWalkAction startWalkBlock;
-@property (nonatomic, copy) closeAction closeBlock;
 
 @end
 

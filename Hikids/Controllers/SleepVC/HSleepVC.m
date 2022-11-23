@@ -21,9 +21,7 @@
 
     self.menuSleepVC.view.frame = CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(150), SCREEN_WIDTH, SCREEN_HEIGHT);
     [self.view addSubview:self.menuSleepVC.view];
-    
-    [self.menuSleepVC forceShow];
-    
+        
 
     
 }

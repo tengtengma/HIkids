@@ -39,62 +39,17 @@
 
 }
 - (void)gotoVCAction:(UIButton *)button
-{
-    NSString *name = button.tag == 1000 ? @"sleepVC" : @"walkVC";
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"changeVCNotification" object:@{@"changeName":name}];
-}
-- (void)clickMenuAction:(UITapGestureRecognizer *)tap
-{
-
-    if (self.ShowSum == 3) {
-        
-        [self closeMenuVC];
-        self.ShowSum = -1;
+{    
+    if (button.tag == 1000) {
+        if (self.showSleepMenu) {
+            self.showSleepMenu();
+        }
     }else{
-        [self showMenuVC];
+        if (self.showWalkMenu) {
+            self.showWalkMenu();
+        }
     }
     
-    self.ShowSum++;
-    
-}
-
-- (void)showMenuVC
-{
-    __block CGRect menuRect;
-    __block CGRect cardRect;
-    if (self.ShowSum == 0) {
-        menuRect = CGRectMake(0, SCREEN_HEIGHT-PAaptation_y(360), SCREEN_WIDTH, SCREEN_HEIGHT);
-        cardRect = CGRectMake(PAdaptation_x(5), SCREEN_HEIGHT -  PAaptation_y(451), PAdaptation_x(115), PAaptation_y(79));
-    }
-    if (self.ShowSum == 1) {
-        menuRect = CGRectMake(0, SCREEN_HEIGHT-PAaptation_y(480), SCREEN_WIDTH, SCREEN_HEIGHT);
-        cardRect = CGRectMake(PAdaptation_x(5), SCREEN_HEIGHT - PAaptation_y(571), PAdaptation_x(115), PAaptation_y(79));
-
-    }
-    if (self.ShowSum == 2) {
-        menuRect = CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT);
-        cardRect = CGRectMake(0,0,0,0);
-
-        self.cardView.hidden = YES;
-
-    }
-    DefineWeakSelf;
-    [UIView animateWithDuration:0.5 animations:^{
-        weakSelf.view.frame = menuRect;
-        weakSelf.cardView.frame = cardRect;
-    }];
-
-}
-- (void)closeMenuVC
-{
-    self.cardView.hidden = NO;
- 
-    DefineWeakSelf;
-    [UIView animateWithDuration:0.5 animations:^{
-        weakSelf.view.frame = CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(110), SCREEN_WIDTH, SCREEN_HEIGHT);
-        weakSelf.cardView.frame = CGRectMake(PAdaptation_x(5), SCREEN_HEIGHT - PAaptation_y(200), PAdaptation_x(115), PAaptation_y(79));
-    }];
 }
 #pragma mark- UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

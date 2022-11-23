@@ -7,8 +7,14 @@
 
 #import "HBaseMenuVC.h"
 
-@interface HBaseMenuVC ()
+#define OFFSET1               44
+#define OFFSET2               self.view.frame.size.height - 294
+#define OFFSET3               self.view.frame.size.height - 129
+
+@interface HBaseMenuVC ()<UIGestureRecognizerDelegate>
 @property (nonatomic, assign) BOOL isShow;
+@property (nonatomic, assign) float stop_y;//tableView滑动停止的位置
+
 @end
 
 @implementation HBaseMenuVC
@@ -18,6 +24,16 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     [self createHeaderView];
+    
+    UISwipeGestureRecognizer *downSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
+    downSwipe.direction = UISwipeGestureRecognizerDirectionDown ; // 设置手势方向
+    downSwipe.delegate = self;
+    [self.view addGestureRecognizer:downSwipe];
+    
+    UISwipeGestureRecognizer *upSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
+    upSwipe.direction = UISwipeGestureRecognizerDirectionUp; // 设置手势方向
+    upSwipe.delegate = self;
+    [self.view addGestureRecognizer:upSwipe];
 }
 
 - (void)createHeaderView
@@ -33,8 +49,6 @@
         make.height.mas_equalTo(PAaptation_y(32));
     }];
     
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickMenuAction:)];
-    [headerView addGestureRecognizer:tap];
     
     UIImageView *topView = [[UIImageView alloc] init];
     [topView setImage:[UIImage imageNamed:@"menu_header.png"]];
@@ -54,44 +68,81 @@
         make.height.mas_equalTo(PAaptation_y(6));
     }];
 }
-- (void)clickMenuAction:(UITapGestureRecognizer *)tap
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
-    self.isShow = !self.isShow;
+    // 当table Enabled且offsetY不为0时，让swipe响应
+//    if (self.scrollView.scrollEnabled == YES && self.scrollView.contentOffset.y != 0) {
+//        return NO;
+//    }
+//    if (self.scrollView.scrollEnabled == YES) {
+//        return YES;
+//    }
+    return NO;
+}
+
+- (void)swipe:(UISwipeGestureRecognizer *)swipe
+{
+    float stopY = 0;     // 停留的位置
+    float animateY = 0;  // 做弹性动画的Y
+    float margin = 10;   // 动画的幅度
+    float offsetY = self.view.frame.origin.y; // 这是上一次Y的位置
+    //    NSLog(@"==== === %f == =====",self.vc.table.contentOffset.y);
     
-    if (self.isShow) {
-        [self showMenuVC];
-    }else{
-        [self closeMenuVC];
+    if (swipe.direction == UISwipeGestureRecognizerDirectionDown) {
+        
+        // 当vc.table滑到头 且是下滑时，让vc.table禁止滑动
+//        if (self.scrollView.contentOffset.y == 0) {
+//            self.scrollView.scrollEnabled = NO;
+//        }
+        
+        if (offsetY >= OFFSET1 && offsetY < OFFSET2) {
+            // 停在y2的位置
+            stopY = OFFSET2;
+            
+        }else if (offsetY >= OFFSET2 ){
+            // 停在y3的位置
+            stopY = OFFSET3;
+            
+        }else{
+            stopY = OFFSET1;
+        }
+        animateY = stopY + margin;
+    }
+    if (swipe.direction == UISwipeGestureRecognizerDirectionUp) {
+        //        NSLog(@"==== up =====");
+
+        if (offsetY <= OFFSET2) {
+            // 停在y1的位置
+            stopY = OFFSET1;
+            // 当停在Y1位置 且是上划时，让vc.table不再禁止滑动
+//            self.scrollView.scrollEnabled = YES;
+            
+        
+            
+        }else if (offsetY > OFFSET2 && offsetY <= OFFSET3 ){
+            // 停在y2的位置
+            // 当停在Y1位置 且是上划时，让vc.table不再禁止滑动
+//            self.tableViewController.tableView.scrollEnabled = YES;
+            stopY = OFFSET2;
+           
+            
+        }else{
+            stopY = OFFSET3;
+        }
+        animateY = stopY - margin;
     }
     
-}
-
-- (void)showMenuVC
-{
-    DefineWeakSelf;
-    [UIView animateWithDuration:0.5 animations:^{
-        weakSelf.view.frame = CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT);
-
+    [UIView animateWithDuration:0.4 animations:^{
+        
+        self.view.frame = CGRectMake(0, animateY, self.view.frame.size.width, [UIScreen mainScreen].bounds.size.height);
+        
+    } completion:^(BOOL finished) {
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            self.view.frame = CGRectMake(0, stopY, self.view.frame.size.width, [UIScreen mainScreen].bounds.size.height);
+        }];
     }];
-
+    
 }
-- (void)closeMenuVC
-{
-    DefineWeakSelf;
-    [UIView animateWithDuration:0.5 animations:^{
-        weakSelf.view.frame = CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(150), SCREEN_WIDTH, SCREEN_HEIGHT);
-
-    }];
-}
-- (void)forceShow
-{
-    self.isShow = YES;
-    [self showMenuVC];
-}
-- (void)forceClose
-{
-    self.isShow = NO;
-    [self closeMenuVC];
-}
-
 @end

@@ -39,6 +39,7 @@
 @property (nonatomic, strong) NSArray *timeArray;       //选择时间集合
 @property (nonatomic, strong) NSArray *teacherArray;     //老师集合
 @property (nonatomic, strong) NSArray *studentArray;     //学生集合
+@property (nonatomic, strong) UIView *selectView;       //选中展示view
 @property (nonatomic, strong) NSMutableArray *selectDestArray;
 @property (nonatomic, strong) NSMutableArray *selectTimeArray;
 @property (nonatomic, strong) NSMutableArray *selectTeacherArray;
@@ -120,7 +121,7 @@
     
     [self.bgView addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bgView);
+        make.top.equalTo(self.bgView).offset(PAaptation_y(44));
         make.left.equalTo(self.bgView);
         make.width.equalTo(self.bgView);
         make.height.mas_equalTo(PAaptation_y(32));
@@ -174,6 +175,14 @@
         make.width.mas_equalTo(PAdaptation_x(40));
         make.height.mas_equalTo(PAaptation_y(38));
     }];
+    
+    [self.titleView addSubview:self.selectView];
+    [self.selectView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.titleLabel);
+        make.right.equalTo(self.titleView.mas_right);
+        make.height.mas_equalTo(PAaptation_y(25));
+        make.bottom.equalTo(self.titleView.mas_bottom);
+    }];
 }
 - (void)createTableView
 {
@@ -215,9 +224,7 @@
 }
 - (void)backAction:(id)sender
 {
-    if (self.closeBlock) {
-        self.closeBlock();
-    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 #pragma mark - UICollectionViewDataSource -
 
@@ -335,12 +342,13 @@
     if (indexPath.section == 0) {
         
         HDestnationModel *selectModel = [self.destnationArray safeObjectAtIndex:indexPath.row];
+        
         if (selectModel.isSelected) {
             selectModel.isSelected = NO;
             if ([self.selectDestArray containsObject:selectModel]) {
                 [self.selectDestArray removeObject:selectModel];
             }
-            
+
         }else{
             [self.destnationArray enumerateObjectsUsingBlock:^(HDestnationModel * obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 if (selectModel.dId.integerValue == obj.dId.integerValue) {
@@ -349,6 +357,8 @@
                     return;
                 }else{
                     obj.isSelected = NO;
+                    [self.selectDestArray removeObject:obj];
+
                 }
             }];
         }
@@ -373,6 +383,8 @@
                     return;
                 }else{
                     obj.isSelected = NO;
+                    [self.selectTimeArray removeObject:obj];
+
                 }
             }];
         }
@@ -527,6 +539,88 @@
 }
 - (void)updateWalkBtnState
 {
+    UILabel *destLabel = (UILabel *)[self.view viewWithTag:10000];
+    if (self.selectDestArray.count != 0) {
+        HDestnationModel *destModel = [self.selectDestArray safeObjectAtIndex:0];
+        if (destLabel == nil) {
+            destLabel = [[UILabel alloc] init];
+            destLabel.tag = 10000;
+            destLabel.font = [UIFont systemFontOfSize:12];
+            destLabel.backgroundColor = BWColor(252, 229, 216, 1.0);
+            [self.selectView addSubview:destLabel];
+        }
+        destLabel.text = destModel.name;
+        
+        [destLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.selectView);
+            make.left.equalTo(self.selectView);
+        }];
+    }else{
+        destLabel.text = @"";
+    }
+    
+    UILabel *timeLabel = (UILabel *)[self.view viewWithTag:10001];
+    if (self.selectTimeArray.count != 0) {
+        HTime *timeModel = [self.selectTimeArray safeObjectAtIndex:0];
+        if (timeLabel == nil) {
+            timeLabel = [[UILabel alloc] init];
+            timeLabel.tag = 10001;
+            timeLabel.font = [UIFont systemFontOfSize:12];
+            timeLabel.backgroundColor = BWColor(252, 229, 216, 1.0);
+            [self.selectView addSubview:timeLabel];
+        }
+        timeLabel.text = timeModel.name;
+        
+        [timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.selectView);
+            make.left.equalTo(destLabel.mas_right).offset(PAdaptation_x(2));
+        }];
+    }else{
+        timeLabel.text = @"";
+
+    }
+    
+    UILabel *teacherLabel = (UILabel *)[self.view viewWithTag:10002];
+    if (self.selectTeacherArray.count != 0) {
+        if (teacherLabel == nil) {
+            teacherLabel = [[UILabel alloc] init];
+            teacherLabel.tag = 10002;
+            teacherLabel.font = [UIFont systemFontOfSize:12];
+            teacherLabel.backgroundColor = BWColor(252, 229, 216, 1.0);
+            [self.selectView addSubview:teacherLabel];
+        }
+        teacherLabel.text = [NSString stringWithFormat:@"先生%ld人",self.selectTeacherArray.count];
+        
+        [teacherLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.selectView);
+            make.left.equalTo(timeLabel.mas_right).offset(PAdaptation_x(2));
+        }];
+    }else{
+        teacherLabel.text = @"";
+
+    }
+    
+    UILabel *studentLabel = (UILabel *)[self.view viewWithTag:10003];
+    if (self.selectStudentArray.count != 0) {
+        if (studentLabel == nil) {
+            studentLabel = [[UILabel alloc] init];
+            studentLabel.tag = 10003;
+            studentLabel.font = [UIFont systemFontOfSize:12];
+            studentLabel.backgroundColor = BWColor(252, 229, 216, 1.0);
+            [self.selectView addSubview:studentLabel];
+        }
+        studentLabel.text = [NSString stringWithFormat:@"児童%ld人",self.selectStudentArray.count];
+        
+        [studentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.selectView);
+            make.left.equalTo(teacherLabel.mas_right).offset(PAdaptation_x(2));
+        }];
+    }else{
+        studentLabel.text = @"";
+
+    }
+    
+    
     if (self.selectDestArray.count != 0 && self.selectTimeArray.count != 0 && self.selectTeacherArray.count != 0 && self.selectStudentArray.count != 0) {
         self.startWalkBtn.enabled = YES;
         [self.startWalkBtn setImage:[UIImage imageNamed:@"walkStart.png"] forState:UIControlStateNormal];
@@ -576,16 +670,13 @@
         BWAddTaskResp *addResp = (BWAddTaskResp *)resp;
         HWalkTask *taskModel = [addResp.itemList safeObjectAtIndex:0];
         
-        
-        [weakSelf closeMenuVC];
+        [weakSelf backAction:nil];
         
         if (weakSelf.startWalkBlock) {
             weakSelf.startWalkBlock(taskModel);
         }
         
-        
-        NSLog(@"123");
-        
+                
     } failure:^(BWBaseReq *req, NSError *error) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
@@ -611,7 +702,7 @@
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.bounces = NO;
-        _collectionView.userInteractionEnabled = NO;
+//        _collectionView.userInteractionEnabled = NO;
         //注册Cell，必须要有
         [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"UICollectionViewCell"];
         [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"header"];//注册header的view
@@ -644,6 +735,15 @@
 
     }
     return _titleView;
+}
+- (UIView *)selectView
+{
+    if (!_selectView) {
+        _selectView = [[UIView alloc] init];
+        _selectView.backgroundColor = [UIColor whiteColor];
+
+    }
+    return _selectView;
 }
 - (UILabel *)titleLabel
 {

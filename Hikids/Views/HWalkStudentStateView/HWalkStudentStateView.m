@@ -68,11 +68,6 @@
             make.height.equalTo(self);
         }];
         
-//        UIPanGestureRecognizer * panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panAction:)];
-//        panGestureRecognizer.delegate = self;
-//        [self addGestureRecognizer:panGestureRecognizer];
-        
-//        self.bottomH = self.top;
         
         UISwipeGestureRecognizer *downSwipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipe:)];
         downSwipe.direction = UISwipeGestureRecognizerDirectionDown ; // 设置手势方向
@@ -178,91 +173,6 @@
     self.topH = stopY;
 }
 
-//- (void)panAction:(UIPanGestureRecognizer *)pan
-//{
-//    // 获取视图偏移量
-//    CGPoint point = [pan translationInView:self];
-//
-//    // stop_y是tableview的偏移量，当tableview的偏移量大于0时则不去处理视图滑动的事件
-//    if (self.stop_y>0) {
-//        // 将视频偏移量重置为0
-//        [pan setTranslation:CGPointMake(0, 0) inView:self];
-//        return;
-//    }
-//
-//    // self.top是视图距离顶部的距离
-//    self.top += point.y;
-//    if (self.top < self.topH) {
-//        self.top = self.topH;
-//    }
-//
-//    // self.bottomH是视图在底部时距离顶部的距离
-//    if (self.top > self.bottomH) {
-//        self.top = self.bottomH;
-//
-//    }
-//
-//
-//
-//    NSLog(@"top %f",self.top);
-//
-//    // 在滑动手势结束时判断滑动视图距离顶部的距离是否超过了屏幕的一半，如果超过了一半就往下滑到底部
-//    // 如果小于一半就往上滑到顶部
-//    if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled) {
-//
-//
-//        if (self.top <= PAaptation_y(220)) {
-//            [self goTop];
-//        }else if(self.top > PAaptation_y(220) && self.top < PAaptation_y(450)){
-//            [self goCenter];
-//        }else{
-//            [self goBack];
-//        }
-//
-//        // 滑动速度
-//        CGPoint velocity = [pan velocityInView:self];
-//
-//
-//        CGFloat speed = 350;
-//        if (velocity.y < -speed) {
-//            [pan setTranslation:CGPointMake(0, 0) inView:self];
-//            return;
-//        }else if (velocity.y > speed){
-//            [pan setTranslation:CGPointMake(0, 0) inView:self];
-//            return;
-//        }else{
-//            [pan setTranslation:CGPointMake(0, 0) inView:self];
-//
-//        }
-//
-//
-////        NSLog(@"%f",self.top);
-////
-////        if (self.top > SCREEN_HEIGHT/2) {
-////            [self goBack];
-////        }else{
-////            [self goTop];
-////        }
-//    }
-//
-//    [pan setTranslation:CGPointMake(0, 0) inView:self];
-//}
-
-
-
-
-//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-//    return YES;
-//}
-//-(void)scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//    CGFloat currentPostion = scrollView.contentOffset.y;
-//    self.stop_y = currentPostion;
-//
-////    if (self.top>self.topH) {
-////        [scrollView setContentOffset:CGPointMake(0, 0)];
-////    }
-//}
 
 - (void)goCenter
 {

@@ -9,14 +9,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^showSleepMenuBlock)(void);
+typedef void(^showWalkMenuBlock)(void);
+
 @interface HMenuHomeVC : HBaseMenuVC
 @property (nonatomic, strong) UIView *cardView;
 @property (nonatomic, strong) NSArray *nomalArray;
 @property (nonatomic, strong) NSArray *exceptArray;
+@property (nonatomic, copy) showWalkMenuBlock showWalkMenu;
+@property (nonatomic, copy) showSleepMenuBlock showSleepMenu;
 
-- (void)clickMenuAction:(UITapGestureRecognizer *)tap;
-- (void)showMenuVC;
-- (void)closeMenuVC;
+
 - (void)tableReload;
 @end
 

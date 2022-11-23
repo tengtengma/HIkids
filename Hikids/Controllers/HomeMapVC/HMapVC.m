@@ -97,9 +97,7 @@
     
     self.timer = [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(startGetStudentLocationRequest) userInfo:nil repeats:YES];
         
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeVCAction:) name:@"changeVCNotification" object:nil];
-    
-    
+        
     [self.view addSubview:self.mapView];
     
     [self.view addSubview:self.customNavigationView];
@@ -113,12 +111,9 @@
     [self.view addSubview:self.walkStateView];
     [self.view bringSubviewToFront:self.walkStateView];
     
-    self.menuHomeVC.view.frame = CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(110), SCREEN_WIDTH, SCREEN_HEIGHT);
+    self.menuHomeVC.view.frame = CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(161), SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight);
     [self.view addSubview:self.menuHomeVC.view];
     
-    self.menuWalkVC.view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
-    [self.view addSubview:self.menuWalkVC.view];
-
     
     [self.stateInfoView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, PAaptation_y(351))];
     [self.view addSubview:self.stateInfoView];
@@ -152,10 +147,14 @@
         weakSelf.currentTask = [getTaskResp.itemList safeObjectAtIndex:0];
         //任务状态，1新建 2途中，3目的地，4回程，5结束
         
-        if ([weakSelf.currentTask.status isEqualToString:@"1"]) {
+        //测试用
+//        [weakSelf startDestMode];
+        //测试用
+        
+//        if ([weakSelf.currentTask.status isEqualToString:@"1"]) {
             
             [weakSelf startStayMode];
-        }
+//        }
         if ([weakSelf.currentTask.status isEqualToString:@"2"]) {
             
             [weakSelf startWalkMode];
@@ -220,7 +219,6 @@
     [self startLocation];
     
     self.menuHomeVC.view.hidden = YES;
-    [self.menuHomeVC closeMenuVC];
         
     self.walkStateView.hidden = NO;
         
@@ -242,7 +240,6 @@
     [self startLocation];
     
     self.menuHomeVC.view.hidden = YES;
-    [self.menuHomeVC closeMenuVC];
         
     self.walkStateView.hidden = NO;
         
@@ -298,7 +295,9 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     DefineWeakSelf;
     BWDestnationInfoReq *infoReq = [[BWDestnationInfoReq alloc] init];
-    infoReq.dId = self.currentTask.destinationId; //1目的地
+//    infoReq.dId = self.currentTask.destinationId; //1目的地
+    infoReq.dId = @"1"; //1目的地
+
     [NetManger getRequest:infoReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         
@@ -380,18 +379,21 @@
 - (void)modeChangeBlock
 {
     DefineWeakSelf;
-    //关闭开始散步菜单
-    self.menuWalkVC.closeBlock = ^{
+   
+    //打开午睡菜单
+    self.menuHomeVC.showSleepMenu = ^{
         
-        [weakSelf hideWalkMenuVC];
+    };
+    
+    //打开散步菜单
+    self.menuHomeVC.showWalkMenu = ^{
+        [weakSelf presentViewController:weakSelf.menuWalkVC animated:YES completion:nil];
     };
     
     //开启散步模式
     self.menuWalkVC.startWalkBlock = ^(HWalkTask * _Nonnull walkTask) {
-        [weakSelf hideWalkMenuVC];
         
         [weakSelf startWalkMode];
-        
         
     };
     
@@ -713,10 +715,7 @@
     
 
 }
-- (void)changeVCAction:(NSNotification *)noti
-{
-    [self showWalkMenuVC];
-}
+
 
 - (void)startLocation {
     if ([CLLocationManager locationServicesEnabled] &&
@@ -926,20 +925,7 @@
         [weakSelf.stateInfoView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, PAaptation_y(351))];
     }];
 }
-- (void)showWalkMenuVC
-{
-    DefineWeakSelf;
-    [UIView animateWithDuration:0.25 animations:^{
-        weakSelf.menuWalkVC.view.frame = CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
-    }];
-}
-- (void)hideWalkMenuVC
-{
-    DefineWeakSelf;
-    [UIView animateWithDuration:0.25 animations:^{
-        weakSelf.menuWalkVC.view.frame = CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT - BW_StatusBarHeight);
-    }];
-}
+
 
 -(void)dealloc{
 //    [SVProgressHUD dismiss];
@@ -971,6 +957,7 @@
 {
     if (!_menuWalkVC) {
         _menuWalkVC = [[HWalkMenuVC alloc] init];
+        
     }
     return _menuWalkVC;
 }

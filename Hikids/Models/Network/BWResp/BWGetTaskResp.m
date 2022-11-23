@@ -17,11 +17,12 @@
         NSMutableArray *itemList = [[NSMutableArray alloc] init];
 
         NSDictionary *dic = [jsonDic safeObjectForKey:@"item"];
-        HWalkTask *model = [HWalkTask mj_objectWithKeyValues:dic];
-        model.tId = [dic safeObjectForKey:@"id"];
-        [itemList addObject:model];
-        self.itemList = itemList;
-
+        if (dic) {
+            HWalkTask *model = [HWalkTask mj_objectWithKeyValues:dic];
+            model.tId = [dic safeObjectForKey:@"id"];
+            [itemList addObject:model];
+            self.itemList = itemList;
+        }
     }
     return self;
 }

@@ -10,11 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HBaseMenuVC : UIViewController
-- (void)clickMenuAction:(UITapGestureRecognizer *)tap;
-- (void)showMenuVC;
-- (void)closeMenuVC;
-- (void)forceShow;
-- (void)forceClose;
+
 @end
 
 NS_ASSUME_NONNULL_END
