@@ -497,9 +497,9 @@
 			isa = PBXGroup;
 			children = (
 				9E17D1AC28ED3898005FA5A9 /* BaseMenuVC */,
+				9E1F21C428E19DC500C5041B /* MenuHomeVC */,
 				9E17D1AE28ED38B3005FA5A9 /* MenuSleepVC */,
 				9E17D1AD28ED38AA005FA5A9 /* MenuWalkVC */,
-				9E1F21C428E19DC500C5041B /* MenuHomeVC */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

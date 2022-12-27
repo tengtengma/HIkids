@@ -151,10 +151,10 @@
 //        [weakSelf startDestMode];
         //测试用
         
-//        if ([weakSelf.currentTask.status isEqualToString:@"1"]) {
+        if ([weakSelf.currentTask.status isEqualToString:@"1"]) {
             
             [weakSelf startStayMode];
-//        }
+        }
         if ([weakSelf.currentTask.status isEqualToString:@"2"]) {
             
             [weakSelf startWalkMode];
