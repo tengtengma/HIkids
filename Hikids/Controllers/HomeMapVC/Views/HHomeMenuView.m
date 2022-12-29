@@ -266,20 +266,44 @@ typedef enum _CellType
         
         if (indexPath.row == 0) {
             
-            UIView *bgView = [[UIView alloc] init];
-            bgView.layer.masksToBounds = YES;
-            bgView.layer.cornerRadius = 12;
-            bgView.layer.borderWidth = 2;
-            bgView.layer.borderColor = BWColor(0.133, 0.133, 0.133, 1.0).CGColor;
-            [cell.contentView addSubview:bgView];
-            [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(cell.contentView).offset(PAaptation_y(16));
-                make.left.equalTo(cell.contentView).offset(PAdaptation_x(24));
-                make.right.equalTo(cell.contentView.mas_right).offset(-PAdaptation_x(24));
-                make.bottom.equalTo(cell.contentView.mas_bottom).offset(-PAaptation_y(16));
+            HStudentStateTopView *safeTopView = [[HStudentStateTopView alloc] init];
+            safeTopView.studentList = self.safeList;
+            [safeTopView loadSafeStyle];
+            [cell.contentView addSubview:safeTopView];
+            [safeTopView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(cell.contentView);
+                make.left.equalTo(cell.contentView);
+                make.width.equalTo(cell.contentView);
+                make.height.mas_equalTo(PAaptation_y(47));
             }];
             
+            DefineWeakSelf;
+            safeTopView.expandBlock = ^{
+                weakSelf.safeExpand = !weakSelf.safeExpand;
+                [weakSelf reloadData];
+            };
             
+            UIView *vie = [[UIView alloc] init];
+            vie.backgroundColor = [UIColor redColor];
+            [cell.contentView addSubview:vie];
+            [vie mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(safeTopView.mas_bottom);
+                make.left.equalTo(safeTopView);
+                make.width.equalTo(cell.contentView);
+                make.height.equalTo(cell.contentView);
+            }];
+            
+        }else{
+            
+            UIView *vie = [[UIView alloc] init];
+            vie.backgroundColor = [UIColor redColor];
+            [cell.contentView addSubview:vie];
+            [vie mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(cell.contentView);
+                make.left.equalTo(cell.contentView);
+                make.width.equalTo(cell.contentView);
+                make.height.equalTo(cell.contentView);
+            }];
         }
         
     }
