@@ -289,14 +289,14 @@ typedef enum _CellType
             [vie mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(safeTopView.mas_bottom);
                 make.left.equalTo(safeTopView);
-                make.width.equalTo(cell.contentView);
-                make.height.equalTo(cell.contentView);
+                make.right.equalTo(cell.contentView.mas_right);
+                make.bottom.equalTo(cell.contentView.mas_bottom);
             }];
             
         }else{
             
             UIView *vie = [[UIView alloc] init];
-            vie.backgroundColor = [UIColor redColor];
+            vie.backgroundColor = [UIColor yellowColor];
             [cell.contentView addSubview:vie];
             [vie mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(cell.contentView);
