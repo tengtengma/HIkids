@@ -147,28 +147,7 @@
     }
     return _numberLabel;
 }
-//- (UIButton *)expandBtn
-//{
-//    if (!_expandBtn) {
-//        _expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        _expandBtn.tag = 1001;
-//        [_expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
-//
-//        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-//        if (app.isDangerExpand || app.isSafeExpand) {
-//            [_expandBtn setImage:[UIImage imageNamed:@"expand.png"] forState:UIControlStateNormal];
-//            return _expandBtn;
-//
-//        }else{
-//            [_expandBtn setImage:[UIImage imageNamed:@"close_state.png"] forState:UIControlStateNormal];
-//            return _expandBtn;
-//
-//        }
-//
-//
-//    }
-//    return _expandBtn;
-//}
+
 
 
 @end

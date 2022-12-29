@@ -8,14 +8,12 @@
 #import "HRootVC.h"
 #import "BaseNavigationVC.h"
 #import "HMapVC.h"
-#import "HSleepVC.h"
-#import "HWalkVC.h"
+
 
 
 @interface HRootVC ()
 @property (nonatomic, strong) HMapVC *mapVC;
-@property (nonatomic, strong) HSleepVC *sleepVC;
-@property (nonatomic, strong) HWalkVC *walkVC;
+
 @property (nonatomic, strong) UIViewController *currentVC;
 @end
 
@@ -45,7 +43,7 @@
 {
     NSString *name = [noti.object safeObjectForKey:@"changeName"];
     if ([name isEqualToString:@"sleepVC"]) {
-        [self replaceController:self.currentVC newController:self.sleepVC];
+//        [self replaceController:self.currentVC newController:self.sleepVC];
     }
     if ([name isEqualToString:@"walkVC"]) {
 //        [self replaceController:self.currentVC newController:self.walkVC];
@@ -80,18 +78,5 @@
     }
     return _mapVC;
 }
-- (HSleepVC *)sleepVC
-{
-    if (!_sleepVC) {
-        _sleepVC = [[HSleepVC alloc] init];
-    }
-    return _sleepVC;
-}
-- (HWalkVC *)walkVC
-{
-    if (!_walkVC) {
-        _walkVC = [[HWalkVC alloc] init];
-    }
-    return _walkVC;
-}
+
 @end
