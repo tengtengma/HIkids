@@ -33,14 +33,15 @@
 #import "HSmallCardView.h"
 
 #import "HHomeMenuView.h"
+#import "HWalkMenuView.h"
 
 
 
 
 @interface HMapVC ()<GMSMapViewDelegate,CLLocationManagerDelegate,UITableViewDelegate,UITableViewDataSource>
 //@property (nonatomic,strong) HMenuHomeVC *menuHomeVC;
-@property (nonatomic,strong) HWalkMenuVC *menuWalkVC;
-@property (nonatomic,strong) HSleepMenuVC *menuSleepVC;
+@property (nonatomic,strong) HWalkMenuVC *menuWalkVC; //选择散步弹出的页面
+@property (nonatomic,strong) HSleepMenuVC *menuSleepVC;//选择午睡弹出的页面
 @property (nonatomic,strong) GMSMapView *mapView;
 @property (nonatomic,strong) CLLocationManager *locationManager;
 @property (nonatomic,assign) CLLocationCoordinate2D coordinate2D;
@@ -57,13 +58,13 @@
 @property (nonatomic,strong) NSTimer *timer;
 @property (nonatomic,strong) NSTimer *shakeTimer;
 @property (nonatomic,strong) NSTimer *dangerTimer;
-@property (nonatomic,strong) HStudentStateInfoView *stateInfoView;
+@property (nonatomic,strong) HStudentStateInfoView *stateInfoView;//点击地图上小朋友显示详情页
 @property (nonatomic,strong) HWalkTask *currentTask;//当前任务
 @property (nonatomic,strong) NSMutableArray *makerList;//保存所有孩子maker
 @property (nonatomic,strong) HCustomNavigationView *customNavigationView;
-@property (nonatomic,strong) UIButton *gpsButton;
 @property (nonatomic,assign) BOOL isAlert; //只弹窗一次 仅演示使用
-@property (nonatomic,strong) HHomeMenuView *homeMenuTableView;
+@property (nonatomic,strong) HHomeMenuView *homeMenuTableView; //首页底部菜单
+@property (nonatomic,strong) HWalkMenuView *walkMenuTableView; //散步底部菜单
 
 
 @end
@@ -123,10 +124,15 @@
     
     //设置首页底部菜单
     [self setupHomeMenu];
+    
+    //设置散步页底部菜单
+    [self setupWalkMenu];
     //设置小朋友详情页
     [self setupStudentInfoView];
     
     
+    //加载假数据小朋友的
+    [self reloadData];
 
 }
 - (void)setupHomeMenu
@@ -145,9 +151,7 @@
         [weakSelf presentViewController:weakSelf.menuWalkVC animated:YES completion:nil];
     };
 
-    [self reloadData];
-    
-    
+   
     //开始午睡
     weakSelf.menuSleepVC.startSleepBlock = ^{
         
@@ -155,7 +159,21 @@
     
     //开始散步
     weakSelf.menuWalkVC.startWalkBlock = ^(HWalkTask * _Nonnull walkTask) {
-        
+        [weakSelf startWalkMode];
+    };
+}
+- (void)setupWalkMenu
+{
+    //20为状态栏高度；tableview设置的大小要和view的大小一致
+    HWalkMenuView *walkMenuView = [[HWalkMenuView alloc] initWithFrame:CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    walkMenuView.hidden = YES;
+    self.walkMenuTableView = walkMenuView;
+    [self.view addSubview:walkMenuView];
+    
+    DefineWeakSelf;
+    //结束散步
+    walkMenuView.walkEndBlock = ^{
+        [weakSelf endMode];
     };
 }
 - (void)setupStudentInfoView
@@ -231,7 +249,8 @@
         
         
     } failure:^(BWBaseReq *req, NSError *error) {
-        
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
     }];
 }
 //开启园内模式
@@ -256,9 +275,10 @@
     //开启定位
     [self startLocation];
     
-//    self.menuHomeVC.view.hidden = YES;
+    self.homeMenuTableView.hidden = YES;
+    self.walkMenuTableView.hidden = NO;
                 
-    [self startDestRequest];
+//    [self startDestRequest];
     
 //    [self changeTaskStateRequestWithStatus:@"2"];
     
@@ -278,7 +298,7 @@
 //    self.menuHomeVC.view.hidden = YES;
         
         
-    self.gpsButton.hidden = NO;
+//    self.gpsButton.hidden = NO;
     
     [self startDestRequest];
 }
@@ -300,6 +320,9 @@
     self.isDrawFence = YES;
 
     [self.mapView clear];
+    
+    self.homeMenuTableView.hidden = NO;
+    self.walkMenuTableView.hidden = YES;
 
 }
 
@@ -435,19 +458,19 @@
     
 //    //结束散步模式
 //    self.walkStateView.walkEndBlock = ^{
-//       
+//
 //        [weakSelf startStayMode];
-//        
+//
 ////        weakSelf.menuHomeVC.view.hidden = NO;
 //        weakSelf.walkStateView.hidden = YES;
 //        weakSelf.mapView.myLocationEnabled = NO;
-//        
+//
 //        [weakSelf.locationManager stopUpdatingLocation];
 //
 //    };
-//    
 //
-//    
+//
+//
 //    self.walkStateView.clickGpsBlock = ^{
 //        //替换自己的坐标
 //         CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(weakSelf.gpsLocation.coordinate.latitude, weakSelf.gpsLocation.coordinate.longitude);
@@ -771,6 +794,10 @@
     self.homeMenuTableView.safeList = self.nomalArray;
     self.homeMenuTableView.exceptList = self.exceptArray;
     [self.homeMenuTableView reloadData];
+    
+    self.walkMenuTableView.safeList = self.nomalArray;
+    self.walkMenuTableView.exceptList = self.exceptArray;
+    [self.walkMenuTableView reloadData];
 }
 
 

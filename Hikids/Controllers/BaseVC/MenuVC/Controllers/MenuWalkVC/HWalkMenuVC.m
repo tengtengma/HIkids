@@ -631,6 +631,15 @@
 
 - (void)startWalkAction:(UIButton *)button
 {
+    //测试使用******
+    if (self.startWalkBlock) {
+        [self backAction:nil];
+        self.startWalkBlock(nil);
+        return;
+    }
+    //*****测试使用
+
+    
     NSString *type = @"1";
     NSString *planTime;
     NSString *destinationId;

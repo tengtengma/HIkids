@@ -22,26 +22,38 @@
 {
     if (self = [super initWithFrame:frame]) {
         
-        //tableview不延时
-        self.delaysContentTouches = NO;
-        for (UIView *subView in self.subviews) {
-            if ([subView isKindOfClass:[UIScrollView class]]) {
-                ((UIScrollView *)subView).delaysContentTouches = NO;
-            }
-        }
-        
-        //tableview下移
-        self.contentInset = UIEdgeInsetsMake(500, 0, 0, 0);
-    //    tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.001)];//去掉头部空白
-        self.backgroundColor = [UIColor clearColor];
         self.delegate = self;
         self.dataSource = self;
-        self.showsVerticalScrollIndicator = NO;
-        self.sectionHeaderHeight = 0.0;//消除底部空白
-        self.sectionFooterHeight = 0.0;//消除底部空白
+
+        [self createTableFooterView];
         
     }
     return self;
+}
+- (void)createTableFooterView
+{
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, PAaptation_y(84))];
+    footerView.backgroundColor = [UIColor whiteColor];
+    self.tableFooterView = footerView;
+
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom ];
+    [button setImage:[UIImage imageNamed:@"walkEnd.png"] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(walkEndAction:) forControlEvents:UIControlEventTouchUpInside];
+    [footerView addSubview:button];
+    
+    [button mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(footerView);
+        make.width.mas_equalTo(PAdaptation_x(240));
+        make.height.mas_equalTo(PAaptation_y(47));
+    }];
+    
+    
+}
+- (void)walkEndAction:(id)sender
+{
+    if (self.walkEndBlock) {
+        self.walkEndBlock();
+    }
 }
 
 #pragma mark - 分组 -
@@ -154,6 +166,7 @@
         HStudentStateTopView *safeTopView = [[HStudentStateTopView alloc] init];
         safeTopView.studentList = self.safeList;
         [safeTopView loadSafeStyle];
+        [safeTopView.expandBtn setImage:[UIImage imageNamed:@"close.png"] forState:UIControlStateNormal];
         [bgView addSubview:safeTopView];
         [safeTopView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(bgView);
@@ -178,14 +191,13 @@
             [weakSelf reloadData];
         };
         
-        
-        
     }
     if (type == CellType_Danger) {
         
         HStudentStateTopView *dangerTopView = [[HStudentStateTopView alloc] init];
         dangerTopView.studentList = self.exceptList;
         [dangerTopView loadDangerStyle];
+        [dangerTopView.expandBtn setImage:[UIImage imageNamed:@"close.png"] forState:UIControlStateNormal];
         [bgView addSubview:dangerTopView];
         [dangerTopView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(bgView);
@@ -219,7 +231,9 @@
             HStudentStateTopView *safeTopView = [[HStudentStateTopView alloc] init];
             safeTopView.studentList = self.safeList;
             [safeTopView loadSafeStyle];
+            [safeTopView.expandBtn setImage:[UIImage imageNamed:@"expand.png"] forState:UIControlStateNormal];
             [cell.contentView addSubview:safeTopView];
+            
             [safeTopView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(cell.contentView);
                 make.left.equalTo(cell.contentView).offset(PAdaptation_x(24));
@@ -276,7 +290,9 @@
             HStudentStateTopView *dangerTopView = [[HStudentStateTopView alloc] init];
             dangerTopView.studentList = self.exceptList;
             [dangerTopView loadDangerStyle];
+            [dangerTopView.expandBtn setImage:[UIImage imageNamed:@"expand.png"] forState:UIControlStateNormal];
             [cell.contentView addSubview:dangerTopView];
+            
             [dangerTopView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(cell.contentView);
                 make.left.equalTo(cell.contentView).offset(PAdaptation_x(24));

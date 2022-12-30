@@ -504,45 +504,6 @@
 			path = MenuSleepVC;
 			sourceTree = "<group>";
 		};
-		9E17D1B228ED5629005FA5A9 /* WalkUI */ = {
-			isa = PBXGroup;
-			children = (
-				9EDF52962904332C0066BFDC /* Ellipse@2x.png */,
-				9EDF52972904332C0066BFDC /* Ellipse@3x.png */,
-				9EDF528E29042EFE0066BFDC /* listBottom_danger@2x.png */,
-				9EDF529129042EFE0066BFDC /* listBottom_danger@3x.png */,
-				9EDF528F29042EFE0066BFDC /* listBottom_safe@2x.png */,
-				9EDF529029042EFE0066BFDC /* listBottom_safe@3x.png */,
-				9EDF525A2903DE0B0066BFDC /* backup@2x.png */,
-				9EDF52602903DE0C0066BFDC /* backup@3x.png */,
-				9EDF52632903DE0C0066BFDC /* clock@2x.png */,
-				9EDF525E2903DE0C0066BFDC /* clock@3x.png */,
-				9EDF529A29055E150066BFDC /* battery@2x.png */,
-				9EDF529B29055E160066BFDC /* battery@3x.png */,
-				9EDF525F2903DE0C0066BFDC /* gps@2x.png */,
-				9EDF525B2903DE0B0066BFDC /* gps@3x.png */,
-				9EDF52622903DE0C0066BFDC /* wifi@2x.png */,
-				9EDF52652903DE0C0066BFDC /* wifi@3x.png */,
-				9EDF52662903DE0C0066BFDC /* xintiao@2x.png */,
-				9EDF525D2903DE0B0066BFDC /* xintiao@3x.png */,
-				9EDF524A2903CE6C0066BFDC /* dangerStatus@2x.png */,
-				9EDF52492903CE6B0066BFDC /* dangerStatus@3x.png */,
-				9EDF524C2903CE6C0066BFDC /* safeStatus@2x.png */,
-				9EDF524B2903CE6C0066BFDC /* safeStatus@3x.png */,
-				9EDF523028FAA4510066BFDC /* walkEnd@2x.png */,
-				9EDF523128FAA4510066BFDC /* walkEnd@3x.png */,
-				9E17D1D728EE7B85005FA5A9 /* walkStart_no@2x.png */,
-				9E17D1D628EE7B85005FA5A9 /* walkStart_no@3x.png */,
-				9E17D1D828EE7B85005FA5A9 /* walkStart@2x.png */,
-				9E17D1D528EE7B85005FA5A9 /* walkStart@3x.png */,
-				9E17D1BC28ED68B5005FA5A9 /* default_mdd@2x.png */,
-				9E17D1BB28ED68B5005FA5A9 /* default_mdd@3x.png */,
-				9E17D1B328ED563F005FA5A9 /* backBtn@2x.png */,
-				9E17D1B428ED563F005FA5A9 /* backBtn@3x.png */,
-			);
-			path = WalkUI;
-			sourceTree = "<group>";
-		};
 		9E17D1B728ED658C005FA5A9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -640,7 +601,7 @@
 			path = UI;
 			sourceTree = "<group>";
 		};
-		9E1F21B428E17FEA00C5041B /* MenuHomeUI */ = {
+		9E1F21B428E17FEA00C5041B /* MenuUI */ = {
 			isa = PBXGroup;
 			children = (
 				9EDF5286290422E30066BFDC /* close@3x.png */,
@@ -653,8 +614,40 @@
 				9E1F21B728E1805700C5041B /* btn_menu_walk@3x.png */,
 				9EDF525C2903DE0B0066BFDC /* expand@2x.png */,
 				9EDF52592903DE0B0066BFDC /* expand@3x.png */,
+				9EDF52962904332C0066BFDC /* Ellipse@2x.png */,
+				9EDF52972904332C0066BFDC /* Ellipse@3x.png */,
+				9EDF528E29042EFE0066BFDC /* listBottom_danger@2x.png */,
+				9EDF529129042EFE0066BFDC /* listBottom_danger@3x.png */,
+				9EDF528F29042EFE0066BFDC /* listBottom_safe@2x.png */,
+				9EDF529029042EFE0066BFDC /* listBottom_safe@3x.png */,
+				9EDF525A2903DE0B0066BFDC /* backup@2x.png */,
+				9EDF52602903DE0C0066BFDC /* backup@3x.png */,
+				9EDF52632903DE0C0066BFDC /* clock@2x.png */,
+				9EDF525E2903DE0C0066BFDC /* clock@3x.png */,
+				9EDF529A29055E150066BFDC /* battery@2x.png */,
+				9EDF529B29055E160066BFDC /* battery@3x.png */,
+				9EDF525F2903DE0C0066BFDC /* gps@2x.png */,
+				9EDF525B2903DE0B0066BFDC /* gps@3x.png */,
+				9EDF52622903DE0C0066BFDC /* wifi@2x.png */,
+				9EDF52652903DE0C0066BFDC /* wifi@3x.png */,
+				9EDF52662903DE0C0066BFDC /* xintiao@2x.png */,
+				9EDF525D2903DE0B0066BFDC /* xintiao@3x.png */,
+				9EDF524A2903CE6C0066BFDC /* dangerStatus@2x.png */,
+				9EDF52492903CE6B0066BFDC /* dangerStatus@3x.png */,
+				9EDF524C2903CE6C0066BFDC /* safeStatus@2x.png */,
+				9EDF524B2903CE6C0066BFDC /* safeStatus@3x.png */,
+				9EDF523028FAA4510066BFDC /* walkEnd@2x.png */,
+				9EDF523128FAA4510066BFDC /* walkEnd@3x.png */,
+				9E17D1D728EE7B85005FA5A9 /* walkStart_no@2x.png */,
+				9E17D1D628EE7B85005FA5A9 /* walkStart_no@3x.png */,
+				9E17D1D828EE7B85005FA5A9 /* walkStart@2x.png */,
+				9E17D1D528EE7B85005FA5A9 /* walkStart@3x.png */,
+				9E17D1BC28ED68B5005FA5A9 /* default_mdd@2x.png */,
+				9E17D1BB28ED68B5005FA5A9 /* default_mdd@3x.png */,
+				9E17D1B328ED563F005FA5A9 /* backBtn@2x.png */,
+				9E17D1B428ED563F005FA5A9 /* backBtn@3x.png */,
 			);
-			path = MenuHomeUI;
+			path = MenuUI;
 			sourceTree = "<group>";
 		};
 		9E1F21C028E196F000C5041B /* HomeMapVC */ = {
@@ -681,7 +674,7 @@
 		9E25EB3D295D664400FDAF78 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				9E1F21B428E17FEA00C5041B /* MenuHomeUI */,
+				9E1F21B428E17FEA00C5041B /* MenuUI */,
 				9E25EB3E295D666900FDAF78 /* HHomeMenuView.h */,
 				9E25EB3F295D666900FDAF78 /* HHomeMenuView.m */,
 				9E4C5F40295EC5D300E59C00 /* HWalkMenuView.h */,
@@ -855,7 +848,6 @@
 		9E2DF83728B2301F00B0C9DA /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				9E17D1B228ED5629005FA5A9 /* WalkUI */,
 				9E1F219928E1688B00C5041B /* HomeUI */,
 				9EF21B1728D985050075CFF0 /* loginUI */,
 			);

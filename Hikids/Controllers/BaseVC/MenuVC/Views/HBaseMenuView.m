@@ -19,6 +19,22 @@
 {
     if (self = [super initWithFrame:frame]) {
         
+        //tableview不延时
+        self.delaysContentTouches = NO;
+        for (UIView *subView in self.subviews) {
+            if ([subView isKindOfClass:[UIScrollView class]]) {
+                ((UIScrollView *)subView).delaysContentTouches = NO;
+            }
+        }
+        
+        //tableview下移
+        self.contentInset = UIEdgeInsetsMake(500, 0, 0, 0);
+    //    tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.001)];//去掉头部空白
+        self.backgroundColor = [UIColor clearColor];
+        self.showsVerticalScrollIndicator = NO;
+        self.sectionHeaderHeight = 0.0;//消除底部空白
+        self.sectionFooterHeight = 0.0;//消除底部空白
+        
         [self createHeaderView];
     }
     return self;
