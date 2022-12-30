@@ -8,7 +8,7 @@
 #import "HStudentStateTopView.h"
 
 @interface HStudentStateTopView()
-@property (nonatomic, strong) UIView *topView;
+@property (nonatomic, strong) UIImageView *topView;
 @property (nonatomic, strong) UIView *numberBg;
 @property (nonatomic, strong) UIImageView *iconView;
 @property (nonatomic, strong) UILabel *stateLabel;
@@ -22,25 +22,18 @@
 {
     if (self = [super init]) {
         
-        UIView *headerView = [[UIView alloc] init];
-        headerView.backgroundColor = [UIColor whiteColor];
-        [self addSubview:headerView];
-        
-        [headerView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self);
-        }];
 
-        self.topView = [[UIView alloc] init];
-        self.topView.backgroundColor = BWColor(255, 75, 0, 1);
-        [headerView addSubview:self.topView];
+        self.topView = [[UIImageView alloc] init];
+        self.topView.userInteractionEnabled = YES;
+        [self addSubview:self.topView];
         
         [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(headerView);
+            make.edges.equalTo(self);
         }];
         
         self.iconView = [[UIImageView alloc] init];
         [self.iconView setImage:[UIImage imageNamed:@"safeIcon.png"]];
-        [headerView addSubview:self.iconView];
+        [self.topView addSubview:self.iconView];
         
         [self.iconView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.topView);
@@ -80,12 +73,12 @@
             make.edges.equalTo(self.numberBg);
         }];
         
-        UIButton *expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
-        [expandBtn setImage:[UIImage imageNamed:@"triangle_small.png"] forState:UIControlStateNormal];
-        [self.topView addSubview:expandBtn];
+        self.expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.expandBtn addTarget:self action:@selector(clickExpandAction:) forControlEvents:UIControlEventTouchUpInside];
+        [self.expandBtn setImage:[UIImage imageNamed:@"close.png"] forState:UIControlStateNormal];
+        [self.topView addSubview:self.expandBtn];
         
-        [expandBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.expandBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.topView);
             make.right.equalTo(self.topView.mas_right).offset(-PAdaptation_x(11.5));
             make.width.mas_equalTo(PAdaptation_x(21));
@@ -111,7 +104,7 @@
     self.numberLabel.text = [NSString stringWithFormat:@"%ld人",self.studentList.count];
     self.numberLabel.textColor = [UIColor whiteColor];
     self.numberBg.backgroundColor = BWColor(5, 70, 11, 1);
-    self.topView.backgroundColor = BWColor(0, 176, 107, 1);
+    [self.topView setImage:[UIImage imageNamed:@"safeStatus.png"]];
 }
 - (void)loadDangerStyle
 {
@@ -119,7 +112,7 @@
     self.stateLabel.text = @"危険";
     self.numberLabel.text = [NSString stringWithFormat:@"%ld人",self.studentList.count];
     self.numberLabel.textColor = BWColor(255, 75, 0, 1);
-    self.topView.backgroundColor = BWColor(255, 75, 0, 1);
+    [self.topView setImage:[UIImage imageNamed:@"dangerStatus.png"]];
     self.numberBg.backgroundColor = [UIColor whiteColor];
 }
 

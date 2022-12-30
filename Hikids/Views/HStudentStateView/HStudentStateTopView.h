@@ -15,6 +15,7 @@ typedef void(^expandBlockAction)(void);
 @interface HStudentStateTopView : UIView
 @property (nonatomic, copy) expandBlockAction expandBlock;
 @property (nonatomic, strong) NSArray *studentList;
+@property (nonatomic, strong) UIButton *expandBtn;
 
 - (void)loadSafeStyle;
 - (void)loadDangerStyle;

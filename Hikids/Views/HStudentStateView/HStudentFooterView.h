@@ -9,12 +9,13 @@
 #import "HStudent.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
+//展开
 @interface HStudentFooterView : UIView
-@property (nonatomic, strong) UIView *lineView;
 
 - (instancetype)init;
 - (void)setupWithModel:(HStudent *)model;
+- (void)setNomalBorder;
+- (void)setLastCellBorder;
 @end
 
 NS_ASSUME_NONNULL_END

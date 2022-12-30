@@ -9,7 +9,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef enum _CellType
+{
+    CellType_Safe = 0,
+    CellType_Danger = 1,
+    CellType_Lost = 2,
+    CellType_Charge = 3
+}CellType;
+
 @interface HBaseMenuView : UITableView
+@property (nonatomic, assign) CellType type;
 
 - (instancetype)initWithFrame:(CGRect)frame;
 @end

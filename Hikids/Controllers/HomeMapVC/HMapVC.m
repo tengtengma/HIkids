@@ -6,7 +6,6 @@
 //
 
 #import "HMapVC.h"
-#import "HMenuHomeVC.h"
 #import <GoogleMaps/GoogleMaps.h>
 #import <GooglePlaces/GooglePlaces.h>
 #import <CoreLocation/CoreLocation.h>
@@ -19,7 +18,7 @@
 #import "BWStudentLocationResp.h"
 #import "HStudent.h"
 #import "HWalkMenuVC.h"
-#import "HWalkStudentStateView.h"
+#import "HSleepMenuVC.h"
 #import "HStudentStateInfoView.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import <UserNotifications/UserNotifications.h>
@@ -32,7 +31,6 @@
 #import "BWChangeTaskStateResp.h"
 #import "HCustomNavigationView.h"
 #import "HSmallCardView.h"
-#import "HMenuSleepVC.h"
 
 #import "HHomeMenuView.h"
 
@@ -41,8 +39,8 @@
 
 @interface HMapVC ()<GMSMapViewDelegate,CLLocationManagerDelegate,UITableViewDelegate,UITableViewDataSource>
 //@property (nonatomic,strong) HMenuHomeVC *menuHomeVC;
-//@property (nonatomic,strong) HWalkMenuVC *menuWalkVC;
-//@property (nonatomic,strong) HMenuSleepVC *menuSleepVC;
+@property (nonatomic,strong) HWalkMenuVC *menuWalkVC;
+@property (nonatomic,strong) HSleepMenuVC *menuSleepVC;
 @property (nonatomic,strong) GMSMapView *mapView;
 @property (nonatomic,strong) CLLocationManager *locationManager;
 @property (nonatomic,assign) CLLocationCoordinate2D coordinate2D;
@@ -59,7 +57,6 @@
 @property (nonatomic,strong) NSTimer *timer;
 @property (nonatomic,strong) NSTimer *shakeTimer;
 @property (nonatomic,strong) NSTimer *dangerTimer;
-@property (nonatomic,strong) HWalkStudentStateView *walkStateView;
 @property (nonatomic,strong) HStudentStateInfoView *stateInfoView;
 @property (nonatomic,strong) HWalkTask *currentTask;//当前任务
 @property (nonatomic,strong) NSMutableArray *makerList;//保存所有孩子maker
@@ -113,48 +110,67 @@
         make.height.mas_equalTo(PAaptation_y(156));
     }];
 
-//    //散步时 小朋友状态栏
-//    [self.view addSubview:self.walkStateView];
-//    [self.view bringSubviewToFront:self.walkStateView];
-//
-//
-//    //首页菜单 散步+午睡 模块 + 在院内小朋友状况
-//    self.menuHomeVC.view.frame = CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(161), SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight);
-//    [self.view addSubview:self.menuHomeVC.view];
-//
-//    //午睡菜单
-//
-//
-//
-//    //点击头像弹出小朋友详情
-//    [self.stateInfoView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, PAaptation_y(351))];
-//    [self.view addSubview:self.stateInfoView];
-//
+
 //    //获取当前散步的任务情况
 //    [self getTaskRequest];
 //
-//    //回调的监控
+    //回调的监控
 //    [self modeChangeBlock];
 //
 //    //设置导航栏信息
     [self.customNavigationView defautInfomation];
     
     
-    [self setupMenu];
+    //设置首页底部菜单
+    [self setupHomeMenu];
+    //设置小朋友详情页
+    [self setupStudentInfoView];
     
     
 
 }
-- (void)setupMenu
+- (void)setupHomeMenu
 {
     //20为状态栏高度；tableview设置的大小要和view的大小一致
-    HHomeMenuView *tableView = [[HHomeMenuView alloc] initWithFrame:CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    self.homeMenuTableView = tableView;
-    [self.view addSubview:tableView];
+    HHomeMenuView *homeMenuView = [[HHomeMenuView alloc] initWithFrame:CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    self.homeMenuTableView = homeMenuView;
+    [self.view addSubview:homeMenuView];
     
-    [self reloadData];
-}
+    DefineWeakSelf;
+    homeMenuView.showSleepMenu = ^{
+        [weakSelf presentViewController:weakSelf.menuSleepVC animated:YES completion:nil];
 
+    };
+    homeMenuView.showWalkMenu = ^{
+        [weakSelf presentViewController:weakSelf.menuWalkVC animated:YES completion:nil];
+    };
+
+    [self reloadData];
+    
+    
+    //开始午睡
+    weakSelf.menuSleepVC.startSleepBlock = ^{
+        
+    };
+    
+    //开始散步
+    weakSelf.menuWalkVC.startWalkBlock = ^(HWalkTask * _Nonnull walkTask) {
+        
+    };
+}
+- (void)setupStudentInfoView
+{
+    //点击头像弹出小朋友详情
+    [self.stateInfoView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, PAaptation_y(351))];
+    [self.view addSubview:self.stateInfoView];
+    
+    DefineWeakSelf;
+    //marks的详情
+    self.stateInfoView.closeBlock = ^{
+        [weakSelf hideStateInfoView];
+
+    };
+}
 //获取当前任务状态
 - (void)getTaskRequest
 {
@@ -241,9 +257,7 @@
     [self startLocation];
     
 //    self.menuHomeVC.view.hidden = YES;
-        
-    self.walkStateView.hidden = NO;
-        
+                
     [self startDestRequest];
     
 //    [self changeTaskStateRequestWithStatus:@"2"];
@@ -263,7 +277,6 @@
     
 //    self.menuHomeVC.view.hidden = YES;
         
-    self.walkStateView.hidden = NO;
         
     self.gpsButton.hidden = NO;
     
@@ -353,14 +366,14 @@
         [weakSelf drawPolygon];
         [weakSelf setupNavInfomation];
         
-        weakSelf.walkStateView.nomalArray = weakSelf.nomalArray;
-        weakSelf.walkStateView.exceptArray = weakSelf.exceptArray;
-        
-        if (weakSelf.exceptArray.count != 0) {
-            [weakSelf.walkStateView goCenter];;
-        }
-        
-        [weakSelf.walkStateView tableReload];
+//        weakSelf.walkStateView.nomalArray = weakSelf.nomalArray;
+//        weakSelf.walkStateView.exceptArray = weakSelf.exceptArray;
+//
+//        if (weakSelf.exceptArray.count != 0) {
+//            [weakSelf.walkStateView goCenter];;
+//        }
+//
+//        [weakSelf.walkStateView tableReload];
 //        [weakSelf.menuHomeVC tableReload];
         
         
@@ -420,30 +433,26 @@
 //
 //    };
     
-    //结束散步模式
-    self.walkStateView.walkEndBlock = ^{
-       
-        [weakSelf startStayMode];
-        
-//        weakSelf.menuHomeVC.view.hidden = NO;
-        weakSelf.walkStateView.hidden = YES;
-        weakSelf.mapView.myLocationEnabled = NO;
-        
-        [weakSelf.locationManager stopUpdatingLocation];
-
-    };
-    
-    //marks的详情
-    self.stateInfoView.closeBlock = ^{
-        [weakSelf hideStateInfoView];
-
-    };
-    
-    self.walkStateView.clickGpsBlock = ^{
-        //替换自己的坐标
-         CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(weakSelf.gpsLocation.coordinate.latitude, weakSelf.gpsLocation.coordinate.longitude);
-        weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:16];
-    };
+//    //结束散步模式
+//    self.walkStateView.walkEndBlock = ^{
+//       
+//        [weakSelf startStayMode];
+//        
+////        weakSelf.menuHomeVC.view.hidden = NO;
+//        weakSelf.walkStateView.hidden = YES;
+//        weakSelf.mapView.myLocationEnabled = NO;
+//        
+//        [weakSelf.locationManager stopUpdatingLocation];
+//
+//    };
+//    
+//
+//    
+//    self.walkStateView.clickGpsBlock = ^{
+//        //替换自己的坐标
+//         CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(weakSelf.gpsLocation.coordinate.latitude, weakSelf.gpsLocation.coordinate.longitude);
+//        weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:16];
+//    };
 }
 
 - (void)setupNavInfomation{
@@ -994,37 +1003,23 @@
     }
     return _mapView;
 }
-//- (HMenuHomeVC *)menuHomeVC
-//{
-//    if (!_menuHomeVC) {
-//        _menuHomeVC = [[HMenuHomeVC alloc] init];
-//    }
-//    return _menuHomeVC;
-//}
-//- (HWalkMenuVC *)menuWalkVC
-//{
-//    if (!_menuWalkVC) {
-//        _menuWalkVC = [[HWalkMenuVC alloc] init];
-//
-//    }
-//    return _menuWalkVC;
-//}
-//- (HMenuSleepVC *)menuSleepVC
-//{
-//    if (!_menuSleepVC) {
-//        _menuSleepVC = [[HMenuSleepVC alloc] init];
-//    }
-//    return _menuSleepVC;
-//}
-- (HWalkStudentStateView *)walkStateView
+
+- (HWalkMenuVC *)menuWalkVC
 {
-    if (!_walkStateView) {
-        _walkStateView = [[HWalkStudentStateView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT- PAaptation_y(161), SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight)];
-        _walkStateView.topH = BW_StatusBarHeight;
-        _walkStateView.hidden = YES;
+    if (!_menuWalkVC) {
+        _menuWalkVC = [[HWalkMenuVC alloc] init];
+
     }
-    return _walkStateView;
+    return _menuWalkVC;
 }
+- (HSleepMenuVC *)menuSleepVC
+{
+    if (!_menuSleepVC) {
+        _menuSleepVC = [[HSleepMenuVC alloc] init];
+    }
+    return _menuSleepVC;
+}
+
 - (HStudentStateInfoView *)stateInfoView
 {
     if (!_stateInfoView) {

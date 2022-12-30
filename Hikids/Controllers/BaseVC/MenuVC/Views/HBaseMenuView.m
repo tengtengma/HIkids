@@ -7,6 +7,12 @@
 
 #import "HBaseMenuView.h"
 
+
+
+@interface HBaseMenuView()
+
+@end
+
 @implementation HBaseMenuView
 
 - (instancetype)initWithFrame:(CGRect)frame

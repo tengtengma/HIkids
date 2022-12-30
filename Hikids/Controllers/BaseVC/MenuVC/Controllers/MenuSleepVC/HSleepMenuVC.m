@@ -1,29 +1,23 @@
 //
-//  HWalkMenuVC.m
+//  HMenuSleepVC.m
 //  Hikids
 //
-//  Created by 马腾 on 2022/10/5.
+//  Created by 马腾 on 2022/9/26.
 //
 
-#import "HWalkMenuVC.h"
-#import "HMddView.h"
-#import "HStudentView.h"
-#import "BWGetDestnationReq.h"
-#import "BWGetDestnationResp.h"
-#import "HDestnationModel.h"
+#import "HSleepMenuVC.h"
 #import "BWGetStudentReq.h"
 #import "BWGetStudentResp.h"
 #import "BWGetAssistantReq.h"
 #import "BWGetAssistantResp.h"
+
 #import "HStudent.h"
 #import "HTitleView.h"
 #import "HTeacher.h"
 #import "HTime.h"
-#import "BWAddTaskReq.h"
-#import "BWAddTaskResp.h"
-#import "HWalkTask.h"
+#import "HStudentView.h"
 
-@interface HWalkMenuVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+@interface HSleepMenuVC()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property (nonatomic, strong) UIView *bgView;
 @property (nonatomic, strong) UIImageView *topView;
 @property (nonatomic, strong) UIView *titleView;
@@ -31,48 +25,28 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *dateLabel;
 @property (nonatomic, strong) UIButton *backBtn;
-@property (nonatomic, strong) UIButton *startWalkBtn;
+@property (nonatomic, strong) UIButton *startSleepBtn;
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSArray *dataArray;
-@property (nonatomic, strong) NSArray *destnationArray; //目的地集合
 @property (nonatomic, strong) NSArray *timeArray;       //选择时间集合
 @property (nonatomic, strong) NSArray *teacherArray;     //老师集合
 @property (nonatomic, strong) NSArray *studentArray;     //学生集合
 @property (nonatomic, strong) UIView *selectView;       //选中展示view
-@property (nonatomic, strong) NSMutableArray *selectDestArray;
 @property (nonatomic, strong) NSMutableArray *selectTimeArray;
 @property (nonatomic, strong) NSMutableArray *selectTeacherArray;
 @property (nonatomic, strong) NSMutableArray *selectStudentArray;
+
 @end
 
-@implementation HWalkMenuVC
+@implementation HSleepMenuVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self startDestnationRequest];
+    [self startStudentRequest];
     
+}
 
-}
-- (void)startDestnationRequest
-{
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    DefineWeakSelf;
-    BWGetDestnationReq *destReq = [[BWGetDestnationReq alloc] init];
-    [NetManger getRequest:destReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
-            
-        BWGetDestnationResp *destResp = (BWGetDestnationResp *)resp;
-        
-        weakSelf.destnationArray = destResp.itemList;
-        
-        [weakSelf startStudentRequest];
-                
-        
-    } failure:^(BWBaseReq *req, NSError *error) {
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
-    }];
-}
 - (void)startStudentRequest
 {
     DefineWeakSelf;
@@ -142,8 +116,8 @@
     }
     self.timeArray = array;
     
-    self.titleLabel.text = @"散歩モニタリング";
-    self.dateLabel.text = @"2022.10.05";
+    self.titleLabel.text = @"午睡モニタリング";
+    self.dateLabel.text = @"2022.12.29";
 }
 - (void)createTitleView
 {
@@ -204,8 +178,8 @@
         make.height.mas_equalTo(PAaptation_y(80));
     }];
     
-    [self.footerView addSubview:self.startWalkBtn];
-    [self.startWalkBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.footerView addSubview:self.startSleepBtn];
+    [self.startSleepBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.footerView);
         make.width.mas_equalTo(PAdaptation_x(240));
         make.height.mas_equalTo(PAaptation_y(47));
@@ -229,17 +203,14 @@
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 4;
+    return 3;
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return self.destnationArray.count;
-    }
-    if (section == 1) {
         return self.timeArray.count;
     }
-    if (section == 2) {
+    if (section == 1) {
         return self.teacherArray.count;
     }
     return self.studentArray.count;
@@ -253,28 +224,8 @@
     for (id v in cell.contentView.subviews)
         [v removeFromSuperview];
     
+        
     if (indexPath.section == 0) {
-        
-        HDestnationModel *destModel = [self.destnationArray safeObjectAtIndex:indexPath.row];
-        
-        HMddView *mddView = [[HMddView alloc] init];
-        [mddView setupWithModel:destModel];
-        [cell.contentView addSubview:mddView];
-        
-        [mddView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(cell.contentView);
-        }];
-        
-        if (destModel.isSelected) {
-            [mddView cellSelected];
-        }else{
-            [mddView cellNomal];
-        }
-
-        
-    }
-        
-    if (indexPath.section == 1) {
         
         HTime *timeModel = [self.timeArray safeObjectAtIndex:indexPath.row];
         
@@ -292,7 +243,7 @@
             [timeView cellNomal];
         }
     }
-    if (indexPath.section == 2) {
+    if (indexPath.section == 1) {
         
         HTeacher *teacherModel = [self.teacherArray safeObjectAtIndex:indexPath.row];
         
@@ -311,7 +262,7 @@
         }
     }
    
-    if (indexPath.section == 3) {
+    if (indexPath.section == 2) {
         
         HStudent *student = [self.studentArray safeObjectAtIndex:indexPath.row];
         
@@ -338,32 +289,8 @@
 #pragma mark- UICollectionViewDataDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+
     if (indexPath.section == 0) {
-        
-        HDestnationModel *selectModel = [self.destnationArray safeObjectAtIndex:indexPath.row];
-        
-        if (selectModel.isSelected) {
-            selectModel.isSelected = NO;
-            if ([self.selectDestArray containsObject:selectModel]) {
-                [self.selectDestArray removeObject:selectModel];
-            }
-
-        }else{
-            [self.destnationArray enumerateObjectsUsingBlock:^(HDestnationModel * obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if (selectModel.dId.integerValue == obj.dId.integerValue) {
-                    obj.isSelected = YES;
-                    [self.selectDestArray addObject:selectModel];
-                    return;
-                }else{
-                    obj.isSelected = NO;
-                    [self.selectDestArray removeObject:obj];
-
-                }
-            }];
-        }
-
-    }
-    if (indexPath.section == 1) {
         
         HTime *selectModel = [self.timeArray safeObjectAtIndex:indexPath.row];
         if (selectModel.isSelected) {
@@ -389,7 +316,7 @@
         }
         
     }
-    if (indexPath.section == 2) {
+    if (indexPath.section == 1) {
         
         HTeacher *selectModel = [self.teacherArray safeObjectAtIndex:indexPath.row];
         if (selectModel.isSelected) {
@@ -409,7 +336,7 @@
             }];
         }
     }
-    if (indexPath.section == 3) {
+    if (indexPath.section == 2) {
        
         HStudent *selectModel = [self.studentArray safeObjectAtIndex:indexPath.row];
         if (selectModel.isSelected) {
@@ -436,14 +363,10 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        return CGSizeMake(PAdaptation_x(170), PAaptation_y(76));
-
-    }
-    if (indexPath.section == 1) {
         return CGSizeMake(PAdaptation_x(68), PAaptation_y(36));
 
     }
-    if (indexPath.section == 2) {
+    if (indexPath.section == 1) {
         return CGSizeMake(PAdaptation_x(75), PAaptation_y(36));
     }
     return CGSizeMake(PAdaptation_x(170), PAaptation_y(54));
@@ -452,50 +375,38 @@
                    layout:(UICollectionViewLayout*)collectionViewLayout
                     minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
-    if (section == 0) {
-        return PAdaptation_x(10);
 
-    }
-    if (section == 1) {
+    if (section == 0) {
         return 0;
 
     }
-    if (section == 2) {
+    if (section == 1) {
         return 0;
     }
     return PAdaptation_x(10);
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
+ 
     if (section == 0) {
-        return PAaptation_y(10);
-
-    }
-    if (section == 1) {
         return 0;
 
     }
-    if (section == 2) {
+    if (section == 1) {
         return 0;
     }
     return PAaptation_y(10);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return CGSizeMake(SCREEN_WIDTH, PAaptation_y(30));
-    }
-    return CGSizeMake(SCREEN_WIDTH, PAaptation_y(73));
+    return CGSizeMake(SCREEN_WIDTH, PAaptation_y(30));
 }
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
     if (section == 0) {
-        return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(18));
-    }
-    if (section == 1) {
         return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(10));
     }
-    if (section == 2) {
+    if (section == 1) {
         return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(10));
     }
 
@@ -520,11 +431,9 @@
        label.textColor = BWColor(34, 34, 34, 1.0);
        [headerView addSubview:label];
        
-       if (indexPath.section == 0) {
-           label.text = @"目的地選択:";
+       if(indexPath.section == 0){
+           label.text = @"午睡予定時間:";
        }else if(indexPath.section == 1){
-           label.text = @"散歩予定時間:";
-       }else if(indexPath.section == 2){
            label.text = @"確認者(複数選択可):";
        }else{
            label.text = @"参加児童:";
@@ -538,25 +447,6 @@
 }
 - (void)updateWalkBtnState
 {
-    UILabel *destLabel = (UILabel *)[self.view viewWithTag:10000];
-    if (self.selectDestArray.count != 0) {
-        HDestnationModel *destModel = [self.selectDestArray safeObjectAtIndex:0];
-        if (destLabel == nil) {
-            destLabel = [[UILabel alloc] init];
-            destLabel.tag = 10000;
-            destLabel.font = [UIFont systemFontOfSize:12];
-            destLabel.backgroundColor = BWColor(252, 229, 216, 1.0);
-            [self.selectView addSubview:destLabel];
-        }
-        destLabel.text = destModel.name;
-        
-        [destLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.selectView);
-            make.left.equalTo(self.selectView);
-        }];
-    }else{
-        destLabel.text = @"";
-    }
     
     UILabel *timeLabel = (UILabel *)[self.view viewWithTag:10001];
     if (self.selectTimeArray.count != 0) {
@@ -572,7 +462,7 @@
         
         [timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.selectView);
-            make.left.equalTo(destLabel.mas_right).offset(PAdaptation_x(2));
+            make.left.equalTo(self.selectView);
         }];
     }else{
         timeLabel.text = @"";
@@ -620,69 +510,65 @@
     }
     
     
-    if (self.selectDestArray.count != 0 && self.selectTimeArray.count != 0 && self.selectTeacherArray.count != 0 && self.selectStudentArray.count != 0) {
-        self.startWalkBtn.enabled = YES;
-        [self.startWalkBtn setImage:[UIImage imageNamed:@"walkStart.png"] forState:UIControlStateNormal];
+    if ( self.selectTimeArray.count != 0 && self.selectTeacherArray.count != 0 && self.selectStudentArray.count != 0) {
+        self.startSleepBtn.enabled = YES;
+        [self.startSleepBtn setImage:[UIImage imageNamed:@"walkStart.png"] forState:UIControlStateNormal];
     }else{
-        self.startWalkBtn.enabled = NO;
-        [self.startWalkBtn setImage:[UIImage imageNamed:@"walkStart_no.png"] forState:UIControlStateNormal];
+        self.startSleepBtn.enabled = NO;
+        [self.startSleepBtn setImage:[UIImage imageNamed:@"walkStart_no.png"] forState:UIControlStateNormal];
     }
 }
 
-- (void)startWalkAction:(UIButton *)button
+- (void)startSleepAction:(UIButton *)button
 {
     NSString *type = @"1";
     NSString *planTime;
-    NSString *destinationId;
     NSString *remark = @"";
-    
-    HDestnationModel *destModel = [self.selectDestArray safeObjectAtIndex:0];
-    destinationId = destModel.dId;
-    
+
     HTime *timeModel = [self.selectTimeArray safeObjectAtIndex:0];
     planTime = timeModel.name;
-    
+
     NSMutableArray *assistantsArray = [[NSMutableArray alloc] init];
     for (HTeacher *teacher in self.selectTeacherArray) {
         NSDictionary *dic = @{@"id":teacher.tId,@"name":teacher.name};
         [assistantsArray addObject:dic];
     }
-    
+
     NSMutableArray *kidsArray = [[NSMutableArray alloc] init];
     for (HStudent *student in self.selectStudentArray) {
         NSDictionary *dic = @{@"id":student.sId,@"name":student.name};
         [kidsArray addObject:dic];
     }
-    
-    
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    DefineWeakSelf;
-    BWAddTaskReq *taskReq = [[BWAddTaskReq alloc] init];
-    taskReq.type = type;
-    taskReq.destinationId = destinationId;
-    taskReq.planTime = planTime;
-    taskReq.assistants = assistantsArray;
-    taskReq.kids = kidsArray;
-    taskReq.remark = remark;
-    [NetManger postRequest:taskReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        BWAddTaskResp *addResp = (BWAddTaskResp *)resp;
-        HWalkTask *taskModel = [addResp.itemList safeObjectAtIndex:0];
-        
-        [weakSelf backAction:nil];
-        
-        if (weakSelf.startWalkBlock) {
-            weakSelf.startWalkBlock(taskModel);
-        }
-        
-                
-    } failure:^(BWBaseReq *req, NSError *error) {
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
 
-    }];
-    
-    
+
+//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    DefineWeakSelf;
+//    BWAddTaskReq *taskReq = [[BWAddTaskReq alloc] init];
+//    taskReq.type = type;
+//    taskReq.destinationId = destinationId;
+//    taskReq.planTime = planTime;
+//    taskReq.assistants = assistantsArray;
+//    taskReq.kids = kidsArray;
+//    taskReq.remark = remark;
+//    [NetManger postRequest:taskReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+//        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+//        BWAddTaskResp *addResp = (BWAddTaskResp *)resp;
+//        HWalkTask *taskModel = [addResp.itemList safeObjectAtIndex:0];
+
+        [weakSelf backAction:nil];
+
+        if (weakSelf.startSleepBlock) {
+            weakSelf.startSleepBlock();
+        }
+
+
+//    } failure:^(BWBaseReq *req, NSError *error) {
+//        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+//        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+//
+//    }];
+
+
 }
 
 #pragma mark - LazyLoad -
@@ -779,23 +665,17 @@
     }
     return _footerView;
 }
-- (UIButton *)startWalkBtn
+- (UIButton *)startSleepBtn
 {
-    if (!_startWalkBtn) {
-        _startWalkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        _startWalkBtn.enabled = NO;
-        [_startWalkBtn setImage:[UIImage imageNamed:@"walkStart_no.png"] forState:UIControlStateNormal];
-        [_startWalkBtn addTarget:self action:@selector(startWalkAction:) forControlEvents:UIControlEventTouchUpInside];
+    if (!_startSleepBtn) {
+        _startSleepBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _startSleepBtn.enabled = NO;
+        [_startSleepBtn setImage:[UIImage imageNamed:@"walkStart_no.png"] forState:UIControlStateNormal];
+        [_startSleepBtn addTarget:self action:@selector(startSleepAction:) forControlEvents:UIControlEventTouchUpInside];
     }
-    return _startWalkBtn;
+    return _startSleepBtn;
 }
-- (NSMutableArray *)selectDestArray
-{
-    if (!_selectDestArray) {
-        _selectDestArray = [[NSMutableArray alloc] init];
-    }
-    return _selectDestArray;
-}
+
 - (NSMutableArray *)selectTimeArray
 {
     if (!_selectTimeArray) {
@@ -817,6 +697,7 @@
     }
     return _selectStudentArray;
 }
+
 
 
 @end

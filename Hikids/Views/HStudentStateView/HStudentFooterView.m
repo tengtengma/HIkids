@@ -17,6 +17,11 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *distanceLabel;
 
+@property (nonatomic, strong) UIView *leftLineView;
+@property (nonatomic, strong) UIView *rightLineView;
+@property (nonatomic, strong) UIView *bottomLineView;
+@property (nonatomic, strong) UIImageView *lastCellBottomView;
+
 
 @end
 
@@ -87,16 +92,44 @@
         }];
         
         
-        [self addSubview:self.lineView];
-        [self.lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.mas_bottom).offset(-1);
-            make.left.equalTo(self).offset(PAdaptation_x(10));
-            make.right.equalTo(self.mas_right).offset(-PAdaptation_x(10));
-            make.height.mas_equalTo(1);
-        }];
+
         
     }
     return self;
+}
+- (void)setNomalBorder
+{
+    [self addSubview:self.leftLineView];
+    [self.leftLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self);
+        make.left.equalTo(self);
+        make.width.mas_equalTo(2);
+        make.height.equalTo(self);
+    }];
+    
+    [self addSubview:self.rightLineView];
+    [self.rightLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self);
+        make.right.equalTo(self.mas_right);
+        make.width.mas_equalTo(2);
+        make.height.equalTo(self);
+    }];
+    
+    [self addSubview:self.bottomLineView];
+    [self.bottomLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.mas_bottom).offset(-2);
+        make.left.equalTo(self);
+        make.right.equalTo(self.mas_right);
+        make.height.mas_equalTo(2);
+    }];
+}
+- (void)setLastCellBorder
+{
+    [self addSubview:self.lastCellBottomView];
+    [self sendSubviewToBack:self.lastCellBottomView];
+    [self.lastCellBottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self);
+    }];
 }
 - (void)setupWithModel:(HStudent *)model;
 {
@@ -109,6 +142,11 @@
         self.distanceLabel.textColor = BWColor(255, 75, 0, 1);
         self.distanceLabel.text = [NSString stringWithFormat:@"%ld米",model.distance.integerValue];
         self.headerView.layer.borderColor = BWColor(255, 75, 0, 1).CGColor;
+        self.leftLineView.backgroundColor = BWColor(76, 40, 11, 1);
+        self.rightLineView.backgroundColor = BWColor(76, 40, 11, 1);
+        self.bottomLineView.backgroundColor = BWColor(76, 40, 11, 1);
+        [self.lastCellBottomView setImage:[UIImage imageNamed:@"listBottom_danger.png"]];
+
 
     }else{
         [self.gpsImageView setImage:[UIImage imageNamed:@"xintiao.png"]];
@@ -117,9 +155,12 @@
             self.distanceLabel.text = [NSString stringWithFormat:@"%@bpm",model.deviceInfo.averangheart];
         }else{
             self.distanceLabel.text = [NSString stringWithFormat:@"--bpm"];
-
         }
         self.headerView.layer.borderColor = BWColor(0, 176, 107, 1).CGColor;
+        self.leftLineView.backgroundColor = BWColor(45, 100, 29, 1);
+        self.rightLineView.backgroundColor = BWColor(45, 100, 29, 1);
+        self.bottomLineView.backgroundColor = BWColor(45, 100, 29, 1);
+        [self.lastCellBottomView setImage:[UIImage imageNamed:@"listBottom_safe.png"]];
 
     }
     self.titleLabel.text = model.name;
@@ -129,6 +170,7 @@
     NSLog(@"backup");
 }
 
+#pragma mark - LazyLoad -
 - (UIImageView *)headerView
 {
     if (!_headerView) {
@@ -194,12 +236,33 @@
     }
     return _distanceLabel;
 }
-- (UIView *)lineView
+- (UIView *)leftLineView
 {
-    if (!_lineView) {
-        _lineView = [[UIView alloc] init];
-        _lineView.backgroundColor = BWColor(76, 53, 41, 0.6);
+    if (!_leftLineView) {
+        _leftLineView = [[UIView alloc] init];
     }
-    return _lineView;
+    return _leftLineView;
+}
+- (UIView *)rightLineView
+{
+    if (!_rightLineView) {
+        _rightLineView = [[UIView alloc] init];
+    }
+    return _rightLineView;
+}
+- (UIView *)bottomLineView
+{
+    if (!_bottomLineView) {
+        _bottomLineView = [[UIView alloc] init];
+    }
+    return _bottomLineView;
+}
+- (UIImageView *)lastCellBottomView
+{
+    if (!_lastCellBottomView) {
+        _lastCellBottomView = [[UIImageView alloc] init];
+        _lastCellBottomView.userInteractionEnabled = YES;
+    }
+    return _lastCellBottomView;
 }
 @end

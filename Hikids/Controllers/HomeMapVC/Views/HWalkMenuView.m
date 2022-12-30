@@ -1,22 +1,22 @@
 //
-//  HHomeMenuView.m
+//  HWalkMenuView.m
 //  Hikids
 //
-//  Created by 马腾 on 2022/12/29.
+//  Created by 马腾 on 2022/12/30.
 //
 
-#import "HHomeMenuView.h"
+#import "HWalkMenuView.h"
 #import "HStudentStateTopView.h"
 #import "HStudentStateBottomView.h"
 #import "HStudentFooterView.h"
 
-@interface HHomeMenuView()<UITableViewDelegate,UITableViewDataSource>
+@interface HWalkMenuView()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, assign) BOOL safeExpand;
 @property (nonatomic, assign) BOOL exceptExpand;
 
 @end
 
-@implementation HHomeMenuView
+@implementation HWalkMenuView
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -48,17 +48,15 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     if (self.exceptList.count != 0) {
-        return 3;
+        return 2;
     }
-    return 2;
+    return 1;
 }
 
 #pragma mark - cell高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+
     if (indexPath.section == 0) {
-        return PAaptation_y(125+84);
-    }
-    if (indexPath.section == 1) {
         if (self.safeExpand) {
             if (indexPath.row == 0) {
                 return PAaptation_y(129);
@@ -71,7 +69,7 @@
         }
         return PAaptation_y(129);
     }
-    if (indexPath.section == 2) {
+    if (indexPath.section == 1) {
         if (self.exceptExpand) {
             if (indexPath.row == 0) {
                 return PAaptation_y(129);
@@ -86,13 +84,11 @@
 
 #pragma mark - cell数量
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
     if (section == 0) {
-        return 1;
-    }
-    if (section == 1) {
         return self.safeExpand ? self.safeList.count : 1;
     }
-    if (section == 2) {
+    if (section == 1) {
         return self.exceptExpand ? self.exceptList.count : 1;
     }
     return 2;
@@ -113,49 +109,6 @@
     
     if (indexPath.section == 0) {
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(PAdaptation_x(23), 0, SCREEN_WIDTH, PAaptation_y(30))];
-        label.text = @"利用シーン";
-        label.font = [UIFont boldSystemFontOfSize:20];
-        [cell.contentView addSubview:label];
-        
-        UIButton *sleepBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        sleepBtn.tag = 1000;
-        [sleepBtn setImage:[UIImage imageNamed:@"btn_menu_sleep.png"] forState:UIControlStateNormal];
-        [sleepBtn addTarget:self action:@selector(gotoVCAction:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.contentView addSubview:sleepBtn];
-        
-        [sleepBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(cell.contentView);
-            make.left.equalTo(cell.contentView).offset(PAdaptation_x(23));
-            make.width.mas_equalTo(PAdaptation_x(166));
-            make.height.mas_equalTo(PAaptation_y(96));
-        }];
-        
-        UIButton *walkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        walkBtn.tag = 1001;
-        [walkBtn setImage:[UIImage imageNamed:@"btn_menu_walk.png"] forState:UIControlStateNormal];
-        [walkBtn addTarget:self action:@selector(gotoVCAction:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.contentView addSubview:walkBtn];
-        
-        [walkBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(cell.contentView);
-            make.left.equalTo(sleepBtn.mas_right).offset(PAdaptation_x(12));
-            make.width.mas_equalTo(PAdaptation_x(166));
-            make.height.mas_equalTo(PAaptation_y(96));
-        }];
-        
-        UILabel *label1 = [[UILabel alloc] init];
-        label1.text = @"園児リスト";
-        label1.font = [UIFont boldSystemFontOfSize:20];
-        [cell.contentView addSubview:label1];
-        [label1 mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(walkBtn.mas_bottom).offset(PAaptation_y(PAaptation_y(24)));
-            make.left.equalTo(label);
-        }];
-        
-    }
-    if (indexPath.section == 1) {
-        
         if (self.safeExpand) {
             
             [self loadExpandWithCell:cell byType:CellType_Safe withIndexPath:indexPath];
@@ -166,7 +119,7 @@
         }
         
     }
-    if (indexPath.section == 2) {
+    if (indexPath.section == 1) {
         
         if (self.exceptExpand) {
             
@@ -200,7 +153,6 @@
     
         HStudentStateTopView *safeTopView = [[HStudentStateTopView alloc] init];
         safeTopView.studentList = self.safeList;
-        [safeTopView.expandBtn setImage:[UIImage imageNamed:@"close.png"] forState:UIControlStateNormal];
         [safeTopView loadSafeStyle];
         [bgView addSubview:safeTopView];
         [safeTopView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -234,7 +186,6 @@
         HStudentStateTopView *dangerTopView = [[HStudentStateTopView alloc] init];
         dangerTopView.studentList = self.exceptList;
         [dangerTopView loadDangerStyle];
-        [dangerTopView.expandBtn setImage:[UIImage imageNamed:@"close.png"] forState:UIControlStateNormal];
         [bgView addSubview:dangerTopView];
         [dangerTopView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(bgView);
@@ -268,7 +219,6 @@
             HStudentStateTopView *safeTopView = [[HStudentStateTopView alloc] init];
             safeTopView.studentList = self.safeList;
             [safeTopView loadSafeStyle];
-            [safeTopView.expandBtn setImage:[UIImage imageNamed:@"expand.png"] forState:UIControlStateNormal];
             [cell.contentView addSubview:safeTopView];
             [safeTopView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(cell.contentView);
@@ -326,7 +276,6 @@
             HStudentStateTopView *dangerTopView = [[HStudentStateTopView alloc] init];
             dangerTopView.studentList = self.exceptList;
             [dangerTopView loadDangerStyle];
-            [dangerTopView.expandBtn setImage:[UIImage imageNamed:@"expand.png"] forState:UIControlStateNormal];
             [cell.contentView addSubview:dangerTopView];
             [dangerTopView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(cell.contentView);
@@ -379,16 +328,4 @@
     }
 }
 
-- (void)gotoVCAction:(UIButton *)button
-{
-    if (button.tag == 1000) {
-        if (self.showSleepMenu) {
-            self.showSleepMenu();
-        }
-    }else{
-        if (self.showWalkMenu) {
-            self.showWalkMenu();
-        }
-    }
-}
 @end
