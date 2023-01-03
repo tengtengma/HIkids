@@ -10,6 +10,15 @@
 @interface HSleepMainView()
 @property (nonatomic, strong) UIImageView *bgView;
 @property (nonatomic, strong) UIImageView *contentView;
+@property (nonatomic, strong) UILabel *timeDesLabel;
+@property (nonatomic, strong) UILabel *timeLabel;
+@property (nonatomic, strong) UILabel *sleepNumDesLabel;
+@property (nonatomic, strong) UILabel *sleepNumLabel;
+@property (nonatomic, strong) UILabel *getupNumDesLabel;
+@property (nonatomic, strong) UILabel *getupNumLabel;
+@property (nonatomic, strong) UILabel *huiNumDesLabel;
+@property (nonatomic, strong) UILabel *huiNumLabel;
+
 
 @end
 
@@ -30,10 +39,71 @@
             make.width.mas_equalTo(PAdaptation_x(356));
             make.height.mas_equalTo(PAaptation_y(278));
         }];
+        
+        [self.contentView addSubview:self.timeDesLabel];
+        [self.timeDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.contentView).offset(PAaptation_y(50));
+            make.left.equalTo(self.contentView).offset(PAdaptation_x(20));
+        }];
+        
+        [self.contentView addSubview:self.timeLabel];
+        [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.timeDesLabel.mas_bottom);
+            make.left.equalTo(self.timeDesLabel.mas_right).offset(PAdaptation_x(30));
+        }];
+        
+        [self.contentView addSubview:self.sleepNumDesLabel];
+        [self.sleepNumDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.timeDesLabel.mas_bottom).offset(PAaptation_y(48));
+            make.left.equalTo(self.timeDesLabel);
+        }];
+        
+        [self.contentView addSubview:self.sleepNumLabel];
+        [self.sleepNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.sleepNumDesLabel.mas_bottom);
+            make.left.equalTo(self.sleepNumDesLabel.mas_right).offset(PAdaptation_x(30));
+        }];
+        
+        [self.contentView addSubview:self.getupNumDesLabel];
+        [self.getupNumDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.timeDesLabel.mas_bottom).offset(PAaptation_y(48));
+            make.left.equalTo(self.sleepNumLabel.mas_right).offset(PAdaptation_x(16));
+        }];
+        
+        [self.contentView addSubview:self.getupNumLabel];
+        [self.getupNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.getupNumDesLabel.mas_bottom);
+            make.left.equalTo(self.getupNumDesLabel.mas_right).offset(PAdaptation_x(30));
+        }];
+        
+        [self.contentView addSubview:self.huiNumDesLabel];
+        [self.huiNumDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.sleepNumDesLabel.mas_bottom).offset(PAaptation_y(54));
+            make.left.equalTo(self.timeDesLabel);
+        }];
+        
+        [self.contentView addSubview:self.huiNumLabel];
+        [self.huiNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.huiNumDesLabel.mas_bottom);
+            make.left.equalTo(self.huiNumDesLabel.mas_right).offset(PAdaptation_x(30));
+        }];
+        
+        [self setupContent];
+        
+        
     }
     return self;
 }
 
+- (void)setupContent
+{
+    self.timeLabel.text = @"40:15";
+    self.sleepNumLabel.text = @"35人";
+    self.getupNumLabel.text = @"0人";
+    self.huiNumLabel.text = @"1回";
+}
+
+#pragma mark - LazyLoad -
 - (UIImageView *)bgView
 {
     if (!_bgView) {
@@ -48,5 +118,78 @@
         _contentView.backgroundColor = [UIColor redColor];
     }
     return _contentView;
+}
+- (UILabel *)timeDesLabel
+{
+    if (!_timeDesLabel) {
+        _timeDesLabel = [[UILabel alloc] init];
+        _timeDesLabel.font = [UIFont systemFontOfSize:14.0];
+        _timeDesLabel.text = @"午睡中";
+    }
+    return _timeDesLabel;
+}
+- (UILabel *)timeLabel
+{
+    if (!_timeLabel) {
+        _timeLabel = [[UILabel alloc] init];
+        _timeLabel.font = [UIFont boldSystemFontOfSize:36.0];
+    }
+    return _timeLabel;
+}
+- (UILabel *)sleepNumDesLabel
+{
+    if (!_sleepNumDesLabel) {
+        _sleepNumDesLabel = [[UILabel alloc] init];
+        _sleepNumDesLabel.font = [UIFont systemFontOfSize:14.0];
+        _sleepNumDesLabel.text = @"午睡中";
+
+    }
+    return _sleepNumDesLabel;
+}
+- (UILabel *)sleepNumLabel
+{
+    if (!_sleepNumLabel) {
+        _sleepNumLabel = [[UILabel alloc] init];
+        _sleepNumLabel.font = [UIFont boldSystemFontOfSize:36.0];
+        _sleepNumLabel.textColor = BWColor(108, 159, 155, 1);
+    }
+    return _sleepNumLabel;
+}
+- (UILabel *)getupNumDesLabel
+{
+    if (!_getupNumDesLabel) {
+        _getupNumDesLabel = [[UILabel alloc] init];
+        _getupNumDesLabel.font = [UIFont systemFontOfSize:14.0];
+        _getupNumDesLabel.text = @"起床済";
+
+    }
+    return _getupNumDesLabel;
+}
+- (UILabel *)getupNumLabel
+{
+    if (!_getupNumLabel) {
+        _getupNumLabel = [[UILabel alloc] init];
+        _getupNumLabel.font = [UIFont boldSystemFontOfSize:36.0];
+        _getupNumLabel.textColor = BWColor(196, 196, 196, 1);
+    }
+    return _getupNumLabel;
+}
+- (UILabel *)huiNumDesLabel
+{
+    if (!_huiNumDesLabel) {
+        _huiNumDesLabel = [[UILabel alloc] init];
+        _huiNumDesLabel.font = [UIFont systemFontOfSize:14.0];
+        _huiNumDesLabel.text = @"アラート";
+    }
+    return _huiNumDesLabel;
+}
+- (UILabel *)huiNumLabel
+{
+    if (!_huiNumLabel) {
+        _huiNumLabel = [[UILabel alloc] init];
+        _huiNumLabel.font = [UIFont boldSystemFontOfSize:36.0];
+        _huiNumLabel.textColor = BWColor(246, 170, 0, 1);
+    }
+    return _huiNumLabel;
 }
 @end

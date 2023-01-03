@@ -10,17 +10,13 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HCustomNavigationView : UIView
-@property (nonatomic, strong) UIImageView *backgroundImageView;
-@property (nonatomic, strong) UIImageView *stateImageView;
-@property (nonatomic, strong) UIImageView *userImageView;
-@property (nonatomic, strong) UILabel *userNameLabel;
-@property (nonatomic, strong) UILabel *stateLabel;
-@property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UILabel *updateTimeLabel;
 
 - (instancetype)init;
 
 - (void)defautInfomation;
+
+- (void)safeStyleWithName:(NSString *)typeName;
+- (void)dangerStyleWithName:(NSString *)typeName;
 
 
 @end

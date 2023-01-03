@@ -34,6 +34,7 @@
 
 #import "HHomeMenuView.h"
 #import "HWalkMenuView.h"
+#import "HSleepMenuView.h"
 
 #import "HSleepMainView.h"
 
@@ -67,6 +68,7 @@
 @property (nonatomic,assign) BOOL isAlert; //只弹窗一次 仅演示使用
 @property (nonatomic,strong) HHomeMenuView *homeMenuTableView; //首页底部菜单
 @property (nonatomic,strong) HWalkMenuView *walkMenuTableView; //散步底部菜单
+@property (nonatomic,strong) HSleepMenuView *sleepMenuTableView; //午睡底部菜单
 
 @property (nonatomic,strong) HSleepMainView *sleepMainView;  //开始午睡时展示
 
@@ -114,16 +116,29 @@
     //设置地图
     [self createMapView];
     
+    //设置午睡内容view
+    [self setupSleepMainView];
+    
     //创建导航
     [self createNavigationView];
+    
     //设置导航栏信息
     [self.customNavigationView defautInfomation];
+    
+    //测试使用 真实状况下 接口下调用了
+    [self setupNavInfomation];
+
     
     //设置首页底部菜单
     [self setupHomeMenu];
     
     //设置散步页底部菜单
     [self setupWalkMenu];
+    
+    //设置午睡页底部菜单
+    [self setupSleepMenu];
+    
+
     //设置小朋友详情页
     [self setupStudentInfoView];
     
@@ -140,6 +155,7 @@
         make.width.equalTo(self.view);
         make.height.mas_equalTo(PAaptation_y(156));
     }];
+    
 }
 - (void)createMapView
 {
@@ -189,6 +205,20 @@
         [weakSelf endMode];
     };
 }
+//设置午睡菜单
+- (void)setupSleepMenu
+{
+    //20为状态栏高度；tableview设置的大小要和view的大小一致
+    HSleepMenuView *sleepMenuView = [[HSleepMenuView alloc] initWithFrame:CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    sleepMenuView.hidden = YES;
+    self.sleepMenuTableView = sleepMenuView;
+    [self.view addSubview:sleepMenuView];
+    
+    DefineWeakSelf;
+    sleepMenuView.sleepEndBlock = ^{
+        [weakSelf startStayMode];
+    };
+}
 //设置小朋友详情view
 - (void)setupStudentInfoView
 {
@@ -207,7 +237,7 @@
 {
     [self.view addSubview:self.sleepMainView];
     [self.sleepMainView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(PAaptation_y(148));
+        make.centerY.equalTo(self.view);
         make.left.equalTo(self.view);
         make.width.equalTo(self.view);
         make.height.mas_equalTo(self.view.frame.size.height - PAaptation_y(161));
@@ -282,6 +312,12 @@
 {
     self.isDrawFence = YES;
     
+    self.mapView.hidden = NO;
+    self.homeMenuTableView.hidden = NO;
+    
+    self.sleepMenuTableView.hidden = YES;
+    self.sleepMainView.hidden = YES;
+    
     [self.mapView clear];
     [self.makerList removeAllObjects];
 
@@ -354,13 +390,13 @@
 {
     [self.makerList removeAllObjects];
     [self.mapView clear];
-    [self.mapView removeFromSuperview];
+    self.mapView.hidden = YES;
     self.homeMenuTableView.hidden = YES;
     self.walkMenuTableView.hidden = YES;
+    [self.locationManager stopUpdatingLocation];
     
-    [self setupSleepMainView];
-    
-    
+    self.sleepMenuTableView.hidden = NO;
+    self.sleepMainView.hidden = NO;
 }
 
 //获取园区接口数据
@@ -425,17 +461,6 @@
         [weakSelf addMarkers]; //添加学生位置坐标
         [weakSelf drawPolygon];
         [weakSelf setupNavInfomation];
-        
-//        weakSelf.walkStateView.nomalArray = weakSelf.nomalArray;
-//        weakSelf.walkStateView.exceptArray = weakSelf.exceptArray;
-//
-//        if (weakSelf.exceptArray.count != 0) {
-//            [weakSelf.walkStateView goCenter];;
-//        }
-//
-//        [weakSelf.walkStateView tableReload];
-//        [weakSelf.menuHomeVC tableReload];
-        
         
         
     } failure:^(BWBaseReq *req, NSError *error) {
@@ -517,109 +542,92 @@
 
 - (void)setupNavInfomation{
     
-    
-    if (self.currentTask.status.integerValue == 1) {
-        NSLog(@"在园中模式");
-        if (self.exceptArray.count == 0) {
-            
+    //测试假数据
+    [self.customNavigationView dangerStyleWithName:@"在園中"];
 
-            self.customNavigationView.titleLabel.text = @"在園中";
-            self.customNavigationView.stateLabel.text = @"安全";
-            self.customNavigationView.stateLabel.textColor = BWColor(0, 176, 107, 1);
-            [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_safe.png"]];
-
-            self.customNavigationView.updateTimeLabel.text = @"最終更新：20秒";
-            self.customNavigationView.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
-            
-            self.customNavigationView.userNameLabel.text = @"ひまわり";
-            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
-            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"teacher.png"]];
-        }else{
-
-            [self showAlertAction];
-
-            
-            [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_danger.png"]];
-            self.customNavigationView.titleLabel.text = @"在園中";
-            self.customNavigationView.stateLabel.text = @"危险";
-            self.customNavigationView.stateLabel.textColor = BWColor(164, 0, 0, 1);
-            self.customNavigationView.updateTimeLabel.text = @"最終更新：20秒";
-            self.customNavigationView.updateTimeLabel.textColor = BWColor(164, 0, 0, 1);
-        
-            self.customNavigationView.userNameLabel.text = @"ひまわり";
-            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"dangerNav.png"]];
-            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"teacher.png"]];
-        }
-    }
-    if (self.currentTask.status.integerValue == 2) {
-        NSLog(@"散步模式");
-        
-        if (self.exceptArray.count == 0) {
-            
-            self.customNavigationView.titleLabel.text = @"散歩中（経路）";
-            self.customNavigationView.stateLabel.text = @"安全";
-            self.customNavigationView.stateLabel.textColor = BWColor(0, 176, 107, 1);
-            [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_safe.png"]];
-
-            self.customNavigationView.updateTimeLabel.text = @"最終更新：20秒";
-            self.customNavigationView.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
-            
-            self.customNavigationView.userNameLabel.text = @"ひまわり";
-            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
-            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"teacher.png"]];
-        }else{
-            
-            [self showAlertAction];
-
-            [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_danger.png"]];
-            self.customNavigationView.titleLabel.text = @"散歩中（経路）";
-            self.customNavigationView.stateLabel.text = @"危险";
-            self.customNavigationView.stateLabel.textColor = BWColor(164, 0, 0, 1);
-            self.customNavigationView.updateTimeLabel.text = @"最終更新：20秒";
-            self.customNavigationView.updateTimeLabel.textColor = BWColor(164, 0, 0, 1);
-        
-            self.customNavigationView.userNameLabel.text = @"ひまわり";
-            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"dangerNav.png"]];
-            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"teacher.png"]];
-        }
-    }
-    if (self.currentTask.status.integerValue == 3) {
-        NSLog(@"目的地模式");
-        
-        if (self.exceptArray.count == 0) {
-            
-            self.customNavigationView.titleLabel.text = @"散歩中（目的地）";
-            self.customNavigationView.stateLabel.text = @"安全";
-            self.customNavigationView.stateLabel.textColor = BWColor(0, 176, 107, 1);
-            [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_safe.png"]];
-
-            self.customNavigationView.updateTimeLabel.text = @"最終更新：20秒";
-            self.customNavigationView.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
-            
-            self.customNavigationView.userNameLabel.text = @"ひまわり";
-            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
-            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"teacher.png"]];
-        }else{
-            
-            [self showAlertAction];
-
-            
-            [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_danger.png"]];
-            self.customNavigationView.titleLabel.text = @"散歩中（目的地）";
-            self.customNavigationView.stateLabel.text = @"危险";
-            self.customNavigationView.stateLabel.textColor = BWColor(164, 0, 0, 1);
-            self.customNavigationView.updateTimeLabel.text = @"最終更新：20秒";
-            self.customNavigationView.updateTimeLabel.textColor = BWColor(164, 0, 0, 1);
-        
-            self.customNavigationView.userNameLabel.text = @"ひまわり";
-            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"dangerNav.png"]];
-            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"teacher.png"]];
-        }
-    }
-
-
-    
-
+//
+//    if (self.currentTask.status.integerValue == 1) {
+//        NSLog(@"在园中模式");
+//        if (self.exceptArray.count == 0) {
+//
+//            [self.customNavigationView safeStyleWithName:@"在園中"];
+//        }else{
+//
+//            [self showAlertAction];
+//
+//            [self.customNavigationView dangerStyleWithName:@"在園中"];
+//
+//        }
+//    }
+//    if (self.currentTask.status.integerValue == 2) {
+//        NSLog(@"散步模式");
+//
+//        if (self.exceptArray.count == 0) {
+//
+//            self.customNavigationView.titleLabel.text = @"散歩中（経路）";
+//            self.customNavigationView.stateLabel.text = @"安全";
+//            self.customNavigationView.stateLabel.textColor = BWColor(0, 176, 107, 1);
+//            [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_safe.png"]];
+//
+//            self.customNavigationView.updateTimeLabel.text = @"最終更新：20秒";
+//            self.customNavigationView.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
+//
+//            self.customNavigationView.userNameLabel.text = @"ひまわり";
+//            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
+//            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"teacher.png"]];
+//        }else{
+//
+//            [self showAlertAction];
+//
+//            [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_danger.png"]];
+//            self.customNavigationView.titleLabel.text = @"散歩中（経路）";
+//            self.customNavigationView.stateLabel.text = @"危险";
+//            self.customNavigationView.stateLabel.textColor = BWColor(164, 0, 0, 1);
+//            self.customNavigationView.updateTimeLabel.text = @"最終更新：20秒";
+//            self.customNavigationView.updateTimeLabel.textColor = BWColor(164, 0, 0, 1);
+//
+//            self.customNavigationView.userNameLabel.text = @"ひまわり";
+//            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"dangerNav.png"]];
+//            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"teacher.png"]];
+//        }
+//    }
+//    if (self.currentTask.status.integerValue == 3) {
+//        NSLog(@"目的地模式");
+//
+//        if (self.exceptArray.count == 0) {
+//
+//            self.customNavigationView.titleLabel.text = @"散歩中（目的地）";
+//            self.customNavigationView.stateLabel.text = @"安全";
+//            self.customNavigationView.stateLabel.textColor = BWColor(0, 176, 107, 1);
+//            [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_safe.png"]];
+//
+//            self.customNavigationView.updateTimeLabel.text = @"最終更新：20秒";
+//            self.customNavigationView.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
+//
+//            self.customNavigationView.userNameLabel.text = @"ひまわり";
+//            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
+//            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"teacher.png"]];
+//        }else{
+//
+//            [self showAlertAction];
+//
+//
+//            [self.customNavigationView.backgroundImageView setImage:[UIImage imageNamed:@"navBG_danger.png"]];
+//            self.customNavigationView.titleLabel.text = @"散歩中（目的地）";
+//            self.customNavigationView.stateLabel.text = @"危险";
+//            self.customNavigationView.stateLabel.textColor = BWColor(164, 0, 0, 1);
+//            self.customNavigationView.updateTimeLabel.text = @"最終更新：20秒";
+//            self.customNavigationView.updateTimeLabel.textColor = BWColor(164, 0, 0, 1);
+//
+//            self.customNavigationView.userNameLabel.text = @"ひまわり";
+//            [self.customNavigationView.stateImageView setImage:[UIImage imageNamed:@"dangerNav.png"]];
+//            [self.customNavigationView.userImageView setImage:[UIImage imageNamed:@"teacher.png"]];
+//        }
+//    }
+//
+//
+//
+//
 }
 
 //画围栏
@@ -835,6 +843,11 @@
     self.walkMenuTableView.safeList = self.nomalArray;
     self.walkMenuTableView.exceptList = self.exceptArray;
     [self.walkMenuTableView reloadData];
+    
+    self.sleepMenuTableView.safeList = self.nomalArray;
+    self.sleepMenuTableView.exceptList = self.exceptArray;
+    [self.sleepMenuTableView reloadData];
+    
 }
 
 
@@ -1124,6 +1137,7 @@
 {
     if (!_sleepMainView) {
         _sleepMainView = [[HSleepMainView alloc] init];
+        _sleepMainView.hidden = YES;
     }
     return _sleepMainView;
 }

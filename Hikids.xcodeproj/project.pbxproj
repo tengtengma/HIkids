@@ -63,6 +63,7 @@
 		9E25EB40295D666900FDAF78 /* HHomeMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E25EB3F295D666900FDAF78 /* HHomeMenuView.m */; };
 		9E25EB43295D7F0400FDAF78 /* HStudentStateTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E25EB42295D7F0400FDAF78 /* HStudentStateTopView.m */; };
 		9E25EB46295D8CE900FDAF78 /* HStudentStateBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E25EB45295D8CE900FDAF78 /* HStudentStateBottomView.m */; };
+		9E29CC34296456D4009DF7FD /* HSleepMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E29CC33296456D4009DF7FD /* HSleepMenuView.m */; };
 		9E2DF80028B2209E00B0C9DA /* BWLoginReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF7F328B2209E00B0C9DA /* BWLoginReq.m */; };
 		9E2DF80128B2209E00B0C9DA /* BWBaseReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF7F428B2209E00B0C9DA /* BWBaseReq.m */; };
 		9E2DF80228B2209E00B0C9DA /* BWNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF7F628B2209E00B0C9DA /* BWNetManager.m */; };
@@ -255,6 +256,8 @@
 		9E25EB42295D7F0400FDAF78 /* HStudentStateTopView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HStudentStateTopView.m; sourceTree = "<group>"; };
 		9E25EB44295D8CE900FDAF78 /* HStudentStateBottomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HStudentStateBottomView.h; sourceTree = "<group>"; };
 		9E25EB45295D8CE900FDAF78 /* HStudentStateBottomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HStudentStateBottomView.m; sourceTree = "<group>"; };
+		9E29CC32296456D4009DF7FD /* HSleepMenuView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HSleepMenuView.h; sourceTree = "<group>"; };
+		9E29CC33296456D4009DF7FD /* HSleepMenuView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HSleepMenuView.m; sourceTree = "<group>"; };
 		9E2DF7F228B2209E00B0C9DA /* BWBaseReq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWBaseReq.h; sourceTree = "<group>"; };
 		9E2DF7F328B2209E00B0C9DA /* BWLoginReq.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWLoginReq.m; sourceTree = "<group>"; };
 		9E2DF7F428B2209E00B0C9DA /* BWBaseReq.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWBaseReq.m; sourceTree = "<group>"; };
@@ -673,6 +676,8 @@
 				9E25EB3F295D666900FDAF78 /* HHomeMenuView.m */,
 				9E4C5F40295EC5D300E59C00 /* HWalkMenuView.h */,
 				9E4C5F41295EC5D300E59C00 /* HWalkMenuView.m */,
+				9E29CC32296456D4009DF7FD /* HSleepMenuView.h */,
+				9E29CC33296456D4009DF7FD /* HSleepMenuView.m */,
 				9E51FDCE29640B8100EEC6EC /* SmallCardView */,
 			);
 			path = Views;
@@ -1231,6 +1236,7 @@
 				9E17D1D428EE72AD005FA5A9 /* HStudent.m in Sources */,
 				9E2DF83628B223AD00B0C9DA /* HRootVC.m in Sources */,
 				9E17D1C728EDAB03005FA5A9 /* BWGetDestnationResp.m in Sources */,
+				9E29CC34296456D4009DF7FD /* HSleepMenuView.m in Sources */,
 				9EDF52582903D51F0066BFDC /* HStudentFooterView.m in Sources */,
 				9E17D1F128F005E1005FA5A9 /* BWDestnationInfoResp.m in Sources */,
 				9E25EB3C295D64A000FDAF78 /* HBaseMenuView.m in Sources */,

@@ -9,7 +9,13 @@
 #import "HLoginVC.h"
 
 @interface HCustomNavigationView()
-
+@property (nonatomic, strong) UIImageView *backgroundImageView;
+@property (nonatomic, strong) UIImageView *stateImageView;
+@property (nonatomic, strong) UIImageView *userImageView;
+@property (nonatomic, strong) UILabel *userNameLabel;
+@property (nonatomic, strong) UILabel *stateLabel;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UILabel *updateTimeLabel;
 
 @end
 
@@ -84,6 +90,32 @@
     
     self.userNameLabel.text = @"--";
     [self.backgroundImageView setImage:[UIImage imageNamed:@"title_back.png"]];
+
+}
+- (void)safeStyleWithName:(NSString *)typeName
+{
+    self.titleLabel.text = typeName;
+    self.stateLabel.text = @"安全";
+    self.stateLabel.textColor = BWColor(0, 176, 107, 1);
+    self.updateTimeLabel.text = @"最終更新：20秒";
+    self.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
+    self.userNameLabel.text = @"ひまわり";
+    [self.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
+    [self.userImageView setImage:[UIImage imageNamed:@"teacher.png"]];
+    [self.backgroundImageView setImage:[UIImage imageNamed:@"navBG_safe.png"]];
+
+}
+- (void)dangerStyleWithName:(NSString *)typeName
+{
+    self.titleLabel.text = typeName;
+    self.stateLabel.text = @"危险";
+    self.stateLabel.textColor = BWColor(164, 0, 0, 1);
+    self.updateTimeLabel.text = @"最終更新：20秒";
+    self.updateTimeLabel.textColor = BWColor(164, 0, 0, 1);
+    self.userNameLabel.text = @"ひまわり";
+    [self.stateImageView setImage:[UIImage imageNamed:@"dangerNav.png"]];
+    [self.userImageView setImage:[UIImage imageNamed:@"teacher.png"]];
+    [self.backgroundImageView setImage:[UIImage imageNamed:@"navBG_danger.png"]];
 
 }
 - (void)loginOutAction:(UITapGestureRecognizer *)tap
