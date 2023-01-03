@@ -81,6 +81,7 @@
 		9E42E69828D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E42E69528D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		9E42E69928D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E42E69628D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.m */; };
 		9E4C5F42295EC5D300E59C00 /* HWalkMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4C5F41295EC5D300E59C00 /* HWalkMenuView.m */; };
+		9E51FDD329640D8900EEC6EC /* HSleepMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E51FDD229640D8900EEC6EC /* HSleepMainView.m */; };
 		9E8344B828C7912C00AB9D83 /* BWCheckTokenReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */; };
 		9E8344BB28C7913E00AB9D83 /* BWCheckTokenResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344BA28C7913E00AB9D83 /* BWCheckTokenResp.m */; };
 		9E99397128F7B7B100119CA7 /* BWAddTaskReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E99397028F7B7B100119CA7 /* BWAddTaskReq.m */; };
@@ -295,6 +296,8 @@
 		9E42E69728D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
 		9E4C5F40295EC5D300E59C00 /* HWalkMenuView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWalkMenuView.h; sourceTree = "<group>"; };
 		9E4C5F41295EC5D300E59C00 /* HWalkMenuView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWalkMenuView.m; sourceTree = "<group>"; };
+		9E51FDD129640D8900EEC6EC /* HSleepMainView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HSleepMainView.h; sourceTree = "<group>"; };
+		9E51FDD229640D8900EEC6EC /* HSleepMainView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HSleepMainView.m; sourceTree = "<group>"; };
 		9E8344B628C7912C00AB9D83 /* BWCheckTokenReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWCheckTokenReq.h; sourceTree = "<group>"; };
 		9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWCheckTokenReq.m; sourceTree = "<group>"; };
 		9E8344B928C7913E00AB9D83 /* BWCheckTokenResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWCheckTokenResp.h; sourceTree = "<group>"; };
@@ -581,7 +584,6 @@
 			children = (
 				9E25EB39295D647C00FDAF78 /* Views */,
 				9E17D1AB28ED3880005FA5A9 /* Controllers */,
-				9E1F21A828E1721600C5041B /* UI */,
 			);
 			path = MenuVC;
 			sourceTree = "<group>";
@@ -653,6 +655,7 @@
 		9E1F21C028E196F000C5041B /* HomeMapVC */ = {
 			isa = PBXGroup;
 			children = (
+				9E1F21A728E1720C00C5041B /* MenuVC */,
 				9E2DF84128B2596600B0C9DA /* HMapVC.h */,
 				9E2DF84228B2596600B0C9DA /* HMapVC.m */,
 				9E25EB3D295D664400FDAF78 /* Views */,
@@ -663,10 +666,14 @@
 		9E25EB39295D647C00FDAF78 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9E1F21B428E17FEA00C5041B /* MenuUI */,
 				9E25EB3A295D64A000FDAF78 /* HBaseMenuView.h */,
 				9E25EB3B295D64A000FDAF78 /* HBaseMenuView.m */,
-				9E17D19B28EACD26005FA5A9 /* HSmallCardView.h */,
-				9E17D19C28EACD26005FA5A9 /* HSmallCardView.m */,
+				9E25EB3E295D666900FDAF78 /* HHomeMenuView.h */,
+				9E25EB3F295D666900FDAF78 /* HHomeMenuView.m */,
+				9E4C5F40295EC5D300E59C00 /* HWalkMenuView.h */,
+				9E4C5F41295EC5D300E59C00 /* HWalkMenuView.m */,
+				9E51FDCE29640B8100EEC6EC /* SmallCardView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -674,11 +681,8 @@
 		9E25EB3D295D664400FDAF78 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				9E1F21B428E17FEA00C5041B /* MenuUI */,
-				9E25EB3E295D666900FDAF78 /* HHomeMenuView.h */,
-				9E25EB3F295D666900FDAF78 /* HHomeMenuView.m */,
-				9E4C5F40295EC5D300E59C00 /* HWalkMenuView.h */,
-				9E4C5F41295EC5D300E59C00 /* HWalkMenuView.m */,
+				9E51FDD129640D8900EEC6EC /* HSleepMainView.h */,
+				9E51FDD229640D8900EEC6EC /* HSleepMainView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -812,7 +816,6 @@
 				9E2DF80C28B221F500B0C9DA /* BaseNavigationVC.m */,
 				9E2DF83428B223AD00B0C9DA /* HRootVC.h */,
 				9E2DF83528B223AD00B0C9DA /* HRootVC.m */,
-				9E1F21A728E1720C00C5041B /* MenuVC */,
 			);
 			path = BaseVC;
 			sourceTree = "<group>";
@@ -886,6 +889,16 @@
 				9EDF52572903D51F0066BFDC /* HStudentFooterView.m */,
 			);
 			path = HStudentStateView;
+			sourceTree = "<group>";
+		};
+		9E51FDCE29640B8100EEC6EC /* SmallCardView */ = {
+			isa = PBXGroup;
+			children = (
+				9E1F21A828E1721600C5041B /* UI */,
+				9E17D19B28EACD26005FA5A9 /* HSmallCardView.h */,
+				9E17D19C28EACD26005FA5A9 /* HSmallCardView.m */,
+			);
+			path = SmallCardView;
 			sourceTree = "<group>";
 		};
 		9EC72A3228D84FE000494A74 /* View */ = {
@@ -1245,6 +1258,7 @@
 				9EC72A3128D8394F00494A74 /* MBProgressHUD+ShowMessage.m in Sources */,
 				9E2DF81F28B2225500B0C9DA /* BWFileManager.m in Sources */,
 				9EDF5242290029C20066BFDC /* BWChangeTaskStateReq.m in Sources */,
+				9E51FDD329640D8900EEC6EC /* HSleepMainView.m in Sources */,
 				9E25EB43295D7F0400FDAF78 /* HStudentStateTopView.m in Sources */,
 				9E2DF80A28B2219300B0C9DA /* BaseVC.m in Sources */,
 				9E8344BB28C7913E00AB9D83 /* BWCheckTokenResp.m in Sources */,

@@ -35,6 +35,8 @@
 #import "HHomeMenuView.h"
 #import "HWalkMenuView.h"
 
+#import "HSleepMainView.h"
+
 
 
 
@@ -42,7 +44,9 @@
 //@property (nonatomic,strong) HMenuHomeVC *menuHomeVC;
 @property (nonatomic,strong) HWalkMenuVC *menuWalkVC; //选择散步弹出的页面
 @property (nonatomic,strong) HSleepMenuVC *menuSleepVC;//选择午睡弹出的页面
-@property (nonatomic,strong) GMSMapView *mapView;
+@property (nonatomic,strong) GMSMapView *mapView;//谷歌地图
+@property (nonatomic,strong) GMSMarker *marker;//大头针
+@property (nonatomic,strong) GMSPlacesClient * placesClient;//可以获取某个地方的信息
 @property (nonatomic,strong) CLLocationManager *locationManager;
 @property (nonatomic,assign) CLLocationCoordinate2D coordinate2D;
 @property (nonatomic,strong) NSArray *exceptArray;
@@ -51,8 +55,6 @@
 @property (nonatomic,assign) BOOL isDrawFence;  //是否画围栏 防止重复画
 @property (nonatomic,assign) BOOL isInGard;//在院内
 @property (nonatomic,assign) BOOL isInDest;//在目的地
-@property (nonatomic,strong) GMSMarker *marker;//大头针
-@property (nonatomic,strong) GMSPlacesClient * placesClient;//可以获取某个地方的信息
 @property (nonatomic,strong) HLocation *fenceLocation;
 @property (nonatomic,strong) CLLocation *gpsLocation;
 @property (nonatomic,strong) NSTimer *timer;
@@ -65,6 +67,8 @@
 @property (nonatomic,assign) BOOL isAlert; //只弹窗一次 仅演示使用
 @property (nonatomic,strong) HHomeMenuView *homeMenuTableView; //首页底部菜单
 @property (nonatomic,strong) HWalkMenuView *walkMenuTableView; //散步底部菜单
+
+@property (nonatomic,strong) HSleepMainView *sleepMainView;  //开始午睡时展示
 
 
 @end
@@ -100,27 +104,20 @@
     
 //    self.timer = [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(startGetStudentLocationRequest) userInfo:nil repeats:YES];
         
-        
-    [self.view addSubview:self.mapView];
-    
-    [self.view addSubview:self.customNavigationView];
-    [self.customNavigationView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view);
-        make.left.equalTo(self.view);
-        make.width.equalTo(self.view);
-        make.height.mas_equalTo(PAaptation_y(156));
-    }];
-
-
 //    //获取当前散步的任务情况
 //    [self getTaskRequest];
 //
     //回调的监控
 //    [self modeChangeBlock];
 //
-//    //设置导航栏信息
-    [self.customNavigationView defautInfomation];
     
+    //设置地图
+    [self createMapView];
+    
+    //创建导航
+    [self createNavigationView];
+    //设置导航栏信息
+    [self.customNavigationView defautInfomation];
     
     //设置首页底部菜单
     [self setupHomeMenu];
@@ -130,10 +127,24 @@
     //设置小朋友详情页
     [self setupStudentInfoView];
     
-    
     //加载假数据小朋友的
     [self reloadData];
 
+}
+- (void)createNavigationView
+{
+    [self.view addSubview:self.customNavigationView];
+    [self.customNavigationView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view);
+        make.left.equalTo(self.view);
+        make.width.equalTo(self.view);
+        make.height.mas_equalTo(PAaptation_y(156));
+    }];
+}
+- (void)createMapView
+{
+    [self.view addSubview:self.mapView];
+    
 }
 - (void)setupHomeMenu
 {
@@ -154,7 +165,7 @@
    
     //开始午睡
     weakSelf.menuSleepVC.startSleepBlock = ^{
-        
+        [weakSelf startSleepModel];
     };
     
     //开始散步
@@ -162,6 +173,8 @@
         [weakSelf startWalkMode];
     };
 }
+
+//设置散步菜单
 - (void)setupWalkMenu
 {
     //20为状态栏高度；tableview设置的大小要和view的大小一致
@@ -176,6 +189,7 @@
         [weakSelf endMode];
     };
 }
+//设置小朋友详情view
 - (void)setupStudentInfoView
 {
     //点击头像弹出小朋友详情
@@ -188,6 +202,16 @@
         [weakSelf hideStateInfoView];
 
     };
+}
+- (void)setupSleepMainView
+{
+    [self.view addSubview:self.sleepMainView];
+    [self.sleepMainView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view).offset(PAaptation_y(148));
+        make.left.equalTo(self.view);
+        make.width.equalTo(self.view);
+        make.height.mas_equalTo(self.view.frame.size.height - PAaptation_y(161));
+    }];
 }
 //获取当前任务状态
 - (void)getTaskRequest
@@ -324,6 +348,19 @@
     self.homeMenuTableView.hidden = NO;
     self.walkMenuTableView.hidden = YES;
 
+}
+//开始午睡模式
+- (void)startSleepModel
+{
+    [self.makerList removeAllObjects];
+    [self.mapView clear];
+    [self.mapView removeFromSuperview];
+    self.homeMenuTableView.hidden = YES;
+    self.walkMenuTableView.hidden = YES;
+    
+    [self setupSleepMainView];
+    
+    
 }
 
 //获取园区接口数据
@@ -1083,5 +1120,11 @@
     }
     return _customNavigationView;
 }
-
+- (HSleepMainView *)sleepMainView
+{
+    if (!_sleepMainView) {
+        _sleepMainView = [[HSleepMainView alloc] init];
+    }
+    return _sleepMainView;
+}
 @end
