@@ -85,6 +85,9 @@
 		9E51FDD329640D8900EEC6EC /* HSleepMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E51FDD229640D8900EEC6EC /* HSleepMainView.m */; };
 		9E8344B828C7912C00AB9D83 /* BWCheckTokenReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */; };
 		9E8344BB28C7913E00AB9D83 /* BWCheckTokenResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344BA28C7913E00AB9D83 /* BWCheckTokenResp.m */; };
+		9E98FA5E29651519007194EF /* HSleepReportVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E98FA5D29651519007194EF /* HSleepReportVC.m */; };
+		9E98FA6229657B91007194EF /* print@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E98FA6029657B91007194EF /* print@3x.png */; };
+		9E98FA6329657B91007194EF /* print@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E98FA6129657B91007194EF /* print@2x.png */; };
 		9E99397128F7B7B100119CA7 /* BWAddTaskReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E99397028F7B7B100119CA7 /* BWAddTaskReq.m */; };
 		9E99397428F7B7BE00119CA7 /* BWAddTaskResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E99397328F7B7BE00119CA7 /* BWAddTaskResp.m */; };
 		9E99397728F7DD0D00119CA7 /* HWalkTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E99397628F7DD0D00119CA7 /* HWalkTask.m */; };
@@ -305,6 +308,10 @@
 		9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWCheckTokenReq.m; sourceTree = "<group>"; };
 		9E8344B928C7913E00AB9D83 /* BWCheckTokenResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWCheckTokenResp.h; sourceTree = "<group>"; };
 		9E8344BA28C7913E00AB9D83 /* BWCheckTokenResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWCheckTokenResp.m; sourceTree = "<group>"; };
+		9E98FA5C29651519007194EF /* HSleepReportVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HSleepReportVC.h; sourceTree = "<group>"; };
+		9E98FA5D29651519007194EF /* HSleepReportVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HSleepReportVC.m; sourceTree = "<group>"; };
+		9E98FA6029657B91007194EF /* print@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "print@3x.png"; sourceTree = "<group>"; };
+		9E98FA6129657B91007194EF /* print@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "print@2x.png"; sourceTree = "<group>"; };
 		9E99396F28F7B7B100119CA7 /* BWAddTaskReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWAddTaskReq.h; sourceTree = "<group>"; };
 		9E99397028F7B7B100119CA7 /* BWAddTaskReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWAddTaskReq.m; sourceTree = "<group>"; };
 		9E99397228F7B7BE00119CA7 /* BWAddTaskResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWAddTaskResp.h; sourceTree = "<group>"; };
@@ -705,6 +712,7 @@
 		9E2DF7ED28B2205100B0C9DA /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				9E98FA5B296514FA007194EF /* ReportVC */,
 				9E2DF80728B2214900B0C9DA /* BaseVC */,
 				9EDAFE4728C4CD9600FA9B5F /* LoginVC */,
 				9E1F21C028E196F000C5041B /* HomeMapVC */,
@@ -906,6 +914,25 @@
 			path = SmallCardView;
 			sourceTree = "<group>";
 		};
+		9E98FA5B296514FA007194EF /* ReportVC */ = {
+			isa = PBXGroup;
+			children = (
+				9E98FA5F29657B81007194EF /* UI */,
+				9E98FA5C29651519007194EF /* HSleepReportVC.h */,
+				9E98FA5D29651519007194EF /* HSleepReportVC.m */,
+			);
+			path = ReportVC;
+			sourceTree = "<group>";
+		};
+		9E98FA5F29657B81007194EF /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				9E98FA6129657B91007194EF /* print@2x.png */,
+				9E98FA6029657B91007194EF /* print@3x.png */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		9EC72A3228D84FE000494A74 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -1099,6 +1126,7 @@
 				9EDF524D2903CE6C0066BFDC /* dangerStatus@3x.png in Resources */,
 				9E17D1BE28ED68B5005FA5A9 /* default_mdd@2x.png in Resources */,
 				9EDF527F290404000066BFDC /* dangerNav@3x.png in Resources */,
+				9E98FA6229657B91007194EF /* print@3x.png in Resources */,
 				9EF21B2D28D985050075CFF0 /* help@3x.png in Resources */,
 				9E17D1DA28EE7B85005FA5A9 /* walkStart_no@3x.png in Resources */,
 				9EDF52992904332C0066BFDC /* Ellipse@3x.png in Resources */,
@@ -1118,6 +1146,7 @@
 				9EDF52682903DE0C0066BFDC /* backup@2x.png in Resources */,
 				9EDF526D2903DE0C0066BFDC /* gps@2x.png in Resources */,
 				9E1F21BC28E1805700C5041B /* btn_menu_walk@2x.png in Resources */,
+				9E98FA6329657B91007194EF /* print@2x.png in Resources */,
 				9EDF522F28FA9B480066BFDC /* naoling@2x.png in Resources */,
 				9EF21B3528D985050075CFF0 /* icon_mail@2x.png in Resources */,
 				9EDF5288290422E30066BFDC /* close@3x.png in Resources */,
@@ -1248,6 +1277,7 @@
 				9E2DF84328B2596600B0C9DA /* HMapVC.m in Sources */,
 				9E17D19D28EACD26005FA5A9 /* HSmallCardView.m in Sources */,
 				9E17D1E528EEAF4B005FA5A9 /* HTitleView.m in Sources */,
+				9E98FA5E29651519007194EF /* HSleepReportVC.m in Sources */,
 				9E17D1F728F03B6D005FA5A9 /* BWStudentLocationReq.m in Sources */,
 				9E0B547B28B21E660026CD86 /* main.m in Sources */,
 				9E17D1BA28ED6655005FA5A9 /* HMddView.m in Sources */,

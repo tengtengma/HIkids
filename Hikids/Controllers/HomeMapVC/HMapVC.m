@@ -38,6 +38,8 @@
 
 #import "HSleepMainView.h"
 
+#import "HSleepReportVC.h"
+
 
 
 
@@ -71,6 +73,8 @@
 @property (nonatomic,strong) HSleepMenuView *sleepMenuTableView; //午睡底部菜单
 
 @property (nonatomic,strong) HSleepMainView *sleepMainView;  //开始午睡时展示
+
+@property (nonatomic,strong) HSleepReportVC *sleepReportVC; //午睡报告
 
 
 @end
@@ -215,8 +219,9 @@
     [self.view addSubview:sleepMenuView];
     
     DefineWeakSelf;
+    //结束午睡 弹出午睡报告
     sleepMenuView.sleepEndBlock = ^{
-        [weakSelf startStayMode];
+        [weakSelf showSleepReport];
     };
 }
 //设置小朋友详情view
@@ -233,6 +238,7 @@
 
     };
 }
+//设置午睡内容页
 - (void)setupSleepMainView
 {
     [self.view addSubview:self.sleepMainView];
@@ -242,6 +248,17 @@
         make.width.equalTo(self.view);
         make.height.mas_equalTo(self.view.frame.size.height - PAaptation_y(161));
     }];
+}
+//展示午睡报告
+- (void)showSleepReport
+{
+    [self presentViewController:self.sleepReportVC animated:YES completion:nil];
+    
+    //午睡报告关闭后 回到在院内模式
+    DefineWeakSelf;
+    self.sleepReportVC.closeSleepReportBlock = ^{
+        //todo
+    };
 }
 //获取当前任务状态
 - (void)getTaskRequest
@@ -1140,5 +1157,13 @@
         _sleepMainView.hidden = YES;
     }
     return _sleepMainView;
+}
+- (HSleepReportVC *)sleepReportVC
+{
+    if (!_sleepReportVC) {
+        _sleepReportVC = [[HSleepReportVC alloc] init];
+        _sleepReportVC.modalPresentationStyle = UIModalPresentationFullScreen;
+    }
+    return _sleepReportVC;
 }
 @end
