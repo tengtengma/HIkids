@@ -35,7 +35,8 @@
         
         [self.bgView addSubview:self.contentView];
         [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(self.bgView);
+            make.top.equalTo(self.bgView).offset(PAaptation_y(139));
+            make.centerX.equalTo(self.bgView);
             make.width.mas_equalTo(PAdaptation_x(356));
             make.height.mas_equalTo(PAaptation_y(278));
         }];
