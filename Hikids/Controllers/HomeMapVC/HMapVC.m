@@ -39,14 +39,13 @@
 #import "HSleepMainView.h"
 
 #import "HSleepReportVC.h"
+#import "HWalkReportVC.h"
 
 
 
 
 @interface HMapVC ()<GMSMapViewDelegate,CLLocationManagerDelegate,UITableViewDelegate,UITableViewDataSource>
 //@property (nonatomic,strong) HMenuHomeVC *menuHomeVC;
-@property (nonatomic,strong) HWalkMenuVC *menuWalkVC; //选择散步弹出的页面
-@property (nonatomic,strong) HSleepMenuVC *menuSleepVC;//选择午睡弹出的页面
 @property (nonatomic,strong) GMSMapView *mapView;//谷歌地图
 @property (nonatomic,strong) GMSMarker *marker;//大头针
 @property (nonatomic,strong) GMSPlacesClient * placesClient;//可以获取某个地方的信息
@@ -75,6 +74,7 @@
 @property (nonatomic,strong) HSleepMainView *sleepMainView;  //开始午睡时展示
 
 @property (nonatomic,strong) HSleepReportVC *sleepReportVC; //午睡报告
+@property (nonatomic,strong) HWalkReportVC *walkReportVC; //散步报告
 
 
 @end
@@ -120,9 +120,6 @@
     //设置地图
     [self createMapView];
     
-    //设置午睡内容view
-    [self setupSleepMainView];
-    
     //创建导航
     [self createNavigationView];
     
@@ -132,15 +129,8 @@
     //测试使用 真实状况下 接口下调用了
     [self setupNavInfomation];
 
-    
     //设置首页底部菜单
     [self setupHomeMenu];
-    
-    //设置散步页底部菜单
-    [self setupWalkMenu];
-    
-    //设置午睡页底部菜单
-    [self setupSleepMenu];
     
 
     //设置小朋友详情页
@@ -175,54 +165,48 @@
     
     DefineWeakSelf;
     homeMenuView.showSleepMenu = ^{
-        [weakSelf presentViewController:weakSelf.menuSleepVC animated:YES completion:nil];
+        [weakSelf showSleepMenuVC];
 
     };
     homeMenuView.showWalkMenu = ^{
-        [weakSelf presentViewController:weakSelf.menuWalkVC animated:YES completion:nil];
+        [weakSelf showWalkMenuVC];
     };
 
-   
-    //开始午睡
-    weakSelf.menuSleepVC.startSleepBlock = ^{
-        [weakSelf startSleepModel];
-    };
-    
-    //开始散步
-    weakSelf.menuWalkVC.startWalkBlock = ^(HWalkTask * _Nonnull walkTask) {
-        [weakSelf startWalkMode];
-    };
 }
 
 //设置散步菜单
 - (void)setupWalkMenu
 {
     //20为状态栏高度；tableview设置的大小要和view的大小一致
-    HWalkMenuView *walkMenuView = [[HWalkMenuView alloc] initWithFrame:CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    walkMenuView.hidden = YES;
-    self.walkMenuTableView = walkMenuView;
-    [self.view addSubview:walkMenuView];
+    self.walkMenuTableView = [[HWalkMenuView alloc] initWithFrame:CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    [self.view addSubview:self.walkMenuTableView];
     
     DefineWeakSelf;
-    //结束散步
-    walkMenuView.walkEndBlock = ^{
-        [weakSelf endMode];
+    //结束散步 弹出散步报告
+    self.walkMenuTableView.walkEndBlock = ^{
+        [weakSelf showWalkReport];
     };
+    
+    self.walkMenuTableView.safeList = self.nomalArray;
+    self.walkMenuTableView.exceptList = self.exceptArray;
+    [self.walkMenuTableView reloadData];
 }
 //设置午睡菜单
 - (void)setupSleepMenu
 {
     //20为状态栏高度；tableview设置的大小要和view的大小一致
-    HSleepMenuView *sleepMenuView = [[HSleepMenuView alloc] initWithFrame:CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    sleepMenuView.hidden = YES;
-    self.sleepMenuTableView = sleepMenuView;
-    [self.view addSubview:sleepMenuView];
+    self.sleepMenuTableView = [[HSleepMenuView alloc] initWithFrame:CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    [self.view addSubview:self.sleepMenuTableView];
     
     DefineWeakSelf;
     //结束午睡 弹出午睡报告
-    sleepMenuView.sleepEndBlock = ^{
+    self.sleepMenuTableView.sleepEndBlock = ^{
         [weakSelf showSleepReport];
     };
+    
+    self.sleepMenuTableView.safeList = self.nomalArray;
+    self.sleepMenuTableView.exceptList = self.exceptArray;
+    [self.sleepMenuTableView reloadData];
 }
 //设置小朋友详情view
 - (void)setupStudentInfoView
@@ -249,6 +233,43 @@
         make.height.mas_equalTo(self.view.frame.size.height - PAaptation_y(161));
     }];
 }
+//展示午睡菜单
+- (void)showSleepMenuVC
+{
+    HSleepMenuVC *menuSleepVC = [[HSleepMenuVC alloc] init];
+    [self presentViewController:menuSleepVC animated:YES completion:nil];
+    
+    //点击开启午睡
+    DefineWeakSelf;
+    menuSleepVC.startSleepBlock = ^{
+        
+        //设置午睡内容view
+        [weakSelf setupSleepMainView];
+        //设置午睡页底部菜单
+        [weakSelf setupSleepMenu];
+        //开始午睡模式
+        [weakSelf startSleepMode];
+    };
+    
+    
+}
+//展示散步菜单
+- (void)showWalkMenuVC
+{
+    
+    HWalkMenuVC *menuWalkVC = [[HWalkMenuVC alloc] init];
+    [self presentViewController:menuWalkVC animated:YES completion:nil];
+
+    //点击开启散步
+    DefineWeakSelf;
+    menuWalkVC.startWalkBlock = ^(HWalkTask * _Nonnull walkTask) {
+        
+        //设置散步页底部菜单
+        [weakSelf setupWalkMenu];
+        
+        [weakSelf startWalkMode];
+    };
+}
 //展示午睡报告
 - (void)showSleepReport
 {
@@ -258,7 +279,29 @@
     DefineWeakSelf;
     self.sleepReportVC.closeSleepReportBlock = ^{
         //todo
+        
+        [weakSelf.sleepMainView removeFromSuperview];//移除午睡主页面
+        
+        [weakSelf.sleepMenuTableView removeFromSuperview];//移除午睡底部菜单
+        
+        [weakSelf startStayMode];
     };
+}
+//展示散步报告
+- (void)showWalkReport
+{
+    [self presentViewController:self.walkReportVC animated:YES completion:nil];
+    
+    //散步报告关闭后 回到在院内模式
+    DefineWeakSelf;
+    self.walkReportVC.closeWalkReportBlock = ^{
+        //todo
+                
+        [weakSelf.walkMenuTableView removeFromSuperview]; //移除散步底部菜单
+        
+        [weakSelf startStayMode];
+    };
+    
 }
 //获取当前任务状态
 - (void)getTaskRequest
@@ -327,33 +370,38 @@
 //开启园内模式
 - (void)startStayMode
 {
-    self.isDrawFence = YES;
+    self.isDrawFence = YES;                 //显示围栏
+    self.mapView.hidden = NO;               //展示地图
+    self.homeMenuTableView.hidden = NO;     //展示首页底部菜单
     
-    self.mapView.hidden = NO;
-    self.homeMenuTableView.hidden = NO;
-    
-    self.sleepMenuTableView.hidden = YES;
-    self.sleepMainView.hidden = YES;
-    
-    [self.mapView clear];
-    [self.makerList removeAllObjects];
+    [self.mapView clear];                   //清理地图标注
+    [self.makerList removeAllObjects];      //移除地图上的小朋友的点信息
 
-    [self getKinderRequest];
+    [self getKinderRequest];                //重新获取小朋友点的信息
+}
+//开始午睡模式
+- (void)startSleepMode
+{
+    [self.makerList removeAllObjects];
+    [self.mapView clear];
+    self.mapView.hidden = YES;
+    self.homeMenuTableView.hidden = YES;
+    
+    [self.locationManager stopUpdatingLocation];
+
 }
 //开启散步模式
 - (void)startWalkMode
 {
     self.isDrawFence = YES;
-    
     [self.makerList removeAllObjects];
-
     [self.mapView clear];
+    
+    self.homeMenuTableView.hidden = YES;
     
     //开启定位
     [self startLocation];
     
-    self.homeMenuTableView.hidden = YES;
-    self.walkMenuTableView.hidden = NO;
                 
 //    [self startDestRequest];
     
@@ -398,23 +446,8 @@
 
     [self.mapView clear];
     
-    self.homeMenuTableView.hidden = NO;
-    self.walkMenuTableView.hidden = YES;
+}
 
-}
-//开始午睡模式
-- (void)startSleepModel
-{
-    [self.makerList removeAllObjects];
-    [self.mapView clear];
-    self.mapView.hidden = YES;
-    self.homeMenuTableView.hidden = YES;
-    self.walkMenuTableView.hidden = YES;
-    [self.locationManager stopUpdatingLocation];
-    
-    self.sleepMenuTableView.hidden = NO;
-    self.sleepMainView.hidden = NO;
-}
 
 //获取园区接口数据
 - (void)getKinderRequest
@@ -857,13 +890,9 @@
     self.homeMenuTableView.exceptList = self.exceptArray;
     [self.homeMenuTableView reloadData];
     
-    self.walkMenuTableView.safeList = self.nomalArray;
-    self.walkMenuTableView.exceptList = self.exceptArray;
-    [self.walkMenuTableView reloadData];
+
     
-    self.sleepMenuTableView.safeList = self.nomalArray;
-    self.sleepMenuTableView.exceptList = self.exceptArray;
-    [self.sleepMenuTableView reloadData];
+
     
 }
 
@@ -1098,21 +1127,6 @@
     return _mapView;
 }
 
-- (HWalkMenuVC *)menuWalkVC
-{
-    if (!_menuWalkVC) {
-        _menuWalkVC = [[HWalkMenuVC alloc] init];
-
-    }
-    return _menuWalkVC;
-}
-- (HSleepMenuVC *)menuSleepVC
-{
-    if (!_menuSleepVC) {
-        _menuSleepVC = [[HSleepMenuVC alloc] init];
-    }
-    return _menuSleepVC;
-}
 
 - (HStudentStateInfoView *)stateInfoView
 {
@@ -1154,7 +1168,7 @@
 {
     if (!_sleepMainView) {
         _sleepMainView = [[HSleepMainView alloc] init];
-        _sleepMainView.hidden = YES;
+        
     }
     return _sleepMainView;
 }
@@ -1162,8 +1176,16 @@
 {
     if (!_sleepReportVC) {
         _sleepReportVC = [[HSleepReportVC alloc] init];
-        _sleepReportVC.modalPresentationStyle = UIModalPresentationFullScreen;
+//        _sleepReportVC.modalPresentationStyle = UIModalPresentationFullScreen;
     }
     return _sleepReportVC;
+}
+- (HWalkReportVC *)walkReportVC
+{
+    if (!_walkReportVC) {
+        _walkReportVC = [[HWalkReportVC alloc] init];
+//        _walkReportVC.modalPresentationStyle = UIModalPresentationFullScreen;
+    }
+    return _walkReportVC;
 }
 @end

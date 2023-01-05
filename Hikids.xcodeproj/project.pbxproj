@@ -152,6 +152,7 @@
 		9EDF529D29055E160066BFDC /* battery@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EDF529B29055E160066BFDC /* battery@3x.png */; };
 		9EDF52A0290589660066BFDC /* location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EDF529E290589650066BFDC /* location@2x.png */; };
 		9EDF52A1290589660066BFDC /* location@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EDF529F290589650066BFDC /* location@3x.png */; };
+		9EEC4787296652CA0031CE9F /* HWalkReportVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EEC4786296652CA0031CE9F /* HWalkReportVC.m */; };
 		9EF21B2A28D985050075CFF0 /* btn_login_unavailable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EF21B1828D985050075CFF0 /* btn_login_unavailable@2x.png */; };
 		9EF21B2B28D985050075CFF0 /* btn_login_unavailable@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EF21B1928D985050075CFF0 /* btn_login_unavailable@3x.png */; };
 		9EF21B2C28D985050075CFF0 /* help@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EF21B1A28D985050075CFF0 /* help@2x.png */; };
@@ -398,6 +399,8 @@
 		9EDF529B29055E160066BFDC /* battery@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "battery@3x.png"; sourceTree = "<group>"; };
 		9EDF529E290589650066BFDC /* location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location@2x.png"; sourceTree = "<group>"; };
 		9EDF529F290589650066BFDC /* location@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "location@3x.png"; sourceTree = "<group>"; };
+		9EEC4785296652CA0031CE9F /* HWalkReportVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWalkReportVC.h; sourceTree = "<group>"; };
+		9EEC4786296652CA0031CE9F /* HWalkReportVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWalkReportVC.m; sourceTree = "<group>"; };
 		9EF21B1828D985050075CFF0 /* btn_login_unavailable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_login_unavailable@2x.png"; sourceTree = "<group>"; };
 		9EF21B1928D985050075CFF0 /* btn_login_unavailable@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_login_unavailable@3x.png"; sourceTree = "<group>"; };
 		9EF21B1A28D985050075CFF0 /* help@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "help@2x.png"; sourceTree = "<group>"; };
@@ -920,6 +923,8 @@
 				9E98FA5F29657B81007194EF /* UI */,
 				9E98FA5C29651519007194EF /* HSleepReportVC.h */,
 				9E98FA5D29651519007194EF /* HSleepReportVC.m */,
+				9EEC4785296652CA0031CE9F /* HWalkReportVC.h */,
+				9EEC4786296652CA0031CE9F /* HWalkReportVC.m */,
 			);
 			path = ReportVC;
 			sourceTree = "<group>";
@@ -1293,6 +1298,7 @@
 				9E2DF81E28B2225500B0C9DA /* BWTools.m in Sources */,
 				9EC72A3128D8394F00494A74 /* MBProgressHUD+ShowMessage.m in Sources */,
 				9E2DF81F28B2225500B0C9DA /* BWFileManager.m in Sources */,
+				9EEC4787296652CA0031CE9F /* HWalkReportVC.m in Sources */,
 				9EDF5242290029C20066BFDC /* BWChangeTaskStateReq.m in Sources */,
 				9E51FDD329640D8900EEC6EC /* HSleepMainView.m in Sources */,
 				9E25EB43295D7F0400FDAF78 /* HStudentStateTopView.m in Sources */,
