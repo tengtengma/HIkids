@@ -40,7 +40,7 @@
 
 #import "HSleepReportVC.h"
 #import "HWalkReportVC.h"
-
+#import "HSettingVC.h"
 
 
 
@@ -72,7 +72,7 @@
 @property (nonatomic,strong) HSleepMenuView *sleepMenuTableView; //午睡底部菜单
 
 @property (nonatomic,strong) HSleepMainView *sleepMainView;  //开始午睡时展示
-
+@property (nonatomic,strong) HSettingVC *settingVC;     //设置页面
 
 
 
@@ -147,6 +147,11 @@
         make.width.equalTo(self.view);
         make.height.mas_equalTo(PAaptation_y(156));
     }];
+    
+    DefineWeakSelf;
+    self.customNavigationView.clickHeader = ^{
+        [weakSelf presentViewController:weakSelf.settingVC animated:YES completion:nil];
+    };
     
 }
 - (void)createMapView
@@ -1169,5 +1174,12 @@
     }
     return _sleepMainView;
 }
-
+- (HSettingVC *)settingVC
+{
+    if (!_settingVC) {
+        _settingVC = [[HSettingVC alloc] init];
+        _settingVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    }
+    return _settingVC;
+}
 @end

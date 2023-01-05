@@ -9,7 +9,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^clickHeaderBlock)(void);
+
 @interface HCustomNavigationView : UIView
+@property (nonatomic, copy) clickHeaderBlock clickHeader;
 
 - (instancetype)init;
 
