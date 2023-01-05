@@ -28,7 +28,7 @@
         }
         
         //tableview下移
-        self.contentInset = UIEdgeInsetsMake(650, 0, 0, 0);
+        self.contentInset = UIEdgeInsetsMake(PAaptation_y(600), 0, 0, 0);
     //    tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.001)];//去掉头部空白
         self.backgroundColor = [UIColor clearColor];
         self.showsVerticalScrollIndicator = NO;
