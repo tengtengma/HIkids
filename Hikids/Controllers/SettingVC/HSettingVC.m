@@ -8,6 +8,7 @@
 #import "HSettingVC.h"
 #import "HSleepOrWalkSettingView.h"
 #import "HAccountVC.h"
+#import "HInfomationVC.h"
 
 @interface HSettingVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
@@ -243,7 +244,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        
+        HInfomationVC *infomationVC = [[HInfomationVC alloc] init];
+        [self presentViewController:infomationVC animated:YES completion:nil];
     }
     if (indexPath.section == 1) {
         if (indexPath.row == 0) {
