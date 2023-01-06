@@ -174,6 +174,10 @@
     homeMenuView.showWalkMenu = ^{
         [weakSelf showWalkMenuVC];
     };
+    homeMenuView.openReport = ^{
+        NSLog(@"1111111");
+    };
+    
 
 }
 
@@ -188,6 +192,9 @@
     //结束散步 弹出散步报告
     self.walkMenuTableView.walkEndBlock = ^{
         [weakSelf showWalkReport];
+    };
+    self.walkMenuTableView.openReport = ^{
+        NSLog(@"walk");
     };
     
     self.walkMenuTableView.safeList = self.nomalArray;
@@ -205,6 +212,9 @@
     //结束午睡 弹出午睡报告
     self.sleepMenuTableView.sleepEndBlock = ^{
         [weakSelf showSleepReport];
+    };
+    self.sleepMenuTableView.openReport = ^{
+        NSLog(@"sleep");
     };
     
     self.sleepMenuTableView.safeList = self.nomalArray;
@@ -601,8 +611,8 @@
         }
         marker.title = student.name;
         marker.iconView = ellipseView;
-        marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
         marker.userData = student;
+        marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
         marker.map = self.mapView;
         
         [self dealWithTaskStateChangeWithStudent:student withNomal:NO];

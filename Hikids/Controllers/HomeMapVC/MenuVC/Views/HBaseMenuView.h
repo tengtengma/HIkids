@@ -17,8 +17,11 @@ typedef enum _CellType
     CellType_Charge = 3
 }CellType;
 
+typedef void(^openReportBlock)(void);
+
 @interface HBaseMenuView : UITableView
 @property (nonatomic, assign) CellType type;
+@property (nonatomic, copy) openReportBlock openReport;
 
 - (instancetype)initWithFrame:(CGRect)frame;
 @end

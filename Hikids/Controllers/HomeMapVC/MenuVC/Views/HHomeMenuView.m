@@ -24,6 +24,7 @@
         
         self.delegate = self;
         self.dataSource = self;
+        
     }
     return self;
 }

@@ -6,7 +6,7 @@
 //
 
 #import "HBaseMenuView.h"
-
+#import "HSmallCardView.h"
 
 
 @interface HBaseMenuView()
@@ -41,18 +41,32 @@
     
 }
 
-
 - (void)createHeaderView
 {
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, PAaptation_y(32))];
+    
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, PAaptation_y(121))];
     self.tableHeaderView = headerView;
+    
+    HSmallCardView *smallView = [[HSmallCardView alloc] initWithFrame:CGRectMake(PAdaptation_x(10),0 , PAdaptation_x(115), PAaptation_y(79))];
+    
+    [headerView addSubview:smallView];
+    
+    DefineWeakSelf;
+    smallView.clickBlock = ^{
+        if (weakSelf.openReport) {
+            weakSelf.openReport();
+        }
+    };
 
     UIImageView *topView = [[UIImageView alloc] init];
     [topView setImage:[UIImage imageNamed:@"menu_header.png"]];
     [headerView addSubview:topView];
     
     [topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(headerView);
+        make.top.equalTo(headerView).offset(PAaptation_y(89));
+        make.left.equalTo(headerView);
+        make.width.equalTo(headerView);
+        make.height.mas_equalTo(PAaptation_y(32));
     }];
     
     UIImageView *lineView = [[UIImageView alloc] init];
@@ -60,7 +74,7 @@
     [headerView addSubview:lineView];
     
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(headerView);
+        make.center.equalTo(topView);
         make.width.mas_equalTo(PAdaptation_x(64));
         make.height.mas_equalTo(PAaptation_y(6));
     }];
