@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UIImageView *topView;
 @property (nonatomic, strong) UIButton *backBtn;
 @property (nonatomic, strong) UIView *titleView;
+@property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *timeDesLabel;
 @property (nonatomic, strong) UILabel *yearLabel;
@@ -103,6 +104,14 @@
     [self.yearLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.timeDesLabel.mas_bottom).offset(PAaptation_y(6));
         make.left.equalTo(self.timeDesLabel);
+    }];
+    
+    [self.scrollView addSubview:self.imageView];
+    [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.yearLabel);
+        make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(25));
+        make.width.mas_equalTo(PAdaptation_x(50));
+        make.height.mas_equalTo(PAaptation_y(50));
     }];
     
     [self.scrollView addSubview:self.timeLabel];
@@ -453,5 +462,13 @@
         [_printBtn setImage:[UIImage imageNamed:@"print.png"] forState:UIControlStateNormal];
     }
     return _printBtn;
+}
+- (UIImageView *)imageView
+{
+    if (!_imageView) {
+        _imageView = [[UIImageView alloc] init];
+        [_imageView setImage:[UIImage imageNamed:@"moon.png"]];
+    }
+    return _imageView;
 }
 @end

@@ -38,6 +38,9 @@
 
 @property (nonatomic, strong) UIButton *printBtn;
 
+@property (nonatomic, strong) UIImageView *imageBgView;
+@property (nonatomic, strong) UIImageView *rightImageView;
+
 @end
 
 @implementation HWalkReportVC
@@ -93,29 +96,62 @@
 }
 - (void)contentView
 {
-    [self.scrollView addSubview:self.timeDesLabel];
-    [self.timeDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleView.mas_bottom);
-        make.left.equalTo(self.titleView).offset(PAdaptation_x(25));
-    }];
     
-    [self.scrollView addSubview:self.yearLabel];
-    [self.yearLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.timeDesLabel.mas_bottom).offset(PAaptation_y(6));
-        make.left.equalTo(self.timeDesLabel);
-    }];
+    if ([self.source isEqualToString:@"1"]) {
+        
+        [self createDateView];
+        
+        
+        [self.scrollView addSubview:self.destDesLabel];
+        [self.destDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.imageBgView.mas_bottom).offset(PAaptation_y(24));
+            make.left.equalTo(self.view).offset(PAdaptation_x(25));
+        }];
+        
+        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(580));
+
+        
+    }else{
+        [self.scrollView addSubview:self.timeDesLabel];
+        [self.timeDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.titleView.mas_bottom);
+            make.left.equalTo(self.titleView).offset(PAdaptation_x(25));
+        }];
+        
+        [self.scrollView addSubview:self.yearLabel];
+        [self.yearLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.timeDesLabel.mas_bottom).offset(PAaptation_y(6));
+            make.left.equalTo(self.timeDesLabel);
+        }];
+        
+        [self.scrollView addSubview:self.timeLabel];
+        [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.yearLabel.mas_bottom);
+            make.left.equalTo(self.yearLabel);
+        }];
+        
+        [self.scrollView addSubview:self.destDesLabel];
+        [self.destDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.timeLabel.mas_bottom).offset(PAaptation_y(16));
+            make.left.equalTo(self.timeLabel);
+        }];
+        
+        [self.scrollView addSubview:self.rightImageView];
+        [self.rightImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.titleView.mas_bottom);
+            make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(15));
+            make.width.mas_equalTo(PAdaptation_x(50));
+            make.height.mas_equalTo(PAaptation_y(50));
+        }];
+        
+        
+        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(180));
+
+    }
     
-    [self.scrollView addSubview:self.timeLabel];
-    [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.yearLabel.mas_bottom);
-        make.left.equalTo(self.yearLabel);
-    }];
+
     
-    [self.scrollView addSubview:self.destDesLabel];
-    [self.destDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.timeLabel.mas_bottom).offset(PAaptation_y(16));
-        make.left.equalTo(self.timeLabel);
-    }];
+
     
     [self.scrollView addSubview:self.destLabel];
     [self.destLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -127,7 +163,7 @@
     [self.scrollView addSubview:self.distanceLabel];
     [self.distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.destLabel.mas_bottom).offset(PAaptation_y(2));
-        make.left.equalTo(self.timeLabel);
+        make.left.equalTo(self.destDesLabel);
     }];
     
     [self.scrollView addSubview:self.destImageView];
@@ -141,7 +177,7 @@
     [self.scrollView addSubview:self.groupDesLabel];
     [self.groupDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.distanceLabel.mas_bottom).offset(PAaptation_y(16));
-        make.left.equalTo(self.timeLabel);
+        make.left.equalTo(self.destDesLabel);
     }];
     
     [self.scrollView addSubview:self.groupLabel];
@@ -300,8 +336,162 @@
 
     };
     
-    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(180));
 
+}
+- (void)createDateView
+{
+    [self.scrollView addSubview:self.imageBgView];
+    [self.imageBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.titleView.mas_bottom);
+        make.left.equalTo(self.view).offset(PAdaptation_x(15));
+        make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(15));
+        make.height.mas_equalTo(PAaptation_y(350));
+    }];
+    
+    UILabel *yearLabel = [[UILabel alloc] init];
+    yearLabel.text = @"2022年7月21日";
+    yearLabel.textColor = [UIColor whiteColor];
+    yearLabel.font = [UIFont systemFontOfSize:20];
+    [self.imageBgView addSubview:yearLabel];
+    
+    [yearLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.imageBgView).offset(PAaptation_y(14));
+        make.left.equalTo(self.imageBgView).offset(PAdaptation_x(14));
+    }];
+    
+    UILabel *dateLabel = [[UILabel alloc] init];
+    dateLabel.text = @"14:33~15:26";
+    dateLabel.textColor = [UIColor whiteColor];
+    dateLabel.font = [UIFont boldSystemFontOfSize:32];
+    [self.imageBgView addSubview:dateLabel];
+    
+    [dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(yearLabel.mas_bottom);
+        make.left.equalTo(yearLabel);
+    }];
+    
+    [self.imageBgView addSubview:self.rightImageView];
+    [self.rightImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.imageBgView).offset(PAaptation_y(35));
+        make.right.equalTo(self.imageBgView.mas_right).offset(-PAdaptation_x(25));
+        make.width.mas_equalTo(PAdaptation_x(50));
+        make.height.mas_equalTo(PAaptation_y(50));
+    }];
+    
+    UIImageView *duigouView = [[UIImageView alloc] init];
+    [duigouView setImage:[UIImage imageNamed:@"ol_96_color.png"]];
+    [self.imageBgView addSubview:duigouView];
+    
+    [duigouView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(dateLabel.mas_bottom).offset(PAaptation_y(30));
+        make.centerX.equalTo(self.imageBgView);
+        make.width.mas_equalTo(PAdaptation_x(78));
+        make.height.mas_equalTo(PAaptation_y(78));
+    }];
+    
+    UILabel *locationDesLabel = [[UILabel alloc] init];
+    locationDesLabel.text = @"Hikidsで守りました。";
+    locationDesLabel.textColor = [UIColor whiteColor];
+    locationDesLabel.font = [UIFont boldSystemFontOfSize:20];
+    locationDesLabel.textAlignment = NSTextAlignmentCenter;
+    [self.imageBgView addSubview:locationDesLabel];
+    
+    [locationDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(duigouView.mas_bottom);
+        make.left.equalTo(self.imageBgView).offset(PAdaptation_x(25));
+        make.right.equalTo(self.imageBgView.mas_right).offset(-PAdaptation_x(25));
+    }];
+    
+    UIImageView *locationView = [[UIImageView alloc] init];
+    [locationView setImage:[UIImage imageNamed:@"location_report.png"]];
+    [self.imageBgView addSubview:locationView];
+    
+    [locationView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(locationDesLabel.mas_bottom);
+        make.left.equalTo(self.imageBgView).offset(PAdaptation_x(124));
+        make.width.mas_equalTo(PAdaptation_x(20));
+        make.height.mas_equalTo(PAaptation_y(20));
+    }];
+    
+    UILabel *mddDesLabel = [[UILabel alloc] init];
+    mddDesLabel.text = @"玉の井公園";
+    mddDesLabel.textColor = [UIColor whiteColor];
+    mddDesLabel.font = [UIFont systemFontOfSize:16];
+    mddDesLabel.textAlignment = NSTextAlignmentCenter;
+    [self.imageBgView addSubview:mddDesLabel];
+    
+    [mddDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(locationView);
+        make.left.equalTo(locationView.mas_right).offset(PAdaptation_x(12));
+    }];
+    
+    UILabel *teacherDesLabel = [[UILabel alloc] init];
+    teacherDesLabel.text = @"先生";
+    teacherDesLabel.textColor = [UIColor whiteColor];
+    teacherDesLabel.font = [UIFont systemFontOfSize:14];
+    [self.imageBgView addSubview:teacherDesLabel];
+    
+    [teacherDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(mddDesLabel.mas_bottom).offset(PAaptation_y(34));
+        make.left.equalTo(self.imageBgView).offset(PAdaptation_x(45));
+    }];
+    
+    UILabel *teacherLabel = [[UILabel alloc] init];
+    teacherLabel.text = @"2人";
+    teacherLabel.textColor = [UIColor whiteColor];
+    teacherLabel.font = [UIFont systemFontOfSize:32];
+    [self.imageBgView addSubview:teacherLabel];
+    
+    [teacherLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(teacherDesLabel.mas_bottom);
+        make.centerX.equalTo(teacherDesLabel);
+    }];
+    
+    UILabel *studentDesLabel = [[UILabel alloc] init];
+    studentDesLabel.text = @"子供";
+    studentDesLabel.textColor = [UIColor whiteColor];
+    studentDesLabel.font = [UIFont systemFontOfSize:14];
+    [self.imageBgView addSubview:studentDesLabel];
+    
+    [studentDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(mddDesLabel.mas_bottom).offset(PAaptation_y(34));
+        make.centerX.equalTo(self.imageBgView);
+    }];
+    
+    UILabel *studentLabel = [[UILabel alloc] init];
+    studentLabel.text = @"2人";
+    studentLabel.textColor = [UIColor whiteColor];
+    studentLabel.font = [UIFont systemFontOfSize:32];
+    [self.imageBgView addSubview:studentLabel];
+    
+    [studentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(studentDesLabel.mas_bottom);
+        make.centerX.equalTo(studentDesLabel);
+    }];
+    
+    UILabel *alertDesLabel = [[UILabel alloc] init];
+    alertDesLabel.text = @"アラート";
+    alertDesLabel.textColor = [UIColor whiteColor];
+    alertDesLabel.font = [UIFont systemFontOfSize:14];
+    [self.imageBgView addSubview:alertDesLabel];
+    
+    [alertDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(mddDesLabel.mas_bottom).offset(PAaptation_y(34));
+        make.right.equalTo(self.imageBgView.mas_right).offset(-PAdaptation_x(45));
+    }];
+    
+    UILabel *alertLabel = [[UILabel alloc] init];
+    alertLabel.text = @"2回";
+    alertLabel.textColor = [UIColor whiteColor];
+    alertLabel.font = [UIFont systemFontOfSize:32];
+    [self.imageBgView addSubview:alertLabel];
+    
+    [alertLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(alertDesLabel.mas_bottom);
+        make.centerX.equalTo(alertDesLabel);
+    }];
+    
+    
 }
 - (void)backAction:(id)sender
 {
@@ -516,5 +706,21 @@
         [_printBtn setImage:[UIImage imageNamed:@"print.png"] forState:UIControlStateNormal];
     }
     return _printBtn;
+}
+- (UIImageView *)imageBgView
+{
+    if (!_imageBgView) {
+        _imageBgView = [[UIImageView alloc] init];
+        [_imageBgView setImage:[UIImage imageNamed:@"greenBg.png"]];
+    }
+    return _imageBgView;
+}
+- (UIImageView *)rightImageView
+{
+    if (!_rightImageView) {
+        _rightImageView = [[UIImageView alloc] init];
+        [_rightImageView setImage:[UIImage imageNamed:@"walk.png"]];
+    }
+    return _rightImageView;
 }
 @end

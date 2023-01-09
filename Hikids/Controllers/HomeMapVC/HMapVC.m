@@ -42,6 +42,8 @@
 #import "HWalkReportVC.h"
 #import "HSettingVC.h"
 
+#import "HDateVC.h"
+
 
 
 @interface HMapVC ()<GMSMapViewDelegate,CLLocationManagerDelegate,UITableViewDelegate,UITableViewDataSource>
@@ -175,7 +177,9 @@
         [weakSelf showWalkMenuVC];
     };
     homeMenuView.openReport = ^{
-        NSLog(@"1111111");
+        NSLog(@"home");
+        HDateVC *dateVC = [[HDateVC alloc] init];
+        [weakSelf presentViewController:dateVC animated:YES completion:nil];
     };
     
 
@@ -195,6 +199,8 @@
     };
     self.walkMenuTableView.openReport = ^{
         NSLog(@"walk");
+        HDateVC *dateVC = [[HDateVC alloc] init];
+        [weakSelf presentViewController:dateVC animated:YES completion:nil];
     };
     
     self.walkMenuTableView.safeList = self.nomalArray;
@@ -215,6 +221,8 @@
     };
     self.sleepMenuTableView.openReport = ^{
         NSLog(@"sleep");
+        HDateVC *dateVC = [[HDateVC alloc] init];
+        [weakSelf presentViewController:dateVC animated:YES completion:nil];
     };
     
     self.sleepMenuTableView.safeList = self.nomalArray;
@@ -239,8 +247,9 @@
 - (void)setupSleepMainView
 {
     [self.view addSubview:self.sleepMainView];
+    [self.view sendSubviewToBack:self.sleepMainView];
     [self.sleepMainView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.customNavigationView.mas_bottom);
+        make.top.equalTo(self.customNavigationView.mas_bottom).offset(-PAaptation_y(10));
         make.left.equalTo(self.view);
         make.width.equalTo(self.view);
         make.bottom.equalTo(self.view.mas_bottom);
@@ -305,6 +314,7 @@
 - (void)showWalkReport
 {
     HWalkReportVC *walkReportVC = [[HWalkReportVC alloc] init];
+    walkReportVC.source = @"1";
     [self presentViewController:walkReportVC animated:YES completion:nil];
     
     //散步报告关闭后 回到在院内模式

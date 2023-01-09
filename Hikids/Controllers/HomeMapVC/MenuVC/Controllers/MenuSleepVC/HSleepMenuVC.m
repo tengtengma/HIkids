@@ -512,10 +512,10 @@
     
     if ( self.selectTimeArray.count != 0 && self.selectTeacherArray.count != 0 && self.selectStudentArray.count != 0) {
         self.startSleepBtn.enabled = YES;
-        [self.startSleepBtn setImage:[UIImage imageNamed:@"walkStart.png"] forState:UIControlStateNormal];
+        [self.startSleepBtn setImage:[UIImage imageNamed:@"btn_napStart.png"] forState:UIControlStateNormal];
     }else{
         self.startSleepBtn.enabled = NO;
-        [self.startSleepBtn setImage:[UIImage imageNamed:@"walkStart_no.png"] forState:UIControlStateNormal];
+        [self.startSleepBtn setImage:[UIImage imageNamed:@"start_btn.png"] forState:UIControlStateNormal];
     }
 }
 
@@ -670,7 +670,7 @@
     if (!_startSleepBtn) {
         _startSleepBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _startSleepBtn.enabled = NO;
-        [_startSleepBtn setImage:[UIImage imageNamed:@"walkStart_no.png"] forState:UIControlStateNormal];
+        [_startSleepBtn setImage:[UIImage imageNamed:@"start_btn.png"] forState:UIControlStateNormal];
         [_startSleepBtn addTarget:self action:@selector(startSleepAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _startSleepBtn;

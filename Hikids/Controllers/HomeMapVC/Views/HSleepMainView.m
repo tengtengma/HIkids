@@ -109,6 +109,7 @@
 {
     if (!_bgView) {
         _bgView = [[UIImageView alloc] init];
+        [_bgView setImage:[UIImage imageNamed:@"nap_back.png"]];
     }
     return _bgView;
 }
@@ -116,7 +117,7 @@
 {
     if (!_contentView) {
         _contentView = [[UIImageView alloc] init];
-        _contentView.backgroundColor = [UIColor redColor];
+        [_contentView setImage:[UIImage imageNamed:@"back-data.png"]];
     }
     return _contentView;
 }

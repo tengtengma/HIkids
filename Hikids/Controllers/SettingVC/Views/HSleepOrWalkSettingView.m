@@ -92,22 +92,24 @@
     self.titleLabel.text = @"午睡設定";
     self.desLabel.text = @"記録間隔";
     
-    [self setupContentWithName:@"15分"];
+    [self setupContentWithName:@"15分" withType:type_Sleep];
 
 }
 - (void)createWalkUI
 {
     self.titleLabel.text = @"散歩設定";
     self.desLabel.text = @"アラート精度";
-    [self setupContentWithName:@"普通"];
+    [self setupContentWithName:@"普通" withType:type_Walk];
 
 }
-- (void)setupContentWithName:(NSString *)name
+- (void)setupContentWithName:(NSString *)name withType:(Type)type
 {
     UIView *bgView = [[UIView alloc] init];
+    bgView.tag = type == type_Sleep ? 1000 : 1001;
     bgView.layer.cornerRadius = 8;
     bgView.layer.borderWidth = 2;
     bgView.layer.borderColor = BWColor(34, 34, 34, 1).CGColor;
+    bgView.userInteractionEnabled = YES;
     [self addSubview:bgView];
     
     [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -138,12 +140,23 @@
         make.width.mas_equalTo(PAdaptation_x(21));
         make.height.mas_equalTo(PAaptation_y(21));
     }];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showMenuAction:)];
+    [bgView addGestureRecognizer:tap];
+    
+    
 }
 - (void)backAction:(id)sender
 {
     if (self.closeSwBlock) {
         self.closeSwBlock();
     }
+}
+- (void)showMenuAction:(UITapGestureRecognizer *)tap
+{
+    NSInteger tag = tap.view.tag;
+    
+    
 }
 - (void)saveAction:(id)sender
 {

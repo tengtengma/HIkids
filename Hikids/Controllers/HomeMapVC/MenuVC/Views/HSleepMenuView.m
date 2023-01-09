@@ -37,7 +37,7 @@
     self.tableFooterView = footerView;
 
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom ];
-    [button setImage:[UIImage imageNamed:@"walkEnd.png"] forState:UIControlStateNormal];
+    [button setImage:[UIImage imageNamed:@"btn_napEnd.png"] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(walkEndAction:) forControlEvents:UIControlEventTouchUpInside];
     [footerView addSubview:button];
     
