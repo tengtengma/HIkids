@@ -14,9 +14,10 @@ target 'Hikids' do
     pod 'MBProgressHUD'
     pod 'MJRefresh'
     pod 'lottie-ios' , '~> 2.5'
-    pod'GoogleMaps'
-    pod'GooglePlaces'
-    pod "ALCalendarPicker"
+    pod 'GoogleMaps'
+    pod 'GooglePlaces'
+    pod 'ALCalendarPicker'
+    
   
 
 end

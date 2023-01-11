@@ -6,14 +6,19 @@
 //
 
 #import "HSleepOrWalkSettingView.h"
+#import "FFDropDownMenuView.h"
 
-@interface HSleepOrWalkSettingView()
+@interface HSleepOrWalkSettingView()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UIImageView *topView;
 @property (nonatomic, strong) UIButton *backBtn;
 @property (nonatomic, strong) UIView *titleView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *desLabel;
 @property (nonatomic, strong) UIButton *saveBtn;
+@property (nonatomic, strong) UITableView *downTableView;
+@property (nonatomic, assign) Type myType;
+@property (nonatomic, assign) BOOL show;
+@property (nonatomic, strong) NSArray *dataArray;
 
 @end
 
@@ -23,6 +28,8 @@
 {
     if (self = [super init]) {
         
+        self.myType = type;
+
         self.backgroundColor = [UIColor whiteColor];
         
         [self addSubview:self.topView];
@@ -34,15 +41,9 @@
         }];
         
         [self createTitleView];
-        
-        if (type == type_Sleep) {
-            
-            [self createSleepUI];
-        }
-        if (type == type_Walk) {
-            [self createWalkUI];
+                
+        [self createUI];
 
-        }
         
         [self addSubview:self.saveBtn];
         [self.saveBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -87,25 +88,28 @@
     
 }
 
-- (void)createSleepUI
+- (void)createUI
 {
-    self.titleLabel.text = @"午睡設定";
-    self.desLabel.text = @"記録間隔";
-    
-    [self setupContentWithName:@"15分" withType:type_Sleep];
+    if (self.myType == type_Sleep) {
+        self.titleLabel.text = @"午睡設定";
+        self.desLabel.text = @"記録間隔";
+        self.dataArray = @[@"15分",@"30分",@"45分"];
+        [self setupContentWithName:@"15分"];
+    }else{
+        
+        self.titleLabel.text = @"散歩設定";
+        self.desLabel.text = @"アラート精度";
+        self.dataArray = @[@"低",@"普通",@"高"];
+        [self setupContentWithName:@"普通"];
+    }
+
 
 }
-- (void)createWalkUI
-{
-    self.titleLabel.text = @"散歩設定";
-    self.desLabel.text = @"アラート精度";
-    [self setupContentWithName:@"普通" withType:type_Walk];
 
-}
-- (void)setupContentWithName:(NSString *)name withType:(Type)type
+- (void)setupContentWithName:(NSString *)name
 {
     UIView *bgView = [[UIView alloc] init];
-    bgView.tag = type == type_Sleep ? 1000 : 1001;
+    bgView.tag = 3000;
     bgView.layer.cornerRadius = 8;
     bgView.layer.borderWidth = 2;
     bgView.layer.borderColor = BWColor(34, 34, 34, 1).CGColor;
@@ -119,47 +123,120 @@
         make.height.mas_equalTo(PAaptation_y(48));
     }];
     
+    [self addSubview:self.downTableView];
+    [self.downTableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(bgView.mas_bottom);
+        make.left.equalTo(bgView);
+        make.width.equalTo(bgView);
+        make.height.mas_equalTo(PAaptation_y(0));
+    }];
+    
     UILabel *label = [[UILabel alloc] init];
+    label.tag = 4000;
     label.text = name;
     label.font = [UIFont boldSystemFontOfSize:16];
     label.textColor = BWColor(34, 34, 34, 1);
     [bgView addSubview:label];
-    
+
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(bgView);
         make.left.equalTo(bgView).offset(PAdaptation_x(18));
     }];
-    
+
     UIImageView *rightView = [[UIImageView alloc] init];
     [rightView setImage:[UIImage imageNamed:@"sw_down.png"]];
     [bgView addSubview:rightView];
-    
+
     [rightView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(bgView);
         make.right.equalTo(bgView.mas_right).offset(-PAdaptation_x(12));
         make.width.mas_equalTo(PAdaptation_x(21));
         make.height.mas_equalTo(PAaptation_y(21));
     }];
-    
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showMenuAction:)];
+
+
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showOrCloseMenuAction)];
     [bgView addGestureRecognizer:tap];
     
-    
 }
+
+
 - (void)backAction:(id)sender
 {
     if (self.closeSwBlock) {
         self.closeSwBlock();
     }
 }
-- (void)showMenuAction:(UITapGestureRecognizer *)tap
+- (void)showOrCloseMenuAction
 {
-    NSInteger tag = tap.view.tag;
+    
+    DefineWeakSelf;
+    [UIView animateWithDuration:0.24 animations:^{
+        
+        UIView *bgView = (UIView *)[weakSelf viewWithTag:3000];
+        [self.downTableView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(bgView.mas_bottom);
+            make.left.equalTo(bgView);
+            make.width.equalTo(bgView);
+            make.height.mas_equalTo(self.show ? PAaptation_y(0) :PAaptation_y(44)*3);
+        }];
+            
+    }];
+    
+    self.show = !self.show;
+    
+
     
     
 }
 - (void)saveAction:(id)sender
 {
+    
+}
+#pragma mark - cell高度
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return PAaptation_y(44);
+}
+
+#pragma mark - cell数量
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.dataArray.count;
+}
+
+#pragma mark - 每个cell
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSString *CellIdentifier = @"CellIdentify";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    for (id v in cell.contentView.subviews)
+        [v removeFromSuperview];
+    
+    UILabel *desLabel = [[UILabel alloc] init];
+    desLabel.font = [UIFont boldSystemFontOfSize:16.0];
+    desLabel.text = [self.dataArray safeObjectAtIndex:indexPath.row];
+    desLabel.textColor = BWColor(0, 28, 41, 1);
+    [cell.contentView addSubview:desLabel];
+    
+    [desLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(cell.contentView);
+        make.left.equalTo(cell.contentView).offset(PAdaptation_x(18));
+    }];
+    
+    return cell;
+}
+
+#pragma mark - UITableViewDelegate -
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UILabel *label = (UILabel *)[self viewWithTag:4000];
+    label.text = [self.dataArray safeObjectAtIndex:indexPath.row];
+    
+    [self showOrCloseMenuAction];
     
 }
 #pragma mark - LazyLoad -
@@ -215,5 +292,15 @@
         _desLabel.textColor = BWColor(0, 28, 41, 1);
     }
     return _desLabel;
+}
+- (UITableView *)downTableView
+{
+    if (!_downTableView) {
+        _downTableView = [[UITableView alloc] init];
+        _downTableView.backgroundColor = [UIColor whiteColor];
+        _downTableView.delegate = self;
+        _downTableView.dataSource = self;
+    }
+    return _downTableView;
 }
 @end
