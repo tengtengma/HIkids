@@ -11,7 +11,7 @@
 #import "HWalkReportVC.h"
 #import "ALCalendarPicker.h"
 
-@interface HDateVC ()<UITableViewDelegate,UITableViewDataSource>
+@interface HDateVC ()<UITableViewDelegate,UITableViewDataSource,ALCalendarPickerDelegate>
 @property (nonatomic, strong) UIView *bgView;
 @property (nonatomic, strong) UIImageView *topView;
 @property (nonatomic, strong) UIView *titleView;
@@ -60,6 +60,8 @@
     [self createDateSelectView];
     
     [self createTableView];
+    
+    [self createDateListView];
     
 }
 - (void)createTitleView
@@ -195,36 +197,49 @@
 - (void)createDateListView
 {
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
-        // 宽度建议使用屏幕宽度 高度太低会有滚动条
-        ALCalendarPicker *calP = [[ALCalendarPicker alloc] initWithFrame:CGRectMake(0, 64, screenSize.width, 400)];
-        calP.delegate = self;
-        // 起始日期
-    //    calP.beginYearMonth = @"2017-01";
-        calP.hightLightItems = @[@"2017-06-17",@"2017-05-22",@"2017-06-12"];
-        calP.hightlightPriority = NO;
-        
-        // 高亮日期样式
-        [calP setupHightLightItemStyle:^(UIColor *__autoreleasing *backgroundColor, NSNumber *__autoreleasing *backgroundCornerRadius, UIColor *__autoreleasing *titleColor) {
-            *backgroundColor = [UIColor colorWithRed:234.0/255.0 green:240.0/255.0 blue:243.0/255.0 alpha:1];
-            *backgroundCornerRadius = @(5.0);
-            *titleColor = [UIColor colorWithRed:44.0/255.0 green:49.0/255.0 blue:53.0/255.0 alpha:1];
-        }];
-        
-        // 今天日期样式
-        [calP setupTodayItemStyle:^(UIColor *__autoreleasing *backgroundColor, NSNumber *__autoreleasing *backgroundCornerRadius, UIColor *__autoreleasing *titleColor) {
-            *backgroundColor = [UIColor colorWithRed:78.0/255.0 green:133.0/255.0 blue:222.0/255.0 alpha:1];
-            *backgroundCornerRadius = @(screenSize.width / 20); // 因为宽度是屏幕宽度,宽度 / 10 是cell 宽高 , cell宽高 / 2 为圆形
-            *titleColor = [UIColor whiteColor];
-        }];
-        
-        // 选择日期颜色
-        [calP setupSelectedItemStyle:^(UIColor *__autoreleasing *backgroundColor, NSNumber *__autoreleasing *backgroundCornerRadius, UIColor *__autoreleasing *titleColor) {
-            *backgroundColor = [[UIColor redColor] colorWithAlphaComponent:0.5];
-            *backgroundCornerRadius = @(screenSize.width / 20); // 因为宽度是屏幕宽度,宽度 / 10 是cell 宽高 , cell宽高 / 2 为圆形
-            *titleColor = [UIColor whiteColor];
-        }];
-        
-        [self.view addSubview:calP];
+    
+    UIView *calendarBgView = [[UIView alloc] initWithFrame:self.view.bounds];
+    calendarBgView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    calendarBgView.hidden = YES;
+    calendarBgView.alpha = 0;
+    calendarBgView.tag = 10000;
+    [self.view addSubview:calendarBgView];
+    
+    // 宽度建议使用屏幕宽度 高度太低会有滚动条
+    ALCalendarPicker *calP = [[ALCalendarPicker alloc] initWithFrame:CGRectMake(screenSize.width/2 - PAdaptation_x(357)/2, screenSize.height/2 - PAaptation_y(336)/2,PAdaptation_x(357), PAaptation_y(336))];
+    calP.delegate = self;
+
+    // 起始日期
+//    calP.beginYearMonth = @"2017-01";
+    calP.hightLightItems = @[@"2017-06-17",@"2017-05-22",@"2017-06-12"];
+    calP.hightlightPriority = NO;
+    calP.layer.cornerRadius = 13;
+    calP.layer.masksToBounds = YES;
+    
+    // 高亮日期样式
+    [calP setupHightLightItemStyle:^(UIColor *__autoreleasing *backgroundColor, NSNumber *__autoreleasing *backgroundCornerRadius, UIColor *__autoreleasing *titleColor) {
+        *backgroundColor = [UIColor colorWithRed:234.0/255.0 green:240.0/255.0 blue:243.0/255.0 alpha:1];
+        *backgroundCornerRadius = @(5.0);
+        *titleColor = [UIColor colorWithRed:44.0/255.0 green:49.0/255.0 blue:53.0/255.0 alpha:1];
+    }];
+    
+    // 今天日期样式
+    [calP setupTodayItemStyle:^(UIColor *__autoreleasing *backgroundColor, NSNumber *__autoreleasing *backgroundCornerRadius, UIColor *__autoreleasing *titleColor) {
+        *backgroundColor = [UIColor redColor];
+        *backgroundCornerRadius = @(PAdaptation_x(357) / 20); // 因为宽度是屏幕宽度,宽度 / 10 是cell 宽高 , cell宽高 / 2 为圆形
+        *titleColor = [UIColor whiteColor];
+    }];
+    
+    // 选择日期颜色
+    [calP setupSelectedItemStyle:^(UIColor *__autoreleasing *backgroundColor, NSNumber *__autoreleasing *backgroundCornerRadius, UIColor *__autoreleasing *titleColor) {
+        *backgroundColor = [[UIColor redColor] colorWithAlphaComponent:0.5];
+        *backgroundCornerRadius = @(PAdaptation_x(357) / 20); // 因为宽度是屏幕宽度,宽度 / 10 是cell 宽高 , cell宽高 / 2 为圆形
+        *titleColor = [UIColor whiteColor];
+    }];
+    
+    [calendarBgView addSubview:calP];
+    
+
 }
 - (void)backAction:(id)sender
 {
@@ -232,7 +247,14 @@
 }
 - (void)showDateAction:(id)sender
 {
+    UIView *calendarBgView = (UIView *)[self.view viewWithTag:10000];
+    calendarBgView.hidden = NO;
     
+    [UIView animateWithDuration:0.1 animations:^{
+            
+        calendarBgView.alpha = 1.0;
+        
+    }];
 }
 /**
  *  模式二
@@ -345,6 +367,27 @@
     
     return targetWeekName;
 }
+
+#pragma mark - 选择一个日期 -
+- (void)calendarPicker:(ALCalendarPicker *)picker didSelectItem:(ALCalendarDate *)date date:(NSDate *)dateObj dateString:(NSString *)dateStr
+{
+    picker.selectedItems = @[dateStr];
+    [picker reloadPicker];
+    
+    UIView *calendarBgView = (UIView *)[self.view viewWithTag:10000];
+    [UIView animateWithDuration:0.1 animations:^{
+
+        calendarBgView.alpha = 0.0;
+
+    } completion:^(BOOL finished) {
+
+        if (finished) {
+            calendarBgView.hidden = YES;
+
+        }
+    }];
+}
+
 #pragma mark - cell高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return PAaptation_y(105);

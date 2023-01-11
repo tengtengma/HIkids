@@ -14,8 +14,6 @@ PODS:
   - AFNetworking/Serialization (4.0.1)
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
-  - ALCalendarPicker (1.4.1):
-    - Masonry
   - GoogleMaps (4.1.0):
     - GoogleMaps/Maps (= 4.1.0)
   - GoogleMaps/Base (4.1.0)
@@ -34,7 +32,6 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
-  - ALCalendarPicker
   - GoogleMaps
   - GooglePlaces
   - lottie-ios (~> 2.5)
@@ -47,7 +44,6 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AFNetworking
-    - ALCalendarPicker
     - GoogleMaps
     - GooglePlaces
     - lottie-ios
@@ -59,7 +55,6 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
-  ALCalendarPicker: 0ba87c5c274535c991ebc24c6dd6d2125c6fabd4
   GoogleMaps: 008e2c80e38605b56b560e8deb73d4194ff30bef
   GooglePlaces: a058b776259c13e1323c9ff135549cb1b13ad8e7
   lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
@@ -69,6 +64,6 @@ SPEC CHECKSUMS:
   MJRefresh: 6afc955813966afb08305477dd7a0d9ad5e79a16
   SDWebImage: 9169792e9eec3e45bba2a0c02f74bf8bd922d1ee
 
-PODFILE CHECKSUM: 17711dd0a409624997feebe246fec13060e5763e
+PODFILE CHECKSUM: 7af9c881338848a3e1afc722a2ebf7ca422d65a2
 
 COCOAPODS: 1.11.3

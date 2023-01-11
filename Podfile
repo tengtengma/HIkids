@@ -16,7 +16,6 @@ target 'Hikids' do
     pod 'lottie-ios' , '~> 2.5'
     pod 'GoogleMaps'
     pod 'GooglePlaces'
-    pod 'ALCalendarPicker'
     
   
 
