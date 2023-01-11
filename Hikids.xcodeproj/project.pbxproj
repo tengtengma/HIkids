@@ -64,6 +64,8 @@
 		9E25EB43295D7F0400FDAF78 /* HStudentStateTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E25EB42295D7F0400FDAF78 /* HStudentStateTopView.m */; };
 		9E25EB46295D8CE900FDAF78 /* HStudentStateBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E25EB45295D8CE900FDAF78 /* HStudentStateBottomView.m */; };
 		9E29CC34296456D4009DF7FD /* HSleepMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E29CC33296456D4009DF7FD /* HSleepMenuView.m */; };
+		9E29CC37296EF7C5009DF7FD /* BWGetSleepTaskReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E29CC36296EF7C5009DF7FD /* BWGetSleepTaskReq.m */; };
+		9E29CC3A296EF85C009DF7FD /* BWGetSleepTaskResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E29CC39296EF85C009DF7FD /* BWGetSleepTaskResp.m */; };
 		9E2DF80028B2209E00B0C9DA /* BWLoginReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF7F328B2209E00B0C9DA /* BWLoginReq.m */; };
 		9E2DF80128B2209E00B0C9DA /* BWBaseReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF7F428B2209E00B0C9DA /* BWBaseReq.m */; };
 		9E2DF80228B2209E00B0C9DA /* BWNetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF7F628B2209E00B0C9DA /* BWNetManager.m */; };
@@ -105,7 +107,7 @@
 		9E98FA6329657B91007194EF /* print@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E98FA6129657B91007194EF /* print@2x.png */; };
 		9E99397128F7B7B100119CA7 /* BWAddTaskReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E99397028F7B7B100119CA7 /* BWAddTaskReq.m */; };
 		9E99397428F7B7BE00119CA7 /* BWAddTaskResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E99397328F7B7BE00119CA7 /* BWAddTaskResp.m */; };
-		9E99397728F7DD0D00119CA7 /* HWalkTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E99397628F7DD0D00119CA7 /* HWalkTask.m */; };
+		9E99397728F7DD0D00119CA7 /* HTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E99397628F7DD0D00119CA7 /* HTask.m */; };
 		9EB4116D296BBB9E00CFA8FE /* btn_napEnd@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EB41167296BBB9D00CFA8FE /* btn_napEnd@2x.png */; };
 		9EB4116E296BBB9E00CFA8FE /* btn_napStart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EB41168296BBB9D00CFA8FE /* btn_napStart@2x.png */; };
 		9EB4116F296BBB9E00CFA8FE /* btn_napStart.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EB41169296BBB9E00CFA8FE /* btn_napStart.png */; };
@@ -334,6 +336,10 @@
 		9E25EB45295D8CE900FDAF78 /* HStudentStateBottomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HStudentStateBottomView.m; sourceTree = "<group>"; };
 		9E29CC32296456D4009DF7FD /* HSleepMenuView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HSleepMenuView.h; sourceTree = "<group>"; };
 		9E29CC33296456D4009DF7FD /* HSleepMenuView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HSleepMenuView.m; sourceTree = "<group>"; };
+		9E29CC35296EF7C5009DF7FD /* BWGetSleepTaskReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWGetSleepTaskReq.h; sourceTree = "<group>"; };
+		9E29CC36296EF7C5009DF7FD /* BWGetSleepTaskReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWGetSleepTaskReq.m; sourceTree = "<group>"; };
+		9E29CC38296EF85C009DF7FD /* BWGetSleepTaskResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWGetSleepTaskResp.h; sourceTree = "<group>"; };
+		9E29CC39296EF85C009DF7FD /* BWGetSleepTaskResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWGetSleepTaskResp.m; sourceTree = "<group>"; };
 		9E2DF7F228B2209E00B0C9DA /* BWBaseReq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWBaseReq.h; sourceTree = "<group>"; };
 		9E2DF7F328B2209E00B0C9DA /* BWLoginReq.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWLoginReq.m; sourceTree = "<group>"; };
 		9E2DF7F428B2209E00B0C9DA /* BWBaseReq.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWBaseReq.m; sourceTree = "<group>"; };
@@ -419,8 +425,8 @@
 		9E99397028F7B7B100119CA7 /* BWAddTaskReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWAddTaskReq.m; sourceTree = "<group>"; };
 		9E99397228F7B7BE00119CA7 /* BWAddTaskResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWAddTaskResp.h; sourceTree = "<group>"; };
 		9E99397328F7B7BE00119CA7 /* BWAddTaskResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWAddTaskResp.m; sourceTree = "<group>"; };
-		9E99397528F7DD0D00119CA7 /* HWalkTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWalkTask.h; sourceTree = "<group>"; };
-		9E99397628F7DD0D00119CA7 /* HWalkTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWalkTask.m; sourceTree = "<group>"; };
+		9E99397528F7DD0D00119CA7 /* HTask.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTask.h; sourceTree = "<group>"; };
+		9E99397628F7DD0D00119CA7 /* HTask.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTask.m; sourceTree = "<group>"; };
 		9EB41167296BBB9D00CFA8FE /* btn_napEnd@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_napEnd@2x.png"; sourceTree = "<group>"; };
 		9EB41168296BBB9D00CFA8FE /* btn_napStart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_napStart@2x.png"; sourceTree = "<group>"; };
 		9EB41169296BBB9E00CFA8FE /* btn_napStart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_napStart.png; sourceTree = "<group>"; };
@@ -712,8 +718,8 @@
 				9E17D1DE28EEAE9B005FA5A9 /* HTeacher.m */,
 				9E17D1E028EEAEA9005FA5A9 /* HTime.h */,
 				9E17D1E128EEAEA9005FA5A9 /* HTime.m */,
-				9E99397528F7DD0D00119CA7 /* HWalkTask.h */,
-				9E99397628F7DD0D00119CA7 /* HWalkTask.m */,
+				9E99397528F7DD0D00119CA7 /* HTask.h */,
+				9E99397628F7DD0D00119CA7 /* HTask.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -962,6 +968,8 @@
 				9EDF523B28FD84EC0066BFDC /* BWGetTaskReq.m */,
 				9EDF5240290029C20066BFDC /* BWChangeTaskStateReq.h */,
 				9EDF5241290029C20066BFDC /* BWChangeTaskStateReq.m */,
+				9E29CC35296EF7C5009DF7FD /* BWGetSleepTaskReq.h */,
+				9E29CC36296EF7C5009DF7FD /* BWGetSleepTaskReq.m */,
 			);
 			path = BWReq;
 			sourceTree = "<group>";
@@ -1002,6 +1010,8 @@
 				9EDF523E28FD84FF0066BFDC /* BWGetTaskResp.m */,
 				9EDF5243290029D10066BFDC /* BWChangeTaskStateResp.h */,
 				9EDF5244290029D10066BFDC /* BWChangeTaskStateResp.m */,
+				9E29CC38296EF85C009DF7FD /* BWGetSleepTaskResp.h */,
+				9E29CC39296EF85C009DF7FD /* BWGetSleepTaskResp.m */,
 			);
 			path = BWResp;
 			sourceTree = "<group>";
@@ -1666,6 +1676,7 @@
 				9E0B547B28B21E660026CD86 /* main.m in Sources */,
 				9E17D1BA28ED6655005FA5A9 /* HMddView.m in Sources */,
 				9E17D1DF28EEAE9B005FA5A9 /* HTeacher.m in Sources */,
+				9E29CC37296EF7C5009DF7FD /* BWGetSleepTaskReq.m in Sources */,
 				9E4C5F42295EC5D300E59C00 /* HWalkMenuView.m in Sources */,
 				9E42E69828D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				9EEC478B296695D30031CE9F /* HSettingVC.m in Sources */,
@@ -1677,6 +1688,7 @@
 				9EEC478F2966A1840031CE9F /* HSleepOrWalkSettingView.m in Sources */,
 				9E17D1D128EE7270005FA5A9 /* BWGetStudentResp.m in Sources */,
 				9EDF523F28FD84FF0066BFDC /* BWGetTaskResp.m in Sources */,
+				9E29CC3A296EF85C009DF7FD /* BWGetSleepTaskResp.m in Sources */,
 				9EDAFE4A28C4CDBA00FA9B5F /* HLoginVC.m in Sources */,
 				9E25EB40295D666900FDAF78 /* HHomeMenuView.m in Sources */,
 				9E2DF81E28B2225500B0C9DA /* BWTools.m in Sources */,
@@ -1691,7 +1703,7 @@
 				9E8344BB28C7913E00AB9D83 /* BWCheckTokenResp.m in Sources */,
 				9E17D1CB28EDADD6005FA5A9 /* HDestnationModel.m in Sources */,
 				9E17D1FA28F03B83005FA5A9 /* BWStudentLocationResp.m in Sources */,
-				9E99397728F7DD0D00119CA7 /* HWalkTask.m in Sources */,
+				9E99397728F7DD0D00119CA7 /* HTask.m in Sources */,
 				9EDF5245290029D10066BFDC /* BWChangeTaskStateResp.m in Sources */,
 				9E8BDE7F296E87E30001C428 /* FFDropDownMenuBasedModel.m in Sources */,
 			);

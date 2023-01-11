@@ -9,7 +9,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^startSleepAction)(void);
+@class HTask;
+
+typedef void(^startSleepAction)(HTask *task);
 
 @interface HSleepMenuVC : BaseVC
 @property (nonatomic, copy) startSleepAction startSleepBlock;

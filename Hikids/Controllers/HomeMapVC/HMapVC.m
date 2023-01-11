@@ -26,7 +26,9 @@
 #import "BWGetKindergartenResp.h"
 #import "BWGetTaskReq.h"
 #import "BWGetTaskResp.h"
-#import "HWalkTask.h"
+#import "BWGetSleepTaskReq.h"
+#import "BWGetSleepTaskResp.h"
+#import "HTask.h"
 #import "BWChangeTaskStateReq.h"
 #import "BWChangeTaskStateResp.h"
 #import "HCustomNavigationView.h"
@@ -65,7 +67,7 @@
 @property (nonatomic,strong) NSTimer *shakeTimer;
 @property (nonatomic,strong) NSTimer *dangerTimer;
 @property (nonatomic,strong) HStudentStateInfoView *stateInfoView;//点击地图上小朋友显示详情页
-@property (nonatomic,strong) HWalkTask *currentTask;//当前任务
+@property (nonatomic,strong) HTask *currentTask;//当前任务
 @property (nonatomic,strong) NSMutableArray *makerList;//保存所有孩子maker
 @property (nonatomic,strong) HCustomNavigationView *customNavigationView;
 @property (nonatomic,assign) BOOL isAlert; //只弹窗一次 仅演示使用
@@ -109,11 +111,16 @@
     [super viewDidLoad];
     
     
+    //。上来先调用 b02接口查午睡任务状态 然后a07查询散步任务
+    //a05 1散步 2午睡
+    
 //    self.timer = [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(startGetStudentLocationRequest) userInfo:nil repeats:YES];
         
 //    //获取当前散步的任务情况
 //    [self getTaskRequest];
 //
+    //获取当前午睡的任务情况
+    [self getSleepTaskRequest];
     //回调的监控
 //    [self modeChangeBlock];
 //
@@ -217,7 +224,10 @@
     DefineWeakSelf;
     //结束午睡 弹出午睡报告
     self.sleepMenuTableView.sleepEndBlock = ^{
-        [weakSelf showSleepReport];
+        
+        [weakSelf changeTaskStateRequestWithStatus:@"5"];
+        
+//        [weakSelf showSleepReport];
     };
     self.sleepMenuTableView.openReport = ^{
         NSLog(@"sleep");
@@ -263,7 +273,9 @@
     
     //点击开启午睡
     DefineWeakSelf;
-    menuSleepVC.startSleepBlock = ^{
+    menuSleepVC.startSleepBlock = ^(HTask * _Nonnull sleepTask) {
+        
+        weakSelf.currentTask = sleepTask;
         
         //设置午睡内容view
         [weakSelf setupSleepMainView];
@@ -284,7 +296,7 @@
 
     //点击开启散步
     DefineWeakSelf;
-    menuWalkVC.startWalkBlock = ^(HWalkTask * _Nonnull walkTask) {
+    menuWalkVC.startWalkBlock = ^(HTask * _Nonnull walkTask) {
         
         //设置散步页底部菜单
         [weakSelf setupWalkMenu];
@@ -328,8 +340,8 @@
     };
     
 }
-//获取当前任务状态
-- (void)getTaskRequest
+//获取当前散步任务状态
+- (void)getWalkTaskRequest
 {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
@@ -368,6 +380,27 @@
         }
 
 //        [weakSelf changeTaskStateRequestWithStatus:@"5"];
+
+        
+    } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+    }];
+}
+//获取午睡任务状态
+- (void)getSleepTaskRequest
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    DefineWeakSelf;
+    BWGetSleepTaskReq *getSleepTaskReq = [[BWGetSleepTaskReq alloc] init];
+    [NetManger getRequest:getSleepTaskReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+
+        BWGetSleepTaskResp *getTaskResp = (BWGetSleepTaskResp *)resp;
+        weakSelf.currentTask = [getTaskResp.itemList safeObjectAtIndex:0];
+        //任务状态1已经开始，5结束
+        //todo 1的时候切换成 午睡模式。5的时候结束午睡 进入园内模式
 
         
     } failure:^(BWBaseReq *req, NSError *error) {

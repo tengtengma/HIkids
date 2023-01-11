@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface HWalkTask : NSObject
+@interface HTask : NSObject
 @property (nonatomic, strong) NSString *createTime;
 @property (nonatomic, strong) NSString *remark;
 @property (nonatomic, strong) NSDictionary *params;
@@ -20,6 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *assistants;
 @property (nonatomic, strong) NSString *kids;
 @property (nonatomic, strong) NSString *destinationId;
+@property (nonatomic, strong) NSString *endTime;
+@property (nonatomic, strong) NSString *endType;
+@property (nonatomic, strong) NSString *updateTime;
+
 
 @end
 

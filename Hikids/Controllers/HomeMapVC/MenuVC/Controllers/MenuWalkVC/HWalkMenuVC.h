@@ -9,9 +9,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class HWalkTask;
+@class HTask;
 
-typedef void(^startWalkAction)(HWalkTask *walkTask);
+typedef void(^startWalkAction)(HTask *task);
 
 @interface HWalkMenuVC : BaseVC
 @property (nonatomic, copy) startWalkAction startWalkBlock;

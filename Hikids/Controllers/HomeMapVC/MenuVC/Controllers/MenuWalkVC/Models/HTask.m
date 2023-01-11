@@ -5,8 +5,8 @@
 //  Created by 马腾 on 2022/10/13.
 //
 
-#import "HWalkTask.h"
+#import "HTask.h"
 
-@implementation HWalkTask
+@implementation HTask
 
 @end

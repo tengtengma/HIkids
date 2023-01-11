@@ -6,7 +6,7 @@
 //
 
 #import "BWAddTaskResp.h"
-#import "HWalkTask.h"
+#import "HTask.h"
 
 @implementation BWAddTaskResp
 - (id)initWithJSONDictionary:(NSDictionary *)jsonDic
@@ -15,7 +15,7 @@
         
         NSMutableArray *itemList = [[NSMutableArray alloc] init];
         NSDictionary *dic = [jsonDic safeObjectForKey:@"item"];
-        HWalkTask *model = [HWalkTask mj_objectWithKeyValues:dic];
+        HTask *model = [HTask mj_objectWithKeyValues:dic];
         model.tId = [dic safeObjectForKey:@"id"];
         [itemList addObject:model];
         self.itemList = itemList;

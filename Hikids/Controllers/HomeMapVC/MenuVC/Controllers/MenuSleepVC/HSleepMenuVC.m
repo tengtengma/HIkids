@@ -10,6 +10,9 @@
 #import "BWGetStudentResp.h"
 #import "BWGetAssistantReq.h"
 #import "BWGetAssistantResp.h"
+#import "BWAddTaskReq.h"
+#import "BWAddTaskResp.h"
+#import "HTask.h"
 
 #import "HStudent.h"
 #import "HTitleView.h"
@@ -521,12 +524,16 @@
 
 - (void)startSleepAction:(UIButton *)button
 {
-    NSString *type = @"1";
+    NSString *type = @"2";
     NSString *planTime;
     NSString *remark = @"";
 
     HTime *timeModel = [self.selectTimeArray safeObjectAtIndex:0];
-    planTime = timeModel.name;
+    if ([timeModel.name isEqualToString:@"自由"]) {
+        planTime = @"999";
+    }else{
+        planTime = timeModel.name;
+    }
 
     NSMutableArray *assistantsArray = [[NSMutableArray alloc] init];
     for (HTeacher *teacher in self.selectTeacherArray) {
@@ -541,32 +548,31 @@
     }
 
 
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     DefineWeakSelf;
-//    BWAddTaskReq *taskReq = [[BWAddTaskReq alloc] init];
-//    taskReq.type = type;
-//    taskReq.destinationId = destinationId;
-//    taskReq.planTime = planTime;
-//    taskReq.assistants = assistantsArray;
-//    taskReq.kids = kidsArray;
-//    taskReq.remark = remark;
-//    [NetManger postRequest:taskReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
-//        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-//        BWAddTaskResp *addResp = (BWAddTaskResp *)resp;
-//        HWalkTask *taskModel = [addResp.itemList safeObjectAtIndex:0];
+    BWAddTaskReq *taskReq = [[BWAddTaskReq alloc] init];
+    taskReq.type = type;
+    taskReq.planTime = planTime;
+    taskReq.assistants = assistantsArray;
+    taskReq.kids = kidsArray;
+    taskReq.remark = remark;
+    [NetManger postRequest:taskReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        BWAddTaskResp *addResp = (BWAddTaskResp *)resp;
+        HTask *taskModel = [addResp.itemList safeObjectAtIndex:0];
 
         [weakSelf backAction:nil];
 
         if (weakSelf.startSleepBlock) {
-            weakSelf.startSleepBlock();
+            weakSelf.startSleepBlock(taskModel);
         }
 
 
-//    } failure:^(BWBaseReq *req, NSError *error) {
-//        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-//        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
-//
-//    }];
+    } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+
+    }];
 
 
 }

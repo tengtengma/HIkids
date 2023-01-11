@@ -6,7 +6,7 @@
 //
 
 #import "BWChangeTaskStateResp.h"
-#import "HWalkTask.h"
+#import "HTask.h"
 
 @implementation BWChangeTaskStateResp
 - (id)initWithJSONDictionary:(NSDictionary *)jsonDic
@@ -18,7 +18,7 @@
 
         NSDictionary *dic = [jsonDic safeObjectForKey:@"item"];
         if (dic) {
-            HWalkTask *model = [HWalkTask mj_objectWithKeyValues:dic];
+            HTask *model = [HTask mj_objectWithKeyValues:dic];
             model.tId = [dic safeObjectForKey:@"id"];
             [itemList addObject:model];
             self.itemList = itemList;

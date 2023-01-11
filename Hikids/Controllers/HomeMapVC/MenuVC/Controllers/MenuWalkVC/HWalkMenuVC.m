@@ -21,7 +21,7 @@
 #import "HTime.h"
 #import "BWAddTaskReq.h"
 #import "BWAddTaskResp.h"
-#import "HWalkTask.h"
+#import "HTask.h"
 
 @interface HWalkMenuVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property (nonatomic, strong) UIView *bgView;
@@ -631,13 +631,13 @@
 
 - (void)startWalkAction:(UIButton *)button
 {
-    //测试使用******
-    if (self.startWalkBlock) {
-        [self backAction:nil];
-        self.startWalkBlock(nil);
-        return;
-    }
-    //*****测试使用
+//    //测试使用******
+//    if (self.startWalkBlock) {
+//        [self backAction:nil];
+//        self.startWalkBlock(nil);
+//        return;
+//    }
+//    //*****测试使用
 
     
     NSString *type = @"1";
@@ -676,7 +676,7 @@
     [NetManger postRequest:taskReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         BWAddTaskResp *addResp = (BWAddTaskResp *)resp;
-        HWalkTask *taskModel = [addResp.itemList safeObjectAtIndex:0];
+        HTask *taskModel = [addResp.itemList safeObjectAtIndex:0];
         
         [weakSelf backAction:nil];
         

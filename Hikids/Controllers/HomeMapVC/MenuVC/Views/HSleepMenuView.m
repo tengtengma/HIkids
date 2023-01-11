@@ -38,7 +38,7 @@
 
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom ];
     [button setImage:[UIImage imageNamed:@"btn_napEnd.png"] forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(walkEndAction:) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(sleepEndAction:) forControlEvents:UIControlEventTouchUpInside];
     [footerView addSubview:button];
     
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -49,7 +49,7 @@
     
     
 }
-- (void)walkEndAction:(id)sender
+- (void)sleepEndAction:(id)sender
 {
     if (self.sleepEndBlock) {
         self.sleepEndBlock();

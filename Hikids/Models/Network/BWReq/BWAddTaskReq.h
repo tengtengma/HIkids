@@ -12,10 +12,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface BWAddTaskReq : BWBaseReq
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *planTime;
-@property (nonatomic, strong) NSArray *assistants;
-@property (nonatomic, strong) NSArray *kids;
 @property (nonatomic, strong) NSString *destinationId;
 @property (nonatomic, strong) NSString *remark;
+@property (nonatomic, strong) NSArray *assistants;
+@property (nonatomic, strong) NSArray *kids;
+
 
 - (NSURL *)url;
 
