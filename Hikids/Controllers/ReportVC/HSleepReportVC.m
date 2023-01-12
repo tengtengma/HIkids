@@ -261,27 +261,26 @@
         make.width.equalTo(bgView);
         make.height.mas_equalTo(PAaptation_y(47));
     }];
-
-    //未展开的bottomView
-    HStudentStateBottomView *safeBottomView = [[HStudentStateBottomView alloc] initWithArray:@[]];
-    [bgView addSubview:safeBottomView];
-    [safeBottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+    
+    HStudent *student = [[HStudent alloc] init];
+    
+    HStudentFooterView *safeFooterView = [[HStudentFooterView alloc] init];
+    [safeFooterView setupWithModel:student];
+    [safeFooterView setNomalBorder];
+    [bgView addSubview:safeFooterView];
+    
+    [safeFooterView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(safeTopView.mas_bottom);
         make.left.equalTo(safeTopView);
         make.right.equalTo(safeTopView.mas_right);
         make.bottom.equalTo(bgView.mas_bottom);
     }];
 
-    DefineWeakSelf;
-    safeTopView.expandBlock = ^{
-
-    };
-    
     
     [self.scrollView addSubview:self.printBtn];
     [self.printBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(safeBottomView.mas_bottom).offset(PAaptation_y(26));
-        make.right.equalTo(safeBottomView.mas_right);
+        make.top.equalTo(safeTopView.mas_bottom).offset(PAaptation_y(26));
+        make.right.equalTo(safeTopView.mas_right);
         make.width.mas_equalTo(PAdaptation_x(146));
         make.height.mas_equalTo(PAaptation_y(48));
     }];

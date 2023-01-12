@@ -120,7 +120,7 @@
 //    [self getTaskRequest];
 //
     //获取当前午睡的任务情况
-    [self getSleepTaskRequest];
+//    [self getSleepTaskRequest];
     //回调的监控
 //    [self modeChangeBlock];
 //
@@ -225,9 +225,9 @@
     //结束午睡 弹出午睡报告
     self.sleepMenuTableView.sleepEndBlock = ^{
         
-        [weakSelf changeTaskStateRequestWithStatus:@"5"];
+//        [weakSelf changeTaskStateRequestWithStatus:@"5"];
         
-//        [weakSelf showSleepReport];
+        [weakSelf showSleepReport];
     };
     self.sleepMenuTableView.openReport = ^{
         NSLog(@"sleep");
