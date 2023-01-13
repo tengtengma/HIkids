@@ -57,7 +57,7 @@
         return PAaptation_y(129);
     }
     if (indexPath.section == 2) {
-        if (self.exceptExpand) {
+        if (!self.exceptExpand) {
             if (indexPath.row == 0) {
                 return PAaptation_y(129);
             }else{
@@ -78,7 +78,7 @@
         return self.safeExpand ? self.safeList.count : 1;
     }
     if (section == 2) {
-        return self.exceptExpand ? self.exceptList.count : 1;
+        return !self.exceptExpand ? self.exceptList.count : 1;
     }
     return 2;
 }
@@ -153,7 +153,7 @@
     }
     if (indexPath.section == 2) {
         
-        if (self.exceptExpand) {
+        if (!self.exceptExpand) {
             
             [self loadExpandWithCell:cell byType:CellType_Danger withIndexPath:indexPath];
             
@@ -184,6 +184,7 @@
     if (type == CellType_Safe) {
     
         HStudentStateTopView *safeTopView = [[HStudentStateTopView alloc] init];
+        safeTopView.type = TYPE_WALK;
         safeTopView.studentList = self.safeList;
         [safeTopView.expandBtn setImage:[UIImage imageNamed:@"close.png"] forState:UIControlStateNormal];
         [safeTopView loadSafeStyle];
@@ -217,6 +218,7 @@
     if (type == CellType_Danger) {
         
         HStudentStateTopView *dangerTopView = [[HStudentStateTopView alloc] init];
+        dangerTopView.type = TYPE_WALK;
         dangerTopView.studentList = self.exceptList;
         [dangerTopView loadDangerStyle];
         [dangerTopView.expandBtn setImage:[UIImage imageNamed:@"close.png"] forState:UIControlStateNormal];
@@ -251,6 +253,7 @@
         if (indexPath.row == 0) {
             
             HStudentStateTopView *safeTopView = [[HStudentStateTopView alloc] init];
+            safeTopView.type = TYPE_WALK;
             safeTopView.studentList = self.safeList;
             [safeTopView loadSafeStyle];
             [safeTopView.expandBtn setImage:[UIImage imageNamed:@"expand.png"] forState:UIControlStateNormal];
@@ -309,6 +312,7 @@
         if (indexPath.row == 0) {
             
             HStudentStateTopView *dangerTopView = [[HStudentStateTopView alloc] init];
+            dangerTopView.type = TYPE_WALK;
             dangerTopView.studentList = self.exceptList;
             [dangerTopView loadDangerStyle];
             [dangerTopView.expandBtn setImage:[UIImage imageNamed:@"expand.png"] forState:UIControlStateNormal];

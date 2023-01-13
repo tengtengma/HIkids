@@ -18,12 +18,19 @@ typedef enum _CellType
 }CellType;
 
 typedef void(^openReportBlock)(void);
+typedef void(^clickGpsAction)(void);
 
 @interface HBaseMenuView : UITableView
 @property (nonatomic, assign) CellType type;
 @property (nonatomic, copy) openReportBlock openReport;
+@property (nonatomic, copy) clickGpsAction gpsBlock;
+@property (nonatomic, strong) UIButton *gpsButton;
+@property (nonatomic, strong) NSArray *safeList;
+@property (nonatomic, strong) NSArray *exceptList;
 
 - (instancetype)initWithFrame:(CGRect)frame;
+
+- (void)scrollToMiddle;
 @end
 
 NS_ASSUME_NONNULL_END

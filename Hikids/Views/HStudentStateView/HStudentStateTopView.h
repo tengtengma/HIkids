@@ -9,13 +9,21 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^expandBlockAction)(void);
+typedef enum _TYPE
+{
+    TYPE_WALK = 0,
+    TYPE_SLEEP = 1,
 
+}TYPE;
+
+typedef void(^expandBlockAction)(void);
 
 @interface HStudentStateTopView : UIView
 @property (nonatomic, copy) expandBlockAction expandBlock;
 @property (nonatomic, strong) NSArray *studentList;
 @property (nonatomic, strong) UIButton *expandBtn;
+@property (nonatomic, strong) UILabel *updateTimeLabel;
+@property (nonatomic, assign) TYPE type;
 
 - (void)loadSafeStyle;
 - (void)loadDangerStyle;

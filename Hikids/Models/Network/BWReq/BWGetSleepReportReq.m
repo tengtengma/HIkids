@@ -1,16 +1,17 @@
 //
-//  BWGetSleepTaskReq.m
+//  BWGetSleepReportReq.m
 //  Hikids
 //
-//  Created by 马腾 on 2023/1/11.
+//  Created by 马腾 on 2023/1/13.
 //
 
-#import "BWGetSleepTaskReq.h"
+#import "BWGetSleepReportReq.h"
 
-@implementation BWGetSleepTaskReq
+@implementation BWGetSleepReportReq
+
 - (NSURL *)url
 {
-    NSString *str = [NSString stringWithFormat:@"%@%@",BaseURL,GetSleepTaskURL];
+    NSString *str = [NSString stringWithFormat:@"%@%@/%@",BaseURL,GetSleepReportURL,self.taskId];
     return [NSURL URLWithString:str];
 }
 

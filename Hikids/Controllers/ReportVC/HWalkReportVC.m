@@ -9,6 +9,7 @@
 #import "HStudentStateTopView.h"
 #import "HStudentStateBottomView.h"
 #import "HStudentFooterView.h"
+#import "HTask.h"
 
 @interface HWalkReportVC ()<UIScrollViewDelegate>
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -108,7 +109,7 @@
             make.left.equalTo(self.view).offset(PAdaptation_x(25));
         }];
         
-        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(580));
+        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(580) + PAaptation_y(78)*3);
 
         
     }else{
@@ -145,14 +146,10 @@
         }];
         
         
-        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(180));
+        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(180) + PAaptation_y(78)*3);
 
     }
-    
 
-    
-
-    
     [self.scrollView addSubview:self.destLabel];
     [self.destLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.destDesLabel.mas_bottom).offset(PAaptation_y(6));
@@ -296,45 +293,55 @@
         make.left.equalTo(self.teacherDesLabel);
     }];
     
-    UIView *bgView = [[UIView alloc] init];
-    bgView.layer.masksToBounds = YES;
-    bgView.layer.cornerRadius = 12;
-    bgView.layer.borderWidth = 2;
-    bgView.layer.borderColor = BWColor(0.133, 0.133, 0.133, 1.0).CGColor;
-    [self.scrollView addSubview:bgView];
-    [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.dangerLabel.mas_bottom).offset(PAaptation_y(10));
-        make.left.equalTo(self.view).offset(PAdaptation_x(24));
+    
+    HStudentStateTopView *dangerTopView = [[HStudentStateTopView alloc] init];
+    dangerTopView.type = TYPE_SLEEP;
+    dangerTopView.studentList = @[];
+    dangerTopView.expandBtn.hidden = YES;
+    dangerTopView.updateTimeLabel.hidden = NO;
+    [dangerTopView loadDangerStyle];
+    [self.scrollView addSubview:dangerTopView];
+    
+    [dangerTopView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.dangerLabel.mas_bottom);
+        make.left.equalTo(self.dangerLabel);
         make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(24));
-        make.height.mas_equalTo(PAaptation_y(129));
-    }];
-
-    HStudentStateTopView *safeTopView = [[HStudentStateTopView alloc] init];
-    safeTopView.studentList = @[];
-    [safeTopView.expandBtn setImage:[UIImage imageNamed:@"close.png"] forState:UIControlStateNormal];
-    [safeTopView loadDangerStyle];
-    [bgView addSubview:safeTopView];
-    [safeTopView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(bgView);
-        make.left.equalTo(bgView);
-        make.width.equalTo(bgView);
         make.height.mas_equalTo(PAaptation_y(47));
     }];
+    
+    UIView *tempFootView = nil;
+    for (NSInteger i = 0; i < 3; i++) {
+        HStudent *student = [[HStudent alloc] init];
+        student.name = @"adfasdf";
+        student.exceptionTime = @"123";
+        student.avatar = @"https://yunpengmall.oss-cn-beijing.aliyuncs.com/1560875015170428928/material/19181666430944_.pic.jpg";
+        
+        HStudentFooterView *safeFooterView = [[HStudentFooterView alloc] init];
+        [safeFooterView setupWithModel:student];
+        if (i == 2) {
+            [safeFooterView setLastCellBorder];
+        }else{
+            [safeFooterView setNomalBorder];
+        }
+        [self.scrollView addSubview:safeFooterView];
+        
+        [safeFooterView mas_makeConstraints:^(MASConstraintMaker *make) {
+            if (i == 0) {
+                make.top.equalTo(dangerTopView.mas_bottom);
+                make.left.equalTo(dangerTopView);
+                make.right.equalTo(dangerTopView.mas_right);
+                make.height.mas_equalTo(PAaptation_y(78));
+            }else{
+                make.top.equalTo(tempFootView.mas_bottom);
+                make.left.equalTo(dangerTopView);
+                make.right.equalTo(dangerTopView.mas_right);
+                make.height.mas_equalTo(PAaptation_y(78));
+            }
 
-    //未展开的bottomView
-    HStudentStateBottomView *safeBottomView = [[HStudentStateBottomView alloc] initWithArray:@[]];
-    [bgView addSubview:safeBottomView];
-    [safeBottomView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(safeTopView.mas_bottom);
-        make.left.equalTo(safeTopView);
-        make.right.equalTo(safeTopView.mas_right);
-        make.bottom.equalTo(bgView.mas_bottom);
-    }];
-
-    DefineWeakSelf;
-    safeTopView.expandBlock = ^{
-
-    };
+        }];
+        
+        tempFootView = safeFooterView;
+    }
     
 
 }

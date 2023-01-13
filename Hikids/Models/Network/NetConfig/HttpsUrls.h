@@ -10,7 +10,7 @@
 #define HttpsUrls_h
 
 //#define BaseURL                     @"https://open.ebeiwai.com/zhiketang"                         //正式服务器
-#define BaseURL                      @"http://4vhasa.natappfree.cc"                    //ceshi服务器
+#define BaseURL                      @"http://api.hikids.blog"                    //ceshi服务器
 //#define BaseURL                     @"http://13.115.114.98:8089"
 
 
@@ -26,7 +26,8 @@
 #define TaskAddURL                 @"/v1/business/hikidsTask/taskAdd"                   //创建任务
 #define GetTaskURL                 @"/v1/business/hikidsTask/getNowTask"                //获取当前任务信息
 #define ChangeTaskStateURL         @"/v1/business/hikidsTask/changeStatus"              //修改任务状态
-#define GetSleepTaskURL            @"/v1/business/sleepTask/getTaskInfo"                 //获取午睡任务接口
+#define GetSleepTaskURL            @"/v1/business/sleepTask/getTaskInfo"                //获取午睡任务接口
+#define GetSleepReportURL          @"/v1/business/sleepTask/getSleepTaskReportInfo"     //获取午睡报告接口
 
 #endif /* HttpsUrls_h */
 

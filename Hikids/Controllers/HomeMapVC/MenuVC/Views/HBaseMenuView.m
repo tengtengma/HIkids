@@ -48,7 +48,6 @@
     self.tableHeaderView = headerView;
     
     HSmallCardView *smallView = [[HSmallCardView alloc] initWithFrame:CGRectMake(PAdaptation_x(10),0 , PAdaptation_x(115), PAaptation_y(79))];
-    
     [headerView addSubview:smallView];
     
     DefineWeakSelf;
@@ -57,6 +56,12 @@
             weakSelf.openReport();
         }
     };
+    
+    self.gpsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.gpsButton setFrame:CGRectMake(headerView.frame.size.width - PAdaptation_x(50) , headerView.frame.size.height - PAaptation_y(82), PAdaptation_x(40), PAaptation_y(40))];
+    [self.gpsButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
+    [self.gpsButton addTarget:self action:@selector(clickGpsAction) forControlEvents:UIControlEventTouchUpInside];
+    [headerView addSubview:self.gpsButton];
 
     UIImageView *topView = [[UIImageView alloc] init];
     [topView setImage:[UIImage imageNamed:@"menu_header.png"]];
@@ -80,7 +85,23 @@
     }];
     
 }
-
+- (void)clickGpsAction
+{
+    if (self.gpsBlock) {
+        self.gpsBlock();
+    }
+}
+- (void)scrollToMiddle
+{
+    NSLog(@"%f",self.contentOffset.y);
+    
+    //先设置为窗口用户自己展开时 为了防止窗口来回展开收起
+    if (self.contentOffset.y > 0) {
+        return;
+    }
+    
+    [self scrollRectToVisible:CGRectMake(0,  0, SCREEN_WIDTH, PAaptation_y(500)) animated:YES];
+}
 -(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event{
     
 //    NSLog(@"point=%@",NSStringFromCGPoint(point));

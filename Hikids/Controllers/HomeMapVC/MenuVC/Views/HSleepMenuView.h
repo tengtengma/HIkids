@@ -13,8 +13,6 @@ typedef void(^sleepEndAction)(void);
 
 
 @interface HSleepMenuView : HBaseMenuView
-@property (nonatomic, strong) NSArray *safeList;
-@property (nonatomic, strong) NSArray *exceptList;
 @property (nonatomic, strong) sleepEndAction sleepEndBlock;
 
 - (instancetype)initWithFrame:(CGRect)frame;

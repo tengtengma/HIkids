@@ -32,7 +32,6 @@
         }];
         
         self.iconView = [[UIImageView alloc] init];
-        [self.iconView setImage:[UIImage imageNamed:@"safeIcon.png"]];
         [self.topView addSubview:self.iconView];
         
         [self.iconView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -85,6 +84,16 @@
             make.height.mas_equalTo(PAaptation_y(24));
         }];
         
+        self.updateTimeLabel = [[UILabel alloc] init];
+        self.updateTimeLabel.font = [UIFont boldSystemFontOfSize:14];
+        self.updateTimeLabel.hidden = YES;
+        [self.topView addSubview:self.updateTimeLabel];
+        
+        [self.updateTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.topView);
+            make.right.equalTo(self.topView.mas_right).offset(-PAdaptation_x(11.5));
+        }];
+        
         
         
     }
@@ -99,21 +108,26 @@
 
 - (void)loadSafeStyle
 {
-    [self.iconView setImage:[UIImage imageNamed:@"safeIcon.png"]];
-    self.stateLabel.text = @"安全";
+    [self.iconView setImage:self.type == TYPE_WALK ? [UIImage imageNamed:@"safeIcon.png"] : [UIImage imageNamed:@"xintiao.png"]];
+    self.stateLabel.text = self.type == TYPE_WALK ? @"安全" : @"心拍正常";
     self.numberLabel.text = [NSString stringWithFormat:@"%ld人",self.studentList.count];
     self.numberLabel.textColor = [UIColor whiteColor];
     self.numberBg.backgroundColor = BWColor(5, 70, 11, 1);
     [self.topView setImage:[UIImage imageNamed:@"safeStatus.png"]];
+    self.updateTimeLabel.text = @"11:11";
+
 }
 - (void)loadDangerStyle
 {
-    [self.iconView setImage:[UIImage imageNamed:@"dangerIcon.png"]];
-    self.stateLabel.text = @"危険";
+    [self.iconView setImage:self.type == TYPE_WALK ? [UIImage imageNamed:@"dangerIcon.png"] : [UIImage imageNamed:@"heart.png"]];
+
+    self.stateLabel.text =  @"危険";
     self.numberLabel.text = [NSString stringWithFormat:@"%ld人",self.studentList.count];
     self.numberLabel.textColor = BWColor(255, 75, 0, 1);
     [self.topView setImage:[UIImage imageNamed:@"dangerStatus.png"]];
     self.numberBg.backgroundColor = [UIColor whiteColor];
+    self.updateTimeLabel.text = @"11:11";
+
 }
 
 @end

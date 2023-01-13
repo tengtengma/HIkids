@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		43BDE8DD30B2D7A394F8B296 /* Pods_Hikids.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8788F8B651400FC4EC71577 /* Pods_Hikids.framework */; };
+		9E03EFE22971265400A11E49 /* BWGetSleepReportReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E03EFE12971265400A11E49 /* BWGetSleepReportReq.m */; };
+		9E03EFE52971266200A11E49 /* BWGetSleepReportResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E03EFE42971266200A11E49 /* BWGetSleepReportResp.m */; };
+		9E03EFE82971341B00A11E49 /* heart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E03EFE62971341B00A11E49 /* heart@2x.png */; };
+		9E03EFE92971341B00A11E49 /* heart@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E03EFE72971341B00A11E49 /* heart@3x.png */; };
+		9E03EFEC297143BC00A11E49 /* quit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E03EFEA297143BC00A11E49 /* quit@2x.png */; };
+		9E03EFED297143BC00A11E49 /* quit@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E03EFEB297143BC00A11E49 /* quit@3x.png */; };
 		9E0B546A28B21E620026CD86 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E0B546928B21E620026CD86 /* AppDelegate.m */; };
 		9E0B547328B21E620026CD86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E0B547128B21E620026CD86 /* Main.storyboard */; };
 		9E0B547528B21E660026CD86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E0B547428B21E660026CD86 /* Assets.xcassets */; };
@@ -250,6 +256,14 @@
 /* Begin PBXFileReference section */
 		33281BEE1161C470B4E9D572 /* Pods-Hikids.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hikids.release.xcconfig"; path = "Target Support Files/Pods-Hikids/Pods-Hikids.release.xcconfig"; sourceTree = "<group>"; };
 		9640EDA3F4B6876B5095B9E8 /* Pods-Hikids.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Hikids.debug.xcconfig"; path = "Target Support Files/Pods-Hikids/Pods-Hikids.debug.xcconfig"; sourceTree = "<group>"; };
+		9E03EFE02971265400A11E49 /* BWGetSleepReportReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWGetSleepReportReq.h; sourceTree = "<group>"; };
+		9E03EFE12971265400A11E49 /* BWGetSleepReportReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWGetSleepReportReq.m; sourceTree = "<group>"; };
+		9E03EFE32971266200A11E49 /* BWGetSleepReportResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWGetSleepReportResp.h; sourceTree = "<group>"; };
+		9E03EFE42971266200A11E49 /* BWGetSleepReportResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWGetSleepReportResp.m; sourceTree = "<group>"; };
+		9E03EFE62971341B00A11E49 /* heart@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "heart@2x.png"; sourceTree = "<group>"; };
+		9E03EFE72971341B00A11E49 /* heart@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "heart@3x.png"; sourceTree = "<group>"; };
+		9E03EFEA297143BC00A11E49 /* quit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "quit@2x.png"; sourceTree = "<group>"; };
+		9E03EFEB297143BC00A11E49 /* quit@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "quit@3x.png"; sourceTree = "<group>"; };
 		9E0B546528B21E620026CD86 /* Hikids.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hikids.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E0B546828B21E620026CD86 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9E0B546928B21E620026CD86 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -850,6 +864,8 @@
 				9E17D1BB28ED68B5005FA5A9 /* default_mdd@3x.png */,
 				9E17D1B328ED563F005FA5A9 /* backBtn@2x.png */,
 				9E17D1B428ED563F005FA5A9 /* backBtn@3x.png */,
+				9E03EFE62971341B00A11E49 /* heart@2x.png */,
+				9E03EFE72971341B00A11E49 /* heart@3x.png */,
 			);
 			path = MenuUI;
 			sourceTree = "<group>";
@@ -970,6 +986,8 @@
 				9EDF5241290029C20066BFDC /* BWChangeTaskStateReq.m */,
 				9E29CC35296EF7C5009DF7FD /* BWGetSleepTaskReq.h */,
 				9E29CC36296EF7C5009DF7FD /* BWGetSleepTaskReq.m */,
+				9E03EFE02971265400A11E49 /* BWGetSleepReportReq.h */,
+				9E03EFE12971265400A11E49 /* BWGetSleepReportReq.m */,
 			);
 			path = BWReq;
 			sourceTree = "<group>";
@@ -1012,6 +1030,8 @@
 				9EDF5244290029D10066BFDC /* BWChangeTaskStateResp.m */,
 				9E29CC38296EF85C009DF7FD /* BWGetSleepTaskResp.h */,
 				9E29CC39296EF85C009DF7FD /* BWGetSleepTaskResp.m */,
+				9E03EFE32971266200A11E49 /* BWGetSleepReportResp.h */,
+				9E03EFE42971266200A11E49 /* BWGetSleepReportResp.m */,
 			);
 			path = BWResp;
 			sourceTree = "<group>";
@@ -1294,6 +1314,8 @@
 		9EEC47902966A37F0031CE9F /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				9E03EFEA297143BC00A11E49 /* quit@2x.png */,
+				9E03EFEB297143BC00A11E49 /* quit@3x.png */,
 				9EEC47922966A38E0031CE9F /* save@2x.png */,
 				9EEC47912966A38E0031CE9F /* save@3x.png */,
 				9EEC479A2966B1740031CE9F /* account_tz@2x.png */,
@@ -1441,6 +1463,7 @@
 				9E17D1BD28ED68B5005FA5A9 /* default_mdd@3x.png in Resources */,
 				9E17D19A28EABD96005FA5A9 /* safe@3x.png in Resources */,
 				9EF21B2B28D985050075CFF0 /* btn_login_unavailable@3x.png in Resources */,
+				9E03EFE92971341B00A11E49 /* heart@3x.png in Resources */,
 				9EB411A2296BBD6300CFA8FE /* start_btn.png in Resources */,
 				9E0B547528B21E660026CD86 /* Assets.xcassets in Resources */,
 				9E17D1A428ED1E6B005FA5A9 /* safeView@3x.png in Resources */,
@@ -1482,6 +1505,7 @@
 				9EB41189296BBBBE00CFA8FE /* ol_96_color.png in Resources */,
 				9EB411BD296BEB3300CFA8FE /* dateIcon@2x.png in Resources */,
 				9EEC479E2966B1740031CE9F /* account_tz@2x.png in Resources */,
+				9E03EFEC297143BC00A11E49 /* quit@2x.png in Resources */,
 				9EDF524D2903CE6C0066BFDC /* dangerStatus@3x.png in Resources */,
 				9E17D1BE28ED68B5005FA5A9 /* default_mdd@2x.png in Resources */,
 				9EB4118F296BBBBE00CFA8FE /* moon.png in Resources */,
@@ -1516,7 +1540,9 @@
 				9EB4118B296BBBBE00CFA8FE /* location_report@2x.png in Resources */,
 				9E1F21BC28E1805700C5041B /* btn_menu_walk@2x.png in Resources */,
 				9EB411CE296BF93800CFA8FE /* date_selected@2x.png in Resources */,
+				9E03EFED297143BC00A11E49 /* quit@3x.png in Resources */,
 				9E98FA6329657B91007194EF /* print@2x.png in Resources */,
+				9E03EFE82971341B00A11E49 /* heart@2x.png in Resources */,
 				9EDF522F28FA9B480066BFDC /* naoling@2x.png in Resources */,
 				9EF21B3528D985050075CFF0 /* icon_mail@2x.png in Resources */,
 				9EB4119B296BBBBE00CFA8FE /* location_report.png in Resources */,
@@ -1677,6 +1703,8 @@
 				9E17D1BA28ED6655005FA5A9 /* HMddView.m in Sources */,
 				9E17D1DF28EEAE9B005FA5A9 /* HTeacher.m in Sources */,
 				9E29CC37296EF7C5009DF7FD /* BWGetSleepTaskReq.m in Sources */,
+				9E03EFE52971266200A11E49 /* BWGetSleepReportResp.m in Sources */,
+				9E03EFE22971265400A11E49 /* BWGetSleepReportReq.m in Sources */,
 				9E4C5F42295EC5D300E59C00 /* HWalkMenuView.m in Sources */,
 				9E42E69828D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				9EEC478B296695D30031CE9F /* HSettingVC.m in Sources */,
@@ -1911,7 +1939,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = hikids_dev;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -1957,7 +1985,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = hikids_dev;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

@@ -6,6 +6,7 @@
 //
 
 #import "HAccountVC.h"
+#import "HLoginVC.h"
 
 @interface HAccountVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
@@ -203,6 +204,27 @@
     
 }
 
+//DefineWeakSelf;
+//[BWAlertCtrl alertControllerWithTitle:@"提示" buttonArray:@[@"确定",@"取消"] message:@"是否退出登陆？" preferredStyle:UIAlertControllerStyleAlert clickBlock:^(NSString *buttonTitle) {
+//
+//    if ([buttonTitle isEqualToString:@"确定"]) {
+//        [weakSelf loginOut];
+//    }
+//}];
+- (void)loginOut
+{
+    HLoginVC *loginVC = [[HLoginVC alloc] init];
+
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    app.window.rootViewController = loginVC;
+
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    [user setObject:nil forKey:KEY_UserName];
+    [user setObject:nil forKey:KEY_Password];
+    [user setObject:nil forKey:KEY_Jwtoken];
+    [user synchronize];
+
+}
 #pragma mark - LazyLoad -
 - (UITableView *)tableView
 {

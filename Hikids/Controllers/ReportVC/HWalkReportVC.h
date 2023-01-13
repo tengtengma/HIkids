@@ -8,11 +8,15 @@
 #import "BaseVC.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+@class HTask;
+
 typedef void(^closeWalkReportAction)(void);
 
 @interface HWalkReportVC : BaseVC
 @property (nonatomic, copy) closeWalkReportAction closeWalkReportBlock;
-@property (nonatomic, strong) NSString *source; //区分从哪跳转 如果是散步终了 是1 看报告是 2
+@property (nonatomic, strong) HTask *currentTask;
+@property (nonatomic, strong) NSString *source;
 
 @end
 
