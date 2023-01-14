@@ -9,12 +9,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class HTask;
 typedef void(^closeSleepReportAction)(void);
 
 @interface HSleepReportVC : BaseVC
 @property (nonatomic, copy) closeSleepReportAction closeSleepReportBlock;
-@property (nonatomic, strong) HTask *currentTask;
+@property (nonatomic, strong) NSString *taskId;
 
 @end
 

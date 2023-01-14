@@ -55,7 +55,27 @@
         self.clickBlock(self);
     };
 }
-
+- (void)loadSelectStyle
+{
+    self.dayLabel.textColor = BWColor(191, 76, 13, 1);
+    self.monthLabel.textColor = BWColor(191, 76, 13, 1);
+    self.desLabel.textColor = BWColor(191, 76, 13, 1);
+    [self.imageView setImage:[UIImage imageNamed:@"date_selected.png"]];
+}
+- (void)loadNomalStyle
+{
+    self.dayLabel.textColor = [UIColor blackColor];
+    self.monthLabel.textColor = [UIColor blackColor];
+    self.desLabel.textColor = [UIColor blackColor];
+    [self.imageView setImage:[UIImage imageNamed:@"date_Default.png"]];
+}
+- (void)loadNoDataStyle
+{
+    self.dayLabel.textColor = BWColor(34, 34, 34, 0.75);
+    self.monthLabel.textColor = BWColor(34, 34, 34, 0.75);
+    self.desLabel.textColor = BWColor(34, 34, 34, 0.75);
+    [self.imageView setImage:[UIImage imageNamed:@"date_notSelected.png"]];
+}
 #pragma mark - LazyLoad -
 - (UIButton *)button
 {

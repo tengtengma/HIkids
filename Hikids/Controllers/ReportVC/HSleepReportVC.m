@@ -9,7 +9,7 @@
 #import "HStudentStateTopView.h"
 #import "HStudentStateBottomView.h"
 #import "HStudentFooterView.h"
-#import "HTask.h"
+#import "HReportInfo.h"
 #import "BWGetSleepReportReq.h"
 #import "BWGetSleepReportResp.h"
 
@@ -35,9 +35,7 @@
 @property (nonatomic, strong) NSArray *studentList;
 @property (nonatomic, strong) NSArray *dangerList;
 @property (nonatomic, strong) UIButton *printBtn;
-
-
-
+@property (nonatomic, strong) HReportInfo *reportInfo;
 
 
 @end
@@ -55,10 +53,11 @@
     DefineWeakSelf;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     BWGetSleepReportReq *req = [[BWGetSleepReportReq alloc] init];
-    req.taskId = self.currentTask.tId;
+    req.taskId = self.taskId;
     [NetManger getRequest:req withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        
+        BWGetSleepReportResp *sleepResp = (BWGetSleepReportResp *)resp;
+        weakSelf.reportInfo = [sleepResp.itemList safeObjectAtIndex:0];
         [weakSelf createUI];
 
         
@@ -168,12 +167,18 @@
         make.left.equalTo(self.genderLabel.mas_right).offset(PAdaptation_x(10));
     }];
     
+    
+    NSArray *teacherList = self.reportInfo.assistantList;
+    NSArray *kidsList = self.reportInfo.kidsList;
+    NSArray *unnormalList = self.reportInfo.unnormalList;
+    
     UILabel *tempTeacherNameLabel;
-    for (NSInteger i = 0; i < 2; i++) {
+    for (NSInteger i = 0; i < teacherList.count; i++) {
+        NSDictionary *teacherDic = [teacherList safeObjectAtIndex:i];
         UILabel *teacherNameLabel = [[UILabel alloc] init];
         teacherNameLabel.font = [UIFont boldSystemFontOfSize:20];
         teacherNameLabel.textColor = BWColor(0, 28, 41, 1);
-        teacherNameLabel.text = @"小林健一";
+        teacherNameLabel.text = [teacherDic safeObjectForKey:@"name"];
         [self.scrollView addSubview:teacherNameLabel];
         
         [teacherNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -217,11 +222,13 @@
     }];
     
     UILabel *tempStudentNameLabel;
-    for (NSInteger i = 0; i < 6; i++) {
+    for (NSInteger i = 0; i < kidsList.count; i++) {
+        NSDictionary *studentDic = [kidsList safeObjectAtIndex:i];
+        
         UILabel *studentNameLabel = [[UILabel alloc] init];
         studentNameLabel.font = [UIFont systemFontOfSize:20];
         studentNameLabel.textColor = BWColor(0, 28, 41, 1);
-        studentNameLabel.text = @"山上ハルコ";
+        studentNameLabel.text = [studentDic safeObjectForKey:@"name"];
         [self.scrollView addSubview:studentNameLabel];
         
         [studentNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -249,66 +256,72 @@
         
     }
     
-    [self.scrollView addSubview:self.dangerLabel];
-    [self.dangerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(tempStudentNameLabel.mas_bottom).offset(PAaptation_y(26));
-        make.left.equalTo(self.teacherDesLabel);
-    }];
-    
-    HStudentStateTopView *dangerTopView = [[HStudentStateTopView alloc] init];
-    dangerTopView.type = TYPE_SLEEP;
-    dangerTopView.studentList = @[];
-    dangerTopView.expandBtn.hidden = YES;
-    dangerTopView.updateTimeLabel.hidden = NO;
-    [dangerTopView loadDangerStyle];
-    [self.scrollView addSubview:dangerTopView];
-    
-    [dangerTopView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.dangerLabel.mas_bottom);
-        make.left.equalTo(self.dangerLabel);
-        make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(24));
-        make.height.mas_equalTo(PAaptation_y(47));
-    }];
-    
     UIView *tempFootView = nil;
-    for (NSInteger i = 0; i < 3; i++) {
-        HStudent *student = [[HStudent alloc] init];
-        student.name = @"adfasdf";
-        student.exceptionTime = @"123";
-        student.avatar = @"https://yunpengmall.oss-cn-beijing.aliyuncs.com/1560875015170428928/material/19181666430944_.pic.jpg";
 
-        HStudentFooterView *safeFooterView = [[HStudentFooterView alloc] init];
-        [safeFooterView setupWithModel:student];
-        if (i == 2) {
-            [safeFooterView setLastCellBorder];
-        }else{
-            [safeFooterView setNomalBorder];
-        }
-        [self.scrollView addSubview:safeFooterView];
+    if (unnormalList.count != 0) {
         
-        [safeFooterView mas_makeConstraints:^(MASConstraintMaker *make) {
-            if (i == 0) {
-                make.top.equalTo(dangerTopView.mas_bottom);
-                make.left.equalTo(dangerTopView);
-                make.right.equalTo(dangerTopView.mas_right);
-                make.height.mas_equalTo(PAaptation_y(78));
-            }else{
-                make.top.equalTo(tempFootView.mas_bottom);
-                make.left.equalTo(dangerTopView);
-                make.right.equalTo(dangerTopView.mas_right);
-                make.height.mas_equalTo(PAaptation_y(78));
-            }
-
+        [self.scrollView addSubview:self.dangerLabel];
+        [self.dangerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(tempStudentNameLabel.mas_bottom).offset(PAaptation_y(26));
+            make.left.equalTo(self.teacherDesLabel);
         }];
         
-        tempFootView = safeFooterView;
+        HStudentStateTopView *dangerTopView = [[HStudentStateTopView alloc] init];
+        dangerTopView.type = TYPE_SLEEP;
+        dangerTopView.studentList = unnormalList;
+        dangerTopView.expandBtn.hidden = YES;
+        dangerTopView.updateTimeLabel.hidden = YES;
+        [dangerTopView loadDangerStyle];
+        [self.scrollView addSubview:dangerTopView];
+        
+        [dangerTopView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.dangerLabel.mas_bottom);
+            make.left.equalTo(self.dangerLabel);
+            make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(24));
+            make.height.mas_equalTo(PAaptation_y(47));
+        }];
+        
+        for (NSInteger i = 0; i < unnormalList.count; i++) {
+            
+            NSDictionary *unnormalDic = [unnormalList safeObjectAtIndex:i];
+            
+            HStudent *student = [[HStudent alloc] init];
+            student.name = [unnormalDic safeObjectForKey:@"name"];
+            student.exceptionTime = @"123";
+            student.avatar = @"https://yunpengmall.oss-cn-beijing.aliyuncs.com/1560875015170428928/material/19181666430944_.pic.jpg";
+
+            HStudentFooterView *safeFooterView = [[HStudentFooterView alloc] init];
+            [safeFooterView setupWithModel:student];
+            if (i == 2) {
+                [safeFooterView setLastCellBorder];
+            }else{
+                [safeFooterView setNomalBorder];
+            }
+            [self.scrollView addSubview:safeFooterView];
+            
+            [safeFooterView mas_makeConstraints:^(MASConstraintMaker *make) {
+                if (i == 0) {
+                    make.top.equalTo(dangerTopView.mas_bottom);
+                    make.left.equalTo(dangerTopView);
+                    make.right.equalTo(dangerTopView.mas_right);
+                    make.height.mas_equalTo(PAaptation_y(78));
+                }else{
+                    make.top.equalTo(tempFootView.mas_bottom);
+                    make.left.equalTo(dangerTopView);
+                    make.right.equalTo(dangerTopView.mas_right);
+                    make.height.mas_equalTo(PAaptation_y(78));
+                }
+
+            }];
+            
+            tempFootView = safeFooterView;
+        }
     }
     
-
     [self.scrollView addSubview:self.printBtn];
     [self.printBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(tempFootView.mas_bottom).offset(PAaptation_y(26));
-        make.right.equalTo(tempFootView.mas_right);
+        make.top.equalTo(unnormalList.count == 0 ? tempStudentNameLabel.mas_bottom :  tempFootView.mas_bottom).offset(PAaptation_y(26));
+        make.right.equalTo(unnormalList.count == 0 ? tempStudentNameLabel.mas_right :  tempFootView.mas_right);
         make.width.mas_equalTo(PAdaptation_x(146));
         make.height.mas_equalTo(PAaptation_y(48));
     }];
@@ -326,6 +339,13 @@
         }
     }];
 
+}
+- (NSArray *)getDurationTimeStrWithStartTime:(NSString *)startTime endTime:(NSString *)endTime
+{
+    NSArray *startArray = [startTime componentsSeparatedByString:@" "];
+    NSArray *endArray = [endTime componentsSeparatedByString:@" "];
+    
+    return @[startArray[0],[NSString stringWithFormat:@"%@~%@",startArray[1],endArray[1]]];
 }
 #pragma mark - LazyLoad -
 - (UIScrollView *)scrollView
@@ -388,7 +408,8 @@
     if (!_yearLabel) {
         _yearLabel = [[UILabel alloc] init];
         _yearLabel.font = [UIFont boldSystemFontOfSize:20.0];
-        _yearLabel.text = @"2022年7月21日";
+        NSArray *dateArray = [self getDurationTimeStrWithStartTime:self.reportInfo.startTime endTime:self.reportInfo.endTime];
+        _yearLabel.text = [dateArray safeObjectAtIndex:0];;
     }
     return _yearLabel;
 }
@@ -397,7 +418,9 @@
     if (!_timeLabel) {
         _timeLabel = [[UILabel alloc] init];
         _timeLabel.font = [UIFont boldSystemFontOfSize:32.0];
-        _timeLabel.text = @"11:09~12:26";
+        NSArray *dateArray = [self getDurationTimeStrWithStartTime:self.reportInfo.startTime endTime:self.reportInfo.endTime];
+
+        _timeLabel.text = [dateArray safeObjectAtIndex:1];;
     }
     return _timeLabel;
 }
@@ -445,7 +468,7 @@
     if (!_teacherNumLabel) {
         _teacherNumLabel = [[UILabel alloc] init];
         _teacherNumLabel.font = [UIFont boldSystemFontOfSize:32.0];
-        _teacherNumLabel.text = @"2人";
+        _teacherNumLabel.text = [NSString stringWithFormat:@"%ld人",self.reportInfo.assistantList.count];
         _teacherNumLabel.textColor = BWColor(108, 159, 155, 1);
 
     }
@@ -466,7 +489,7 @@
     if (!_studentNumLabel) {
         _studentNumLabel = [[UILabel alloc] init];
         _studentNumLabel.font = [UIFont boldSystemFontOfSize:32.0];
-        _studentNumLabel.text = @"6人";
+        _studentNumLabel.text = [NSString stringWithFormat:@"%ld人",self.reportInfo.kidsList.count];
         _studentNumLabel.textColor = BWColor(108, 159, 155, 1);
 
     }

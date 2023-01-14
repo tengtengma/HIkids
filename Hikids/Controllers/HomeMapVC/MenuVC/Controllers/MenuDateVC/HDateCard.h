@@ -18,8 +18,12 @@ typedef void(^clickCardAction)(HDateCard *cardView);
 @property (nonatomic, strong) UILabel *dayLabel;
 @property (nonatomic, strong) UILabel *monthLabel;
 @property (nonatomic, strong) UIImageView *imageView;
+@property (nonatomic, strong) NSString *date;
 @property (nonatomic, copy) clickCardAction clickBlock;
 
+- (void)loadSelectStyle;
+- (void)loadNomalStyle;
+- (void)loadNoDataStyle;
 
 @end
 

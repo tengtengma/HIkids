@@ -10,6 +10,12 @@
 #import "HSleepReportVC.h"
 #import "HWalkReportVC.h"
 #import "ALCalendarPicker.h"
+#import "ALCalendarHelper.h"
+
+#import "BWGetTaskCalendarReq.h"
+#import "BWGetTaskCalendarResp.h"
+#import "HReport.h"
+
 
 @interface HDateVC ()<UITableViewDelegate,UITableViewDataSource,ALCalendarPickerDelegate>
 @property (nonatomic, strong) UIView *bgView;
@@ -21,8 +27,12 @@
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *dateLabel;
 @property (nonatomic, strong) UIButton *backBtn;
+@property (nonatomic, strong) NSArray *allWeekReportArray;
+@property (nonatomic, strong) NSArray *allMonthReportArray;
+@property (nonatomic, strong) NSArray *currentReportArray;
+@property (nonatomic, assign) NSInteger lastTag;
 
-
+@property (nonatomic, strong) ALCalendarPicker *calP;
 @property (nonatomic, strong) NSArray  *weeks;
 @property (nonatomic,   copy) NSString *firstDayDeteOfWeek;
 @property (nonatomic,   copy) NSString *nowDayDeteOfWeek;
@@ -37,9 +47,60 @@
     //获取一周时间
     [self getDateWeeksDuraingToday];
 
-    [self createUI];
 }
+- (void)startRequestWithDate:(NSString *)dateStr
+{
+    DefineWeakSelf;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    BWGetTaskCalendarReq *calendarReq = [[BWGetTaskCalendarReq alloc] init];
+    calendarReq.dateStr = dateStr;
+    [NetManger getRequest:calendarReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        
+        BWGetTaskCalendarResp *calendarResp = (BWGetTaskCalendarResp *)resp;
+        weakSelf.allWeekReportArray = calendarResp.itemList;
+                
+        [weakSelf findTaskArrayWithDate:weakSelf.nowDayDeteOfWeek];
+        
+        [weakSelf createUI];
+        
+        [weakSelf.tableView reloadData];
 
+        
+    } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+    }];
+}
+//获取一个月的报告
+- (void)startRequestWithMonthDate:(NSString *)dateStr
+{
+    DefineWeakSelf;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    BWGetTaskMonthCalendarReq *monthReq = [[BWGetTaskMonthCalendarReq alloc] init];
+    monthReq.dateStr = dateStr;
+    [NetManger getRequest:monthReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        
+        BWGetTaskCalendarResp *monthResp = (BWGetTaskCalendarResp *)resp;
+        weakSelf.allMonthReportArray = monthResp.itemList;
+        
+        NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+        for (HReport *report in weakSelf.allMonthReportArray) {
+            NSArray *timeArray = [report.createTime componentsSeparatedByString:@" "];
+            NSString *yymm = [timeArray safeObjectAtIndex:0];
+            [tempArray addObject:yymm];
+        }
+        
+        weakSelf.calP.hightLightItems = tempArray;
+        [weakSelf.calP reloadPicker];
+
+        
+    } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+    }];
+}
 - (void)createUI
 {
     [self.view addSubview:self.bgView];
@@ -135,22 +196,32 @@
     }];
     
     UIView *tempView;
-    __block NSInteger lastTag = -1;
+    self.lastTag = -1;
     DefineWeakSelf;
     for (NSInteger i = 0; i<self.weeks.count; i++) {
         
         NSString *dataStr = [weakSelf.weeks safeObjectAtIndex:i];
         NSArray *array = [dataStr componentsSeparatedByString:@":"];
+        NSArray *mArray = [[array safeObjectAtIndex:0] componentsSeparatedByString:@"-"];
         
         HDateCard *cardView = [[HDateCard alloc] init];
         cardView.tag = 2000+i;
-        cardView.desLabel.text = @"火";
-        cardView.dayLabel.text = @"09";
-        cardView.monthLabel.text = @"1月";
-        
-        if ([array[0] isEqualToString:self.nowDayDeteOfWeek]) {
-            [cardView.imageView setImage:[UIImage imageNamed:@"date_selected.png"]];
-            lastTag = cardView.tag;
+        cardView.date = [array safeObjectAtIndex:0];
+        cardView.desLabel.text = [array safeObjectAtIndex:1];
+        cardView.dayLabel.text = [mArray safeObjectAtIndex:2];
+        cardView.monthLabel.text = [mArray safeObjectAtIndex:1];
+        if ([cardView.date isEqualToString:self.nowDayDeteOfWeek]) {
+            [cardView loadSelectStyle];
+            self.lastTag = cardView.tag;
+        }else{
+            //判断是否有报告
+            BOOL isHave = [self findReportWithDate:[array safeObjectAtIndex:0]];
+            if (isHave) {
+                [cardView loadNomalStyle];
+            }else{
+                [cardView loadNoDataStyle];
+            }
+            
         }
         [self.scrollView addSubview:cardView];
         
@@ -167,11 +238,18 @@
         
         
         cardView.clickBlock = ^(HDateCard * _Nonnull cardView) {
+            if (cardView.tag == self.lastTag) {
+                //重复点击
+                return;
+            }
+            HDateCard *lastCardView = (HDateCard *)[weakSelf.view viewWithTag:weakSelf.lastTag];
+            [weakSelf setCardView:cardView withLastCardView:lastCardView];
+            [weakSelf findTaskArrayWithDate:cardView.date];
+            [weakSelf.tableView reloadData];
             
-            [cardView.imageView setImage:[UIImage imageNamed:@"date_selected.png"]];
-            HDateCard *lastCardView = (HDateCard *)[weakSelf.scrollView viewWithTag:lastTag];
-            [lastCardView.imageView setImage:[UIImage imageNamed:@"date_Default.png"]];
-            lastTag = cardView.tag;
+            weakSelf.lastTag = cardView.tag;
+
+
         };
         
         tempView = cardView;
@@ -179,10 +257,34 @@
     }
     
     self.scrollView.contentSize = CGSizeMake(PAdaptation_x(74)*self.weeks.count, PAaptation_y(104));
+
+}
+- (void)setCardView:(HDateCard *)cardView withLastCardView:(HDateCard *)lastCardView
+{
+    [cardView loadSelectStyle];
+   
+    //判断是否有报告
+    BOOL isHave = [self findReportWithDate:lastCardView.date];
     
+    if (isHave) {
+        [lastCardView loadNomalStyle];
+    }else{
+        [lastCardView loadNoDataStyle];
+    }
     
-    
-    
+
+}
+- (BOOL)findReportWithDate:(NSString *)dateStr
+{
+    for (HReport *report in self.allWeekReportArray) {
+        NSArray *timeArray = [report.createTime componentsSeparatedByString:@" "];
+        NSString *reportDateStr = [timeArray safeObjectAtIndex:0];
+
+        if ([dateStr isEqualToString:reportDateStr]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 - (void)createTableView
 {
@@ -206,39 +308,61 @@
     [self.view addSubview:calendarBgView];
     
     // 宽度建议使用屏幕宽度 高度太低会有滚动条
-    ALCalendarPicker *calP = [[ALCalendarPicker alloc] initWithFrame:CGRectMake(screenSize.width/2 - PAdaptation_x(357)/2, screenSize.height/2 - PAaptation_y(336)/2,PAdaptation_x(357), PAaptation_y(336))];
-    calP.delegate = self;
+    self.calP = [[ALCalendarPicker alloc] initWithFrame:CGRectMake(screenSize.width/2 - PAdaptation_x(357)/2, screenSize.height/2 - PAaptation_y(336)/2,PAdaptation_x(357), PAaptation_y(336))];
+    self.calP.delegate = self;
 
     // 起始日期
-//    calP.beginYearMonth = @"2017-01";
-    calP.hightLightItems = @[@"2017-06-17",@"2017-05-22",@"2017-06-12"];
-    calP.hightlightPriority = NO;
-    calP.layer.cornerRadius = 13;
-    calP.layer.masksToBounds = YES;
+//    self.calP.beginYearMonth = self.selectDateOfWeek;
+    self.calP.hightlightPriority = NO;
+    self.calP.layer.cornerRadius = 13;
+    self.calP.layer.masksToBounds = YES;
     
     // 高亮日期样式
-    [calP setupHightLightItemStyle:^(UIColor *__autoreleasing *backgroundColor, NSNumber *__autoreleasing *backgroundCornerRadius, UIColor *__autoreleasing *titleColor) {
+    [self.calP setupHightLightItemStyle:^(UIColor *__autoreleasing *backgroundColor, NSNumber *__autoreleasing *backgroundCornerRadius, UIColor *__autoreleasing *titleColor) {
         *backgroundColor = [UIColor colorWithRed:234.0/255.0 green:240.0/255.0 blue:243.0/255.0 alpha:1];
         *backgroundCornerRadius = @(5.0);
         *titleColor = [UIColor colorWithRed:44.0/255.0 green:49.0/255.0 blue:53.0/255.0 alpha:1];
     }];
     
     // 今天日期样式
-    [calP setupTodayItemStyle:^(UIColor *__autoreleasing *backgroundColor, NSNumber *__autoreleasing *backgroundCornerRadius, UIColor *__autoreleasing *titleColor) {
+    [self.calP setupTodayItemStyle:^(UIColor *__autoreleasing *backgroundColor, NSNumber *__autoreleasing *backgroundCornerRadius, UIColor *__autoreleasing *titleColor) {
         *backgroundColor = [UIColor redColor];
         *backgroundCornerRadius = @(PAdaptation_x(357) / 20); // 因为宽度是屏幕宽度,宽度 / 10 是cell 宽高 , cell宽高 / 2 为圆形
         *titleColor = [UIColor whiteColor];
     }];
     
     // 选择日期颜色
-    [calP setupSelectedItemStyle:^(UIColor *__autoreleasing *backgroundColor, NSNumber *__autoreleasing *backgroundCornerRadius, UIColor *__autoreleasing *titleColor) {
+    [self.calP setupSelectedItemStyle:^(UIColor *__autoreleasing *backgroundColor, NSNumber *__autoreleasing *backgroundCornerRadius, UIColor *__autoreleasing *titleColor) {
         *backgroundColor = [[UIColor redColor] colorWithAlphaComponent:0.5];
         *backgroundCornerRadius = @(PAdaptation_x(357) / 20); // 因为宽度是屏幕宽度,宽度 / 10 是cell 宽高 , cell宽高 / 2 为圆形
         *titleColor = [UIColor whiteColor];
     }];
     
-    [calendarBgView addSubview:calP];
+    [calendarBgView addSubview:self.calP];
     
+
+}
+- (void)findTaskArrayWithDate:(NSString *)selectDateStr
+{
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    for (HReport *report in self.allWeekReportArray) {
+        NSArray *timeArray = [report.createTime componentsSeparatedByString:@" "];
+        NSString *dateStr = [timeArray safeObjectAtIndex:0];
+        if ([dateStr isEqualToString:selectDateStr]) {
+            [tempArray addObject:report];
+        }
+    }
+    
+    if (tempArray == 0) {
+        for (HReport *report in self.allMonthReportArray) {
+            NSArray *timeArray = [report.createTime componentsSeparatedByString:@" "];
+            NSString *dateStr = [timeArray safeObjectAtIndex:0];
+            if ([dateStr isEqualToString:selectDateStr]) {
+                [tempArray addObject:report];
+            }
+        }
+    }
+    self.currentReportArray = tempArray;
 
 }
 - (void)backAction:(id)sender
@@ -255,6 +379,8 @@
         calendarBgView.alpha = 1.0;
         
     }];
+    
+    [self startRequestWithMonthDate:self.nowDayDeteOfWeek];
 }
 /**
  *  模式二
@@ -311,6 +437,10 @@
     self.nowDayDeteOfWeek = [formater stringFromDate:now];
     self.lastDayDeteOfWeek = [formater stringFromDate:lastDayOfWeek];
     self.weeks = dateWeeks;
+    
+    [self startRequestWithDate:self.nowDayDeteOfWeek];
+    
+    
 }
 
 //获取一周时间 数组
@@ -344,25 +474,25 @@
     NSString *targetWeekName = @"";
     
     //转换文案
-    if ([orrignWeekName isEqualToString:@"星期日"]) {
-        targetWeekName = @"周日";
+    if ([orrignWeekName isEqualToString:@"星期日"] || [orrignWeekName isEqualToString:@"にちようび"]) {
+        targetWeekName = @"日";
     }
-    else if ([orrignWeekName isEqualToString:@"星期一"]) {
-        targetWeekName = @"周一";
+    else if ([orrignWeekName isEqualToString:@"星期一"] || [orrignWeekName isEqualToString:@"げつようび"]) {
+        targetWeekName = @"月";
     }
-    else if ([orrignWeekName isEqualToString:@"星期二"]) {
-        targetWeekName = @"周二";
+    else if ([orrignWeekName isEqualToString:@"星期二"] || [orrignWeekName isEqualToString:@"かようび"]) {
+        targetWeekName = @"火";
     }
-    else if ([orrignWeekName isEqualToString:@"星期三"]) {
-        targetWeekName = @"周三";
+    else if ([orrignWeekName isEqualToString:@"星期三"] || [orrignWeekName isEqualToString:@"すいようび"]) {
+        targetWeekName = @"水";
     }
-    else if ([orrignWeekName isEqualToString:@"星期四"]) {
-        targetWeekName = @"周四";
+    else if ([orrignWeekName isEqualToString:@"星期四"] || [orrignWeekName isEqualToString:@"もくようび"]) {
+        targetWeekName = @"木";
     }
-    else if ([orrignWeekName isEqualToString:@"星期五"]) {
-        targetWeekName = @"周五";
+    else if ([orrignWeekName isEqualToString:@"星期五"] || [orrignWeekName isEqualToString:@"きんようび"]) {
+        targetWeekName = @"金";
     }else{
-        targetWeekName = @"周六";
+        targetWeekName = @"土";
     }
     
     return targetWeekName;
@@ -371,6 +501,9 @@
 #pragma mark - 选择一个日期 -
 - (void)calendarPicker:(ALCalendarPicker *)picker didSelectItem:(ALCalendarDate *)date date:(NSDate *)dateObj dateString:(NSString *)dateStr
 {
+//    if (![self findReportWithDate:dateStr]) {
+//        return;
+//    }
     picker.selectedItems = @[dateStr];
     [picker reloadPicker];
     
@@ -386,16 +519,60 @@
 
         }
     }];
+        
+    if ([self compareOneDay:dateStr withAnotherDay:self.firstDayDeteOfWeek] || ![self compareOneDay:dateStr withAnotherDay:self.lastDayDeteOfWeek]) {
+        NSLog(@"不再本周范围内，将周的日历选中状态改为空白");
+        
+        HDateCard *cardView = (HDateCard *)[self.view viewWithTag:self.lastTag];
+        [cardView loadNomalStyle];
+        self.lastTag = -1;
+        
+    
+    }else{
+        for (UIView *view in self.scrollView.subviews) {
+            if ([view isKindOfClass:[HDateCard class]]) {
+                HDateCard *cardView = (HDateCard *)view;
+                if ([cardView.date isEqualToString:dateStr]) {
+                    [cardView loadSelectStyle];
+                    self.lastTag = cardView.tag;
+                }else{
+                    if ([self findReportWithDate:cardView.date]) {
+                        [cardView loadNomalStyle];
+                    }else{
+                        [cardView loadNoDataStyle];
+                    }
+                }
+            }
+        }
+    }
+    
+    [self findTaskArrayWithDate:dateStr];
+    [self.tableView reloadData];
+    
+    
 }
-
+- (BOOL)compareOneDay:(NSString *)day1 withAnotherDay:(NSString *)day2
+{
+    NSDate *dateA = [ALCalendarHelper dateStringToDate:day1 format:@"yyyy-MM-dd"];
+    NSDate *dateB = [ALCalendarHelper dateStringToDate:day2 format:@"yyyy-MM-dd"];
+    NSComparisonResult result = [dateA compare:dateB];
+    if (result == NSOrderedDescending) {
+        return NO; // Day1 在 Day2 之后
+    }
+    else if (result == NSOrderedAscending) {
+        return YES; // Day1 在 Day2 之前
+    }
+    return YES;
+}
 #pragma mark - cell高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return PAaptation_y(105);
+    return self.currentReportArray.count == 0 ? PAaptation_y(44) : PAaptation_y(105);
+
 }
 
 #pragma mark - cell数量
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 2;
+    return self.currentReportArray.count == 0 ? 1 : self.currentReportArray.count;
 }
 
 #pragma mark - 每个cell
@@ -419,77 +596,101 @@
 }
 - (void)setupCell:(UITableViewCell *)cell  indexPath:(NSIndexPath *)indexPath
 {
-    UIView *bgView = [[UIView alloc] init];
-    bgView.layer.cornerRadius = 8;
-    bgView.layer.borderWidth = 2;
-    bgView.layer.borderColor = BWColor(34, 34, 34, 1).CGColor;
-    [cell.contentView addSubview:bgView];
-    
-    [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(cell.contentView).offset(PAaptation_y(5));
-        make.left.equalTo(cell.contentView).offset(PAdaptation_x(24));
-        make.right.equalTo(cell.contentView.mas_right).offset(-PAdaptation_x(24));
-        make.bottom.equalTo(cell.contentView.mas_bottom).offset(-PAaptation_y(5));
-    }];
-    
-    UILabel *label = [[UILabel alloc] init];
-    label.text = [NSString stringWithFormat:@"%ld",indexPath.row+1];
-    label.font = [UIFont boldSystemFontOfSize:48];
-    [bgView addSubview:label];
-    
-    [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(bgView);
-        make.left.equalTo(bgView).offset(PAdaptation_x(24));
-    }];
-    
-    UIImageView *imageView = [[UIImageView alloc] init];
-    [imageView setImage:[UIImage imageNamed:@"nap.png"]];
-    [bgView addSubview:imageView];
-    
-    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(bgView);
-        make.left.equalTo(label.mas_right).offset(PAdaptation_x(33));
-        make.width.mas_equalTo(PAdaptation_x(50));
-        make.height.mas_equalTo(PAaptation_y(50));
-    }];
-    
-    UILabel *timeLabel = [[UILabel alloc] init];
-    timeLabel.text = @"13:34 ~ 14:27";
-    timeLabel.font = [UIFont systemFontOfSize:14];
-    timeLabel.textColor = BWColor(76, 53, 41, 0.6);
-    [bgView addSubview:timeLabel];
-    
-    [timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(imageView);
-        make.left.equalTo(imageView.mas_right).offset(PAdaptation_x(18));
-    }];
-    
-    UILabel *contentLabel = [[UILabel alloc] init];
-    contentLabel.text = @"午睡レポート";
-    contentLabel.font = [UIFont boldSystemFontOfSize:20];
-    contentLabel.textColor = BWColor(76, 53, 41, 1);
-    [bgView addSubview:contentLabel];
-    
-    [contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(timeLabel.mas_bottom).offset(PAaptation_y(2));
-        make.left.equalTo(timeLabel);
-    }];
-    
-    if (indexPath.row == 1) {
-        [imageView setImage:[UIImage imageNamed:@"walk.png"]];
-        contentLabel.text = @"散歩レポート";
-
+    if (self.currentReportArray.count == 0) {
+        
+        UILabel *label = [[UILabel alloc] init];
+        label.text = [NSString stringWithFormat:@"この日はデータがありません。"];
+        label.font = [UIFont systemFontOfSize:14];
+        label.textColor = BWColor(0, 0, 0, 0.3);
+        [cell.contentView addSubview:label];
+        
+        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(cell.contentView);
+        }];
+        
+    }else{
+        HReport *report = [self.currentReportArray safeObjectAtIndex:indexPath.row];
+        NSArray *timeArray = [report.createTime componentsSeparatedByString:@" "];
+        NSString *timeStr = [timeArray safeObjectAtIndex:1];
+        
+        UIView *bgView = [[UIView alloc] init];
+        bgView.layer.cornerRadius = 8;
+        bgView.layer.borderWidth = 2;
+        bgView.layer.borderColor = BWColor(34, 34, 34, 1).CGColor;
+        [cell.contentView addSubview:bgView];
+        
+        [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(cell.contentView).offset(PAaptation_y(5));
+            make.left.equalTo(cell.contentView).offset(PAdaptation_x(24));
+            make.right.equalTo(cell.contentView.mas_right).offset(-PAdaptation_x(24));
+            make.bottom.equalTo(cell.contentView.mas_bottom).offset(-PAaptation_y(5));
+        }];
+        
+        UILabel *label = [[UILabel alloc] init];
+        label.text = [NSString stringWithFormat:@"%ld",indexPath.row+1];
+        label.font = [UIFont boldSystemFontOfSize:48];
+        [bgView addSubview:label];
+        
+        [label mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(bgView);
+            make.left.equalTo(bgView).offset(PAdaptation_x(24));
+        }];
+        
+        UIImageView *imageView = [[UIImageView alloc] init];
+        [bgView addSubview:imageView];
+        
+        [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(bgView);
+            make.left.equalTo(label.mas_right).offset(PAdaptation_x(33));
+            make.width.mas_equalTo(PAdaptation_x(50));
+            make.height.mas_equalTo(PAaptation_y(50));
+        }];
+        
+        UILabel *timeLabel = [[UILabel alloc] init];
+        timeLabel.text = timeStr;
+        timeLabel.font = [UIFont systemFontOfSize:14];
+        timeLabel.textColor = BWColor(76, 53, 41, 0.6);
+        [bgView addSubview:timeLabel];
+        
+        [timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(imageView);
+            make.left.equalTo(imageView.mas_right).offset(PAdaptation_x(18));
+        }];
+        
+        UILabel *contentLabel = [[UILabel alloc] init];
+        contentLabel.font = [UIFont boldSystemFontOfSize:20];
+        contentLabel.textColor = BWColor(76, 53, 41, 1);
+        [bgView addSubview:contentLabel];
+        
+        [contentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(timeLabel.mas_bottom).offset(PAaptation_y(2));
+            make.left.equalTo(timeLabel);
+        }];
+        
+        if (report.type.integerValue == 1) {
+            [imageView setImage:[UIImage imageNamed:@"walk.png"]];
+            contentLabel.text = @"散歩レポート";
+        }else{
+            [imageView setImage:[UIImage imageNamed:@"nap.png"]];
+            contentLabel.text = @"午睡レポート";
+        }
     }
+    
+
 }
 #pragma mark - UITableViewDelegate -
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
+    HReport *report = [self.currentReportArray safeObjectAtIndex:indexPath.row];
+    
+    if (report.type.integerValue == 1) {
         HWalkReportVC *walkReport = [[HWalkReportVC alloc] init];
+        walkReport.taskId = report.rId;
         [self presentViewController:walkReport animated:YES completion:nil];
     }
-    if (indexPath.row == 1) {
+    if (report.type.integerValue == 2) {
         HSleepReportVC *sleepReport = [[HSleepReportVC alloc] init];
+        sleepReport.taskId = report.rId;
         [self presentViewController:sleepReport animated:YES completion:nil];
     }
 }

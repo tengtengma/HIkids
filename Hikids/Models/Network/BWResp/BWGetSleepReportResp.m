@@ -6,6 +6,7 @@
 //
 
 #import "BWGetSleepReportResp.h"
+#import "HReportInfo.h"
 
 @implementation BWGetSleepReportResp
 - (id)initWithJSONDictionary:(NSDictionary *)jsonDic
@@ -17,9 +18,8 @@
 
         NSDictionary *dic = [jsonDic safeObjectForKey:@"item"];
         if (dic) {
-//            HTask *model = [HTask mj_objectWithKeyValues:dic];
-//            model.tId = [dic safeObjectForKey:@"id"];
-//            [itemList addObject:model];
+            HReportInfo *model = [HReportInfo mj_objectWithKeyValues:dic];
+            [itemList addObject:model];
             self.itemList = itemList;
         }
     }

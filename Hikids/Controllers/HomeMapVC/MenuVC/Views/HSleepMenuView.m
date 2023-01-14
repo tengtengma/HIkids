@@ -67,42 +67,75 @@
 
 #pragma mark - cell高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-
-    if (indexPath.section == 0) {
-        if (self.safeExpand) {
-            if (indexPath.row == 0) {
-                return PAaptation_y(129);
+    
+    if (self.exceptList == 0) {
+        
+        if (indexPath.row == 0) {
+            if (self.safeExpand) {
+                if (indexPath.row == 0) {
+                    return PAaptation_y(129);
+                }else{
+                    return PAaptation_y(78);
+                }
+                
             }else{
-                return PAaptation_y(78);
+                return PAaptation_y(129);
             }
-            
-        }else{
             return PAaptation_y(129);
         }
-        return PAaptation_y(129);
-    }
-    if (indexPath.section == 1) {
-        if (!self.exceptExpand) {
-            if (indexPath.row == 0) {
-                return PAaptation_y(129);
-            }else{
-                return PAaptation_y(78);
+        
+    }else{
+        if (indexPath.section == 0) {
+            
+            if (!self.exceptExpand) {
+                if (indexPath.row == 0) {
+                    return PAaptation_y(129);
+                }else{
+                    return PAaptation_y(78);
+                }
             }
+            return PAaptation_y(129);
         }
-        return PAaptation_y(129);
+        if (indexPath.section == 1) {
+            
+            if (self.safeExpand) {
+                if (indexPath.row == 0) {
+                    return PAaptation_y(129);
+                }else{
+                    return PAaptation_y(78);
+                }
+                
+            }else{
+                return PAaptation_y(129);
+            }
+            return PAaptation_y(129);
+
+        }
     }
+
+
     return 1;
 }
 
 #pragma mark - cell数量
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    if (self.exceptList.count == 0) {
+        
+        if (section == 0) {
+            return self.safeExpand ? self.safeList.count : 1;
+        }
+        
+    }else{
+        if (section == 0) {
+            return !self.exceptExpand ? self.exceptList.count : 1;
+        }
+        if (section == 1) {
+            return self.safeExpand ? self.safeList.count : 1;
+        }
+    }
 
-    if (section == 0) {
-        return self.safeExpand ? self.safeList.count : 1;
-    }
-    if (section == 1) {
-        return !self.exceptExpand ? self.exceptList.count : 1;
-    }
+
     return 2;
 }
 
@@ -119,29 +152,49 @@
     for (id v in cell.contentView.subviews)
         [v removeFromSuperview];
     
-    if (indexPath.section == 0) {
+    if (self.exceptList.count == 0) {
         
-        if (self.safeExpand) {
+        if (indexPath.section == 0) {
             
-            [self loadExpandWithCell:cell byType:CellType_Safe withIndexPath:indexPath];
-            
-        }else{
-            [self loadNOExpandWithCell:cell byType:CellType_Safe];
+            if (self.safeExpand) {
+                
+                [self loadExpandWithCell:cell byType:CellType_Safe withIndexPath:indexPath];
+                
+            }else{
+                [self loadNOExpandWithCell:cell byType:CellType_Safe];
+
+            }
 
         }
         
-    }
-    if (indexPath.section == 1) {
-        
-        if (!self.exceptExpand) {
+    }else{
+        if (indexPath.section == 0) {
             
-            [self loadExpandWithCell:cell byType:CellType_Danger withIndexPath:indexPath];
+            if (!self.exceptExpand) {
+                
+                [self loadExpandWithCell:cell byType:CellType_Danger withIndexPath:indexPath];
+                
+            }else{
+                [self loadNOExpandWithCell:cell byType:CellType_Danger];
+
+            }
             
-        }else{
-            [self loadNOExpandWithCell:cell byType:CellType_Danger];
+        }
+        if (indexPath.section == 1) {
+            
+            if (self.safeExpand) {
+                
+                [self loadExpandWithCell:cell byType:CellType_Safe withIndexPath:indexPath];
+                
+            }else{
+                [self loadNOExpandWithCell:cell byType:CellType_Safe];
+
+            }
 
         }
     }
+    
+
 
     return cell;
 }

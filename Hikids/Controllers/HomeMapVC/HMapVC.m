@@ -314,7 +314,7 @@
 - (void)showSleepReport
 {
     HSleepReportVC *sleepReportVC = [[HSleepReportVC alloc] init];
-    sleepReportVC.currentTask = self.currentTask;
+    sleepReportVC.taskId = self.currentTask.tId;
     [self presentViewController:sleepReportVC animated:YES completion:nil];
     
     //午睡报告关闭后 回到在院内模式
@@ -334,7 +334,7 @@
 {
     HWalkReportVC *walkReportVC = [[HWalkReportVC alloc] init];
     walkReportVC.source = @"1";
-    walkReportVC.currentTask = self.currentTask;
+    walkReportVC.taskId = self.currentTask.tId;
     [self presentViewController:walkReportVC animated:YES completion:nil];
     
     //散步报告关闭后 回到在院内模式
@@ -356,7 +356,6 @@
     DefineWeakSelf;
     BWGetTaskReq *getTaskReq = [[BWGetTaskReq alloc] init];
     [NetManger getRequest:getTaskReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
 
         BWGetTaskResp *getTaskResp = (BWGetTaskResp *)resp;
         weakSelf.currentTask = [getTaskResp.itemList safeObjectAtIndex:0];
@@ -364,7 +363,8 @@
         
         //散步模式开启
         if ([weakSelf.currentTask.status isEqualToString:@"1"]) {
-            
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+
             [weakSelf startWalkMode];
         }
         //该任务已完成 接着查询午睡任务情况
@@ -383,7 +383,6 @@
 //获取午睡任务状态
 - (void)getSleepTaskRequest
 {
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     DefineWeakSelf;
     BWGetSleepTaskReq *getSleepTaskReq = [[BWGetSleepTaskReq alloc] init];
@@ -444,9 +443,10 @@
     self.mapView.hidden = NO;               //展示地图
     self.homeMenuTableView.hidden = NO;     //展示首页底部菜单
     
+    [self startLocation];                   //开启定位
+
     [self getKinderRequest];                //获取小朋友点的信息
     
-    [self startLocation];                   //开启定位
 }
 //开始午睡模式
 - (void)startSleepMode

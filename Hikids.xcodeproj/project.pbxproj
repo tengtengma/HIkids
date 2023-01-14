@@ -91,6 +91,10 @@
 		9E42E69928D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E42E69628D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.m */; };
 		9E4C5F42295EC5D300E59C00 /* HWalkMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4C5F41295EC5D300E59C00 /* HWalkMenuView.m */; };
 		9E51FDD329640D8900EEC6EC /* HSleepMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E51FDD229640D8900EEC6EC /* HSleepMainView.m */; };
+		9E6832442972408600194199 /* BWGetTaskCalendarReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E6832432972408600194199 /* BWGetTaskCalendarReq.m */; };
+		9E6832472972409500194199 /* BWGetTaskCalendarResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E6832462972409500194199 /* BWGetTaskCalendarResp.m */; };
+		9E68324B297285A900194199 /* HReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E68324A297285A800194199 /* HReport.m */; };
+		9E68324E2972FD4D00194199 /* HReportInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E68324D2972FD4D00194199 /* HReportInfo.m */; };
 		9E8344B828C7912C00AB9D83 /* BWCheckTokenReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */; };
 		9E8344BB28C7913E00AB9D83 /* BWCheckTokenResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344BA28C7913E00AB9D83 /* BWCheckTokenResp.m */; };
 		9E8BDE7C296E87E30001C428 /* FFDropDownMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8BDE70296E87E30001C428 /* FFDropDownMenuCell.m */; };
@@ -397,6 +401,14 @@
 		9E4C5F41295EC5D300E59C00 /* HWalkMenuView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWalkMenuView.m; sourceTree = "<group>"; };
 		9E51FDD129640D8900EEC6EC /* HSleepMainView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HSleepMainView.h; sourceTree = "<group>"; };
 		9E51FDD229640D8900EEC6EC /* HSleepMainView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HSleepMainView.m; sourceTree = "<group>"; };
+		9E6832422972408600194199 /* BWGetTaskCalendarReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWGetTaskCalendarReq.h; sourceTree = "<group>"; };
+		9E6832432972408600194199 /* BWGetTaskCalendarReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWGetTaskCalendarReq.m; sourceTree = "<group>"; };
+		9E6832452972409500194199 /* BWGetTaskCalendarResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWGetTaskCalendarResp.h; sourceTree = "<group>"; };
+		9E6832462972409500194199 /* BWGetTaskCalendarResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWGetTaskCalendarResp.m; sourceTree = "<group>"; };
+		9E683249297285A800194199 /* HReport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HReport.h; sourceTree = "<group>"; };
+		9E68324A297285A800194199 /* HReport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HReport.m; sourceTree = "<group>"; };
+		9E68324C2972FD4D00194199 /* HReportInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HReportInfo.h; sourceTree = "<group>"; };
+		9E68324D2972FD4D00194199 /* HReportInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HReportInfo.m; sourceTree = "<group>"; };
 		9E8344B628C7912C00AB9D83 /* BWCheckTokenReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWCheckTokenReq.h; sourceTree = "<group>"; };
 		9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWCheckTokenReq.m; sourceTree = "<group>"; };
 		9E8344B928C7913E00AB9D83 /* BWCheckTokenResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWCheckTokenResp.h; sourceTree = "<group>"; };
@@ -988,6 +1000,8 @@
 				9E29CC36296EF7C5009DF7FD /* BWGetSleepTaskReq.m */,
 				9E03EFE02971265400A11E49 /* BWGetSleepReportReq.h */,
 				9E03EFE12971265400A11E49 /* BWGetSleepReportReq.m */,
+				9E6832422972408600194199 /* BWGetTaskCalendarReq.h */,
+				9E6832432972408600194199 /* BWGetTaskCalendarReq.m */,
 			);
 			path = BWReq;
 			sourceTree = "<group>";
@@ -1032,6 +1046,8 @@
 				9E29CC39296EF85C009DF7FD /* BWGetSleepTaskResp.m */,
 				9E03EFE32971266200A11E49 /* BWGetSleepReportResp.h */,
 				9E03EFE42971266200A11E49 /* BWGetSleepReportResp.m */,
+				9E6832452972409500194199 /* BWGetTaskCalendarResp.h */,
+				9E6832462972409500194199 /* BWGetTaskCalendarResp.m */,
 			);
 			path = BWResp;
 			sourceTree = "<group>";
@@ -1132,6 +1148,17 @@
 			path = SmallCardView;
 			sourceTree = "<group>";
 		};
+		9E6832482972858100194199 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9E683249297285A800194199 /* HReport.h */,
+				9E68324A297285A800194199 /* HReport.m */,
+				9E68324C2972FD4D00194199 /* HReportInfo.h */,
+				9E68324D2972FD4D00194199 /* HReportInfo.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		9E8BDE6E296E87E30001C428 /* FFDropDownMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -1179,6 +1206,7 @@
 		9E98FA5B296514FA007194EF /* ReportVC */ = {
 			isa = PBXGroup;
 			children = (
+				9E6832482972858100194199 /* Models */,
 				9E98FA5F29657B81007194EF /* UI */,
 				9E98FA5C29651519007194EF /* HSleepReportVC.h */,
 				9E98FA5D29651519007194EF /* HSleepReportVC.m */,
@@ -1658,6 +1686,7 @@
 				9E17D1EE28F005CB005FA5A9 /* BWDestnationInfoReq.m in Sources */,
 				9E99397128F7B7B100119CA7 /* BWAddTaskReq.m in Sources */,
 				9EDF523C28FD84EC0066BFDC /* BWGetTaskReq.m in Sources */,
+				9E68324E2972FD4D00194199 /* HReportInfo.m in Sources */,
 				9EDF523928FD84310066BFDC /* BWGetKindergartenResp.m in Sources */,
 				9EB411D4296BFB4200CFA8FE /* HDateCard.m in Sources */,
 				9E99397428F7B7BE00119CA7 /* BWAddTaskResp.m in Sources */,
@@ -1678,6 +1707,7 @@
 				9E8BDE7C296E87E30001C428 /* FFDropDownMenuCell.m in Sources */,
 				9EEC47A22966B5270031CE9F /* HInfomationVC.m in Sources */,
 				9E8BDE9A296E9F080001C428 /* ALCalendarPicker.m in Sources */,
+				9E6832472972409500194199 /* BWGetTaskCalendarResp.m in Sources */,
 				9E17D1D428EE72AD005FA5A9 /* HStudent.m in Sources */,
 				9E2DF83628B223AD00B0C9DA /* HRootVC.m in Sources */,
 				9E17D1C728EDAB03005FA5A9 /* BWGetDestnationResp.m in Sources */,
@@ -1685,6 +1715,7 @@
 				9E8BDE97296E9F080001C428 /* ALCalendarDate.m in Sources */,
 				9EDF52582903D51F0066BFDC /* HStudentFooterView.m in Sources */,
 				9E17D1F128F005E1005FA5A9 /* BWDestnationInfoResp.m in Sources */,
+				9E68324B297285A900194199 /* HReport.m in Sources */,
 				9E25EB3C295D64A000FDAF78 /* HBaseMenuView.m in Sources */,
 				9E17D1CE28EE7261005FA5A9 /* BWGetStudentReq.m in Sources */,
 				9EDF523628FD84200066BFDC /* BWGetKindergartenReq.m in Sources */,
@@ -1712,6 +1743,7 @@
 				9E8BDE99296E9F080001C428 /* ALCalendarHelper.m in Sources */,
 				9E8BDE95296E9F080001C428 /* ALCalendarConfig.m in Sources */,
 				9E2DF80428B2209E00B0C9DA /* BWBaseResp.m in Sources */,
+				9E6832442972408600194199 /* BWGetTaskCalendarReq.m in Sources */,
 				9E2DF81B28B2225500B0C9DA /* BWAlertCtrl.m in Sources */,
 				9EEC478F2966A1840031CE9F /* HSleepOrWalkSettingView.m in Sources */,
 				9E17D1D128EE7270005FA5A9 /* BWGetStudentResp.m in Sources */,

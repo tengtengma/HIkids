@@ -323,6 +323,7 @@ static CGFloat headerHeight = 45;
 {
     if (!_scrollView) {
         _scrollView = [[UIScrollView alloc] init];
+        _scrollView.scrollEnabled = NO;
         _scrollView.pagingEnabled = YES;
         CGFloat height = self.al_height - headerHeight;
         _scrollView.contentSize = (CGSize){self.al_width * 3,height};
