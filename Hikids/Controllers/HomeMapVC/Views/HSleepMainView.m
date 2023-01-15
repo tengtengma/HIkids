@@ -102,9 +102,14 @@
     NSArray *normalList = [dic safeObjectForKey:@"normalList"];
     NSArray *unnormalList = [dic safeObjectForKey:@"unnormalList"];
     NSString *startTime = [dic safeObjectForKey:@"startTime"];
-    NSString *endTime = [dic safeObjectForKey:@"endTime"];
+//    NSString *endTime = [dic safeObjectForKey:@"endTime"];
     
-    NSInteger vipLastTime = [self pleaseInsertStarTimeo:startTime andInsertEndTime:endTime];
+    NSDate *now = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
+    NSString *nowTime = [dateFormatter stringFromDate:now];
+    
+    NSInteger vipLastTime = [self pleaseInsertStarTimeo:startTime andInsertEndTime:nowTime];
 
     self.timeLabel.text = [self timestampSwitchTime:vipLastTime andFormatter:@"mm:ss"];
     self.sleepNumLabel.text = [NSString stringWithFormat:@"%ld人",normalList.count + unnormalList.count];

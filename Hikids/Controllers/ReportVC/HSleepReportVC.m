@@ -290,8 +290,7 @@
             
             HStudent *student = [[HStudent alloc] init];
             student.name = [unnormalDic safeObjectForKey:@"name"];
-            student.exceptionTime = @"123";
-            student.avatar = @"https://yunpengmall.oss-cn-beijing.aliyuncs.com/1560875015170428928/material/19181666430944_.pic.jpg";
+            student.avatar = [unnormalDic safeObjectForKey:@"avatar"];
 
             HStudentFooterView *footerView = [[HStudentFooterView alloc] init];
             footerView.type = FootTYPE_SLEEP;
@@ -332,7 +331,7 @@
     }];
     
      
-    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(120) + PAaptation_y(78) *3);
+    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(20)*teacherList.count + PAaptation_y(20)*kidsList.count+ PAaptation_y(47) + PAaptation_y(78) *unnormalList.count);
 
 }
 - (void)backAction:(id)sender
