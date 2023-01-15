@@ -108,7 +108,7 @@
 
 - (void)loadSafeStyle
 {
-    [self.iconView setImage:self.type == TYPE_WALK ? [UIImage imageNamed:@"safeIcon.png"] : [UIImage imageNamed:@"xintiao.png"]];
+    [self.iconView setImage:self.type == TYPE_WALK ? [UIImage imageNamed:@"safeIcon.png"] : [UIImage imageNamed:@"heart.png"]];
     self.stateLabel.text = self.type == TYPE_WALK ? @"安全" : @"心拍正常";
     self.numberLabel.text = [NSString stringWithFormat:@"%ld人",self.studentList.count];
     self.numberLabel.textColor = [UIColor whiteColor];

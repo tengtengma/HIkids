@@ -316,16 +316,18 @@
         student.exceptionTime = @"123";
         student.avatar = @"https://yunpengmall.oss-cn-beijing.aliyuncs.com/1560875015170428928/material/19181666430944_.pic.jpg";
         
-        HStudentFooterView *safeFooterView = [[HStudentFooterView alloc] init];
-        [safeFooterView setupWithModel:student];
+        HStudentFooterView *footerView = [[HStudentFooterView alloc] init];
+        footerView.type = FootTYPE_WALK;
+        [footerView setupWithModel:student];
+        [footerView loadDangerStyle];
         if (i == 2) {
-            [safeFooterView setLastCellBorder];
+            [footerView setLastCellBorder];
         }else{
-            [safeFooterView setNomalBorder];
+            [footerView setNomalBorder];
         }
-        [self.scrollView addSubview:safeFooterView];
+        [self.scrollView addSubview:footerView];
         
-        [safeFooterView mas_makeConstraints:^(MASConstraintMaker *make) {
+        [footerView mas_makeConstraints:^(MASConstraintMaker *make) {
             if (i == 0) {
                 make.top.equalTo(dangerTopView.mas_bottom);
                 make.left.equalTo(dangerTopView);
@@ -340,7 +342,7 @@
 
         }];
         
-        tempFootView = safeFooterView;
+        tempFootView = footerView;
     }
     
 

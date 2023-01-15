@@ -25,6 +25,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *updateTime;
 
 
+
+
 @end
 
 NS_ASSUME_NONNULL_END

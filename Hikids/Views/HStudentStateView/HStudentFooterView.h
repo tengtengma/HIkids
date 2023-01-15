@@ -9,13 +9,23 @@
 #import "HStudent.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+typedef enum _FootTYPE
+{
+    FootTYPE_WALK = 0,
+    FootTYPE_SLEEP = 1,
+
+}FootTYPE;
 //展开
 @interface HStudentFooterView : UIView
+@property (nonatomic, assign) FootTYPE type;
 
 - (instancetype)init;
 - (void)setupWithModel:(HStudent *)model;
-- (void)setNomalBorder;
-- (void)setLastCellBorder;
+- (void)loadSafeStyle;
+- (void)loadDangerStyle;
+- (void)setNomalBorder;//设置普通边框
+- (void)setLastCellBorder;//最后一个cell的边框
 @end
 
 NS_ASSUME_NONNULL_END

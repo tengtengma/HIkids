@@ -12,6 +12,8 @@
 #import "HReportInfo.h"
 #import "BWGetSleepReportReq.h"
 #import "BWGetSleepReportResp.h"
+#import "BWGetPDFReq.h"
+#import "BWGetPDFResp.h"
 
 @interface HSleepReportVC ()<UIScrollViewDelegate>
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -222,6 +224,7 @@
     }];
     
     UILabel *tempStudentNameLabel;
+    UILabel *studentTimeLabel;
     for (NSInteger i = 0; i < kidsList.count; i++) {
         NSDictionary *studentDic = [kidsList safeObjectAtIndex:i];
         
@@ -242,7 +245,7 @@
         
         tempStudentNameLabel = studentNameLabel;
         
-        UILabel *studentTimeLabel = [[UILabel alloc] init];
+        studentTimeLabel = [[UILabel alloc] init];
         studentTimeLabel.text = @"11:09~12:26";
         studentTimeLabel.textColor = BWColor(108, 159, 155, 1);
         studentTimeLabel.font = [UIFont systemFontOfSize:20];
@@ -290,16 +293,18 @@
             student.exceptionTime = @"123";
             student.avatar = @"https://yunpengmall.oss-cn-beijing.aliyuncs.com/1560875015170428928/material/19181666430944_.pic.jpg";
 
-            HStudentFooterView *safeFooterView = [[HStudentFooterView alloc] init];
-            [safeFooterView setupWithModel:student];
+            HStudentFooterView *footerView = [[HStudentFooterView alloc] init];
+            footerView.type = FootTYPE_SLEEP;
+            [footerView setupWithModel:student];
+            [footerView loadDangerStyle];
             if (i == 2) {
-                [safeFooterView setLastCellBorder];
+                [footerView setLastCellBorder];
             }else{
-                [safeFooterView setNomalBorder];
+                [footerView setNomalBorder];
             }
-            [self.scrollView addSubview:safeFooterView];
+            [self.scrollView addSubview:footerView];
             
-            [safeFooterView mas_makeConstraints:^(MASConstraintMaker *make) {
+            [footerView mas_makeConstraints:^(MASConstraintMaker *make) {
                 if (i == 0) {
                     make.top.equalTo(dangerTopView.mas_bottom);
                     make.left.equalTo(dangerTopView);
@@ -314,14 +319,14 @@
 
             }];
             
-            tempFootView = safeFooterView;
+            tempFootView = footerView;
         }
     }
     
     [self.scrollView addSubview:self.printBtn];
     [self.printBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(unnormalList.count == 0 ? tempStudentNameLabel.mas_bottom :  tempFootView.mas_bottom).offset(PAaptation_y(26));
-        make.right.equalTo(unnormalList.count == 0 ? tempStudentNameLabel.mas_right :  tempFootView.mas_right);
+        make.right.equalTo(unnormalList.count == 0 ? studentTimeLabel.mas_right :  tempFootView.mas_right);
         make.width.mas_equalTo(PAdaptation_x(146));
         make.height.mas_equalTo(PAaptation_y(48));
     }];
@@ -346,6 +351,28 @@
     NSArray *endArray = [endTime componentsSeparatedByString:@" "];
     
     return @[startArray[0],[NSString stringWithFormat:@"%@~%@",startArray[1],endArray[1]]];
+}
+- (void)printAction
+{
+    DefineWeakSelf;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    BWGetPDFReq *pdfReq = [[BWGetPDFReq alloc] init];
+    pdfReq.taskId = self.taskId;
+    [NetManger getRequest:pdfReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        
+        BWGetPDFResp *pdfResp = (BWGetPDFResp *)resp;
+        
+        [weakSelf openPdfActionWithFileStr:[pdfResp.item safeObjectForKey:@"file"]];
+        
+    } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+    }];
+}
+- (void)openPdfActionWithFileStr:(NSString *)fileStr
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:fileStr]];
 }
 #pragma mark - LazyLoad -
 - (UIScrollView *)scrollView
@@ -510,6 +537,7 @@
     if (!_printBtn) {
         _printBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_printBtn setImage:[UIImage imageNamed:@"print.png"] forState:UIControlStateNormal];
+        [_printBtn addTarget:self action:@selector(printAction) forControlEvents:UIControlEventTouchUpInside];
     }
     return _printBtn;
 }

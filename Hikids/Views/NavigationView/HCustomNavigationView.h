@@ -18,8 +18,6 @@ typedef void(^clickHeaderBlock)(void);
 
 - (void)defautInfomation;
 
-- (void)safeStyleWithName:(NSString *)typeName;
-- (void)dangerStyleWithName:(NSString *)typeName;
 
 
 @end

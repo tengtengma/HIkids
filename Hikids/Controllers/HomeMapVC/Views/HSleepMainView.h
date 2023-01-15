@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HSleepMainView : UIView
-- (void)setupContent;
+- (void)setupContent:(id)model;
 @end
 
 NS_ASSUME_NONNULL_END

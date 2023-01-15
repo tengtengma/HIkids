@@ -1,13 +1,13 @@
 //
-//  BWGetSleepTaskResp.m
+//  BWGetPDFResp.m
 //  Hikids
 //
-//  Created by 马腾 on 2023/1/11.
+//  Created by 马腾 on 2023/1/15.
 //
 
-#import "BWGetSleepTaskResp.h"
+#import "BWGetPDFResp.h"
 
-@implementation BWGetSleepTaskResp
+@implementation BWGetPDFResp
 - (id)initWithJSONDictionary:(NSDictionary *)jsonDic
 {
     

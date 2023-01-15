@@ -21,6 +21,7 @@
 @property (nonatomic, strong) UIView *rightLineView;
 @property (nonatomic, strong) UIView *bottomLineView;
 @property (nonatomic, strong) UIImageView *lastCellBottomView;
+@property (nonatomic, strong) HStudent *student;
 
 
 @end
@@ -133,37 +134,56 @@
 }
 - (void)setupWithModel:(HStudent *)model;
 {
+    self.student = model;
+    
     [self.headerView sd_setImageWithURL:[NSURL URLWithString:model.avatar]];
     [self.batteryImageView setImage:[UIImage imageNamed:@"battery.png"]];
     [self.wifiImageView setImage:[UIImage imageNamed:@"wifi.png"]];
 
     if (model.exceptionTime) {
-        [self.gpsImageView setImage:[UIImage imageNamed:@"gps.png"]];
-        self.distanceLabel.textColor = BWColor(255, 75, 0, 1);
-        self.distanceLabel.text = [NSString stringWithFormat:@"%ld米",model.distance.integerValue];
-        self.headerView.layer.borderColor = BWColor(255, 75, 0, 1).CGColor;
-        self.leftLineView.backgroundColor = BWColor(76, 40, 11, 1);
-        self.rightLineView.backgroundColor = BWColor(76, 40, 11, 1);
-        self.bottomLineView.backgroundColor = BWColor(76, 40, 11, 1);
-        [self.lastCellBottomView setImage:[UIImage imageNamed:@"listBottom_danger.png"]];
+
 
 
     }else{
-        [self.gpsImageView setImage:[UIImage imageNamed:@"xintiao.png"]];
-        self.distanceLabel.textColor = BWColor(0, 176, 107, 1);
-        if (model.deviceInfo.averangheart.length != 0) {
-            self.distanceLabel.text = [NSString stringWithFormat:@"%@bpm",model.deviceInfo.averangheart];
-        }else{
-            self.distanceLabel.text = [NSString stringWithFormat:@"--bpm"];
-        }
-        self.headerView.layer.borderColor = BWColor(0, 176, 107, 1).CGColor;
-        self.leftLineView.backgroundColor = BWColor(45, 100, 29, 1);
-        self.rightLineView.backgroundColor = BWColor(45, 100, 29, 1);
-        self.bottomLineView.backgroundColor = BWColor(45, 100, 29, 1);
-        [self.lastCellBottomView setImage:[UIImage imageNamed:@"listBottom_safe.png"]];
+
 
     }
     self.titleLabel.text = model.name;
+}
+- (void)loadSafeStyle
+{
+    if (self.student.deviceInfo.averangheart.length != 0) {
+        self.distanceLabel.text = [NSString stringWithFormat:@"%@bpm",self.student.deviceInfo.averangheart];
+    }else{
+        self.distanceLabel.text = [NSString stringWithFormat:@"--bpm"];
+    }
+    [self.gpsImageView setImage:[UIImage imageNamed:@"xintiao_safe.png"]];
+    self.distanceLabel.textColor = BWColor(0, 176, 107, 1);
+    self.headerView.layer.borderColor = BWColor(0, 176, 107, 1).CGColor;
+    self.leftLineView.backgroundColor = BWColor(45, 100, 29, 1);
+    self.rightLineView.backgroundColor = BWColor(45, 100, 29, 1);
+    self.bottomLineView.backgroundColor = BWColor(45, 100, 29, 1);
+    [self.lastCellBottomView setImage:[UIImage imageNamed:@"listBottom_safe.png"]];
+}
+- (void)loadDangerStyle
+{
+    if (self.type == FootTYPE_WALK) {
+        self.distanceLabel.text = [NSString stringWithFormat:@"%ld米",self.student.distance.integerValue];
+        [self.gpsImageView setImage:[UIImage imageNamed:@"gps.png"]];
+
+    }else{
+        if (self.student.deviceInfo.averangheart.length != 0) {
+            self.distanceLabel.text = [NSString stringWithFormat:@"%@bpm",self.student.deviceInfo.averangheart];
+        }else{
+            self.distanceLabel.text = [NSString stringWithFormat:@"--bpm"];
+        }
+    }
+    self.distanceLabel.textColor = BWColor(255, 75, 0, 1);
+    self.headerView.layer.borderColor = BWColor(255, 75, 0, 1).CGColor;
+    self.leftLineView.backgroundColor = BWColor(76, 40, 11, 1);
+    self.rightLineView.backgroundColor = BWColor(76, 40, 11, 1);
+    self.bottomLineView.backgroundColor = BWColor(76, 40, 11, 1);
+    [self.lastCellBottomView setImage:[UIImage imageNamed:@"listBottom_danger.png"]];
 }
 - (void)clickBackupAction
 {

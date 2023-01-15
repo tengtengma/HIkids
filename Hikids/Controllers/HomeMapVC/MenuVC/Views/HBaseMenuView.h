@@ -9,6 +9,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class HSmallCardView;
+
 typedef enum _CellType
 {
     CellType_Safe = 0,
@@ -27,6 +29,7 @@ typedef void(^clickGpsAction)(void);
 @property (nonatomic, strong) UIButton *gpsButton;
 @property (nonatomic, strong) NSArray *safeList;
 @property (nonatomic, strong) NSArray *exceptList;
+@property (nonatomic, strong) HSmallCardView *smallView;
 
 - (instancetype)initWithFrame:(CGRect)frame;
 

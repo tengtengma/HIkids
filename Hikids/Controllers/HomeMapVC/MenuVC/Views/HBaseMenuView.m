@@ -47,11 +47,11 @@
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, PAaptation_y(121))];
     self.tableHeaderView = headerView;
     
-    HSmallCardView *smallView = [[HSmallCardView alloc] initWithFrame:CGRectMake(PAdaptation_x(10),0 , PAdaptation_x(115), PAaptation_y(79))];
-    [headerView addSubview:smallView];
+    self.smallView = [[HSmallCardView alloc] initWithFrame:CGRectMake(PAdaptation_x(10),0 , PAdaptation_x(115), PAaptation_y(79))];
+    [headerView addSubview:self.smallView ];
     
     DefineWeakSelf;
-    smallView.clickBlock = ^{
+    self.smallView .clickBlock = ^{
         if (weakSelf.openReport) {
             weakSelf.openReport();
         }

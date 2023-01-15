@@ -12,6 +12,7 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIImageView *topView;
 @property (nonatomic, strong) UIButton *backBtn;
+@property (nonatomic, strong) UIButton *quitBtn;
 @property (nonatomic, strong) UIView *titleView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) NSArray *dataArray;
@@ -47,6 +48,12 @@
         make.width.equalTo(self.view);
         make.bottom.equalTo(self.view.mas_bottom);
     }];
+    
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, PAaptation_y(60))];
+    self.tableView.tableFooterView = footerView;
+    
+    [self.quitBtn setFrame:CGRectMake(SCREEN_WIDTH/2 - PAdaptation_x(240)/2, footerView.frame.size.height/2 - PAaptation_y(47)/2, PAdaptation_x(240), PAaptation_y(47))];
+    [footerView addSubview:self.quitBtn];
     
 
 }
@@ -204,25 +211,31 @@
     
 }
 
-//DefineWeakSelf;
-//[BWAlertCtrl alertControllerWithTitle:@"提示" buttonArray:@[@"确定",@"取消"] message:@"是否退出登陆？" preferredStyle:UIAlertControllerStyleAlert clickBlock:^(NSString *buttonTitle) {
-//
-//    if ([buttonTitle isEqualToString:@"确定"]) {
-//        [weakSelf loginOut];
-//    }
-//}];
+
 - (void)loginOut
 {
-    HLoginVC *loginVC = [[HLoginVC alloc] init];
+    [BWAlertCtrl alertControllerWithTitle:@"提示" buttonArray:@[@"确定",@"取消"] message:@"是否退出登陆？" preferredStyle:UIAlertControllerStyleAlert clickBlock:^(NSString *buttonTitle) {
 
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    app.window.rootViewController = loginVC;
+        if ([buttonTitle isEqualToString:@"确定"]) {
+            
+            NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+            [user setObject:nil forKey:KEY_UserName];
+            [user setObject:nil forKey:KEY_Password];
+            [user setObject:nil forKey:KEY_Jwtoken];
+            [user synchronize];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"quitAccountNoti" object:nil];
 
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    [user setObject:nil forKey:KEY_UserName];
-    [user setObject:nil forKey:KEY_Password];
-    [user setObject:nil forKey:KEY_Jwtoken];
-    [user synchronize];
+            AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            app.window.rootViewController = [[HLoginVC alloc] init];
+
+
+            
+        }
+    }];
+    
+    
+
 
 }
 #pragma mark - LazyLoad -
@@ -274,5 +287,13 @@
     }
     return _backBtn;
 }
-
+- (UIButton *)quitBtn
+{
+    if (!_quitBtn) {
+        _quitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_quitBtn setImage:[UIImage imageNamed:@"quit.png"] forState:UIControlStateNormal];
+        [_quitBtn addTarget:self action:@selector(loginOut) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _quitBtn;
+}
 @end

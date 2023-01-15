@@ -6,6 +6,7 @@
 //
 
 #import "HSleepMainView.h"
+#import "HTask.h"
 
 @interface HSleepMainView()
 @property (nonatomic, strong) UIImageView *bgView;
@@ -65,17 +66,17 @@
             make.left.equalTo(self.sleepNumDesLabel.mas_right).offset(PAdaptation_x(30));
         }];
         
-        [self.contentView addSubview:self.getupNumDesLabel];
-        [self.getupNumDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.timeDesLabel.mas_bottom).offset(PAaptation_y(48));
-            make.left.equalTo(self.sleepNumLabel.mas_right).offset(PAdaptation_x(16));
-        }];
-        
-        [self.contentView addSubview:self.getupNumLabel];
-        [self.getupNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.getupNumDesLabel.mas_bottom);
-            make.left.equalTo(self.getupNumDesLabel.mas_right).offset(PAdaptation_x(30));
-        }];
+//        [self.contentView addSubview:self.getupNumDesLabel];
+//        [self.getupNumDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(self.timeDesLabel.mas_bottom).offset(PAaptation_y(48));
+//            make.left.equalTo(self.sleepNumLabel.mas_right).offset(PAdaptation_x(16));
+//        }];
+//
+//        [self.contentView addSubview:self.getupNumLabel];
+//        [self.getupNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.bottom.equalTo(self.getupNumDesLabel.mas_bottom);
+//            make.left.equalTo(self.getupNumDesLabel.mas_right).offset(PAdaptation_x(30));
+//        }];
         
         [self.contentView addSubview:self.huiNumDesLabel];
         [self.huiNumDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -89,19 +90,23 @@
             make.left.equalTo(self.huiNumDesLabel.mas_right).offset(PAdaptation_x(30));
         }];
         
-        [self setupContent];
         
         
     }
     return self;
 }
 
-- (void)setupContent
+- (void)setupContent:(id)model
 {
+    NSDictionary *dic = (NSDictionary *)model;
+    
+    NSArray *normalList = [dic safeObjectForKey:@"normalList"];
+    NSArray *unnormalList = [dic safeObjectForKey:@"unnormalList"];
+
     self.timeLabel.text = @"40:15";
-    self.sleepNumLabel.text = @"35人";
-    self.getupNumLabel.text = @"0人";
-    self.huiNumLabel.text = @"1回";
+    self.sleepNumLabel.text = [NSString stringWithFormat:@"%ld人",normalList.count + unnormalList.count];
+//    self.getupNumLabel.text = @"0人";
+    self.huiNumLabel.text = [NSString stringWithFormat:@"%ld回",unnormalList.count];
 }
 
 #pragma mark - LazyLoad -

@@ -83,16 +83,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "992B1861-F69C-4F60-A367-C736C8C61718"
-            shouldBeEnabled = "Yes"
+            uuid = "41AB3EB3-B11A-4DD0-BAE0-A7FC048056A1"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
+            filePath = "Hikids/Controllers/HomeMapVC/MenuVC/Controllers/MenuDateVC/HDateVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "239"
-            endingLineNumber = "239"
-            landmarkName = "-setupSleepMenu"
+            startingLineNumber = "439"
+            endingLineNumber = "439"
+            landmarkName = "-getDateWeeksDuraingToday"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

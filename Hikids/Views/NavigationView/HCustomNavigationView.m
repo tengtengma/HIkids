@@ -25,7 +25,11 @@
 {
     if (self = [super init]) {
         
+        
         [self createUI];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateStyle:) name:@"dangerAlertNotification" object:nil];
+
     }
     return self;
 }
@@ -92,6 +96,18 @@
     [self.backgroundImageView setImage:[UIImage imageNamed:@"title_back.png"]];
 
 }
+- (void)updateStyle:(NSNotification *)noti
+{
+    NSDictionary *userInfo = noti.object;
+    NSString *name = [userInfo safeObjectForKey:@"name"];
+    
+    if ([[userInfo safeObjectForKey:@"status"] isEqualToString:@"安全"]) {
+        [self safeStyleWithName:name];
+    }else{
+        [self dangerStyleWithName:name];
+    }
+    
+}
 - (void)safeStyleWithName:(NSString *)typeName
 {
     self.titleLabel.text = typeName;
@@ -126,7 +142,10 @@
     }
 
 }
-
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 #pragma mark - LazyLoad -
 - (UIImageView *)backgroundImageView
 {

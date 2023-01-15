@@ -405,8 +405,8 @@
     // 计算当前日期和这周的星期一和星期天差的天数
     long firstDiff,lastDiff;
     if (weekDay == 1) {
-        firstDiff = 1;
-        lastDiff = 0;
+        firstDiff = 0;
+        lastDiff = 6;
     }else{
         firstDiff = [calendar firstWeekday] - weekDay;
         lastDiff = 7 - weekDay;

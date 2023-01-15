@@ -302,7 +302,9 @@
             
             HStudent *student = [self.safeList safeObjectAtIndex:indexPath.row];
             HStudentFooterView *safeFooterView = [[HStudentFooterView alloc] init];
+            safeFooterView.type = FootTYPE_WALK;
             [safeFooterView setupWithModel:student];
+            [safeFooterView loadSafeStyle];
             [safeFooterView setNomalBorder];
             [cell.contentView addSubview:safeFooterView];
             
@@ -318,7 +320,9 @@
 
             HStudent *student = [self.safeList safeObjectAtIndex:indexPath.row];
             HStudentFooterView *safeFooterView = [[HStudentFooterView alloc] init];
+            safeFooterView.type = FootTYPE_WALK;
             [safeFooterView setupWithModel:student];
+            [safeFooterView loadSafeStyle];
             [cell.contentView addSubview:safeFooterView];
             
             [safeFooterView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -362,7 +366,9 @@
             
             HStudent *student = [self.exceptList safeObjectAtIndex:indexPath.row];
             HStudentFooterView *dangerFooterView = [[HStudentFooterView alloc] init];
+            dangerFooterView.type = FootTYPE_WALK;
             [dangerFooterView setupWithModel:student];
+            [dangerFooterView loadDangerStyle];
             [dangerFooterView setNomalBorder];
             [cell.contentView addSubview:dangerFooterView];
             
@@ -378,7 +384,9 @@
 
             HStudent *student = [self.exceptList safeObjectAtIndex:indexPath.row];
             HStudentFooterView *dangerFooterView = [[HStudentFooterView alloc] init];
+            dangerFooterView.type = FootTYPE_WALK;
             [dangerFooterView setupWithModel:student];
+            [dangerFooterView loadDangerStyle];
             [cell.contentView addSubview:dangerFooterView];
             
             [dangerFooterView mas_makeConstraints:^(MASConstraintMaker *make) {
