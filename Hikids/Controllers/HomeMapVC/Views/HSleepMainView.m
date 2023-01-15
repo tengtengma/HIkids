@@ -99,16 +99,49 @@
 - (void)setupContent:(id)model
 {
     NSDictionary *dic = (NSDictionary *)model;
-    
     NSArray *normalList = [dic safeObjectForKey:@"normalList"];
     NSArray *unnormalList = [dic safeObjectForKey:@"unnormalList"];
+    NSString *startTime = [dic safeObjectForKey:@"startTime"];
+    NSString *endTime = [dic safeObjectForKey:@"endTime"];
+    
+    NSInteger vipLastTime = [self pleaseInsertStarTimeo:startTime andInsertEndTime:endTime];
 
-    self.timeLabel.text = @"40:15";
+    self.timeLabel.text = [self timestampSwitchTime:vipLastTime andFormatter:@"mm:ss"];
     self.sleepNumLabel.text = [NSString stringWithFormat:@"%ld人",normalList.count + unnormalList.count];
 //    self.getupNumLabel.text = @"0人";
     self.huiNumLabel.text = [NSString stringWithFormat:@"%ld回",unnormalList.count];
 }
+#pragma mark - 将某个时间戳转化成 时间
+- (NSString *)timestampSwitchTime:(NSInteger)timestamp andFormatter:(NSString *)format{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateStyle:NSDateFormatterMediumStyle];
+    [formatter setTimeStyle:NSDateFormatterShortStyle];
+    [formatter setDateFormat:format]; // （@"YYYY-MM-dd hh:mm:ss"）----------设置你想要的格式,hh与HH的区别:分别表示12小时制,24小时制
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"Asia/Beijing"];
+    [formatter setTimeZone:timeZone];
+    NSDate *confromTimesp = [NSDate dateWithTimeIntervalSince1970:timestamp];
+    /// 在当前时间，后退30分钟 = 1800
+//    confromTimesp = [confromTimesp dateByAddingTimeInterval:-1800];
+    NSString *confromTimespStr = [formatter stringFromDate:confromTimesp];
+    return confromTimespStr;
+}
 
+- (NSInteger)pleaseInsertStarTimeo:(NSString *)time1 andInsertEndTime:(NSString *)time2{
+    // 1.将时间转换为date
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"YYYY-MM-dd HH:mm:ss";
+    NSDate *date1 = [formatter dateFromString:time1];
+    NSDate *date2 = [formatter dateFromString:time2];
+    // 2.创建日历
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+//    NSCalendarUnit type = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
+    NSCalendarUnit type = NSCalendarUnitSecond;
+    // 3.利用日历对象比较两个时间的差值
+    NSDateComponents *cmps = [calendar components:type fromDate:date1 toDate:date2 options:0];
+    // 4.输出结果
+//    NSLog(@"两个时间相差%ld年%ld月%ld日%ld小时%ld分钟%ld秒", cmps.year, cmps.month, cmps.day, cmps.hour, cmps.minute, cmps.second);
+    return cmps.second;
+}
 #pragma mark - LazyLoad -
 - (UIImageView *)bgView
 {
