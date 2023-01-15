@@ -662,8 +662,6 @@
             [weakSelf.homeMenuTableView reloadData];
         }
 
-        
-//        [weakSelf reloadData];
         [weakSelf addMarkersWithNomalList:locationResp.normalKids andExceptList:locationResp.exceptionKids]; //添加学生位置坐标
         [weakSelf drawPolygon];
                 

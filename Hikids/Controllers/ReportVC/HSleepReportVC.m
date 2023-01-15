@@ -246,7 +246,7 @@
         tempStudentNameLabel = studentNameLabel;
         
         studentTimeLabel = [[UILabel alloc] init];
-        studentTimeLabel.text = @"11:09~12:26";
+        studentTimeLabel.text = [studentDic safeObjectForKey:@"create_time"];
         studentTimeLabel.textColor = BWColor(108, 159, 155, 1);
         studentTimeLabel.font = [UIFont systemFontOfSize:20];
         studentTimeLabel.textAlignment = NSTextAlignmentCenter;
@@ -290,13 +290,15 @@
             
             HStudent *student = [[HStudent alloc] init];
             student.name = [unnormalDic safeObjectForKey:@"name"];
-            student.avatar = [unnormalDic safeObjectForKey:@"avatar"];
+//            student.avatar = [unnormalDic safeObjectForKey:@"avatar"];
+            student.avatar = @"https://yunpengmall.oss-cn-beijing.aliyuncs.com/1560875015170428928/material/19181666430944_.pic.jpg";
+
 
             HStudentFooterView *footerView = [[HStudentFooterView alloc] init];
             footerView.type = FootTYPE_SLEEP;
             [footerView setupWithModel:student];
             [footerView loadDangerStyle];
-            if (i == 2) {
+            if (i == unnormalList.count-1) {
                 [footerView setLastCellBorder];
             }else{
                 [footerView setNomalBorder];
@@ -465,7 +467,7 @@
     if (!_groupLabel) {
         _groupLabel = [[UILabel alloc] init];
         _groupLabel.font = [UIFont boldSystemFontOfSize:32.0];
-        _groupLabel.text = @"ひまわり組";
+        _groupLabel.text = self.reportInfo.className;
     }
     return _groupLabel;
 }

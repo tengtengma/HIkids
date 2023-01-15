@@ -80,8 +80,8 @@
     
 //    self.userView.textField.text = @"admin";
 //    self.pwView.textField.text = @"admin123";
-    self.userView.textField.text = @"hikids";
-    self.pwView.textField.text = @"123456";
+//    self.userView.textField.text = @"hikids";
+//    self.pwView.textField.text = @"123456";
 
 }
 

@@ -295,7 +295,7 @@
     
     
     HStudentStateTopView *dangerTopView = [[HStudentStateTopView alloc] init];
-    dangerTopView.type = TYPE_SLEEP;
+    dangerTopView.type = TYPE_WALK;
     dangerTopView.studentList = @[];
     dangerTopView.expandBtn.hidden = YES;
     dangerTopView.updateTimeLabel.hidden = NO;
@@ -623,7 +623,6 @@
         _destImageView = [[UIImageView alloc] init];
         _destImageView.layer.cornerRadius = 8;
         _destImageView.layer.borderWidth = 2;
-        _destImageView.backgroundColor = [UIColor redColor];
     }
     return _destImageView;
 }
