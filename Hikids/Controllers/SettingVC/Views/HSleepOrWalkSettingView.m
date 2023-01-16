@@ -19,6 +19,7 @@
 @property (nonatomic, assign) Type myType;
 @property (nonatomic, assign) BOOL show;
 @property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, strong) NSString *saveContent;
 
 @end
 
@@ -94,13 +95,17 @@
         self.titleLabel.text = @"午睡設定";
         self.desLabel.text = @"記録間隔";
         self.dataArray = @[@"15分",@"30分",@"45分"];
-        [self setupContentWithName:@"15分"];
+        
+        NSString *sleepTime = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_SleepTime];
+        [self setupContentWithName:sleepTime.length != 0 ? sleepTime : @"15分"];
     }else{
         
         self.titleLabel.text = @"散歩設定";
         self.desLabel.text = @"アラート精度";
         self.dataArray = @[@"低",@"普通",@"高"];
-        [self setupContentWithName:@"普通"];
+        
+        NSString *GPSAccuracy = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_GPSAccuracy];
+        [self setupContentWithName:GPSAccuracy.length != 0 ? GPSAccuracy : @"普通"];
     }
 
 
@@ -108,6 +113,9 @@
 
 - (void)setupContentWithName:(NSString *)name
 {
+    
+    self.saveContent = name;
+    
     UIView *bgView = [[UIView alloc] init];
     bgView.tag = 3000;
     bgView.layer.cornerRadius = 8;
@@ -185,13 +193,17 @@
     
     self.show = !self.show;
     
-
-    
-    
 }
 - (void)saveAction:(id)sender
 {
+    if (self.saveContent.length == 0) {
+        return;
+    }
+    [[NSUserDefaults standardUserDefaults] setObject:self.saveContent forKey:self.myType == type_Sleep ? KEY_SleepTime : KEY_GPSAccuracy];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
+    [self backAction:nil];
+
 }
 #pragma mark - cell高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -235,7 +247,7 @@
 {
     UILabel *label = (UILabel *)[self viewWithTag:4000];
     label.text = [self.dataArray safeObjectAtIndex:indexPath.row];
-    
+    self.saveContent = [self.dataArray safeObjectAtIndex:indexPath.row];
     [self showOrCloseMenuAction];
     
 }

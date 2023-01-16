@@ -46,6 +46,15 @@
 
 @implementation HWalkReportVC
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    if (self.closeWalkReportBlock) {
+        self.closeWalkReportBlock();
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -504,11 +513,11 @@
 }
 - (void)backAction:(id)sender
 {
-    DefineWeakSelf;
+//    DefineWeakSelf;
     [self dismissViewControllerAnimated:YES completion:^{
-        if (weakSelf.closeWalkReportBlock) {
-            weakSelf.closeWalkReportBlock();
-        }
+//        if (weakSelf.closeWalkReportBlock) {
+//            weakSelf.closeWalkReportBlock();
+//        }
     }];
 
 }

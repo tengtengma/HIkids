@@ -318,7 +318,7 @@
     menuWalkVC.startWalkBlock = ^(HTask * _Nonnull walkTask) {
         
         weakSelf.currentTask = walkTask;
-
+        weakSelf.isWalkMode = YES;
         [weakSelf startWalkMode];
     };
 }
@@ -338,7 +338,7 @@
         
         [weakSelf.sleepMenuTableView removeFromSuperview];//移除午睡底部菜单
         
-        [weakSelf startStayMode];
+//        [weakSelf startStayMode];
     };
 }
 //展示散步报告
@@ -356,7 +356,7 @@
                 
         [weakSelf.walkMenuTableView removeFromSuperview]; //移除散步底部菜单
         
-        [weakSelf startStayMode];
+//        [weakSelf startStayMode];
     };
     
 }
@@ -372,6 +372,13 @@
         
         BWGetTaskResp *getTaskResp = (BWGetTaskResp *)resp;
         weakSelf.currentTask = [getTaskResp.itemList safeObjectAtIndex:0];
+        
+        if (getTaskResp.itemList.count == 0) {
+            //第一次打开app 任务为空 默认再院内
+            weakSelf.isWalkMode = NO;
+            [weakSelf startStayMode];
+            return;
+        }
         //任务状态，1新建 2途中，3目的地，4回程，5结束
         //type 1散步 2午睡
         if ([weakSelf.currentTask.type isEqualToString:@"1"]) {

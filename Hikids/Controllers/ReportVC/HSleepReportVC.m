@@ -44,6 +44,15 @@
 
 @implementation HSleepReportVC
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    if (self.closeSleepReportBlock) {
+        self.closeSleepReportBlock();
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -338,11 +347,11 @@
 }
 - (void)backAction:(id)sender
 {
-    DefineWeakSelf;
+//    DefineWeakSelf;
     [self dismissViewControllerAnimated:YES completion:^{
-        if (weakSelf.closeSleepReportBlock) {
-            weakSelf.closeSleepReportBlock();
-        }
+//        if (weakSelf.closeSleepReportBlock) {
+//            weakSelf.closeSleepReportBlock();
+//        }
     }];
 
 }

@@ -73,6 +73,8 @@
 #define KEY_UserName      @"userName"
 #define KEY_Password      @"password"
 #define KEY_Email         @"email"
+#define KEY_SleepTime     @"sleepTime"
+#define KEY_GPSAccuracy   @"GPSAccuracy"
 
 
 //谷歌地图key

@@ -485,7 +485,7 @@
     if (section == 0) {
         return CGSizeMake(SCREEN_WIDTH, PAaptation_y(30));
     }
-    return CGSizeMake(SCREEN_WIDTH, PAaptation_y(73));
+    return CGSizeMake(SCREEN_WIDTH, PAaptation_y(40));
 }
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
