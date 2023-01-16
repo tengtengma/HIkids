@@ -187,6 +187,17 @@
         make.centerX.equalTo(imageView);
     }];
     
+    UIView *lineView = [[UIView alloc] init];
+    lineView.backgroundColor = BWColor(34, 34, 34, 1);
+    [self.dateButton addSubview:lineView];
+    
+    [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.dateButton);
+        make.left.equalTo(self.dateButton.mas_right).offset(-0.5);
+        make.width.mas_equalTo(0.5);
+        make.height.equalTo(self.dateButton);
+    }];
+    
     [self.view addSubview:self.scrollView];
     [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.dateButton);

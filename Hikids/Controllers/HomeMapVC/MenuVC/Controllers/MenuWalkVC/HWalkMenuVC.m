@@ -550,7 +550,7 @@
         }
         destLabel.text = destModel.name;
         
-        [destLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        [destLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.selectView);
             make.left.equalTo(self.selectView);
         }];
@@ -570,9 +570,9 @@
         }
         timeLabel.text = timeModel.name;
         
-        [timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        [timeLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.selectView);
-            make.left.equalTo(destLabel.mas_right).offset(PAdaptation_x(2));
+            make.left.equalTo(destLabel == nil ? self.selectView : destLabel.mas_right).offset(PAdaptation_x(2));
         }];
     }else{
         timeLabel.text = @"";
@@ -590,9 +590,9 @@
         }
         teacherLabel.text = [NSString stringWithFormat:@"先生%ld人",self.selectTeacherArray.count];
         
-        [teacherLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        [teacherLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.selectView);
-            make.left.equalTo(timeLabel.mas_right).offset(PAdaptation_x(2));
+            make.left.equalTo(timeLabel == nil ? self.selectView : timeLabel.mas_right).offset(PAdaptation_x(2));
         }];
     }else{
         teacherLabel.text = @"";
@@ -610,9 +610,9 @@
         }
         studentLabel.text = [NSString stringWithFormat:@"児童%ld人",self.selectStudentArray.count];
         
-        [studentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        [studentLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.selectView);
-            make.left.equalTo(teacherLabel.mas_right).offset(PAdaptation_x(2));
+            make.left.equalTo(teacherLabel == nil ? self.selectView : teacherLabel.mas_right).offset(PAdaptation_x(2));
         }];
     }else{
         studentLabel.text = @"";
