@@ -97,7 +97,7 @@
     
     [self.bgView addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bgView);
+        make.top.equalTo(self.bgView).offset(-PAaptation_y(2));
         make.left.equalTo(self.bgView);
         make.width.equalTo(self.bgView);
         make.height.mas_equalTo(PAaptation_y(32));
@@ -120,7 +120,8 @@
     self.timeArray = array;
     
     self.titleLabel.text = @"午睡モニタリング";
-    self.dateLabel.text = @"2022.12.29";
+    
+    self.dateLabel.text = [BWTools getNowTimeStringWithFormate:@"YYYY-MM-dd"];
 }
 - (void)createTitleView
 {

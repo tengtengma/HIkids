@@ -10,7 +10,7 @@
 
 @implementation HStudentStateBottomView
 
-- (instancetype)initWithArray:(NSArray *)array
+- (instancetype)initWithArray:(NSArray *)array withSafe:(BOOL)isSafe;
 {
     if (self = [super init]) {
         
@@ -22,7 +22,7 @@
             UIImageView *imageView = [[UIImageView alloc] init];
             [imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
             
-            if (student.exceptionTime) {
+            if (!isSafe) {
                 imageView.layer.borderColor = BWColor(255, 75, 0, 1).CGColor;
 
             }else{
@@ -50,4 +50,5 @@
     }
     return self;
 }
+
 @end

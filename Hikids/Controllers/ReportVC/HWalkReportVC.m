@@ -58,7 +58,7 @@
     
     [self.scrollView addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.scrollView);
+        make.top.equalTo(self.scrollView).offset(-PAaptation_y(2));
         make.left.equalTo(self.scrollView);
         make.width.equalTo(self.scrollView);
         make.height.mas_equalTo(PAaptation_y(32));
@@ -358,7 +358,7 @@
     }];
     
     UILabel *yearLabel = [[UILabel alloc] init];
-    yearLabel.text = @"2022年7月21日";
+    yearLabel.text = [BWTools getNowTimeStringWithFormate:@"YYYY-MM-dd"];
     yearLabel.textColor = [UIColor whiteColor];
     yearLabel.font = [UIFont systemFontOfSize:20];
     [self.imageBgView addSubview:yearLabel];

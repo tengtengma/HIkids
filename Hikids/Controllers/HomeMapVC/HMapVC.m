@@ -910,7 +910,7 @@
         [self getChatMessageGoToSound];
         
         DefineWeakSelf;
-    NSString *content = ![name isEqualToString:@"午睡中"] ? @"安全地帯を出てしまったお子さんもいるかもしれませんので、ご確認ください。" : @"お子さまの再確認をお願いします。";
+        NSString *content = ![name isEqualToString:@"午睡中"] ? @"安全地帯を出てしまったお子さんもいるかもしれませんので、ご確認ください。" : @"お子さまの再確認をお願いします。";
         [BWAlertCtrl alertControllerWithTitle:@"ご注意ください！" buttonArray:@[@"アラート停止"] message:content preferredStyle:UIAlertControllerStyleAlert clickBlock:^(NSString *buttonTitle) {
             
             if ([buttonTitle isEqualToString:@"アラート停止"]) {

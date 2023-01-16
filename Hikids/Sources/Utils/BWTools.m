@@ -638,5 +638,14 @@
     }
 
 }
++ (NSString *)getNowTimeStringWithFormate:(NSString *)formate
+{
+    NSDate *now = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:formate];
+    NSString *nowTime = [dateFormatter stringFromDate:now];
+    
+    return nowTime;
+}
 
 @end

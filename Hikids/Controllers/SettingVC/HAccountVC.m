@@ -33,7 +33,7 @@
 
     [self.view addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view);
+        make.top.equalTo(self.view).offset(-PAaptation_y(2));
         make.left.equalTo(self.view);
         make.width.equalTo(self.view);
         make.height.mas_equalTo(PAaptation_y(32));
@@ -214,26 +214,38 @@
 
 - (void)loginOut
 {
-    [BWAlertCtrl alertControllerWithTitle:@"提示" buttonArray:@[@"确定",@"取消"] message:@"是否退出登陆？" preferredStyle:UIAlertControllerStyleAlert clickBlock:^(NSString *buttonTitle) {
+    
+    UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否退出？" preferredStyle:UIAlertControllerStyleAlert];
+        
 
-        if ([buttonTitle isEqualToString:@"确定"]) {
-            
-            NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-            [user setObject:nil forKey:KEY_UserName];
-            [user setObject:nil forKey:KEY_Password];
-            [user setObject:nil forKey:KEY_Jwtoken];
-            [user synchronize];
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"quitAccountNoti" object:nil];
-
-            AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-            app.window.rootViewController = [[HLoginVC alloc] init];
-
-
-            
-        }
+    
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"否" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        
+        
     }];
     
+    
+    [alertCtrl addAction:cancel];
+    
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"是" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+        [user setObject:nil forKey:KEY_UserName];
+        [user setObject:nil forKey:KEY_Password];
+        [user setObject:nil forKey:KEY_Jwtoken];
+        [user synchronize];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"quitAccountNoti" object:nil];
+
+        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        app.window.rootViewController = [[HLoginVC alloc] init];
+    }];
+    
+    
+    [alertCtrl addAction:action];
+    
+    [self presentViewController:alertCtrl animated:YES completion:nil];
+
     
 
 

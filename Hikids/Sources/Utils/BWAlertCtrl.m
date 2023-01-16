@@ -37,6 +37,7 @@
         [alertCtrl addAction:action];
     }
     
+    
     AppDelegate *app = (AppDelegate*)[UIApplication sharedApplication].delegate;
     [app.window.rootViewController presentViewController:alertCtrl animated:YES completion:nil];
     

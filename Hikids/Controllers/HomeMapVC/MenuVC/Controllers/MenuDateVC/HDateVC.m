@@ -110,7 +110,7 @@
     
     [self.bgView addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bgView);
+        make.top.equalTo(self.bgView).offset(-PAaptation_y(2));
         make.left.equalTo(self.bgView);
         make.width.equalTo(self.bgView);
         make.height.mas_equalTo(PAaptation_y(32));

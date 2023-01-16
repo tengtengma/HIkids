@@ -74,7 +74,7 @@
     
     [self.scrollView addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.scrollView);
+        make.top.equalTo(self.scrollView).offset(-PAaptation_y(2));
         make.left.equalTo(self.scrollView);
         make.width.equalTo(self.scrollView);
         make.height.mas_equalTo(PAaptation_y(32));

@@ -227,7 +227,7 @@
         }];
         
         //未展开的bottomView
-        HStudentStateBottomView *safeBottomView = [[HStudentStateBottomView alloc] initWithArray:self.safeList];
+        HStudentStateBottomView *safeBottomView = [[HStudentStateBottomView alloc] initWithArray:self.safeList withSafe:YES];
         [bgView addSubview:safeBottomView];
         [safeBottomView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(safeTopView.mas_bottom);
@@ -258,7 +258,7 @@
             make.height.mas_equalTo(PAaptation_y(47));
         }];
         //未展开的bottomView
-        HStudentStateBottomView *dangerBottomView = [[HStudentStateBottomView alloc] initWithArray:self.exceptList];
+        HStudentStateBottomView *dangerBottomView = [[HStudentStateBottomView alloc] initWithArray:self.exceptList withSafe:NO];
         [bgView addSubview:dangerBottomView];
         [dangerBottomView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(dangerTopView.mas_bottom);
@@ -305,14 +305,14 @@
             safeFooterView.type = FootTYPE_WALK;
             [safeFooterView setupWithModel:student];
             [safeFooterView loadSafeStyle];
-            [safeFooterView setNomalBorder];
+            self.safeList.count == 1 ? [safeFooterView setLastCellBorder] : [safeFooterView setNomalBorder];
             [cell.contentView addSubview:safeFooterView];
             
             [safeFooterView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(safeTopView.mas_bottom);
                 make.left.equalTo(safeTopView);
                 make.right.equalTo(safeTopView.mas_right);
-                make.bottom.equalTo(cell.contentView.mas_bottom);
+                make.bottom.equalTo(cell.contentView.mas_bottom).offset(-PAaptation_y(16));
             }];
             
         }else{
@@ -369,14 +369,14 @@
             dangerFooterView.type = FootTYPE_WALK;
             [dangerFooterView setupWithModel:student];
             [dangerFooterView loadDangerStyle];
-            [dangerFooterView setNomalBorder];
+            self.exceptList.count == 1 ? [dangerFooterView setLastCellBorder] : [dangerFooterView setNomalBorder];
             [cell.contentView addSubview:dangerFooterView];
             
             [dangerFooterView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(dangerTopView.mas_bottom);
                 make.left.equalTo(dangerTopView);
                 make.right.equalTo(dangerTopView.mas_right);
-                make.bottom.equalTo(cell.contentView.mas_bottom);
+                make.bottom.equalTo(cell.contentView.mas_bottom).offset(-PAaptation_y(16));
             }];
             
         }else{

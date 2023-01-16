@@ -32,7 +32,7 @@
 
     [self.view addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view);
+        make.top.equalTo(self.view).offset(-PAaptation_y(2));
         make.left.equalTo(self.view);
         make.width.equalTo(self.view);
         make.height.mas_equalTo(PAaptation_y(32));
@@ -58,7 +58,7 @@
         make.top.equalTo(self.topView.mas_bottom);
         make.left.equalTo(self.view);
         make.width.equalTo(self.view);
-        make.height.mas_equalTo(PAaptation_y(130));
+        make.height.mas_equalTo(PAaptation_y(55));
     }];
     
     [self.titleView addSubview:self.titleLabel];
@@ -84,7 +84,7 @@
 #pragma mark - cell高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == self.sectionArray.count -1) {
-        return PAaptation_y(80);
+        return PAaptation_y(90);
     }
     return PAaptation_y(40);
 }
@@ -100,6 +100,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, PAaptation_y(40))];
+    headerView.backgroundColor = [UIColor whiteColor];
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(PAdaptation_x(23), headerView.frame.size.height - PAaptation_y(30), SCREEN_WIDTH - PAdaptation_x(46), PAaptation_y(30))];
     label.font = [UIFont systemFontOfSize:14];
