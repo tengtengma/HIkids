@@ -237,16 +237,54 @@
     UILabel *tempStudentNameLabel;
 //    UILabel *studentTimeLabel;
     
-    NSInteger hang; //几行
-    NSInteger count = kidsList.count;  //总共多少个
-    if (count %2 == 0) {
-        hang = count/2;
-    }else{
-        hang = count/2 +1;
-    }
+
     
-//    for (NSInteger j = 0; j < hang; j++) {
+//明天参考
+//    int n = 0;
+//    int col = 0;
+//    int left = ADAPTATION_X(50);
+//    int top = ADAPTATION_Y(30);
+//    int page = typesList.count/8 == 0 ? (int)typesList.count/8 : (int)typesList.count/8+1;
 //
+//    pageControl.numberOfPages = page;
+//
+//    for (int p = 0; p <= (page-1); p++) {
+//
+//            int num = typesList.count-8*p < 8 ? (int)typesList.count-8*p : 8;
+//
+//            for (int i = 0; i < num; i++) {
+//                n = i/4;
+//                col = i % 4;
+//                BFType *type = nil;
+//
+//                if (num < 8) {
+//                    type = [typesList safeObjectAtIndex:typesList.count-(i+1)];
+//
+//                }else{
+//                    type = [typesList safeObjectAtIndex:i];
+//
+//                }
+//
+//                BFTypeBtn *typeBtn = [BFTypeBtn buttonWithType:UIButtonTypeCustom];
+//                typeBtn.tag = 100+i;
+//                if (num < 8) {
+//                    typeBtn.tag = 200+i;
+//
+//                }else{
+//                    typeBtn.tag = 100+i;
+//
+//                }
+//
+//                typeBtn.productTypeId = type.productTypeId;
+//                typeBtn.productTypeName = type.productTypeName;
+//                [typeBtn setFrame:CGRectMake(left + col * (width + ADAPTATION_X(40))+p*scrollview.frame.size.width , top + n * (height + ADAPTATION_Y(50)), width, height)];
+//
+//                [typeBtn setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"home%d.png",i]] forState:UIControlStateNormal];
+//                typeBtn.titleLabel.font = [UIFont boldSystemFontOfSize:iPhone5?10.0:12.0];
+//                [typeBtn addTarget:self action:@selector(select:) forControlEvents:UIControlEventTouchUpInside];
+//                [typeBtn setTitle:type.productTypeName forState:UIControlStateNormal];
+//                [scrollview addSubview:typeBtn];
+//            }
 //    }
     for (NSInteger i = 0; i < kidsList.count; i++) {
         NSDictionary *studentDic = [kidsList safeObjectAtIndex:i];
