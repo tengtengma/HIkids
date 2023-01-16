@@ -104,10 +104,7 @@
     NSString *startTime = [dic safeObjectForKey:@"startTime"];
 //    NSString *endTime = [dic safeObjectForKey:@"endTime"];
     
-    NSDate *now = [NSDate date];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
-    NSString *nowTime = [dateFormatter stringFromDate:now];
+    NSString *nowTime = [BWTools getNowTimeStringWithFormate:@"YYYY-MM-dd HH:mm:ss"];
     
     NSInteger vipLastTime = [self pleaseInsertStarTimeo:startTime andInsertEndTime:nowTime];
 

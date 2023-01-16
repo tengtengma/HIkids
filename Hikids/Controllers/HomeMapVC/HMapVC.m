@@ -667,7 +667,7 @@
             [weakSelf.homeMenuTableView reloadData];
         }
 
-        [weakSelf addMarkersWithNomalList:locationResp.normalKids andExceptList:locationResp.exceptionKids]; //添加学生位置坐标
+//        [weakSelf addMarkersWithNomalList:locationResp.normalKids andExceptList:locationResp.exceptionKids]; //添加学生位置坐标
         [weakSelf drawPolygon];
                 
     } failure:^(BWBaseReq *req, NSError *error) {
@@ -884,24 +884,24 @@
 - (void)dangerAlertNotifi:(NSNotification *)noti
 {
     
-    NSDictionary *userInfo = noti.object;
-    NSString *name = [userInfo safeObjectForKey:@"name"];
-    
-    if (![[userInfo safeObjectForKey:@"status"] isEqualToString:@"安全"]) {
-        
-        if ([name isEqualToString:@"午睡中"]) {
-            [self.sleepMenuTableView scrollToMiddle];
-        }
-        if ([name isEqualToString:@"散步中"]) {
-            [self.walkMenuTableView scrollToMiddle];
-
-        }
-        if ([name isEqualToString:@"在院内"]) {
-            [self.homeMenuTableView scrollToMiddle];
-        }
-        [self showAlertActionWithName:name];
-
-    }
+//    NSDictionary *userInfo = noti.object;
+//    NSString *name = [userInfo safeObjectForKey:@"name"];
+//
+//    if (![[userInfo safeObjectForKey:@"status"] isEqualToString:@"安全"]) {
+//
+//        if ([name isEqualToString:@"午睡中"]) {
+//            [self.sleepMenuTableView scrollToMiddle];
+//        }
+//        if ([name isEqualToString:@"散步中"]) {
+//            [self.walkMenuTableView scrollToMiddle];
+//
+//        }
+//        if ([name isEqualToString:@"在院内"]) {
+//            [self.homeMenuTableView scrollToMiddle];
+//        }
+//        [self showAlertActionWithName:name];
+//
+//    }
 
 }
 - (void)showAlertActionWithName:(NSString *)name

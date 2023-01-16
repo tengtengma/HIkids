@@ -172,6 +172,8 @@
         }];
         
     }
+    
+    
     if (self.exceptList.count == 0) {
         
         if (indexPath.section == 1) {
@@ -220,20 +222,25 @@
 
 - (void)loadNOExpandWithCell:(UITableViewCell *)cell byType:(CellType)type
 {
-    UIView *bgView = [[UIView alloc] init];
-    bgView.layer.masksToBounds = YES;
-    bgView.layer.cornerRadius = 12;
-    bgView.layer.borderWidth = 2;
-    bgView.layer.borderColor = BWColor(0.133, 0.133, 0.133, 1.0).CGColor;
-    [cell.contentView addSubview:bgView];
-    [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(cell.contentView);
-        make.left.equalTo(cell.contentView).offset(PAdaptation_x(24));
-        make.right.equalTo(cell.contentView.mas_right).offset(-PAdaptation_x(24));
-        make.bottom.equalTo(cell.contentView.mas_bottom).offset(-PAaptation_y(16));
-    }];
-    
+
     if (type == CellType_Safe) {
+        
+        UIView *bgView = [[UIView alloc] init];
+        bgView.layer.masksToBounds = YES;
+        bgView.layer.cornerRadius = 12;
+        bgView.layer.borderWidth = 2;
+        bgView.layer.borderColor = BWColor(0.133, 0.133, 0.133, 1.0).CGColor;
+        [cell.contentView addSubview:bgView];
+        [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            if (self.exceptList.count == 0) {
+                make.top.equalTo(cell.contentView);
+            }else{
+                make.top.equalTo(cell.contentView).offset(PAaptation_y(16));
+            }
+            make.left.equalTo(cell.contentView).offset(PAdaptation_x(24));
+            make.right.equalTo(cell.contentView.mas_right).offset(-PAdaptation_x(24));
+            make.bottom.equalTo(cell.contentView.mas_bottom);
+        }];
     
         HStudentStateTopView *safeTopView = [[HStudentStateTopView alloc] init];
         safeTopView.type = TYPE_WALK;
@@ -268,6 +275,19 @@
         
     }
     if (type == CellType_Danger) {
+        
+        UIView *bgView = [[UIView alloc] init];
+        bgView.layer.masksToBounds = YES;
+        bgView.layer.cornerRadius = 12;
+        bgView.layer.borderWidth = 2;
+        bgView.layer.borderColor = BWColor(0.133, 0.133, 0.133, 1.0).CGColor;
+        [cell.contentView addSubview:bgView];
+        [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(cell.contentView);
+            make.left.equalTo(cell.contentView).offset(PAdaptation_x(24));
+            make.right.equalTo(cell.contentView.mas_right).offset(-PAdaptation_x(24));
+            make.bottom.equalTo(cell.contentView.mas_bottom);
+        }];
         
         HStudentStateTopView *dangerTopView = [[HStudentStateTopView alloc] init];
         dangerTopView.type = TYPE_WALK;
@@ -311,7 +331,12 @@
             [safeTopView.expandBtn setImage:[UIImage imageNamed:@"expand.png"] forState:UIControlStateNormal];
             [cell.contentView addSubview:safeTopView];
             [safeTopView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(cell.contentView);
+                if (self.exceptList.count == 0) {
+                    make.top.equalTo(cell.contentView);
+                }else{
+                    make.top.equalTo(cell.contentView).offset(PAaptation_y(16));
+                }
+                
                 make.left.equalTo(cell.contentView).offset(PAdaptation_x(24));
                 make.right.equalTo(cell.contentView.mas_right).offset(-PAdaptation_x(24));
                 make.height.mas_equalTo(PAaptation_y(47));
@@ -335,7 +360,7 @@
                 make.top.equalTo(safeTopView.mas_bottom);
                 make.left.equalTo(safeTopView);
                 make.right.equalTo(safeTopView.mas_right);
-                make.bottom.equalTo(cell.contentView.mas_bottom).offset(-PAaptation_y(16));
+                make.bottom.equalTo(cell.contentView.mas_bottom);
             }];
             
         }else{
@@ -398,7 +423,7 @@
                 make.top.equalTo(dangerTopView.mas_bottom);
                 make.left.equalTo(dangerTopView);
                 make.right.equalTo(dangerTopView.mas_right);
-                make.bottom.equalTo(cell.contentView.mas_bottom).offset(-PAaptation_y(16));
+                make.bottom.equalTo(cell.contentView.mas_bottom);
             }];
             
         }else{

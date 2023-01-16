@@ -34,7 +34,8 @@
         self.showsVerticalScrollIndicator = NO;
         self.sectionHeaderHeight = 0.0;//消除底部空白
         self.sectionFooterHeight = 0.0;//消除底部空白
-        
+        self.separatorStyle = UITableViewCellSeparatorStyleNone;
+
         [self createHeaderView];
     }
     return self;
