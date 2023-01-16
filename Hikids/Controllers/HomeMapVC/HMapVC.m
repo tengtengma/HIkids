@@ -460,7 +460,7 @@
         student.name = [dic safeObjectForKey:@"kidsName"];
         student.deviceInfo.averangheart = [dic safeObjectForKey:@"heartRate"];
         student.avatar = [dic safeObjectForKey:@"avatar"];
-        [tempDangerArray addObject:student];
+        [tempSafeArray addObject:student];
     }
     
     self.sleepMenuTableView.smallView.safeLabel.text = [NSString stringWithFormat:@"使用中%ld人",tempSafeArray.count];
