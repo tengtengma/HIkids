@@ -107,7 +107,7 @@
     
 //    NSLog(@"point=%@",NSStringFromCGPoint(point));
 //
-//    NSLog(@"y=%f",self.contentOffset.y);
+    NSLog(@"y=%f",self.contentOffset.y);
     
     if (point.y<0) {
         return nil;

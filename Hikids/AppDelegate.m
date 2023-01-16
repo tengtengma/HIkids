@@ -42,6 +42,7 @@
     
     [self registerAPN];
     
+    
     return YES;
 }
 #pragma mark - 初始化google地图

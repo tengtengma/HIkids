@@ -66,8 +66,8 @@
         [self.gpsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.titleLabel.mas_bottom).offset(PAaptation_y(2));
             make.left.equalTo(self.headerView.mas_right).offset(PAdaptation_x(10));
-            make.width.mas_equalTo(PAdaptation_x(27));
-            make.height.mas_equalTo(PAaptation_y(29));
+            make.width.mas_equalTo(PAdaptation_x(30));
+            make.height.mas_equalTo(PAaptation_y(30));
         }];
         
         [self addSubview:self.distanceLabel];
@@ -76,21 +76,21 @@
             make.left.equalTo(self.gpsImageView.mas_right).offset(PAdaptation_x(6));
         }];
         
-        [self addSubview:self.clockBtn];
-        [self.clockBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.headerView);
-            make.right.equalTo(self.mas_right).offset(-PAdaptation_x(31));
-            make.width.mas_equalTo(PAdaptation_x(18));
-            make.height.mas_equalTo(PAaptation_y(20));
-        }];
-        
-        [self addSubview:self.backupBtn];
-        [self.backupBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.headerView);
-            make.right.equalTo(self.clockBtn.mas_left).offset(-PAdaptation_x(27));
-            make.width.mas_equalTo(PAdaptation_x(15));
-            make.height.mas_equalTo(PAaptation_y(20));
-        }];
+//        [self addSubview:self.clockBtn];
+//        [self.clockBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.centerY.equalTo(self.headerView);
+//            make.right.equalTo(self.mas_right).offset(-PAdaptation_x(31));
+//            make.width.mas_equalTo(PAdaptation_x(18));
+//            make.height.mas_equalTo(PAaptation_y(20));
+//        }];
+//
+//        [self addSubview:self.backupBtn];
+//        [self.backupBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.centerY.equalTo(self.headerView);
+//            make.right.equalTo(self.clockBtn.mas_left).offset(-PAdaptation_x(27));
+//            make.width.mas_equalTo(PAdaptation_x(15));
+//            make.height.mas_equalTo(PAaptation_y(20));
+//        }];
         
         
 
@@ -139,15 +139,6 @@
     [self.headerView sd_setImageWithURL:[NSURL URLWithString:model.avatar]];
     [self.batteryImageView setImage:[UIImage imageNamed:@"battery.png"]];
     [self.wifiImageView setImage:[UIImage imageNamed:@"wifi.png"]];
-
-    if (model.exceptionTime) {
-
-
-
-    }else{
-
-
-    }
     self.titleLabel.text = model.name;
 }
 - (void)loadSafeStyle
@@ -170,6 +161,7 @@
     if (self.type == FootTYPE_WALK) {
         self.distanceLabel.text = [NSString stringWithFormat:@"%ld米",self.student.distance.integerValue];
         [self.gpsImageView setImage:[UIImage imageNamed:@"gps.png"]];
+        self.headerView.layer.borderColor = BWColor(255, 75, 0, 1).CGColor;
 
     }else{
         if (self.student.deviceInfo.averangheart.length != 0) {
@@ -177,9 +169,11 @@
         }else{
             self.distanceLabel.text = [NSString stringWithFormat:@"--bpm"];
         }
+        [self.gpsImageView setImage:[UIImage imageNamed:@"xintiao_danger.png"]];
+        self.headerView.layer.borderColor = BWColor(108, 159, 155, 1).CGColor;
+
     }
     self.distanceLabel.textColor = BWColor(255, 75, 0, 1);
-    self.headerView.layer.borderColor = BWColor(255, 75, 0, 1).CGColor;
     self.leftLineView.backgroundColor = BWColor(76, 40, 11, 1);
     self.rightLineView.backgroundColor = BWColor(76, 40, 11, 1);
     self.bottomLineView.backgroundColor = BWColor(76, 40, 11, 1);

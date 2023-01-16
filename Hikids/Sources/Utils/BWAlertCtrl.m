@@ -22,7 +22,7 @@
     for (int i = 0;i < array.count;i++) {
         UIAlertAction *action ;
         
-        if ([[array safeObjectAtIndex:i] isEqualToString:@"アラート停止"]) {
+        if ([[array safeObjectAtIndex:i] isEqualToString:@"アラート停止"]|| [[array safeObjectAtIndex:i] isEqualToString:@"確認する"]) {
             action = [UIAlertAction actionWithTitle:[array safeObjectAtIndex:i] style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
                 clickAction(action.title);
             }];

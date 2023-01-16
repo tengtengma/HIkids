@@ -232,8 +232,22 @@
         make.left.equalTo(self.studentDesLabel.mas_right).offset(PAdaptation_x(10));
     }];
     
+    
+    
     UILabel *tempStudentNameLabel;
-    UILabel *studentTimeLabel;
+//    UILabel *studentTimeLabel;
+    
+    NSInteger hang; //几行
+    NSInteger count = kidsList.count;  //总共多少个
+    if (count %2 == 0) {
+        hang = count/2;
+    }else{
+        hang = count/2 +1;
+    }
+    
+//    for (NSInteger j = 0; j < hang; j++) {
+//
+//    }
     for (NSInteger i = 0; i < kidsList.count; i++) {
         NSDictionary *studentDic = [kidsList safeObjectAtIndex:i];
         
@@ -254,18 +268,6 @@
         
         tempStudentNameLabel = studentNameLabel;
         
-        studentTimeLabel = [[UILabel alloc] init];
-        studentTimeLabel.text = [studentDic safeObjectForKey:@"create_time"];
-        studentTimeLabel.textColor = BWColor(108, 159, 155, 1);
-        studentTimeLabel.font = [UIFont systemFontOfSize:20];
-        studentTimeLabel.textAlignment = NSTextAlignmentCenter;
-        [self.scrollView addSubview:studentTimeLabel];
-        
-        [studentTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(studentNameLabel);
-            make.left.equalTo(self.teacherDesLabel.mas_right).offset(PAdaptation_x(164));
-        }];
-        
     }
     
     UIView *tempFootView = nil;
@@ -278,55 +280,50 @@
             make.left.equalTo(self.teacherDesLabel);
         }];
         
-        HStudentStateTopView *dangerTopView = [[HStudentStateTopView alloc] init];
-        dangerTopView.type = TYPE_SLEEP;
-        dangerTopView.studentList = unnormalList;
-        dangerTopView.expandBtn.hidden = YES;
-        dangerTopView.updateTimeLabel.hidden = YES;
-        [dangerTopView loadDangerStyle];
-        [self.scrollView addSubview:dangerTopView];
-        
-        [dangerTopView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.dangerLabel.mas_bottom);
-            make.left.equalTo(self.dangerLabel);
-            make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(24));
-            make.height.mas_equalTo(PAaptation_y(47));
-        }];
-        
+
         for (NSInteger i = 0; i < unnormalList.count; i++) {
             
             NSDictionary *unnormalDic = [unnormalList safeObjectAtIndex:i];
+            
+            HStudentStateTopView *dangerTopView = [[HStudentStateTopView alloc] init];
+            dangerTopView.type = TYPE_SLEEP;
+            dangerTopView.studentList = unnormalList;
+            dangerTopView.expandBtn.hidden = YES;
+            dangerTopView.numberBg.hidden = YES;
+            dangerTopView.numberLabel.hidden = YES;
+            dangerTopView.dangerTimeLabel.text = [unnormalDic safeObjectForKey:@"create_time"];
+            [dangerTopView loadDangerStyle];
+            [self.scrollView addSubview:dangerTopView];
+            
+            [dangerTopView mas_makeConstraints:^(MASConstraintMaker *make) {
+                
+                if (i == 0) {
+                    make.top.equalTo(self.dangerLabel.mas_bottom).offset(PAaptation_y(10));
+                }else{
+                    make.top.equalTo(tempFootView.mas_bottom).offset(PAaptation_y(10));
+                }
+                make.left.equalTo(self.dangerLabel);
+                make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(24));
+                make.height.mas_equalTo(PAaptation_y(47));
+            }];
             
             HStudent *student = [[HStudent alloc] init];
             student.name = [unnormalDic safeObjectForKey:@"name"];
 //            student.avatar = [unnormalDic safeObjectForKey:@"avatar"];
             student.avatar = @"https://yunpengmall.oss-cn-beijing.aliyuncs.com/1560875015170428928/material/19181666430944_.pic.jpg";
 
-
             HStudentFooterView *footerView = [[HStudentFooterView alloc] init];
             footerView.type = FootTYPE_SLEEP;
             [footerView setupWithModel:student];
             [footerView loadDangerStyle];
-            if (i == unnormalList.count-1) {
-                [footerView setLastCellBorder];
-            }else{
-                [footerView setNomalBorder];
-            }
+            [footerView setLastCellBorder];
             [self.scrollView addSubview:footerView];
             
             [footerView mas_makeConstraints:^(MASConstraintMaker *make) {
-                if (i == 0) {
-                    make.top.equalTo(dangerTopView.mas_bottom);
-                    make.left.equalTo(dangerTopView);
-                    make.right.equalTo(dangerTopView.mas_right);
-                    make.height.mas_equalTo(PAaptation_y(78));
-                }else{
-                    make.top.equalTo(tempFootView.mas_bottom);
-                    make.left.equalTo(dangerTopView);
-                    make.right.equalTo(dangerTopView.mas_right);
-                    make.height.mas_equalTo(PAaptation_y(78));
-                }
-
+                make.top.equalTo(dangerTopView.mas_bottom);
+                make.left.equalTo(dangerTopView);
+                make.right.equalTo(dangerTopView.mas_right);
+                make.height.mas_equalTo(PAaptation_y(78));
             }];
             
             tempFootView = footerView;
@@ -342,7 +339,7 @@
     }];
     
      
-    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(20)*teacherList.count + PAaptation_y(20)*kidsList.count+ PAaptation_y(47) + PAaptation_y(78) *unnormalList.count);
+    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(20)*teacherList.count + PAaptation_y(20)*kidsList.count+ PAaptation_y(145) *unnormalList.count);
 
 }
 - (void)backAction:(id)sender

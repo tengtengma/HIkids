@@ -307,7 +307,7 @@
     dangerTopView.type = TYPE_WALK;
     dangerTopView.studentList = @[];
     dangerTopView.expandBtn.hidden = YES;
-    dangerTopView.updateTimeLabel.hidden = NO;
+    dangerTopView.dangerTimeLabel.hidden = NO;
     [dangerTopView loadDangerStyle];
     [self.scrollView addSubview:dangerTopView];
     

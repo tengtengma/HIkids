@@ -241,6 +241,7 @@
 {
     //20为状态栏高度；tableview设置的大小要和view的大小一致
     self.sleepMenuTableView = [[HSleepMenuView alloc] initWithFrame:CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    self.sleepMenuTableView.smallView.hidden = YES;
     self.sleepMenuTableView.gpsButton.hidden = YES;
     [self.view addSubview:self.sleepMenuTableView];
     
@@ -251,16 +252,7 @@
         [weakSelf changeTaskStateRequestWithStatus:@"5"];
         
     };
-    self.sleepMenuTableView.openReport = ^{
-        NSLog(@"打开日历");
-        HDateVC *dateVC = [[HDateVC alloc] init];
-        [weakSelf presentViewController:dateVC animated:YES completion:nil];
-    };
     
-    //测试使用
-//    self.sleepMenuTableView.safeList = self.nomalArray;
-//    self.sleepMenuTableView.exceptList = self.exceptArray;
-//    [self.sleepMenuTableView reloadData];
 }
 //设置小朋友详情view
 - (void)setupStudentInfoView
@@ -638,6 +630,10 @@
 //获取学生坐标信息
 - (void)startGetStudentLocationRequest
 {
+    if (self.gpsLocation == nil) {
+        NSLog(@"定位数据还没有拿到");
+        return;
+    }
     DefineWeakSelf;
     BWStudentLocationReq *locationReq = [[BWStudentLocationReq alloc] init];
     locationReq.latitude = self.gpsLocation.coordinate.latitude;
@@ -651,8 +647,6 @@
             NSString *status = locationResp.exceptionKids.count != 0 ? @"危険" : @"安全";
             [[NSNotificationCenter defaultCenter] postNotificationName:@"dangerAlertNotification" object:@{@"name":@"散步中",@"status":status}];
             
-            weakSelf.walkMenuTableView.smallView.safeLabel.text = [NSString stringWithFormat:@"使用中%ld人",locationResp.normalKids.count];
-            weakSelf.walkMenuTableView.smallView.dangerLabel.text = [NSString stringWithFormat:@"アラート%ld回",locationResp.exceptionKids.count];
             weakSelf.walkMenuTableView.safeList = locationResp.normalKids;
             weakSelf.walkMenuTableView.exceptList = locationResp.exceptionKids;
             [weakSelf.walkMenuTableView reloadData];
@@ -884,24 +878,24 @@
 - (void)dangerAlertNotifi:(NSNotification *)noti
 {
     
-//    NSDictionary *userInfo = noti.object;
-//    NSString *name = [userInfo safeObjectForKey:@"name"];
-//
-//    if (![[userInfo safeObjectForKey:@"status"] isEqualToString:@"安全"]) {
-//
-//        if ([name isEqualToString:@"午睡中"]) {
-//            [self.sleepMenuTableView scrollToMiddle];
-//        }
-//        if ([name isEqualToString:@"散步中"]) {
-//            [self.walkMenuTableView scrollToMiddle];
-//
-//        }
-//        if ([name isEqualToString:@"在院内"]) {
-//            [self.homeMenuTableView scrollToMiddle];
-//        }
-//        [self showAlertActionWithName:name];
-//
-//    }
+    NSDictionary *userInfo = noti.object;
+    NSString *name = [userInfo safeObjectForKey:@"name"];
+
+    if (![[userInfo safeObjectForKey:@"status"] isEqualToString:@"安全"]) {
+
+        if ([name isEqualToString:@"午睡中"]) {
+            [self.sleepMenuTableView scrollToMiddle];
+        }
+        if ([name isEqualToString:@"散步中"]) {
+            [self.walkMenuTableView scrollToMiddle];
+
+        }
+        if ([name isEqualToString:@"在園中"]) {
+            [self.homeMenuTableView scrollToMiddle];
+        }
+        [self showAlertActionWithName:name];
+
+    }
 
 }
 - (void)showAlertActionWithName:(NSString *)name
@@ -909,18 +903,23 @@
 //    [self.shakeTimer setFireDate:[NSDate distantPast]];
 
 //    if (!self.isAlert) {
+    
+    NSString *content = ![name isEqualToString:@"午睡中"] ? @"安全地帯を出てしまったお子さんもいるかもしれませんので、ご確認ください。" : @"お子さまの再確認をお願いします。";
+    NSString *sureStr = ![name isEqualToString:@"午睡中"] ? @"アラート停止" : @"確認する";
+    
         
-        [self addLocalNotice];
+    [self addLocalNoticeWithName:name];
         //调用系统震动
         [self getChatMessageGoToShake];
         //调用系统声音
         [self getChatMessageGoToSound];
         
-        DefineWeakSelf;
-        NSString *content = ![name isEqualToString:@"午睡中"] ? @"安全地帯を出てしまったお子さんもいるかもしれませんので、ご確認ください。" : @"お子さまの再確認をお願いします。";
-        [BWAlertCtrl alertControllerWithTitle:@"ご注意ください！" buttonArray:@[@"アラート停止"] message:content preferredStyle:UIAlertControllerStyleAlert clickBlock:^(NSString *buttonTitle) {
+//        DefineWeakSelf;
+
+    
+        [BWAlertCtrl alertControllerWithTitle:@"ご注意ください！" buttonArray:@[sureStr] message:content preferredStyle:UIAlertControllerStyleAlert clickBlock:^(NSString *buttonTitle) {
             
-            if ([buttonTitle isEqualToString:@"アラート停止"]) {
+            if ([buttonTitle isEqualToString:sureStr]) {
     //            [weakSelf.shakeTimer setFireDate:[NSDate distantFuture]];
 //                weakSelf.isAlert = YES;
 
@@ -954,15 +953,19 @@
         AudioServicesPlaySystemSound(sd);
     }
 }
-- (void)addLocalNotice {
+- (void)addLocalNoticeWithName:(NSString *)name {
+    
+    NSString *body = ![name isEqualToString:@"午睡中"] ? @"安全地帯を出てしまったお子さんもいるかもしれませんので、ご確認ください。" : @"お子さまの再確認をお願いします。";
+    NSString *subtitle = ![name isEqualToString:@"午睡中"] ? @"危険" : @"要注意";
+    
     if (@available(iOS 10.0, *)) {
         UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
         UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
         // 标题
         content.title = @"ご注意ください！";
-        content.subtitle = @"危険";
+        content.subtitle = subtitle;
         // 内容
-        content.body = @"安全地帯を出てしまったお子さんもいるかもしれませんので、ご確認ください。";
+        content.body = body;
         // 声音
 //        content.sound = [UNNotificationSound defaultSound];
         content.sound = [UNNotificationSound soundNamed:@"Alert_ActivityGoalAttained_Salient_Haptic.caf"];

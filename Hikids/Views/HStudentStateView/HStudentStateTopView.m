@@ -9,10 +9,9 @@
 
 @interface HStudentStateTopView()
 @property (nonatomic, strong) UIImageView *topView;
-@property (nonatomic, strong) UIView *numberBg;
 @property (nonatomic, strong) UIImageView *iconView;
 @property (nonatomic, strong) UILabel *stateLabel;
-@property (nonatomic, strong) UILabel *numberLabel;
+
 
 
 @end
@@ -84,12 +83,11 @@
             make.height.mas_equalTo(PAaptation_y(24));
         }];
         
-        self.updateTimeLabel = [[UILabel alloc] init];
-        self.updateTimeLabel.font = [UIFont boldSystemFontOfSize:14];
-        self.updateTimeLabel.hidden = YES;
-        [self.topView addSubview:self.updateTimeLabel];
+        self.dangerTimeLabel = [[UILabel alloc] init];
+        self.dangerTimeLabel.font = [UIFont boldSystemFontOfSize:14];
+        [self.topView addSubview:self.dangerTimeLabel];
         
-        [self.updateTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.dangerTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.topView);
             make.right.equalTo(self.topView.mas_right).offset(-PAdaptation_x(11.5));
         }];
@@ -109,24 +107,31 @@
 - (void)loadSafeStyle
 {
     [self.iconView setImage:self.type == TYPE_WALK ? [UIImage imageNamed:@"safeIcon.png"] : [UIImage imageNamed:@"heart.png"]];
-    self.stateLabel.text = self.type == TYPE_WALK ? @"安全" : @"心拍正常";
+    [self.topView setImage:[UIImage imageNamed:@"safeStatus.png"]];
+    self.stateLabel.text = self.type == TYPE_WALK ? @"安全エリア内" : @"心拍正常";
     self.numberLabel.text = [NSString stringWithFormat:@"%ld人",self.studentList.count];
     self.numberLabel.textColor = [UIColor whiteColor];
     self.numberBg.backgroundColor = BWColor(5, 70, 11, 1);
-    [self.topView setImage:[UIImage imageNamed:@"safeStatus.png"]];
-    self.updateTimeLabel.text = @"11:11";
 
 }
 - (void)loadDangerStyle
 {
-    [self.iconView setImage:self.type == TYPE_WALK ? [UIImage imageNamed:@"dangerIcon.png"] : [UIImage imageNamed:@"heart.png"]];
-
-    self.stateLabel.text =  @"危険";
     self.numberLabel.text = [NSString stringWithFormat:@"%ld人",self.studentList.count];
-    self.numberLabel.textColor = BWColor(255, 75, 0, 1);
-    [self.topView setImage:[UIImage imageNamed:@"dangerStatus.png"]];
-    self.numberBg.backgroundColor = [UIColor whiteColor];
-    self.updateTimeLabel.text = @"11:11";
+    
+    if (self.type == TYPE_WALK) {
+        [self.topView setImage:[UIImage imageNamed:@"dangerStatus.png"]];
+        [self.iconView setImage:[UIImage imageNamed:@"dangerIcon.png"]];
+        self.stateLabel.text =  @"危険";
+        self.numberLabel.textColor = BWColor(255, 75, 0, 1);
+        self.numberBg.backgroundColor = [UIColor whiteColor];
+    }else{
+        [self.topView setImage:[UIImage imageNamed:@"sleep_danger_status.png"]];
+        [self.iconView setImage:[UIImage imageNamed:@"sleep_wx.png"]];
+        self.stateLabel.text =  @"要注意";
+        self.stateLabel.textColor = BWColor(76, 53, 41, 1);
+        self.numberLabel.textColor = [UIColor whiteColor];
+        self.numberBg.backgroundColor = BWColor(76, 53, 41, 1);
+    }
 
 }
 

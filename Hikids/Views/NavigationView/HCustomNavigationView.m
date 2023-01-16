@@ -124,12 +124,12 @@
 - (void)dangerStyleWithName:(NSString *)typeName
 {
     self.titleLabel.text = typeName;
-    self.stateLabel.text = @"危险";
-    self.stateLabel.textColor = BWColor(164, 0, 0, 1);
+    self.stateLabel.text = [typeName isEqualToString:@"午睡中"] ? @"要注意" : @"危险";
+    self.stateLabel.textColor = [typeName isEqualToString:@"午睡中"] ? BWColor(76, 53, 41, 1) :  BWColor(164, 0, 0, 1);
     self.updateTimeLabel.text = @"最終更新：20秒";
     self.updateTimeLabel.textColor = BWColor(164, 0, 0, 1);
     self.userNameLabel.text = @"ひまわり";
-    [self.stateImageView setImage:[UIImage imageNamed:@"dangerNav.png"]];
+    [self.stateImageView setImage:[typeName isEqualToString:@"午睡中"] ? [UIImage imageNamed:@"attention.png"] : [UIImage imageNamed:@"dangerNav.png"]];
     [self.userImageView setImage:[UIImage imageNamed:@"teacher.png"]];
     [self.backgroundImageView setImage:[UIImage imageNamed:@"navBG_danger.png"]];
 

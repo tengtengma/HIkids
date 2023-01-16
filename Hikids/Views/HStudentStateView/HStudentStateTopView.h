@@ -22,8 +22,11 @@ typedef void(^expandBlockAction)(void);
 @property (nonatomic, copy) expandBlockAction expandBlock;
 @property (nonatomic, strong) NSArray *studentList;
 @property (nonatomic, strong) UIButton *expandBtn;
-@property (nonatomic, strong) UILabel *updateTimeLabel;
 @property (nonatomic, assign) TYPE type;
+@property (nonatomic, strong) UILabel *dangerTimeLabel;
+@property (nonatomic, strong) UILabel *numberLabel;
+@property (nonatomic, strong) UIView *numberBg;
+
 
 - (void)loadSafeStyle;
 - (void)loadDangerStyle;

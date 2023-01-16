@@ -36,7 +36,7 @@
         
         [self.bgView addSubview:self.contentView];
         [self.contentView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.bgView).offset(PAaptation_y(139));
+            make.top.equalTo(self.bgView).offset(PAaptation_y(40));
             make.centerX.equalTo(self.bgView);
             make.width.mas_equalTo(PAdaptation_x(356));
             make.height.mas_equalTo(PAaptation_y(278));
@@ -108,7 +108,7 @@
     self.timeLabel.text = [dic safeObjectForKey:@"duration"];
     self.sleepNumLabel.text = [NSString stringWithFormat:@"%ld人",normalList.count + unnormalList.count];
 //    self.getupNumLabel.text = @"0人";
-    self.huiNumLabel.text = [NSString stringWithFormat:@"%ld回",unnormalList.count];
+    self.huiNumLabel.text = [NSString stringWithFormat:@"%ld人",unnormalList.count];
 }
 #pragma mark - 将某个时间戳转化成 时间
 - (NSString *)timestampSwitchTime:(NSInteger)timestamp andFormatter:(NSString *)format{
@@ -218,7 +218,7 @@
     if (!_huiNumDesLabel) {
         _huiNumDesLabel = [[UILabel alloc] init];
         _huiNumDesLabel.font = [UIFont systemFontOfSize:14.0];
-        _huiNumDesLabel.text = @"アラート";
+        _huiNumDesLabel.text = @"要注意";
     }
     return _huiNumDesLabel;
 }
