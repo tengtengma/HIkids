@@ -215,11 +215,11 @@
 - (void)loginOut
 {
     
-    UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否退出？" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:@"注意" message:@"ログアウトします。よろしいでしょうか？" preferredStyle:UIAlertControllerStyleAlert];
         
 
     
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"否" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"いいえ" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
         
         
     }];
@@ -227,7 +227,7 @@
     
     [alertCtrl addAction:cancel];
     
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"是" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"はい" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
         [user setObject:nil forKey:KEY_UserName];

@@ -101,14 +101,11 @@
     NSDictionary *dic = (NSDictionary *)model;
     NSArray *normalList = [dic safeObjectForKey:@"normalList"];
     NSArray *unnormalList = [dic safeObjectForKey:@"unnormalList"];
-    NSString *startTime = [dic safeObjectForKey:@"startTime"];
+//    NSString *startTime = [dic safeObjectForKey:@"startTime"];
 //    NSString *endTime = [dic safeObjectForKey:@"endTime"];
-    
-    NSString *nowTime = [BWTools getNowTimeStringWithFormate:@"YYYY-MM-dd HH:mm:ss"];
-    
-    NSInteger vipLastTime = [self pleaseInsertStarTimeo:startTime andInsertEndTime:nowTime];
+        
 
-    self.timeLabel.text = [self timestampSwitchTime:vipLastTime andFormatter:@"mm:ss"];
+    self.timeLabel.text = [dic safeObjectForKey:@"duration"];
     self.sleepNumLabel.text = [NSString stringWithFormat:@"%ld人",normalList.count + unnormalList.count];
 //    self.getupNumLabel.text = @"0人";
     self.huiNumLabel.text = [NSString stringWithFormat:@"%ld回",unnormalList.count];

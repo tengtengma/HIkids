@@ -658,7 +658,7 @@
             [weakSelf.walkMenuTableView reloadData];
         }else{
             NSString *status = locationResp.exceptionKids.count != 0 ? @"危険" : @"安全";
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"dangerAlertNotification" object:@{@"name":@"在院内",@"status":status}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"dangerAlertNotification" object:@{@"name":@"在園中",@"status":status}];
             
             weakSelf.homeMenuTableView.smallView.safeLabel.text = [NSString stringWithFormat:@"使用中%ld人",locationResp.normalKids.count];
             weakSelf.homeMenuTableView.smallView.dangerLabel.text = [NSString stringWithFormat:@"アラート%ld回",locationResp.exceptionKids.count];
