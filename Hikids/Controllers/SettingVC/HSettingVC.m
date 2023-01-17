@@ -33,7 +33,7 @@
 
     [self.view addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.view);
+        make.centerY.equalTo(self.view).offset(-PAaptation_y(120));
         make.left.equalTo(self.view);
         make.width.equalTo(self.view);
         make.height.mas_equalTo(PAaptation_y(32));

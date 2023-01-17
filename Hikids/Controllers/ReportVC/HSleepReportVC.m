@@ -183,25 +183,40 @@
     NSArray *kidsList = self.reportInfo.kidsList;
     NSArray *unnormalList = self.reportInfo.unnormalList;
     
-    UILabel *tempTeacherNameLabel;
+    
+    CGFloat height = PAaptation_y(360);
+    CGFloat width = SCREEN_WIDTH/2 - PAdaptation_x(48);
+    CGFloat LeftPadding = PAdaptation_x(24);
+    CGFloat Ypadding = PAdaptation_x(10);
+    
+    UIView *tempTeacherNameLabel = nil;
     for (NSInteger i = 0; i < teacherList.count; i++) {
+        
         NSDictionary *teacherDic = [teacherList safeObjectAtIndex:i];
+
+        NSInteger rowNum = i / 2; //每行2个
+        NSInteger colNum = i % 2; //行数
+        
+        
+        CGFloat imageX = colNum * width + LeftPadding;
+        CGFloat imageY = rowNum * (PAaptation_y(30) + Ypadding);
+        CGRect frame = CGRectMake(imageX,height+ imageY, width, PAaptation_y(30));
+        
+        
+        UIView *bgView = [[UIView alloc] initWithFrame:frame];
+        [self.scrollView addSubview:bgView];
+        
         UILabel *teacherNameLabel = [[UILabel alloc] init];
         teacherNameLabel.font = [UIFont boldSystemFontOfSize:20];
         teacherNameLabel.textColor = BWColor(0, 28, 41, 1);
         teacherNameLabel.text = [teacherDic safeObjectForKey:@"name"];
-        [self.scrollView addSubview:teacherNameLabel];
+        [bgView addSubview:teacherNameLabel];
         
         [teacherNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            if (i == 0) {
-                make.top.equalTo(self.teacherNumLabel.mas_bottom).offset(PAaptation_y(12));
-            }else{
-                make.top.equalTo(tempTeacherNameLabel.mas_bottom).offset(PAaptation_y(6));
-            }
-            make.left.equalTo(self.teacherDesLabel);
+            make.centerY.equalTo(bgView);
+            make.left.equalTo(bgView);
         }];
         
-        tempTeacherNameLabel = teacherNameLabel;
         
         if (i == 0) {
             UILabel *mainNameLabel = [[UILabel alloc] init];
@@ -210,20 +225,20 @@
             mainNameLabel.backgroundColor = BWColor(108, 159, 155, 1);
             mainNameLabel.font = [UIFont systemFontOfSize:10];
             mainNameLabel.textAlignment = NSTextAlignmentCenter;
-            [self.scrollView addSubview:mainNameLabel];
+            [teacherNameLabel addSubview:mainNameLabel];
             
             [mainNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.centerY.equalTo(teacherNameLabel);
-                make.left.equalTo(teacherNameLabel.mas_right).offset(PAdaptation_x(20));
+                make.left.equalTo(teacherNameLabel.mas_right).offset(PAdaptation_x(10));
             }];
         }
-        
+        tempTeacherNameLabel = teacherNameLabel;
     }
     
     [self.scrollView addSubview:self.studentDesLabel];
     [self.studentDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(tempTeacherNameLabel.mas_bottom).offset(PAaptation_y(42));
-        make.left.equalTo(tempTeacherNameLabel);
+        make.top.equalTo(tempTeacherNameLabel.mas_bottom).offset(PAaptation_y(44));
+        make.left.equalTo(self.teacherDesLabel);
     }];
     
     [self.scrollView addSubview:self.studentNumLabel];
@@ -232,77 +247,33 @@
         make.left.equalTo(self.studentDesLabel.mas_right).offset(PAdaptation_x(10));
     }];
     
-    
-    
-    UILabel *tempStudentNameLabel;
-//    UILabel *studentTimeLabel;
-    
 
+    height = PAaptation_y(480);
+    width = SCREEN_WIDTH/2 - PAdaptation_x(48);
+    LeftPadding = PAdaptation_x(24);
+    Ypadding = PAdaptation_x(10);
     
-//明天参考
-//    int n = 0;
-//    int col = 0;
-//    int left = ADAPTATION_X(50);
-//    int top = ADAPTATION_Y(30);
-//    int page = typesList.count/8 == 0 ? (int)typesList.count/8 : (int)typesList.count/8+1;
-//
-//    pageControl.numberOfPages = page;
-//
-//    for (int p = 0; p <= (page-1); p++) {
-//
-//            int num = typesList.count-8*p < 8 ? (int)typesList.count-8*p : 8;
-//
-//            for (int i = 0; i < num; i++) {
-//                n = i/4;
-//                col = i % 4;
-//                BFType *type = nil;
-//
-//                if (num < 8) {
-//                    type = [typesList safeObjectAtIndex:typesList.count-(i+1)];
-//
-//                }else{
-//                    type = [typesList safeObjectAtIndex:i];
-//
-//                }
-//
-//                BFTypeBtn *typeBtn = [BFTypeBtn buttonWithType:UIButtonTypeCustom];
-//                typeBtn.tag = 100+i;
-//                if (num < 8) {
-//                    typeBtn.tag = 200+i;
-//
-//                }else{
-//                    typeBtn.tag = 100+i;
-//
-//                }
-//
-//                typeBtn.productTypeId = type.productTypeId;
-//                typeBtn.productTypeName = type.productTypeName;
-//                [typeBtn setFrame:CGRectMake(left + col * (width + ADAPTATION_X(40))+p*scrollview.frame.size.width , top + n * (height + ADAPTATION_Y(50)), width, height)];
-//
-//                [typeBtn setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"home%d.png",i]] forState:UIControlStateNormal];
-//                typeBtn.titleLabel.font = [UIFont boldSystemFontOfSize:iPhone5?10.0:12.0];
-//                [typeBtn addTarget:self action:@selector(select:) forControlEvents:UIControlEventTouchUpInside];
-//                [typeBtn setTitle:type.productTypeName forState:UIControlStateNormal];
-//                [scrollview addSubview:typeBtn];
-//            }
-//    }
+    UIView *tempStudentNameLabel = nil;
+//    UILabel *studentNameLabel = nil;
     for (NSInteger i = 0; i < kidsList.count; i++) {
+        
+        NSInteger rowNum = i / 2; //每行2个
+        NSInteger colNum = i % 2; //行数
+        
+        NSLog(@"rowNum = %ld,colNum = %ld",rowNum,colNum);
+        
         NSDictionary *studentDic = [kidsList safeObjectAtIndex:i];
         
-        UILabel *studentNameLabel = [[UILabel alloc] init];
+        CGFloat imageX = colNum * width + LeftPadding;
+        CGFloat imageY = rowNum * (PAaptation_y(30) + Ypadding);
+        CGRect frame = CGRectMake(imageX,height+ imageY, width, PAaptation_y(30));
+        
+        UILabel *studentNameLabel = [[UILabel alloc] initWithFrame:frame];
         studentNameLabel.font = [UIFont systemFontOfSize:20];
         studentNameLabel.textColor = BWColor(0, 28, 41, 1);
         studentNameLabel.text = [studentDic safeObjectForKey:@"name"];
         [self.scrollView addSubview:studentNameLabel];
-        
-        [studentNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            if (i == 0) {
-                make.top.equalTo(self.studentNumLabel.mas_bottom).offset(PAaptation_y(12));
-            }else{
-                make.top.equalTo(tempStudentNameLabel.mas_bottom).offset(PAaptation_y(6));
-            }
-            make.left.equalTo(self.teacherDesLabel);
-        }];
+    
         
         tempStudentNameLabel = studentNameLabel;
         
@@ -311,18 +282,18 @@
     UIView *tempFootView = nil;
 
     if (unnormalList.count != 0) {
-        
+
         [self.scrollView addSubview:self.dangerLabel];
         [self.dangerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(tempStudentNameLabel.mas_bottom).offset(PAaptation_y(26));
             make.left.equalTo(self.teacherDesLabel);
         }];
-        
+
 
         for (NSInteger i = 0; i < unnormalList.count; i++) {
-            
+
             NSDictionary *unnormalDic = [unnormalList safeObjectAtIndex:i];
-            
+
             HStudentStateTopView *dangerTopView = [[HStudentStateTopView alloc] init];
             dangerTopView.type = TYPE_SLEEP;
             dangerTopView.studentList = unnormalList;
@@ -332,9 +303,9 @@
             dangerTopView.dangerTimeLabel.text = [unnormalDic safeObjectForKey:@"create_time"];
             [dangerTopView loadDangerStyle];
             [self.scrollView addSubview:dangerTopView];
-            
+
             [dangerTopView mas_makeConstraints:^(MASConstraintMaker *make) {
-                
+
                 if (i == 0) {
                     make.top.equalTo(self.dangerLabel.mas_bottom).offset(PAaptation_y(10));
                 }else{
@@ -344,7 +315,7 @@
                 make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(24));
                 make.height.mas_equalTo(PAaptation_y(47));
             }];
-            
+
             HStudent *student = [[HStudent alloc] init];
             student.name = [unnormalDic safeObjectForKey:@"name"];
 //            student.avatar = [unnormalDic safeObjectForKey:@"avatar"];
@@ -356,28 +327,28 @@
             [footerView loadDangerStyle];
             [footerView setLastCellBorder];
             [self.scrollView addSubview:footerView];
-            
+
             [footerView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(dangerTopView.mas_bottom);
                 make.left.equalTo(dangerTopView);
                 make.right.equalTo(dangerTopView.mas_right);
                 make.height.mas_equalTo(PAaptation_y(78));
             }];
-            
+
             tempFootView = footerView;
         }
     }
-    
+
     [self.scrollView addSubview:self.printBtn];
     [self.printBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(unnormalList.count == 0 ? tempStudentNameLabel.mas_bottom :  tempFootView.mas_bottom).offset(PAaptation_y(26));
-        make.right.equalTo(unnormalList.count == 0 ? studentTimeLabel.mas_right :  tempFootView.mas_right);
+        make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(24));
         make.width.mas_equalTo(PAdaptation_x(146));
         make.height.mas_equalTo(PAaptation_y(48));
     }];
     
      
-    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(20)*teacherList.count + PAaptation_y(20)*kidsList.count+ PAaptation_y(145) *unnormalList.count);
+    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(20)*teacherList.count/2 + PAaptation_y(20)*kidsList.count/2+ PAaptation_y(145) *unnormalList.count);
 
 }
 - (void)backAction:(id)sender
