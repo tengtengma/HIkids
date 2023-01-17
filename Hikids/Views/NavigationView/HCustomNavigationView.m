@@ -51,7 +51,7 @@
     
     [self.backgroundImageView addSubview:self.stateImageView];
     [self.stateImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.mas_bottom).offset(PAaptation_y(11));
+        make.top.equalTo(self.titleLabel.mas_bottom).offset(PAaptation_y(8));
         make.left.equalTo(self.titleLabel);
         make.width.mas_equalTo(PAdaptation_x(30));
         make.height.mas_equalTo(PAaptation_y(30));

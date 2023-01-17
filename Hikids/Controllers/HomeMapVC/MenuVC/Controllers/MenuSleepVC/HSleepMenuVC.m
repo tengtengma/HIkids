@@ -121,7 +121,7 @@
     
     self.titleLabel.text = @"午睡モニタリング";
     
-    self.dateLabel.text = [BWTools getNowTimeStringWithFormate:@"YYYY-MM-dd"];
+    self.dateLabel.text = [BWTools getNowTimeStringWithFormate:@"YYYY年M月d日"];
 }
 - (void)createTitleView
 {
@@ -141,7 +141,7 @@
     
     [self.titleView addSubview:self.dateLabel];
     [self.dateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.mas_bottom).offset(PAaptation_y(8));
+        make.top.equalTo(self.titleLabel.mas_bottom).offset(PAaptation_y(6));
         make.left.equalTo(self.titleLabel);
     }];
     
@@ -371,7 +371,7 @@
 
     }
     if (indexPath.section == 1) {
-        return CGSizeMake(PAdaptation_x(75), PAaptation_y(36));
+        return CGSizeMake(PAdaptation_x(110), PAaptation_y(36));
     }
     return CGSizeMake(PAdaptation_x(170), PAaptation_y(54));
 }
@@ -411,7 +411,7 @@
         return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(10));
     }
     if (section == 1) {
-        return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(10));
+        return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(30));
     }
 
     return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(18));
@@ -458,15 +458,19 @@
         if (timeLabel == nil) {
             timeLabel = [[UILabel alloc] init];
             timeLabel.tag = 10001;
-            timeLabel.font = [UIFont systemFontOfSize:12];
+            timeLabel.font = [UIFont boldSystemFontOfSize:14];
             timeLabel.backgroundColor = BWColor(252, 229, 216, 1.0);
+            timeLabel.layer.cornerRadius = 8;
+            timeLabel.layer.masksToBounds = YES;
             [self.selectView addSubview:timeLabel];
         }
-        timeLabel.text = timeModel.name;
+        timeLabel.text = [NSString stringWithFormat:@"   %@   ",timeModel.name];
         
         [timeLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.selectView);
             make.left.equalTo(self.selectView);
+            make.height.mas_equalTo(PAaptation_y(24));
+
         }];
     }else{
         timeLabel.text = @"";
@@ -478,15 +482,18 @@
         if (teacherLabel == nil) {
             teacherLabel = [[UILabel alloc] init];
             teacherLabel.tag = 10002;
-            teacherLabel.font = [UIFont systemFontOfSize:12];
+            teacherLabel.font = [UIFont boldSystemFontOfSize:14];
             teacherLabel.backgroundColor = BWColor(252, 229, 216, 1.0);
+            teacherLabel.layer.cornerRadius = 8;
+            teacherLabel.layer.masksToBounds = YES;
             [self.selectView addSubview:teacherLabel];
         }
-        teacherLabel.text = [NSString stringWithFormat:@"先生%ld人",self.selectTeacherArray.count];
+        teacherLabel.text = [NSString stringWithFormat:@"   先生%ld人   ",self.selectTeacherArray.count];
         
         [teacherLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.selectView);
             make.left.equalTo(timeLabel == nil ? self.selectView : timeLabel.mas_right).offset(PAdaptation_x(2));
+            make.height.mas_equalTo(PAaptation_y(24));
         }];
     }else{
         teacherLabel.text = @"";
@@ -498,15 +505,19 @@
         if (studentLabel == nil) {
             studentLabel = [[UILabel alloc] init];
             studentLabel.tag = 10003;
-            studentLabel.font = [UIFont systemFontOfSize:12];
+            studentLabel.font = [UIFont boldSystemFontOfSize:14];
             studentLabel.backgroundColor = BWColor(252, 229, 216, 1.0);
+            studentLabel.layer.cornerRadius = 8;
+            studentLabel.layer.masksToBounds = YES;
             [self.selectView addSubview:studentLabel];
         }
-        studentLabel.text = [NSString stringWithFormat:@"児童%ld人",self.selectStudentArray.count];
+        studentLabel.text = [NSString stringWithFormat:@"   児童%ld人   ",self.selectStudentArray.count];
         
         [studentLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.selectView);
             make.left.equalTo(teacherLabel == nil ? self.selectView : teacherLabel.mas_right).offset(PAdaptation_x(2));
+            make.height.mas_equalTo(PAaptation_y(24));
+
         }];
     }else{
         studentLabel.text = @"";
@@ -649,7 +660,7 @@
 {
     if (!_dateLabel) {
         _dateLabel = [[UILabel alloc] init];
-        _dateLabel.font = [UIFont systemFontOfSize:14];
+        _dateLabel.font = [UIFont boldSystemFontOfSize:14];
     }
     return _dateLabel;
 }

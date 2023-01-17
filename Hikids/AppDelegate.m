@@ -45,6 +45,10 @@
     
     return YES;
 }
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"enterActive" object:nil];
+}
 #pragma mark - 初始化google地图
 - (void)setupGoogleMap
 {

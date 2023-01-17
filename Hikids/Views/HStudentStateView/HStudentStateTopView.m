@@ -36,8 +36,8 @@
         [self.iconView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.topView);
             make.left.equalTo(self.topView).offset(PAdaptation_x(16));
-            make.width.mas_equalTo(PAdaptation_x(24));
-            make.height.mas_equalTo(PAaptation_y(24));
+            make.width.mas_equalTo(PAdaptation_x(28));
+            make.height.mas_equalTo(PAaptation_y(28));
         }];
         
         self.stateLabel = [[UILabel alloc] init];
@@ -52,6 +52,8 @@
         
         self.numberBg = [[UILabel alloc] init];
         self.numberBg.backgroundColor = [UIColor whiteColor];
+        self.numberBg.layer.cornerRadius = 4;
+        self.numberBg.layer.masksToBounds = YES;
         [self.topView addSubview:self.numberBg];
         
         [self.numberBg mas_makeConstraints:^(MASConstraintMaker *make) {

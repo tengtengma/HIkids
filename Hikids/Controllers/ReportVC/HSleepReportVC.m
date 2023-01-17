@@ -225,11 +225,15 @@
             mainNameLabel.backgroundColor = BWColor(108, 159, 155, 1);
             mainNameLabel.font = [UIFont systemFontOfSize:10];
             mainNameLabel.textAlignment = NSTextAlignmentCenter;
+            mainNameLabel.layer.cornerRadius = 4;
+            mainNameLabel.layer.masksToBounds = YES;
             [teacherNameLabel addSubview:mainNameLabel];
             
             [mainNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.centerY.equalTo(bgView);
-                make.left.equalTo(teacherNameLabel.mas_right).offset(PAdaptation_x(10));
+                make.left.equalTo(teacherNameLabel.mas_right).offset(PAdaptation_x(5));
+                make.width.mas_equalTo(PAdaptation_x(50));
+                make.height.mas_equalTo(PAaptation_y(17));
             }];
         }
         tempTeacherNameLabel = teacherNameLabel;
@@ -269,7 +273,7 @@
         CGRect frame = CGRectMake(imageX,height+ imageY, width, PAaptation_y(30));
         
         UILabel *studentNameLabel = [[UILabel alloc] initWithFrame:frame];
-        studentNameLabel.font = [UIFont systemFontOfSize:20];
+        studentNameLabel.font = [UIFont boldSystemFontOfSize:20];
         studentNameLabel.textColor = BWColor(0, 28, 41, 1);
         studentNameLabel.text = [studentDic safeObjectForKey:@"name"];
         [self.scrollView addSubview:studentNameLabel];

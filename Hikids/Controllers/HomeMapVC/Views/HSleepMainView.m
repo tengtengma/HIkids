@@ -19,6 +19,10 @@
 @property (nonatomic, strong) UILabel *getupNumLabel;
 @property (nonatomic, strong) UILabel *huiNumDesLabel;
 @property (nonatomic, strong) UILabel *huiNumLabel;
+@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, assign) long planTime;//task的时间
+@property (nonatomic, assign) long duration;//服务器返回的持续时间
+@property (nonatomic, assign) long second;//当前秒++
 
 
 @end
@@ -50,7 +54,7 @@
         
         [self.contentView addSubview:self.timeLabel];
         [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.timeDesLabel.mas_bottom);
+            make.bottom.equalTo(self.timeDesLabel.mas_bottom).offset(PAaptation_y(3));
             make.left.equalTo(self.timeDesLabel.mas_right).offset(PAdaptation_x(30));
         }];
         
@@ -62,7 +66,7 @@
         
         [self.contentView addSubview:self.sleepNumLabel];
         [self.sleepNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.sleepNumDesLabel.mas_bottom);
+            make.bottom.equalTo(self.sleepNumDesLabel.mas_bottom).offset(PAaptation_y(3));
             make.left.equalTo(self.sleepNumDesLabel.mas_right).offset(PAdaptation_x(30));
         }];
         
@@ -86,60 +90,91 @@
         
         [self.contentView addSubview:self.huiNumLabel];
         [self.huiNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.huiNumDesLabel.mas_bottom);
+            make.bottom.equalTo(self.huiNumDesLabel.mas_bottom).offset(PAaptation_y(3));
             make.left.equalTo(self.huiNumDesLabel.mas_right).offset(PAdaptation_x(30));
         }];
         
+//        self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(startTime) userInfo:nil repeats:YES];
         
+        self.timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(startTime) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+        
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterActive) name:@"enterActive" object:nil];
+
         
     }
     return self;
 }
+//app进入前台 同步服务器时间
+- (void)enterActive
+{
+    if (self.duration > self.second) {
+        self.second = self.duration;
+    }
+}
+- (void)closeTimer
+{
+    
+    [self.timer invalidate];
+    self.timer = nil;
+    
+}
+- (void)startTime
+{
+    self.second ++;
+    
+    NSString *timeStr = [self timeFormatted:self.second];
+    
+    self.timeLabel.text = timeStr;
+    
+    if (self.planTime == 0) {
+        return;
+    }
+    
+    if (self.second >=  self.planTime*60) {
+        
+        if (self.sleepTimeOverBlock) {
+            self.sleepTimeOverBlock();
+        }
+        
 
+    
+    }
+}
+- (NSString *)timeFormatted:(long)totalSeconds
+{
+
+    long seconds = totalSeconds % 60;
+    long minutes = (totalSeconds / 60) % 60;
+//    int hours = totalSeconds / 3600;
+
+    return [NSString stringWithFormat:@"%02ld:%02ld", minutes, seconds];
+}
 - (void)setupContent:(id)model
 {
     NSDictionary *dic = (NSDictionary *)model;
     NSArray *normalList = [dic safeObjectForKey:@"normalList"];
     NSArray *unnormalList = [dic safeObjectForKey:@"unnormalList"];
+    self.planTime = [[dic safeObjectForKey:@"planTime"] longLongValue];
 //    NSString *startTime = [dic safeObjectForKey:@"startTime"];
 //    NSString *endTime = [dic safeObjectForKey:@"endTime"];
         
 
-    self.timeLabel.text = [dic safeObjectForKey:@"duration"];
+    self.duration = [[dic safeObjectForKey:@"duration"] longLongValue];
+    if (self.duration > self.second) {
+        self.second = self.duration;
+    }
     self.sleepNumLabel.text = [NSString stringWithFormat:@"%ld人",normalList.count + unnormalList.count];
 //    self.getupNumLabel.text = @"0人";
     self.huiNumLabel.text = [NSString stringWithFormat:@"%ld人",unnormalList.count];
 }
-#pragma mark - 将某个时间戳转化成 时间
-- (NSString *)timestampSwitchTime:(NSInteger)timestamp andFormatter:(NSString *)format{
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateStyle:NSDateFormatterMediumStyle];
-    [formatter setTimeStyle:NSDateFormatterShortStyle];
-    [formatter setDateFormat:format]; // （@"YYYY-MM-dd hh:mm:ss"）----------设置你想要的格式,hh与HH的区别:分别表示12小时制,24小时制
-    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"Asia/Beijing"];
-    [formatter setTimeZone:timeZone];
-    NSDate *confromTimesp = [NSDate dateWithTimeIntervalSince1970:timestamp];
-    /// 在当前时间，后退30分钟 = 1800
-//    confromTimesp = [confromTimesp dateByAddingTimeInterval:-1800];
-    NSString *confromTimespStr = [formatter stringFromDate:confromTimesp];
-    return confromTimespStr;
-}
-
-- (NSInteger)pleaseInsertStarTimeo:(NSString *)time1 andInsertEndTime:(NSString *)time2{
-    // 1.将时间转换为date
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    formatter.dateFormat = @"YYYY-MM-dd HH:mm:ss";
-    NSDate *date1 = [formatter dateFromString:time1];
-    NSDate *date2 = [formatter dateFromString:time2];
-    // 2.创建日历
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-//    NSCalendarUnit type = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
-    NSCalendarUnit type = NSCalendarUnitSecond;
-    // 3.利用日历对象比较两个时间的差值
-    NSDateComponents *cmps = [calendar components:type fromDate:date1 toDate:date2 options:0];
-    // 4.输出结果
-//    NSLog(@"两个时间相差%ld年%ld月%ld日%ld小时%ld分钟%ld秒", cmps.year, cmps.month, cmps.day, cmps.hour, cmps.minute, cmps.second);
-    return cmps.second;
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [self.timer invalidate];
+    self.timer = nil;
 }
 #pragma mark - LazyLoad -
 - (UIImageView *)bgView
@@ -172,6 +207,7 @@
     if (!_timeLabel) {
         _timeLabel = [[UILabel alloc] init];
         _timeLabel.font = [UIFont boldSystemFontOfSize:36.0];
+        _timeLabel.text = [NSString stringWithFormat:@"--人"];
     }
     return _timeLabel;
 }
@@ -191,6 +227,7 @@
         _sleepNumLabel = [[UILabel alloc] init];
         _sleepNumLabel.font = [UIFont boldSystemFontOfSize:36.0];
         _sleepNumLabel.textColor = BWColor(108, 159, 155, 1);
+        _sleepNumLabel.text = [NSString stringWithFormat:@"--人"];
     }
     return _sleepNumLabel;
 }
@@ -228,6 +265,8 @@
         _huiNumLabel = [[UILabel alloc] init];
         _huiNumLabel.font = [UIFont boldSystemFontOfSize:36.0];
         _huiNumLabel.textColor = BWColor(246, 170, 0, 1);
+        _huiNumLabel.text = [NSString stringWithFormat:@"--人"];
+
     }
     return _huiNumLabel;
 }

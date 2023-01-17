@@ -266,19 +266,19 @@
 - (void)showSleepOrWalkViewByTyep:(Type)type
 {
     HSleepOrWalkSettingView *swView = [[HSleepOrWalkSettingView alloc] initWithType:type];
-    [swView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT/2)];
+    [swView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT- PAaptation_y(236))];
     [self.view addSubview:swView];
     
     __block UIView *vi = swView;
     
     [UIView animateWithDuration:0.25 animations:^{
-        [vi setFrame:CGRectMake(0, SCREEN_HEIGHT/2, SCREEN_WIDTH, SCREEN_HEIGHT/2)];
+        [vi setFrame:CGRectMake(0, PAaptation_y(236), SCREEN_WIDTH, SCREEN_HEIGHT- PAaptation_y(236))];
     }];
     
     swView.closeSwBlock = ^{
         [UIView animateWithDuration:0.25 animations:^{
             
-            [vi setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT/2)];
+            [vi setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, SCREEN_HEIGHT- PAaptation_y(236))];
 
         } completion:^(BOOL finished) {
             if (finished) {

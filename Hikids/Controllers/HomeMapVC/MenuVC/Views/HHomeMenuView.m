@@ -101,15 +101,41 @@
     if (self.exceptList.count == 0) {
         
         if (section == 1) {
-            return self.safeExpand ? self.safeList.count : 1;
+            
+            if (self.safeExpand) {
+                return self.safeList.count;
+            }else{
+                if (self.safeList.count == 0) {
+                    return 0;
+                }else{
+                    return 1;
+                }
+            }
         }
         
     }else{
         if (section == 1) {
-            return !self.exceptExpand ? self.exceptList.count : 1;
+            
+            if (!self.exceptExpand) {
+                return self.exceptList.count;
+            }else{
+                if (self.exceptList.count == 0) {
+                    return 0;
+                }else{
+                    return 1;
+                }
+            }
         }
         if (section == 2) {
-            return self.safeExpand ? self.safeList.count : 1;
+            if (self.safeExpand) {
+                return self.safeList.count;
+            }else{
+                if (self.safeList.count == 0) {
+                    return 0;
+                }else{
+                    return 1;
+                }
+            }
         }
     }
 

@@ -9,8 +9,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^sleepTimeOver)(void);
+
 @interface HSleepMainView : UIView
+@property (nonatomic, copy) sleepTimeOver sleepTimeOverBlock;
+
 - (void)setupContent:(id)model;
+- (void)closeTimer;
 @end
 
 NS_ASSUME_NONNULL_END

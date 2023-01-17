@@ -53,7 +53,7 @@
 - (void)setupWithModel:(id)model
 {
     HStudent *student = (HStudent *)model;
-    [self.imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar] placeholderImage:[UIImage imageNamed:@""]];
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
     self.titleLabel.text = student.name;
 }
 - (void)cellNomal

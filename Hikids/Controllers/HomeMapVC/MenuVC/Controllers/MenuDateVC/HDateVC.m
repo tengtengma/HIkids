@@ -220,7 +220,7 @@
         cardView.date = [array safeObjectAtIndex:0];
         cardView.desLabel.text = [array safeObjectAtIndex:1];
         cardView.dayLabel.text = [mArray safeObjectAtIndex:2];
-        cardView.monthLabel.text = [mArray safeObjectAtIndex:1];
+        cardView.monthLabel.text = [NSString stringWithFormat:@"%@月",[mArray safeObjectAtIndex:1]];
         if ([cardView.date isEqualToString:self.nowDayDeteOfWeek]) {
             [cardView loadSelectStyle];
             self.lastTag = cardView.tag;
@@ -463,7 +463,7 @@
         NSTimeInterval secondsPerDay = i * 24*60*60;
         NSDate *curDate = [NSDate dateWithTimeIntervalSinceNow:secondsPerDay];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        [dateFormatter setDateFormat:@"yyyy-M-d"];
         NSString *dateStr = [dateFormatter stringFromDate:curDate];//几月几号
         //NSString *dateStr = @"5月31日";
         NSDateFormatter *weekFormatter = [[NSDateFormatter alloc] init];

@@ -87,6 +87,7 @@
     //设置屏幕常亮
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
+    
 
 //    //开启定时器
 //     [self.walkTimer setFireDate:[NSDate distantPast]];
@@ -151,6 +152,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dangerAlertNotifi:) name:@"dangerAlertNotification" object:nil];
     //退出账户
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logOutAction:) name:@"quitAccountNoti" object:nil];
+    
 
     
 }
@@ -275,14 +277,23 @@
 //设置午睡内容页
 - (void)setupSleepMainView
 {
-    [self.view addSubview:self.sleepMainView];
-    [self.view sendSubviewToBack:self.sleepMainView];
-    [self.sleepMainView mas_makeConstraints:^(MASConstraintMaker *make) {
+    HSleepMainView *sleepMainView = [[HSleepMainView alloc] init];
+    self.sleepMainView = sleepMainView;
+    [self.view addSubview:sleepMainView];
+    [self.view sendSubviewToBack:sleepMainView];
+    [sleepMainView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.customNavigationView.mas_bottom).offset(-PAaptation_y(10));
         make.left.equalTo(self.view);
         make.width.equalTo(self.view);
         make.bottom.equalTo(self.view.mas_bottom);
     }];
+    
+    DefineWeakSelf;
+    sleepMainView.sleepTimeOverBlock = ^{
+        //修改任务状态
+        [weakSelf changeTaskStateRequestWithStatus:@"5"];
+        
+    };
 }
 //展示午睡菜单
 - (void)showSleepMenuVC
@@ -329,10 +340,13 @@
     DefineWeakSelf;
     sleepReportVC.closeSleepReportBlock = ^{
         //todo
+        [weakSelf.sleepMainView closeTimer];
         
         [weakSelf.sleepMainView removeFromSuperview];//移除午睡主页面
         
         [weakSelf.sleepMenuTableView removeFromSuperview];//移除午睡底部菜单
+        
+
         
 //        [weakSelf startStayMode];
     };
@@ -1179,14 +1193,14 @@
     }
     return _customNavigationView;
 }
-- (HSleepMainView *)sleepMainView
-{
-    if (!_sleepMainView) {
-        _sleepMainView = [[HSleepMainView alloc] init];
-        
-    }
-    return _sleepMainView;
-}
+//- (HSleepMainView *)sleepMainView
+//{
+//    if (!_sleepMainView) {
+//        _sleepMainView = [[HSleepMainView alloc] init];
+//
+//    }
+//    return _sleepMainView;
+//}
 - (HSettingVC *)settingVC
 {
     if (!_settingVC) {
