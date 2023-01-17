@@ -53,8 +53,6 @@
 @property (nonatomic,strong) GMSPlacesClient * placesClient;//可以获取某个地方的信息
 @property (nonatomic,strong) CLLocationManager *locationManager;
 @property (nonatomic,assign) CLLocationCoordinate2D coordinate2D;
-//@property (nonatomic,strong) NSArray *exceptArray;
-//@property (nonatomic,strong) NSArray *nomalArray;
 @property (nonatomic,assign) BOOL firstLocationUpdate;
 @property (nonatomic,assign) BOOL isDrawFence;  //是否画围栏 防止重复画
 @property (nonatomic,assign) BOOL isInGard;//在院内
@@ -116,7 +114,7 @@
 //    3.当walkTask为1的时候 就是散步模式 不调用查询sleepTask接口
 
     
-    self.walkTimer = [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(startGetStudentLocationRequest) userInfo:nil repeats:YES];
+    self.walkTimer = [NSTimer scheduledTimerWithTimeInterval:300 target:self selector:@selector(startGetStudentLocationRequest) userInfo:nil repeats:YES];
 
     self.sleepTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(getSleepTaskRequest) userInfo:nil repeats:YES];
     
@@ -198,7 +196,12 @@
         [weakSelf presentViewController:dateVC animated:YES completion:nil];
     };
     homeMenuView.gpsBlock = ^{
-        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(weakSelf.gpsLocation.coordinate.latitude, weakSelf.gpsLocation.coordinate.longitude);
+        CLLocationCoordinate2D coordinate;
+        if (weakSelf.gpsLocation == nil) {
+            coordinate = CLLocationCoordinate2DMake(weakSelf.fenceLocation.locationInfo.latitude, weakSelf.fenceLocation.locationInfo.longitude);
+        }else{
+            coordinate = CLLocationCoordinate2DMake(weakSelf.gpsLocation.coordinate.latitude, weakSelf.gpsLocation.coordinate.longitude);
+        }
         //移动地图中心到当前位置
         weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:16];
     };
@@ -211,6 +214,7 @@
 {
     //20为状态栏高度；tableview设置的大小要和view的大小一致
     self.walkMenuTableView = [[HWalkMenuView alloc] initWithFrame:CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    self.sleepMenuTableView.smallView.hidden = YES;
     [self.view addSubview:self.walkMenuTableView];
     
     DefineWeakSelf;
@@ -503,9 +507,9 @@
     
     [self startLocation];                   //开启定位
     
-    [self.walkTimer setFireDate:[NSDate distantPast]];
     [self.sleepTimer setFireDate:[NSDate distantFuture]];
-//    [self getKinderRequest];                //获取小朋友点的信息
+    
+    [self getKinderRequest];                //获取围栏的信息
     
     
 }
@@ -630,14 +634,18 @@
 //获取学生坐标信息
 - (void)startGetStudentLocationRequest
 {
-    if (self.gpsLocation == nil) {
-        NSLog(@"定位数据还没有拿到");
-        return;
-    }
+
     DefineWeakSelf;
     BWStudentLocationReq *locationReq = [[BWStudentLocationReq alloc] init];
-    locationReq.latitude = self.gpsLocation.coordinate.latitude;
-    locationReq.longitude = self.gpsLocation.coordinate.longitude;
+    if (self.gpsLocation == nil) {
+        //先用围栏坐标替换
+        locationReq.latitude = self.fenceLocation.locationInfo.latitude;
+        locationReq.longitude = self.fenceLocation.locationInfo.longitude;
+    }else{
+        locationReq.latitude = self.gpsLocation.coordinate.latitude;
+        locationReq.longitude = self.gpsLocation.coordinate.longitude;
+    }
+
     [NetManger postRequest:locationReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         
@@ -695,7 +703,9 @@
     //围栏坐标信息
     self.fenceLocation = myLocation;
     
-    
+    //获取到围栏坐标后 开启刷小朋友信息接口
+    [self.walkTimer setFireDate:[NSDate distantPast]];
+
 }
 
 //画围栏
@@ -717,6 +727,16 @@
     poly.strokeColor = BWColor(83, 192, 137, 1);
     poly.fillColor = BWColor(0, 176, 107, 0.2);
     poly.map = self.mapView;
+    
+    
+    CLLocationCoordinate2D coordinate;
+    if (self.gpsLocation == nil) {
+        coordinate = CLLocationCoordinate2DMake(self.fenceLocation.locationInfo.latitude, self.fenceLocation.locationInfo.longitude);
+    }else{
+        coordinate = CLLocationCoordinate2DMake(self.gpsLocation.coordinate.latitude, self.gpsLocation.coordinate.longitude);
+    }
+    //移动地图中心到当前位置
+    self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:16];
     
     self.isDrawFence = NO;
     
