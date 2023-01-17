@@ -30,7 +30,7 @@
 #define GetSleepReportURL          @"/v1/business/sleepTask/getSleepTaskReportInfo"     //获取午睡报告接口
 #define GetTaskWithCalendarURL     @"/v1/business/hikidsTask/getTasks"                  //根据时间获取周报告
 #define GetMonthCalendarURL        @"/v1/business/hikidsTask/getMonthTasks"             //根据获取一个月的报告
-#define GetPDFURL                  @"/v1/business/sleepTask/getSleepTaskReportFile"     //获取pdf地址
+#define GetPDFURL                  @"/v1/business/hikidsTask/getSleepReport"            //获取pdf地址
 #endif /* HttpsUrls_h */
 
 

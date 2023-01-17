@@ -228,7 +228,7 @@
             [teacherNameLabel addSubview:mainNameLabel];
             
             [mainNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.centerY.equalTo(teacherNameLabel);
+                make.centerY.equalTo(bgView);
                 make.left.equalTo(teacherNameLabel.mas_right).offset(PAdaptation_x(10));
             }];
         }
