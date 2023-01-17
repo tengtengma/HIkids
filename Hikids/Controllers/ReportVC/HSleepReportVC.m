@@ -188,7 +188,7 @@
     CGFloat width = SCREEN_WIDTH/2 - PAdaptation_x(48);
     CGFloat LeftPadding = PAdaptation_x(24);
     CGFloat Ypadding = PAdaptation_x(10);
-    
+    UIView *bgView;
     UIView *tempTeacherNameLabel = nil;
     for (NSInteger i = 0; i < teacherList.count; i++) {
         
@@ -203,7 +203,7 @@
         CGRect frame = CGRectMake(imageX,height+ imageY, width, PAaptation_y(30));
         
         
-        UIView *bgView = [[UIView alloc] initWithFrame:frame];
+        bgView = [[UIView alloc] initWithFrame:frame];
         [self.scrollView addSubview:bgView];
         
         UILabel *teacherNameLabel = [[UILabel alloc] init];
@@ -248,7 +248,7 @@
     }];
     
 
-    height = PAaptation_y(480);
+    height = CGRectGetMaxY(bgView.frame)+PAaptation_y(74);
     width = SCREEN_WIDTH/2 - PAdaptation_x(48);
     LeftPadding = PAdaptation_x(24);
     Ypadding = PAdaptation_x(10);
@@ -273,8 +273,7 @@
         studentNameLabel.textColor = BWColor(0, 28, 41, 1);
         studentNameLabel.text = [studentDic safeObjectForKey:@"name"];
         [self.scrollView addSubview:studentNameLabel];
-    
-        
+            
         tempStudentNameLabel = studentNameLabel;
         
     }
@@ -348,7 +347,7 @@
     }];
     
      
-    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(20)*teacherList.count/2 + PAaptation_y(20)*kidsList.count/2+ PAaptation_y(145) *unnormalList.count);
+    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH,  CGRectGetMaxY(bgView.frame)+CGRectGetMaxY(tempStudentNameLabel.frame)+ PAaptation_y(47+78+10)*unnormalList.count);
 
 }
 - (void)backAction:(id)sender
