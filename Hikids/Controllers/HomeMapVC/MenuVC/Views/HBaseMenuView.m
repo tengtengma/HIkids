@@ -69,7 +69,7 @@
     [headerView addSubview:topView];
     
     [topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(headerView).offset(PAaptation_y(89));
+        make.top.equalTo(headerView).offset(PAaptation_y(90));
         make.left.equalTo(headerView);
         make.width.equalTo(headerView);
         make.height.mas_equalTo(PAaptation_y(32));
