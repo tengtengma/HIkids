@@ -647,5 +647,32 @@
     
     return nowTime;
 }
-
+// 时间戳转换
++ (NSString *)getMomentTime:(long long)timestamp
+{
+    NSTimeInterval nowTimestamp = [[NSDate date] timeIntervalSince1970] ;
+    long long timeDifference = nowTimestamp - timestamp/1000;
+    long long second = timeDifference;
+    long long minute = second/60;
+    long long hour = minute/60;
+    long long day = hour/24;
+    long long month = day/30;
+    long long year = month/12;
+    
+    if (1 <= year) {
+        return [NSString stringWithFormat:@"%lld年前",year];
+    } else if(1 <= month) {
+        return [NSString stringWithFormat:@"%lld月前",month];
+    } else if(1 <= day) {
+        return [NSString stringWithFormat:@"%lld天前",day];
+    } else if(1 <= hour) {
+        return [NSString stringWithFormat:@"%lld小时前",hour];
+    } else if(1 <= minute) {
+        return [NSString stringWithFormat:@"%lld分钟前",minute];
+    } else if(1 <= second) {
+        return [NSString stringWithFormat:@"%lld秒前",second];
+    } else {
+        return @"刚刚";
+    }
+}
 @end

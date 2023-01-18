@@ -263,11 +263,11 @@
     }
     
     if (_netState == -1 || _netState == 0) {
-        NSError * netError = [NSError errorWithDomain:@"当前网络不可用，请检查后再试" code:-1 userInfo:nil];
+        NSError * netError = [NSError errorWithDomain:@"ネットワークは利用できません。ネット設定確認後、再度お試しください。" code:-1 userInfo:nil];
         failure(request,netError);
         
     }else{
-        NSError * netError = [NSError errorWithDomain:@"服务器连接失败，请检查后再试" code:-1 userInfo:nil];
+        NSError * netError = [NSError errorWithDomain:@"ネットワークは利用できません。ネット設定確認後、再度お試しください。" code:-1 userInfo:nil];
         
         failure(request,netError);
         

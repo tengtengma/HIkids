@@ -263,9 +263,7 @@
         
         NSInteger rowNum = i / 2; //每行2个
         NSInteger colNum = i % 2; //行数
-        
-        NSLog(@"rowNum = %ld,colNum = %ld",rowNum,colNum);
-        
+                
         NSDictionary *studentDic = [kidsList safeObjectAtIndex:i];
         
         CGFloat imageX = colNum * width + LeftPadding;

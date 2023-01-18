@@ -132,4 +132,6 @@
 
 + (NSString *)getNowTimeStringWithFormate:(NSString *)formate;
 
+// 时间戳转换
++ (NSString *)getMomentTime:(long long)timestamp;
 @end

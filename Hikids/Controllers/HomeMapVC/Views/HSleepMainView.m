@@ -99,6 +99,8 @@
         self.timer = [NSTimer timerWithTimeInterval:1 target:self selector:@selector(startTime) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
         
+//        [self.timer setFireDate:[NSDate distantFuture]];
+
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterActive) name:@"enterActive" object:nil];
 
@@ -207,7 +209,7 @@
     if (!_timeLabel) {
         _timeLabel = [[UILabel alloc] init];
         _timeLabel.font = [UIFont boldSystemFontOfSize:36.0];
-        _timeLabel.text = [NSString stringWithFormat:@"--人"];
+        _timeLabel.text = [NSString stringWithFormat:@"--"];
     }
     return _timeLabel;
 }

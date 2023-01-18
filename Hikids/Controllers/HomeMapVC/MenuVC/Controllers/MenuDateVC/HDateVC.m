@@ -437,7 +437,7 @@
     NSDate *lastDayOfWeek= [calendar dateFromComponents:lastDayComp];
     
     NSDateFormatter *formater = [[NSDateFormatter alloc] init];
-    [formater setDateFormat:@"yyyy-MM-dd"];
+    [formater setDateFormat:@"yyyy-M-d"];
     NSLog(@"一周开始 %@",[formater stringFromDate:firstDayOfWeek]);
     NSLog(@"当前 %@",[formater stringFromDate:now]);
     NSLog(@"一周结束 %@",[formater stringFromDate:lastDayOfWeek]);
@@ -564,8 +564,8 @@
 }
 - (BOOL)compareOneDay:(NSString *)day1 withAnotherDay:(NSString *)day2
 {
-    NSDate *dateA = [ALCalendarHelper dateStringToDate:day1 format:@"yyyy-MM-dd"];
-    NSDate *dateB = [ALCalendarHelper dateStringToDate:day2 format:@"yyyy-MM-dd"];
+    NSDate *dateA = [ALCalendarHelper dateStringToDate:day1 format:@"yyyy-M-d"];
+    NSDate *dateB = [ALCalendarHelper dateStringToDate:day2 format:@"yyyy-M-d"];
     NSComparisonResult result = [dateA compare:dateB];
     if (result == NSOrderedDescending) {
         return NO; // Day1 在 Day2 之后
