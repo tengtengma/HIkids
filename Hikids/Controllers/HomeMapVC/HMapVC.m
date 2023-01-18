@@ -216,7 +216,7 @@
 {
     //20为状态栏高度；tableview设置的大小要和view的大小一致
     self.walkMenuTableView = [[HWalkMenuView alloc] initWithFrame:CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    self.sleepMenuTableView.smallView.hidden = YES;
+    self.walkMenuTableView.smallView.hidden = YES;
     [self.view addSubview:self.walkMenuTableView];
     
     DefineWeakSelf;
@@ -237,10 +237,6 @@
         weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:16];
     };
     
-//    //测试使用
-//    self.walkMenuTableView.safeList = self.nomalArray;
-//    self.walkMenuTableView.exceptList = self.exceptArray;
-//    [self.walkMenuTableView reloadData];
 }
 //设置午睡菜单
 - (void)setupSleepMenu

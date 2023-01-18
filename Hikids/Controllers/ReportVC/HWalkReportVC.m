@@ -367,7 +367,7 @@
     }];
     
     UILabel *yearLabel = [[UILabel alloc] init];
-    yearLabel.text = [BWTools getNowTimeStringWithFormate:@"YYYY-MM-dd"];
+    yearLabel.text = [BWTools getNowTimeStringWithFormate:@"YYYY年M月d日"];
     yearLabel.textColor = [UIColor whiteColor];
     yearLabel.font = [UIFont systemFontOfSize:20];
     [self.imageBgView addSubview:yearLabel];
@@ -639,6 +639,8 @@
         _destImageView = [[UIImageView alloc] init];
         _destImageView.layer.cornerRadius = 8;
         _destImageView.layer.borderWidth = 2;
+        _destImageView.layer.masksToBounds = YES;
+        [_destImageView setImage:[UIImage imageNamed:@"dest0.jpeg"]];
     }
     return _destImageView;
 }
