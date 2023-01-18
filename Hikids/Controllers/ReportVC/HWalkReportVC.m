@@ -583,6 +583,13 @@
         _yearLabel = [[UILabel alloc] init];
         _yearLabel.font = [UIFont boldSystemFontOfSize:20.0];
         _yearLabel.text = @"2022年7月21日";
+        
+//        NSString *year = [dateArray safeObjectAtIndex:0];
+//        NSArray *tempArray = [year componentsSeparatedByString:@"-"];
+//        NSString *y = [tempArray safeObjectAtIndex:0];
+//        NSString *m = [tempArray safeObjectAtIndex:1];
+//        NSString *d = [tempArray safeObjectAtIndex:2];
+//        _yearLabel.text = [NSString stringWithFormat:@"%@年%@月%@日",y,m,d];
     }
     return _yearLabel;
 }

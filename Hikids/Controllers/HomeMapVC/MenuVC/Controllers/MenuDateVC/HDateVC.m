@@ -34,6 +34,7 @@
 
 @property (nonatomic, strong) ALCalendarPicker *calP;
 @property (nonatomic, strong) NSArray  *weeks;
+@property (nonatomic, strong) NSArray  *dateWeeks;//用来点击选择日期时使用(用来解决服务器时间字符串对不上)
 @property (nonatomic,   copy) NSString *firstDayDeteOfWeek;
 @property (nonatomic,   copy) NSString *nowDayDeteOfWeek;
 @property (nonatomic,   copy) NSString *lastDayDeteOfWeek;
@@ -215,9 +216,12 @@
         NSArray *array = [dataStr componentsSeparatedByString:@":"];
         NSArray *mArray = [[array safeObjectAtIndex:0] componentsSeparatedByString:@"-"];
         
+        NSString *selDateStr = [weakSelf.dateWeeks safeObjectAtIndex:i];
+        NSArray *selArray = [selDateStr componentsSeparatedByString:@":"];
+        
         HDateCard *cardView = [[HDateCard alloc] init];
         cardView.tag = 2000+i;
-        cardView.date = [array safeObjectAtIndex:0];
+        cardView.date = [selArray safeObjectAtIndex:0];
         cardView.desLabel.text = [array safeObjectAtIndex:1];
         cardView.dayLabel.text = [mArray safeObjectAtIndex:2];
         cardView.monthLabel.text = [NSString stringWithFormat:@"%@月",[mArray safeObjectAtIndex:1]];
@@ -226,7 +230,7 @@
             self.lastTag = cardView.tag;
         }else{
             //判断是否有报告
-            BOOL isHave = [self findReportWithDate:[array safeObjectAtIndex:0]];
+            BOOL isHave = [self findReportWithDate:[selArray safeObjectAtIndex:0]];
             if (isHave) {
                 [cardView loadNomalStyle];
             }else{
@@ -374,7 +378,7 @@
         }
     }
     self.currentReportArray = tempArray;
-
+    
 }
 - (void)backAction:(id)sender
 {
@@ -425,7 +429,8 @@
     NSLog(@"firstDiff:%ld   lastDiff:%ld",firstDiff,lastDiff);
     
     // 一周日期
-    NSArray *dateWeeks = [self getCurrentWeeksWithFirstDiff:firstDiff lastDiff:lastDiff];
+    NSArray *dateWeeks = [self getCurrentWeeksWithFirstDiff:firstDiff lastDiff:lastDiff withFormatter:@"yyyy-M-d"];
+    NSArray *tempDateWeeks = [self getCurrentWeeksWithFirstDiff:firstDiff lastDiff:lastDiff withFormatter:@"yyyy-MM-dd"];
     
     // 在当前日期(去掉了时分秒)基础上加上差的天数
     NSDateComponents *firstDayComp = [calendar components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:now];
@@ -437,7 +442,7 @@
     NSDate *lastDayOfWeek= [calendar dateFromComponents:lastDayComp];
     
     NSDateFormatter *formater = [[NSDateFormatter alloc] init];
-    [formater setDateFormat:@"yyyy-M-d"];
+    [formater setDateFormat:@"yyyy-MM-dd"];
     NSLog(@"一周开始 %@",[formater stringFromDate:firstDayOfWeek]);
     NSLog(@"当前 %@",[formater stringFromDate:now]);
     NSLog(@"一周结束 %@",[formater stringFromDate:lastDayOfWeek]);
@@ -448,6 +453,7 @@
     self.nowDayDeteOfWeek = [formater stringFromDate:now];
     self.lastDayDeteOfWeek = [formater stringFromDate:lastDayOfWeek];
     self.weeks = dateWeeks;
+    self.dateWeeks = tempDateWeeks;
     
     [self startRequestWithDate:self.nowDayDeteOfWeek];
     
@@ -455,7 +461,7 @@
 }
 
 //获取一周时间 数组
-- (NSMutableArray *)getCurrentWeeksWithFirstDiff:(NSInteger)first lastDiff:(NSInteger)last{
+- (NSMutableArray *)getCurrentWeeksWithFirstDiff:(NSInteger)first lastDiff:(NSInteger)last withFormatter:(NSString *)formatter{
     
     NSMutableArray *eightArr = [[NSMutableArray alloc] init];
     for (NSInteger i = first; i < last + 1; i ++) {
@@ -463,7 +469,7 @@
         NSTimeInterval secondsPerDay = i * 24*60*60;
         NSDate *curDate = [NSDate dateWithTimeIntervalSinceNow:secondsPerDay];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-M-d"];
+        [dateFormatter setDateFormat:formatter];
         NSString *dateStr = [dateFormatter stringFromDate:curDate];//几月几号
         //NSString *dateStr = @"5月31日";
         NSDateFormatter *weekFormatter = [[NSDateFormatter alloc] init];
@@ -652,7 +658,7 @@
         
         [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(bgView);
-            make.left.equalTo(label.mas_right).offset(PAdaptation_x(33));
+            make.left.equalTo(bgView).offset(PAdaptation_x(95));
             make.width.mas_equalTo(PAdaptation_x(50));
             make.height.mas_equalTo(PAaptation_y(50));
         }];

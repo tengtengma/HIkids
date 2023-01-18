@@ -61,9 +61,16 @@
 {
     HDestnationModel *destModel = (HDestnationModel *)model;
     
-    [self.imageView sd_setImageWithURL:[NSURL URLWithString:destModel.picture] placeholderImage:[UIImage imageNamed:@"default_mdd.png"]];
+    if (destModel.img) {
+        [self.imageView setImage:destModel.img];
+        self.distanceLabel.text = [NSString stringWithFormat:@"%@KM",destModel.distance];
+
+    }else{
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:destModel.picture] placeholderImage:[UIImage imageNamed:@"default_mdd.png"]];
+        self.distanceLabel.text = [NSString stringWithFormat:@"%@m",destModel.distance];
+    }
     self.titleLabel.text = destModel.name;
-    self.distanceLabel.text = [NSString stringWithFormat:@"%@m",destModel.distance];
+
 }
 - (void)cellNomal
 {

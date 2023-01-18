@@ -542,7 +542,7 @@
 
     HTime *timeModel = [self.selectTimeArray safeObjectAtIndex:0];
     if ([timeModel.name isEqualToString:@"自由"]) {
-        planTime = @"999";
+        planTime = @"0";
     }else{
         planTime = timeModel.name;
     }

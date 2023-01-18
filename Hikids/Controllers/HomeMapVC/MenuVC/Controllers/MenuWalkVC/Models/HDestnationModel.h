@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *location;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *picture;
+@property (nonatomic, strong) UIImage *img;
 @property (nonatomic, assign) BOOL isSelected;
 
 
