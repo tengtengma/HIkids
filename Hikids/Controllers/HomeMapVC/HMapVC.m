@@ -146,7 +146,7 @@
     [self setupStudentInfoView];
 
     //加载假数据小朋友的
-//    [self reloadData];
+    [self reloadData];
     
     //监听危险
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dangerAlertNotifi:) name:@"dangerAlertNotification" object:nil];
@@ -847,40 +847,38 @@
     return nil;
 }
 
-//- (void)reloadData
-//{
-//    //    //测试用
-//        NSMutableArray *except = [[NSMutableArray alloc] init];
-//        for (NSInteger i = 0; i<10; i++) {
-//            HStudent *student = [[HStudent alloc] init];
-//            student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
-//            student.sId = [NSString stringWithFormat:@"%ld",100+i];
-//            student.name = @"asdfsa";
-//            student.exceptionTime = @"123";
-//            student.distance = @"200";
-//            [except addObject:student];
-//        }
-//
-//        self.exceptArray = except;
-//    //
-//        NSMutableArray *nomal = [[NSMutableArray alloc] init];
-//        for (NSInteger i = 0; i<12; i++) {
-//            HStudent *student = [[HStudent alloc] init];
-//            student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
-//            student.sId = [NSString stringWithFormat:@"%ld",300+i];
-//            student.name = @"asdfsa";
-//            [nomal addObject:student];
-//        }
-//
-//        self.nomalArray = nomal;
-//
-//
-//    self.homeMenuTableView.safeList = self.nomalArray;
-//    self.homeMenuTableView.exceptList = self.exceptArray;
-//    [self.homeMenuTableView reloadData];
-//
-//
-//}
+- (void)reloadData
+{
+    //    //测试用
+        NSMutableArray *except = [[NSMutableArray alloc] init];
+        for (NSInteger i = 0; i<10; i++) {
+            HStudent *student = [[HStudent alloc] init];
+            student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
+            student.sId = [NSString stringWithFormat:@"%ld",100+i];
+            student.name = @"asdfsa";
+            student.exceptionTime = @"123";
+            student.distance = @"200";
+            [except addObject:student];
+        }
+
+    //
+        NSMutableArray *nomal = [[NSMutableArray alloc] init];
+        for (NSInteger i = 0; i<12; i++) {
+            HStudent *student = [[HStudent alloc] init];
+            student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
+            student.sId = [NSString stringWithFormat:@"%ld",300+i];
+            student.name = @"asdfsa";
+            [nomal addObject:student];
+        }
+
+
+
+    self.homeMenuTableView.safeList = nomal;
+    self.homeMenuTableView.exceptList = except;
+    [self.homeMenuTableView.tableView reloadData];
+
+
+}
 
 
 - (void)startLocation {
