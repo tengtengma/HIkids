@@ -106,8 +106,13 @@
 		9E683264297595C500194199 /* attention@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E683261297595C400194199 /* attention@3x.png */; };
 		9E683265297595C500194199 /* attention.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E683262297595C400194199 /* attention.png */; };
 		9E683266297595C500194199 /* attention@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E683263297595C500194199 /* attention@2x.png */; };
+<<<<<<< Updated upstream
 		9E6832692977CE1200194199 /* dest0.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9E6832672977CE1100194199 /* dest0.jpeg */; };
 		9E68326A2977CE1200194199 /* dest1.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9E6832682977CE1200194199 /* dest1.jpeg */; };
+=======
+		9E72D173298CD392007C9293 /* HBaseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E72D172298CD392007C9293 /* HBaseTableView.m */; };
+		9E72D176298CD411007C9293 /* HBaseScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E72D175298CD411007C9293 /* HBaseScrollView.m */; };
+>>>>>>> Stashed changes
 		9E8344B828C7912C00AB9D83 /* BWCheckTokenReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */; };
 		9E8344BB28C7913E00AB9D83 /* BWCheckTokenResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344BA28C7913E00AB9D83 /* BWCheckTokenResp.m */; };
 		9E8BDE7C296E87E30001C428 /* FFDropDownMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8BDE70296E87E30001C428 /* FFDropDownMenuCell.m */; };
@@ -435,8 +440,15 @@
 		9E683261297595C400194199 /* attention@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "attention@3x.png"; sourceTree = "<group>"; };
 		9E683262297595C400194199 /* attention.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attention.png; sourceTree = "<group>"; };
 		9E683263297595C500194199 /* attention@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "attention@2x.png"; sourceTree = "<group>"; };
+<<<<<<< Updated upstream
 		9E6832672977CE1100194199 /* dest0.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dest0.jpeg; sourceTree = "<group>"; };
 		9E6832682977CE1200194199 /* dest1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dest1.jpeg; sourceTree = "<group>"; };
+=======
+		9E72D171298CD392007C9293 /* HBaseTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HBaseTableView.h; sourceTree = "<group>"; };
+		9E72D172298CD392007C9293 /* HBaseTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HBaseTableView.m; sourceTree = "<group>"; };
+		9E72D174298CD411007C9293 /* HBaseScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HBaseScrollView.h; sourceTree = "<group>"; };
+		9E72D175298CD411007C9293 /* HBaseScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HBaseScrollView.m; sourceTree = "<group>"; };
+>>>>>>> Stashed changes
 		9E8344B628C7912C00AB9D83 /* BWCheckTokenReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWCheckTokenReq.h; sourceTree = "<group>"; };
 		9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWCheckTokenReq.m; sourceTree = "<group>"; };
 		9E8344B928C7913E00AB9D83 /* BWCheckTokenResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWCheckTokenResp.h; sourceTree = "<group>"; };
@@ -935,6 +947,10 @@
 			children = (
 				9E25EB3A295D64A000FDAF78 /* HBaseMenuView.h */,
 				9E25EB3B295D64A000FDAF78 /* HBaseMenuView.m */,
+				9E72D171298CD392007C9293 /* HBaseTableView.h */,
+				9E72D172298CD392007C9293 /* HBaseTableView.m */,
+				9E72D174298CD411007C9293 /* HBaseScrollView.h */,
+				9E72D175298CD411007C9293 /* HBaseScrollView.m */,
 				9E25EB3E295D666900FDAF78 /* HHomeMenuView.h */,
 				9E25EB3F295D666900FDAF78 /* HHomeMenuView.m */,
 				9E4C5F40295EC5D300E59C00 /* HWalkMenuView.h */,
@@ -1819,8 +1835,10 @@
 				9E8344BB28C7913E00AB9D83 /* BWCheckTokenResp.m in Sources */,
 				9E17D1CB28EDADD6005FA5A9 /* HDestnationModel.m in Sources */,
 				9E17D1FA28F03B83005FA5A9 /* BWStudentLocationResp.m in Sources */,
+				9E72D176298CD411007C9293 /* HBaseScrollView.m in Sources */,
 				9E99397728F7DD0D00119CA7 /* HTask.m in Sources */,
 				9EDF5245290029D10066BFDC /* BWChangeTaskStateResp.m in Sources */,
+				9E72D173298CD392007C9293 /* HBaseTableView.m in Sources */,
 				9E8BDE7F296E87E30001C428 /* FFDropDownMenuBasedModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
