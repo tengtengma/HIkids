@@ -22,8 +22,8 @@
 {
     if (self = [super initWithFrame:frame]) {
         
-        self.tableView.delegate = self;
-        self.tableView.dataSource = self;
+        self.delegate = self;
+        self.dataSource = self;
 
         [self createTableFooterView];
         
@@ -34,7 +34,7 @@
 {
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, PAaptation_y(124))];
     footerView.backgroundColor = [UIColor whiteColor];
-    self.tableView.tableFooterView = footerView;
+    self.tableFooterView = footerView;
 
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom ];
     [button setImage:[UIImage imageNamed:@"btn_napEnd.png"] forState:UIControlStateNormal];
@@ -273,7 +273,7 @@
         DefineWeakSelf;
         safeTopView.expandBlock = ^{
             weakSelf.safeExpand = !weakSelf.safeExpand;
-            [weakSelf.tableView reloadData];
+            [weakSelf reloadData];
         };
         
     }
@@ -318,7 +318,7 @@
         DefineWeakSelf;
         dangerTopView.expandBlock = ^{
             weakSelf.exceptExpand = !weakSelf.exceptExpand;
-            [weakSelf.tableView reloadData];
+            [weakSelf reloadData];
         };
     }
 }
@@ -349,7 +349,7 @@
             DefineWeakSelf;
             safeTopView.expandBlock = ^{
                 weakSelf.safeExpand = !weakSelf.safeExpand;
-                [weakSelf.tableView reloadData];
+                [weakSelf reloadData];
             };
             
             HStudent *student = [self.safeList safeObjectAtIndex:indexPath.row];
@@ -413,7 +413,7 @@
             DefineWeakSelf;
             dangerTopView.expandBlock = ^{
                 weakSelf.exceptExpand = !weakSelf.exceptExpand;
-                [weakSelf.tableView reloadData];
+                [weakSelf reloadData];
             };
             
             HStudent *student = [self.exceptList safeObjectAtIndex:indexPath.row];

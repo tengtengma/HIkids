@@ -22,12 +22,12 @@
 {
     if (self = [super initWithFrame:frame]) {
         
-        self.tableView.delegate = self;
-        self.tableView.dataSource = self;
+        self.delegate = self;
+        self.dataSource = self;
         
         UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, PAaptation_y(25))];
         footerView.backgroundColor = [UIColor whiteColor];
-        self.tableView.tableFooterView = footerView;
+        self.tableFooterView = footerView;
         
     }
     return self;
@@ -298,7 +298,7 @@
         DefineWeakSelf;
         safeTopView.expandBlock = ^{
             weakSelf.safeExpand = !weakSelf.safeExpand;
-            [weakSelf.tableView reloadData];
+            [weakSelf reloadData];
         };
         
         
@@ -344,7 +344,7 @@
         DefineWeakSelf;
         dangerTopView.expandBlock = ^{
             weakSelf.exceptExpand = !weakSelf.exceptExpand;
-            [weakSelf.tableView reloadData];
+            [weakSelf reloadData];
         };
     }
 }
@@ -375,7 +375,7 @@
             DefineWeakSelf;
             safeTopView.expandBlock = ^{
                 weakSelf.safeExpand = !weakSelf.safeExpand;
-                [weakSelf.tableView reloadData];
+                [weakSelf reloadData];
             };
             
             HStudent *student = [self.safeList safeObjectAtIndex:indexPath.row];
@@ -438,7 +438,7 @@
             DefineWeakSelf;
             dangerTopView.expandBlock = ^{
                 weakSelf.exceptExpand = !weakSelf.exceptExpand;
-                [weakSelf.tableView reloadData];
+                [weakSelf reloadData];
             };
             
             HStudent *student = [self.exceptList safeObjectAtIndex:indexPath.row];
