@@ -9,7 +9,7 @@
 #import "HSmallCardView.h"
 
 
-@interface HBaseMenuView()
+@interface HBaseMenuView()<UIScrollViewDelegate>
 
 @end
 
@@ -30,7 +30,7 @@
         //tableview下移
         self.contentInset = UIEdgeInsetsMake(PAaptation_y(600), 0, 0, 0);
     //    tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.001)];//去掉头部空白
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor redColor];
         self.showsVerticalScrollIndicator = NO;
         self.sectionHeaderHeight = 0.0;//消除底部空白
         self.sectionFooterHeight = 0.0;//消除底部空白
@@ -107,7 +107,7 @@
     
 //    NSLog(@"point=%@",NSStringFromCGPoint(point));
 //
-    NSLog(@"y=%f",self.contentOffset.y);
+//    NSLog(@"y=%f",self.contentOffset.y);
     
     if (point.y<0) {
         return nil;
@@ -117,5 +117,13 @@
 }
 
 
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
+                     withVelocity:(CGPoint)velocity
+              targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    NSLog(@"速度=%f",velocity.y); //大于0是向上，小于0 是向下
+    NSLog(@"目标位置=%f",targetContentOffset->y); //大于等于0 到顶部，-577 < 中间 < -277,<=-577是底部
 
+
+}
 @end
