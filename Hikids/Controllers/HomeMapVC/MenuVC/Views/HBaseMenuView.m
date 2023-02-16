@@ -21,11 +21,10 @@
     if (self = [super initWithFrame:frame]) {
         
         
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor whiteColor];
+        self.showsVerticalScrollIndicator = NO;
         self.scrollEnabled = NO;
-        
-        self.bottomH = self.top;
-        
+                
         UIPanGestureRecognizer * panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panAction:)];
         panGestureRecognizer.delegate = self;
         [self addGestureRecognizer:panGestureRecognizer];
@@ -33,6 +32,8 @@
 
         [self createHeaderView];
         
+        self.bottomH = self.top;
+
        
     }
     return self;
@@ -43,7 +44,7 @@
 {
     
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, PAaptation_y(121))];
-    headerView.backgroundColor = [UIColor redColor];
+    headerView.backgroundColor = [UIColor clearColor];
     self.tableHeaderView = headerView;
     
     self.smallView = [[HSmallCardView alloc] initWithFrame:CGRectMake(PAdaptation_x(10),0 , PAdaptation_x(115), PAaptation_y(79))];
