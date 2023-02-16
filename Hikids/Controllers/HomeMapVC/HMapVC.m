@@ -180,9 +180,10 @@
 }
 - (void)setupHomeMenu
 {
-    
-    HHomeMenuView *homeMenuView = [[HHomeMenuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-140, SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight)];
-    homeMenuView.topH = BW_StatusBarHeight;
+    CGFloat topH = 0;
+
+    HHomeMenuView *homeMenuView = [[HHomeMenuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-PAaptation_y(300), SCREEN_WIDTH, SCREEN_HEIGHT-topH)];
+    homeMenuView.topH = topH;
     self.homeMenuTableView = homeMenuView;
     [self.view addSubview:homeMenuView];
 
@@ -222,9 +223,11 @@
 //设置散步菜单
 - (void)setupWalkMenu
 {
+    CGFloat topH = 100;
+
     //20为状态栏高度；tableview设置的大小要和view的大小一致
-    self.walkMenuTableView = [[HWalkMenuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-140, SCREEN_WIDTH, SCREEN_HEIGHT-100)];
-    self.walkMenuTableView.topH = 100;
+    self.walkMenuTableView = [[HWalkMenuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-PAaptation_y(300), SCREEN_WIDTH, SCREEN_HEIGHT-topH)];
+    self.walkMenuTableView.topH = topH;
     self.walkMenuTableView.smallView.hidden = YES;
     [self.view addSubview:self.walkMenuTableView];
     
@@ -250,9 +253,12 @@
 //设置午睡菜单
 - (void)setupSleepMenu
 {
+//    CGFloat topH = SCREEN_HEIGHT/2-PAaptation_y(121);
+    CGFloat topH = 0;
+
     //20为状态栏高度；tableview设置的大小要和view的大小一致
-    self.sleepMenuTableView = [[HSleepMenuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-140, SCREEN_WIDTH, SCREEN_HEIGHT-100)];
-    self.sleepMenuTableView.topH = 100;
+    self.sleepMenuTableView = [[HSleepMenuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-PAaptation_y(400), SCREEN_WIDTH, SCREEN_HEIGHT-topH)];
+    self.sleepMenuTableView.topH = topH;
     self.sleepMenuTableView.smallView.hidden = YES;
     self.sleepMenuTableView.gpsButton.hidden = YES;
     [self.view addSubview:self.sleepMenuTableView];
