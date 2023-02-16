@@ -483,7 +483,7 @@
     self.sleepMenuTableView.smallView.dangerLabel.text = [NSString stringWithFormat:@"アラート%ld回",tempDangerArray.count];
     self.sleepMenuTableView.safeList = tempSafeArray;
     self.sleepMenuTableView.exceptList = tempDangerArray;
-    [self.sleepMenuTableView reloadData];
+    [self.sleepMenuTableView.tableView reloadData];
     
     NSString *status = tempDangerArray.count != 0 ? @"危険" : @"安全";
     [[NSNotificationCenter defaultCenter] postNotificationName:@"dangerAlertNotification" object:@{@"name":@"午睡中",@"status":status}];
@@ -677,7 +677,7 @@
             
             weakSelf.walkMenuTableView.safeList = locationResp.normalKids;
             weakSelf.walkMenuTableView.exceptList = locationResp.exceptionKids;
-            [weakSelf.walkMenuTableView reloadData];
+            [weakSelf.walkMenuTableView.tableView reloadData];
         }else{
             NSString *status = locationResp.exceptionKids.count != 0 ? @"危険" : @"安全";
             [[NSNotificationCenter defaultCenter] postNotificationName:@"dangerAlertNotification" object:@{@"name":@"在園中",@"status":status}];
@@ -686,7 +686,7 @@
             weakSelf.homeMenuTableView.smallView.dangerLabel.text = [NSString stringWithFormat:@"アラート%ld回",locationResp.exceptionKids.count];
             weakSelf.homeMenuTableView.safeList = locationResp.normalKids;
             weakSelf.homeMenuTableView.exceptList = locationResp.exceptionKids;
-            [weakSelf.homeMenuTableView reloadData];
+            [weakSelf.homeMenuTableView.tableView reloadData];
         }
 
 //        [weakSelf addMarkersWithNomalList:locationResp.normalKids andExceptList:locationResp.exceptionKids]; //添加学生位置坐标

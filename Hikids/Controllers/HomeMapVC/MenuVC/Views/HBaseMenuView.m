@@ -21,9 +21,18 @@
     if (self = [super initWithFrame:frame]) {
         
         
-        self.backgroundColor = [UIColor whiteColor];
-        self.showsVerticalScrollIndicator = NO;
-        self.scrollEnabled = NO;
+        self.backgroundColor = [UIColor clearColor];
+        self.tableView.backgroundColor = [UIColor whiteColor];
+        self.tableView.showsVerticalScrollIndicator = NO;
+        self.tableView.scrollEnabled = NO;
+        [self addSubview:self.tableView];
+        
+        [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self).offset(PAaptation_y(121));
+            make.left.equalTo(self);
+            make.right.equalTo(self.mas_right);
+            make.bottom.equalTo(self.mas_bottom);
+        }];
                 
         UIPanGestureRecognizer * panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panAction:)];
         panGestureRecognizer.delegate = self;
@@ -45,7 +54,7 @@
     
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, PAaptation_y(121))];
     headerView.backgroundColor = [UIColor clearColor];
-    self.tableHeaderView = headerView;
+    [self addSubview:headerView];
     
     self.smallView = [[HSmallCardView alloc] initWithFrame:CGRectMake(PAdaptation_x(10),0 , PAdaptation_x(115), PAaptation_y(79))];
     [headerView addSubview:self.smallView ];
@@ -159,7 +168,7 @@
     [UIView animateWithDuration:0.5 animations:^{
         self.top = self.topH;
     }completion:^(BOOL finished) {
-        self.scrollEnabled = YES;
+        self.tableView.scrollEnabled = YES;
     }];
 }
 
@@ -167,20 +176,20 @@
     [UIView animateWithDuration:0.5 animations:^{
         self.top = self.bottomH;
     }completion:^(BOOL finished) {
-        self.scrollEnabled = NO;
+        self.tableView.scrollEnabled = NO;
     }];
 }
 
 - (void)scrollToMiddle
 {
-    NSLog(@"%f",self.contentOffset.y);
-    
-    //先设置为窗口用户自己展开时 为了防止窗口来回展开收起
-    if (self.contentOffset.y > 0) {
-        return;
-    }
-    
-    [self scrollRectToVisible:CGRectMake(0,  0, SCREEN_WIDTH, PAaptation_y(500)) animated:YES];
+//    NSLog(@"%f",self.contentOffset.y);
+//
+//    //先设置为窗口用户自己展开时 为了防止窗口来回展开收起
+//    if (self.contentOffset.y > 0) {
+//        return;
+//    }
+//
+//    [self scrollRectToVisible:CGRectMake(0,  0, SCREEN_WIDTH, PAaptation_y(500)) animated:YES];
 }
 -(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event{
     
@@ -194,5 +203,11 @@
 
     return  [super hitTest:point withEvent:event];
 }
-
+- (UITableView *)tableView
+{
+    if (!_tableView) {
+        _tableView = [[UITableView alloc] init];
+    }
+    return _tableView;
+}
 @end

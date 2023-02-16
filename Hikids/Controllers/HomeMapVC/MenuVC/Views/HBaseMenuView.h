@@ -22,7 +22,7 @@ typedef enum _CellType
 typedef void(^openReportBlock)(void);
 typedef void(^clickGpsAction)(void);
 
-@interface HBaseMenuView : UITableView
+@interface HBaseMenuView : UIView
 @property (nonatomic, assign) CellType type;
 @property (nonatomic, copy) openReportBlock openReport;
 @property (nonatomic, copy) clickGpsAction gpsBlock;
@@ -30,6 +30,8 @@ typedef void(^clickGpsAction)(void);
 @property (nonatomic, strong) NSArray *safeList;
 @property (nonatomic, strong) NSArray *exceptList;
 @property (nonatomic, strong) HSmallCardView *smallView;
+
+@property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic,assign) float topH;//上滑后距离顶部的距离
 

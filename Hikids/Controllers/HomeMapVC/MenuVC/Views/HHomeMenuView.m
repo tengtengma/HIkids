@@ -22,8 +22,8 @@
 {
     if (self = [super initWithFrame:frame]) {
         
-        self.delegate = self;
-        self.dataSource = self;
+        self.tableView.delegate = self;
+        self.tableView.dataSource = self;
         
         
         
@@ -296,7 +296,7 @@
         DefineWeakSelf;
         safeTopView.expandBlock = ^{
             weakSelf.safeExpand = !weakSelf.safeExpand;
-            [weakSelf reloadData];
+            [weakSelf.tableView reloadData];
         };
         
         
@@ -342,7 +342,7 @@
         DefineWeakSelf;
         dangerTopView.expandBlock = ^{
             weakSelf.exceptExpand = !weakSelf.exceptExpand;
-            [weakSelf reloadData];
+            [weakSelf.tableView reloadData];
         };
     }
 }
@@ -373,7 +373,7 @@
             DefineWeakSelf;
             safeTopView.expandBlock = ^{
                 weakSelf.safeExpand = !weakSelf.safeExpand;
-                [weakSelf reloadData];
+                [weakSelf.tableView reloadData];
             };
             
             HStudent *student = [self.safeList safeObjectAtIndex:indexPath.row];
@@ -436,7 +436,7 @@
             DefineWeakSelf;
             dangerTopView.expandBlock = ^{
                 weakSelf.exceptExpand = !weakSelf.exceptExpand;
-                [weakSelf reloadData];
+                [weakSelf.tableView reloadData];
             };
             
             HStudent *student = [self.exceptList safeObjectAtIndex:indexPath.row];
