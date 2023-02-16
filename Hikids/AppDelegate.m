@@ -6,7 +6,7 @@
 //
 
 #import "AppDelegate.h"
-#import "HRootVC.h"
+#import "HMapVC.h"
 #import "HLoginVC.h"
 #import <GoogleMaps/GoogleMaps.h>
 #import <GooglePlaces/GooglePlaces.h>
@@ -31,7 +31,7 @@
     NSString *userName = [user objectForKey:KEY_UserName];
     if (userName.length != 0) {
         [loginVC autoLoginAction];//此处为了刷新一下token
-        self.window.rootViewController = [[HRootVC alloc] init];
+        self.window.rootViewController = [[HMapVC alloc] init];
     }else{
         self.window.rootViewController = loginVC;
     }
@@ -68,7 +68,13 @@
         [[UIApplication sharedApplication] registerUserNotificationSettings:setting];
     }
 }
-
+//竖屏显示
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+    if (self.isForceLandscape) {
+        return UIInterfaceOrientationMaskAllButUpsideDown;
+    }
+    return UIInterfaceOrientationMaskPortrait;
+}
 
 
 @end

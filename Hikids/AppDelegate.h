@@ -9,10 +9,9 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 @property (nonatomic, strong) UIWindow *window;
-
-@property (nonatomic, assign) BOOL isSafeExpand;
-@property (nonatomic, assign) BOOL isDangerExpand;
-
+//*******强制横竖屏********
+@property (assign , nonatomic) BOOL isForceLandscape;
+@property (assign , nonatomic) BOOL isForcePortrait;
 
 @end
 

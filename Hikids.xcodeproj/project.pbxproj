@@ -84,7 +84,6 @@
 		9E2DF81D28B2225500B0C9DA /* NSArray+safe.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF81628B2225500B0C9DA /* NSArray+safe.m */; };
 		9E2DF81E28B2225500B0C9DA /* BWTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF81728B2225500B0C9DA /* BWTools.m */; };
 		9E2DF81F28B2225500B0C9DA /* BWFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF81828B2225500B0C9DA /* BWFileManager.m */; };
-		9E2DF83628B223AD00B0C9DA /* HRootVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF83528B223AD00B0C9DA /* HRootVC.m */; };
 		9E2DF84328B2596600B0C9DA /* HMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF84228B2596600B0C9DA /* HMapVC.m */; };
 		9E2DF84628B2606F00B0C9DA /* HCustomNavigationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF84528B2606F00B0C9DA /* HCustomNavigationView.m */; };
 		9E42E69828D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E42E69528D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
@@ -399,8 +398,6 @@
 		9E2DF81828B2225500B0C9DA /* BWFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BWFileManager.m; sourceTree = "<group>"; };
 		9E2DF81928B2225500B0C9DA /* BWAlertCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWAlertCtrl.h; sourceTree = "<group>"; };
 		9E2DF81A28B2225500B0C9DA /* BWTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BWTools.h; sourceTree = "<group>"; };
-		9E2DF83428B223AD00B0C9DA /* HRootVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HRootVC.h; sourceTree = "<group>"; };
-		9E2DF83528B223AD00B0C9DA /* HRootVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HRootVC.m; sourceTree = "<group>"; };
 		9E2DF84128B2596600B0C9DA /* HMapVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMapVC.h; sourceTree = "<group>"; };
 		9E2DF84228B2596600B0C9DA /* HMapVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMapVC.m; sourceTree = "<group>"; };
 		9E2DF84428B2606F00B0C9DA /* HCustomNavigationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCustomNavigationView.h; sourceTree = "<group>"; };
@@ -1101,8 +1098,6 @@
 				9E2DF80928B2219300B0C9DA /* BaseVC.m */,
 				9E2DF80B28B221F500B0C9DA /* BaseNavigationVC.h */,
 				9E2DF80C28B221F500B0C9DA /* BaseNavigationVC.m */,
-				9E2DF83428B223AD00B0C9DA /* HRootVC.h */,
-				9E2DF83528B223AD00B0C9DA /* HRootVC.m */,
 			);
 			path = BaseVC;
 			sourceTree = "<group>";
@@ -1761,7 +1756,6 @@
 				9E8BDE9A296E9F080001C428 /* ALCalendarPicker.m in Sources */,
 				9E6832472972409500194199 /* BWGetTaskCalendarResp.m in Sources */,
 				9E17D1D428EE72AD005FA5A9 /* HStudent.m in Sources */,
-				9E2DF83628B223AD00B0C9DA /* HRootVC.m in Sources */,
 				9E17D1C728EDAB03005FA5A9 /* BWGetDestnationResp.m in Sources */,
 				9E29CC34296456D4009DF7FD /* HSleepMenuView.m in Sources */,
 				9E8BDE97296E9F080001C428 /* ALCalendarDate.m in Sources */,

@@ -21,11 +21,16 @@ typedef enum _CellType
 
 typedef void(^openReportBlock)(void);
 typedef void(^clickGpsAction)(void);
+typedef void(^toTopAction)(void);
+typedef void(^toBottomAction)(void);
 
 @interface HBaseMenuView : UIView
 @property (nonatomic, assign) CellType type;
 @property (nonatomic, copy) openReportBlock openReport;
 @property (nonatomic, copy) clickGpsAction gpsBlock;
+@property (nonatomic, copy) toTopAction toTopBlock;
+@property (nonatomic, copy) toBottomAction toBottomBlock;
+
 @property (nonatomic, strong) UIButton *gpsButton;
 @property (nonatomic, strong) NSArray *safeList;
 @property (nonatomic, strong) NSArray *exceptList;

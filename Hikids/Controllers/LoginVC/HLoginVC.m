@@ -11,8 +11,8 @@
 #import "BWCheckTokenReq.h"
 #import "BWCheckTokenResp.h"
 #import "HInputView.h"
-#import "HRootVC.h"
 #import "TPKeyboardAvoidingScrollView.h"
+#import "HMapVC.h"
 
 @interface HLoginVC ()<UITextFieldDelegate>
 @property (nonatomic, strong) TPKeyboardAvoidingScrollView *myScrollView;
@@ -102,7 +102,7 @@
         
         AppDelegate *dele = (AppDelegate *)[UIApplication sharedApplication].delegate;
         
-        dele.window.rootViewController = [[HRootVC alloc] init];
+        dele.window.rootViewController = [[HMapVC alloc] init];
             
     } failure:^(BWBaseReq *req, NSError *error) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];

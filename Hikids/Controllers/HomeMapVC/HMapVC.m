@@ -181,10 +181,8 @@
 - (void)setupHomeMenu
 {
     
-    //20为状态栏高度；tableview设置的大小要和view的大小一致
-    HHomeMenuView *homeMenuView = [[HHomeMenuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-140, SCREEN_WIDTH, SCREEN_HEIGHT-100)];
-//    homeMenuView.backgroundColor = [UIColor whiteColor];
-    homeMenuView.topH = 100;
+    HHomeMenuView *homeMenuView = [[HHomeMenuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-140, SCREEN_WIDTH, SCREEN_HEIGHT-BW_StatusBarHeight)];
+    homeMenuView.topH = BW_StatusBarHeight;
     self.homeMenuTableView = homeMenuView;
     [self.view addSubview:homeMenuView];
 
@@ -210,11 +208,15 @@
         //移动地图中心到当前位置
         weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:16];
     };
+    homeMenuView.toTopBlock = ^{
+        weakSelf.homeMenuTableView.gpsButton.hidden = YES;
+        weakSelf.homeMenuTableView.smallView.hidden = YES;
+    };
+    homeMenuView.toBottomBlock = ^{
+        weakSelf.homeMenuTableView.gpsButton.hidden = NO;
+        weakSelf.homeMenuTableView.smallView.hidden = NO;
+    };
     
-    
-
-    
-
 }
 
 //设置散步菜单
@@ -223,8 +225,6 @@
     //20为状态栏高度；tableview设置的大小要和view的大小一致
     self.walkMenuTableView = [[HWalkMenuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-140, SCREEN_WIDTH, SCREEN_HEIGHT-100)];
     self.walkMenuTableView.topH = 100;
-    
-    
     self.walkMenuTableView.smallView.hidden = YES;
     [self.view addSubview:self.walkMenuTableView];
     
@@ -619,7 +619,8 @@
         BWGetKindergartenResp *kinderResp = (BWGetKindergartenResp *)resp;
         [weakSelf changeLocationInfoDataWithModel:[kinderResp.itemList safeObjectAtIndex:0]];
         
-        [weakSelf startGetStudentLocationRequest];
+        //2023.02.16先注释掉
+//        [weakSelf startGetStudentLocationRequest];
 
         
     } failure:^(BWBaseReq *req, NSError *error) {
@@ -913,7 +914,8 @@
     self.walkTimer = nil; // 对象置nil是一种规范和习惯
     
     [self.sleepTimer invalidate];
-    [self.sleepTimer invalidate];
+    self.sleepTimer = nil;
+    
 }
 - (void)dangerAlertNotifi:(NSNotification *)noti
 {

@@ -22,9 +22,7 @@
         
         
         self.backgroundColor = [UIColor clearColor];
-        self.tableView.backgroundColor = [UIColor whiteColor];
-        self.tableView.showsVerticalScrollIndicator = NO;
-        self.tableView.scrollEnabled = NO;
+
         [self addSubview:self.tableView];
         
         [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -101,16 +99,6 @@
     }
 }
 #pragma mark - 滑动
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    CGFloat currentPostion = scrollView.contentOffset.y;
-    self.stop_y = currentPostion;
-    
-//    if (self.top>self.topH) {
-//        [scrollView setContentOffset:CGPointMake(0, 0)];
-//    }
-}
-
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     return YES;
 }
@@ -149,11 +137,15 @@
             [pan setTranslation:CGPointMake(0, 0) inView:self];
             return;
         }else if (velocity.y > speed){
+            NSLog(@"11111111");
             [self goBack];
             [pan setTranslation:CGPointMake(0, 0) inView:self];
             return;
         }
         
+        NSLog(@"top=%f",self.top);
+        NSLog(@"屏幕高度三=%f",SCREEN_HEIGHT/3);
+
         if (self.top > SCREEN_HEIGHT/2) {
             [self goBack];
         }else{
@@ -165,18 +157,27 @@
 }
 
 - (void)goTop {
+    DefineWeakSelf;
     [UIView animateWithDuration:0.5 animations:^{
         self.top = self.topH;
     }completion:^(BOOL finished) {
         self.tableView.scrollEnabled = YES;
+        if (weakSelf.toTopBlock) {
+            weakSelf.toTopBlock();
+        }
     }];
 }
 
 - (void)goBack {
+    
+    DefineWeakSelf;
     [UIView animateWithDuration:0.5 animations:^{
         self.top = self.bottomH;
     }completion:^(BOOL finished) {
         self.tableView.scrollEnabled = NO;
+        if (weakSelf.toBottomBlock) {
+            weakSelf.toBottomBlock();
+        }
     }];
 }
 
@@ -203,10 +204,30 @@
 
     return  [super hitTest:point withEvent:event];
 }
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat currentPostion = scrollView.contentOffset.y;
+    self.stop_y = currentPostion;
+        
+    if (scrollView.contentOffset.y <= 0) {
+        self.tableView.scrollEnabled = NO;//tableView内容滚动到顶部时 锁住
+    }
+
+    
+//    if (self.top>self.topH) {
+//        [scrollView setContentOffset:CGPointMake(0, 0)];
+//    }
+}
+#pragma mark - LazyLoad -
 - (UITableView *)tableView
 {
     if (!_tableView) {
         _tableView = [[UITableView alloc] init];
+        _tableView.backgroundColor = [UIColor whiteColor];
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _tableView.showsVerticalScrollIndicator = NO;
+        _tableView.scrollEnabled = NO;//上来默认不许滚动
     }
     return _tableView;
 }
