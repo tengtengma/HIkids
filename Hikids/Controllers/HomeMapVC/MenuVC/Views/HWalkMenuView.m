@@ -232,7 +232,7 @@
         bgView.layer.masksToBounds = YES;
         bgView.layer.cornerRadius = 12;
         bgView.layer.borderWidth = 2;
-        bgView.layer.borderColor = BWColor(0.133, 0.133, 0.133, 1.0).CGColor;
+        bgView.layer.borderColor = BWColor(45, 100, 29, 0.8).CGColor;
         [cell.contentView addSubview:bgView];
         [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
             if (self.exceptList.count == 0) {
@@ -281,7 +281,7 @@
         bgView.layer.masksToBounds = YES;
         bgView.layer.cornerRadius = 12;
         bgView.layer.borderWidth = 2;
-        bgView.layer.borderColor = BWColor(0.133, 0.133, 0.133, 1.0).CGColor;
+        bgView.layer.borderColor = BWColor(76, 40, 11, 0.8).CGColor;
         [cell.contentView addSubview:bgView];
         [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(cell.contentView);

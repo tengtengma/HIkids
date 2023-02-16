@@ -27,7 +27,10 @@
         [self addSubview:self.topView];
         
         [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self);
+            make.top.equalTo(self).offset(1);
+            make.left.equalTo(self);
+            make.width.equalTo(self);
+            make.height.equalTo(self);
         }];
         
         self.iconView = [[UIImageView alloc] init];

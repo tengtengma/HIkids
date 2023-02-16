@@ -158,7 +158,7 @@
 
 - (void)goTop {
     DefineWeakSelf;
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.25 animations:^{
         self.top = self.topH;
     }completion:^(BOOL finished) {
         self.tableView.scrollEnabled = YES;
@@ -171,7 +171,7 @@
 - (void)goBack {
     
     DefineWeakSelf;
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:0.25 animations:^{
         self.top = self.bottomH;
     }completion:^(BOOL finished) {
         self.tableView.scrollEnabled = NO;
