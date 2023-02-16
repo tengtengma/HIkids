@@ -104,6 +104,8 @@
 }
 - (void)createUI
 {
+    self.view.backgroundColor = [UIColor clearColor];
+    
     [self.view addSubview:self.bgView];
     [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
@@ -111,7 +113,7 @@
     
     [self.bgView addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bgView).offset(-PAaptation_y(2));
+        make.top.equalTo(self.bgView);
         make.left.equalTo(self.bgView);
         make.width.equalTo(self.bgView);
         make.height.mas_equalTo(PAaptation_y(32));
@@ -159,10 +161,21 @@
 }
 - (void)createDateSelectView
 {
+    UIView *dateBg = [[UIView alloc] init];
+    dateBg.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:dateBg];
+    
+    [dateBg mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.titleView.mas_bottom);
+        make.left.equalTo(self.titleView);
+        make.width.equalTo(self.titleView);
+        make.height.mas_equalTo(PAaptation_y(136));
+    }];
+    
     [self.view addSubview:self.dateButton];
     [self.dateButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleView.mas_bottom);
-        make.left.equalTo(self.view).offset(PAdaptation_x(8));
+        make.top.equalTo(dateBg);
+        make.left.equalTo(dateBg).offset(PAdaptation_x(8));
         make.width.mas_equalTo(PAdaptation_x(70));
         make.height.mas_equalTo(PAaptation_y(104));
     }];
@@ -199,11 +212,11 @@
         make.height.equalTo(self.dateButton);
     }];
     
-    [self.view addSubview:self.scrollView];
+    [dateBg addSubview:self.scrollView];
     [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.dateButton);
         make.left.equalTo(self.dateButton.mas_right);
-        make.right.equalTo(self.view.mas_right);
+        make.right.equalTo(dateBg.mas_right);
         make.bottom.equalTo(self.dateButton.mas_bottom);
     }];
     

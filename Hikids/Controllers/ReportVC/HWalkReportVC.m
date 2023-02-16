@@ -63,13 +63,13 @@
 }
 - (void)createUI
 {
-    [self.view addSubview:self.scrollView];
+    self.view.backgroundColor = [UIColor clearColor];
     
-    [self.scrollView addSubview:self.topView];
+    [self.view addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.scrollView).offset(-PAaptation_y(2));
-        make.left.equalTo(self.scrollView);
-        make.width.equalTo(self.scrollView);
+        make.top.equalTo(self.view);
+        make.left.equalTo(self.view);
+        make.width.equalTo(self.view);
         make.height.mas_equalTo(PAaptation_y(32));
     }];
     
@@ -81,11 +81,11 @@
 }
 - (void)createTitleView
 {
-    [self.scrollView addSubview:self.titleView];
+    [self.view addSubview:self.titleView];
     [self.titleView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.topView.mas_bottom);
-        make.left.equalTo(self.scrollView);
-        make.width.equalTo(self.scrollView);
+        make.left.equalTo(self.view);
+        make.width.equalTo(self.view);
         make.height.mas_equalTo(PAaptation_y(68));
     }];
     
@@ -106,7 +106,8 @@
 }
 - (void)contentView
 {
-    
+    [self.view addSubview:self.scrollView];
+
     if ([self.source isEqualToString:@"1"]) {
         
         [self createDateView];
@@ -124,8 +125,8 @@
     }else{
         [self.scrollView addSubview:self.timeDesLabel];
         [self.timeDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.titleView.mas_bottom);
-            make.left.equalTo(self.titleView).offset(PAdaptation_x(25));
+            make.top.equalTo(self.scrollView);
+            make.left.equalTo(self.scrollView).offset(PAdaptation_x(25));
         }];
         
         [self.scrollView addSubview:self.yearLabel];
@@ -148,7 +149,7 @@
         
         [self.scrollView addSubview:self.rightImageView];
         [self.rightImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.titleView.mas_bottom);
+            make.top.equalTo(self.scrollView);
             make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(15));
             make.width.mas_equalTo(PAdaptation_x(50));
             make.height.mas_equalTo(PAaptation_y(50));
@@ -525,9 +526,10 @@
 - (UIScrollView *)scrollView
 {
     if (!_scrollView) {
-        _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, PAaptation_y(100), SCREEN_WIDTH, SCREEN_HEIGHT-PAaptation_y(100))];
         _scrollView.delegate = self;
         _scrollView.showsVerticalScrollIndicator = YES;
+        _scrollView.backgroundColor = [UIColor whiteColor];
     }
     return _scrollView;
 }

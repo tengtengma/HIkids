@@ -90,6 +90,9 @@
 }
 - (void)createUI
 {
+    self.view.backgroundColor = [UIColor clearColor];
+
+    
     [self.view addSubview:self.bgView];
     [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
@@ -97,7 +100,7 @@
     
     [self.bgView addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bgView).offset(-PAaptation_y(2));
+        make.top.equalTo(self.bgView);
         make.left.equalTo(self.bgView);
         make.width.equalTo(self.bgView);
         make.height.mas_equalTo(PAaptation_y(32));

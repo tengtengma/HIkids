@@ -9,7 +9,6 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import <GooglePlaces/GooglePlaces.h>
 #import <CoreLocation/CoreLocation.h>
-
 #import "BWDestnationInfoReq.h"
 #import "BWDestnationInfoResp.h"
 #import "HDestnationModel.h"
@@ -33,47 +32,40 @@
 #import "BWChangeTaskStateResp.h"
 #import "HCustomNavigationView.h"
 #import "HSmallCardView.h"
-
 #import "HHomeMenuView.h"
 #import "HWalkMenuView.h"
 #import "HSleepMenuView.h"
-
 #import "HSleepMainView.h"
-
 #import "HSleepReportVC.h"
 #import "HWalkReportVC.h"
 #import "HSettingVC.h"
-
 #import "HDateVC.h"
 
 @interface HMapVC ()<GMSMapViewDelegate,CLLocationManagerDelegate>
-//@property (nonatomic,strong) HMenuHomeVC *menuHomeVC;
-@property (nonatomic,strong) GMSMapView *mapView;//谷歌地图
-@property (nonatomic,strong) GMSMarker *marker;//大头针
-@property (nonatomic,strong) GMSPlacesClient * placesClient;//可以获取某个地方的信息
-@property (nonatomic,strong) CLLocationManager *locationManager;
-@property (nonatomic,assign) CLLocationCoordinate2D coordinate2D;
-@property (nonatomic,assign) BOOL firstLocationUpdate;
-@property (nonatomic,assign) BOOL isDrawFence;  //是否画围栏 防止重复画
-@property (nonatomic,assign) BOOL isInGard;//在院内
-@property (nonatomic,assign) BOOL isInDest;//在目的地
-@property (nonatomic,strong) HLocation *fenceLocation;
-@property (nonatomic,strong) CLLocation *gpsLocation;
-@property (nonatomic,strong) NSTimer *walkTimer;
-@property (nonatomic,strong) NSTimer *sleepTimer;
-@property (nonatomic,strong) HStudentStateInfoView *stateInfoView;//点击地图上小朋友显示详情页
-@property (nonatomic,strong) HTask *currentTask;//当前任务
-@property (nonatomic,strong) NSMutableArray *makerList;//保存所有孩子maker
+@property (nonatomic,strong) GMSMapView *mapView;                   //谷歌地图
+@property (nonatomic,strong) GMSMarker *marker;                     //大头针
+@property (nonatomic,strong) GMSPlacesClient * placesClient;        //可以获取某个地方的信息
+@property (nonatomic,strong) CLLocationManager *locationManager;    //定位manager
+@property (nonatomic,assign) CLLocationCoordinate2D coordinate2D;   //坐标
+@property (nonatomic,strong) HLocation *fenceLocation;              //围栏信息
+@property (nonatomic,strong) CLLocation *gpsLocation;               //手机gps信息
+@property (nonatomic,strong) NSTimer *walkTimer;                    //散步定时器
+@property (nonatomic,strong) NSTimer *sleepTimer;                   //午睡定时器
+@property (nonatomic,strong) HStudentStateInfoView *stateInfoView;  //点击地图上小朋友显示详情页
+@property (nonatomic,strong) HTask *currentTask;                    //当前任务
+@property (nonatomic,strong) NSMutableArray *makerList;             //保存所有孩子maker
 @property (nonatomic,strong) HCustomNavigationView *customNavigationView;
 //@property (nonatomic,assign) BOOL isAlert; //只弹窗一次 仅演示使用
-@property (nonatomic,strong) HHomeMenuView *homeMenuTableView; //首页底部菜单
-@property (nonatomic,strong) HWalkMenuView *walkMenuTableView; //散步底部菜单
-@property (nonatomic,strong) HSleepMenuView *sleepMenuTableView; //午睡底部菜单
-
-@property (nonatomic,strong) HSleepMainView *sleepMainView;  //开始午睡时展示
-@property (nonatomic,strong) HSettingVC *settingVC;     //设置页面
-@property (nonatomic,assign) BOOL isWalkMode;//在目的地
-
+@property (nonatomic,strong) HHomeMenuView *homeMenuTableView;      //首页底部菜单
+@property (nonatomic,strong) HWalkMenuView *walkMenuTableView;      //散步底部菜单
+@property (nonatomic,strong) HSleepMenuView *sleepMenuTableView;    //午睡底部菜单
+@property (nonatomic,strong) HSleepMainView *sleepMainView;         //开始午睡时展示
+@property (nonatomic,strong) HSettingVC *settingVC;                 //设置页面
+@property (nonatomic,assign) BOOL isWalkMode;                       //在目的地
+@property (nonatomic,assign) BOOL firstLocationUpdate;              //第一次定位更新
+@property (nonatomic,assign) BOOL isDrawFence;                      //是否画围栏 防止重复画
+@property (nonatomic,assign) BOOL isInGard;                         //在院内
+@property (nonatomic,assign) BOOL isInDest;                         //在目的地
 
 
 @end

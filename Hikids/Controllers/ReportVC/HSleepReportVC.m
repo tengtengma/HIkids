@@ -79,35 +79,35 @@
 }
 - (void)createUI
 {
-    [self.view addSubview:self.scrollView];
+    self.view.backgroundColor = [UIColor clearColor];
     
-    [self.scrollView addSubview:self.topView];
+    [self.view addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.scrollView).offset(-PAaptation_y(2));
-        make.left.equalTo(self.scrollView);
-        make.width.equalTo(self.scrollView);
+        make.top.equalTo(self.view);
+        make.left.equalTo(self.view);
+        make.width.equalTo(self.view);
         make.height.mas_equalTo(PAaptation_y(32));
     }];
     
     [self createTitleView];
-    
+
     [self contentView];
     
 
 }
 - (void)createTitleView
 {
-    [self.scrollView addSubview:self.titleView];
+    [self.view addSubview:self.titleView];
     [self.titleView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.topView.mas_bottom);
-        make.left.equalTo(self.scrollView);
-        make.width.equalTo(self.scrollView);
+        make.left.equalTo(self.view);
+        make.width.equalTo(self.view);
         make.height.mas_equalTo(PAaptation_y(68));
     }];
     
     [self.titleView addSubview:self.titleLabel];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.topView.mas_bottom);
+        make.top.equalTo(self.titleView);
         make.left.equalTo(_titleView).offset(PAdaptation_x(24));
     }];
     
@@ -122,10 +122,12 @@
 }
 - (void)contentView
 {
+    [self.view addSubview:self.scrollView];
+
     [self.scrollView addSubview:self.timeDesLabel];
     [self.timeDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleView.mas_bottom);
-        make.left.equalTo(self.titleView).offset(PAdaptation_x(25));
+        make.top.equalTo(self.scrollView);
+        make.left.equalTo(self.scrollView).offset(PAdaptation_x(25));
     }];
     
     [self.scrollView addSubview:self.yearLabel];
@@ -184,7 +186,7 @@
     NSArray *unnormalList = self.reportInfo.unnormalList;
     
     
-    CGFloat height = PAaptation_y(360);
+    CGFloat height = PAaptation_y(260);
     CGFloat width = SCREEN_WIDTH/2 - PAdaptation_x(48);
     CGFloat LeftPadding = PAdaptation_x(24);
     CGFloat Ypadding = PAdaptation_x(10);
@@ -391,13 +393,29 @@
 {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:fileStr]];
 }
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+        
+//    if (scrollView.contentOffset.y <= 0) {
+//        self.scrollView.scrollEnabled = NO;//tableView内容滚动到顶部时 锁住
+//    }else{
+//        self.scrollView.scrollEnabled = YES;//tableView内容滚动到顶部时 锁住
+//
+//    }
+
+    
+//    if (self.top>self.topH) {
+//        [scrollView setContentOffset:CGPointMake(0, 0)];
+//    }
+}
 #pragma mark - LazyLoad -
 - (UIScrollView *)scrollView
 {
     if (!_scrollView) {
-        _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, PAaptation_y(100), SCREEN_WIDTH, SCREEN_HEIGHT-PAaptation_y(100))];
         _scrollView.delegate = self;
         _scrollView.showsVerticalScrollIndicator = YES;
+        _scrollView.backgroundColor = [UIColor whiteColor];
     }
     return _scrollView;
 }
