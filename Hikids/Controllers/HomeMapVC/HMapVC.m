@@ -180,11 +180,14 @@
 }
 - (void)setupHomeMenu
 {
+    
     //20为状态栏高度；tableview设置的大小要和view的大小一致
-    HHomeMenuView *homeMenuView = [[HHomeMenuView alloc] initWithFrame:CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    HHomeMenuView *homeMenuView = [[HHomeMenuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-140, SCREEN_WIDTH, SCREEN_HEIGHT-100)];
+//    homeMenuView.backgroundColor = [UIColor whiteColor];
+    homeMenuView.topH = 100;
     self.homeMenuTableView = homeMenuView;
     [self.view addSubview:homeMenuView];
-    
+
     DefineWeakSelf;
     homeMenuView.showSleepMenu = ^{
         [weakSelf showSleepMenuVC];
@@ -208,6 +211,9 @@
         weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:16];
     };
     
+    
+
+    
 
 }
 
@@ -215,7 +221,10 @@
 - (void)setupWalkMenu
 {
     //20为状态栏高度；tableview设置的大小要和view的大小一致
-    self.walkMenuTableView = [[HWalkMenuView alloc] initWithFrame:CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    self.walkMenuTableView = [[HWalkMenuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-140, SCREEN_WIDTH, SCREEN_HEIGHT-100)];
+    self.walkMenuTableView.topH = 100;
+    
+    
     self.walkMenuTableView.smallView.hidden = YES;
     [self.view addSubview:self.walkMenuTableView];
     
@@ -242,7 +251,8 @@
 - (void)setupSleepMenu
 {
     //20为状态栏高度；tableview设置的大小要和view的大小一致
-    self.sleepMenuTableView = [[HSleepMenuView alloc] initWithFrame:CGRectMake(0, BW_StatusBarHeight, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    self.sleepMenuTableView = [[HSleepMenuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-140, SCREEN_WIDTH, SCREEN_HEIGHT-100)];
+    self.sleepMenuTableView.topH = 100;
     self.sleepMenuTableView.smallView.hidden = YES;
     self.sleepMenuTableView.gpsButton.hidden = YES;
     [self.view addSubview:self.sleepMenuTableView];

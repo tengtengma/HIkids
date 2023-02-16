@@ -31,6 +31,9 @@ typedef void(^clickGpsAction)(void);
 @property (nonatomic, strong) NSArray *exceptList;
 @property (nonatomic, strong) HSmallCardView *smallView;
 
+@property (nonatomic,assign) float topH;//上滑后距离顶部的距离
+
+
 - (instancetype)initWithFrame:(CGRect)frame;
 
 - (void)scrollToMiddle;

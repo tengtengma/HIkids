@@ -24,11 +24,6 @@
         
         self.delegate = self;
         self.dataSource = self;
-        
-        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, PAaptation_y(25))];
-        footerView.backgroundColor = [UIColor whiteColor];
-        self.tableFooterView = footerView;
-        
     }
     return self;
 }
