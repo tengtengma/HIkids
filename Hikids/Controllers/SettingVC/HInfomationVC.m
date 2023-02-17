@@ -29,6 +29,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.view.backgroundColor = [UIColor clearColor];
+    
     self.sectionArray = @[@"クラス：",@"年齢：",@"担任先生：",@"先生：",@"子供：",@"散歩目的地："];
     
     self.mainTeacherArray = @[@"柴山 志帆",@"前田 慈子"];
@@ -51,7 +53,7 @@
     
     [self.bgView addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bgView).offset(-PAaptation_y(2));
+        make.top.equalTo(self.bgView);
         make.left.equalTo(self.bgView);
         make.width.equalTo(self.bgView);
         make.height.mas_equalTo(PAaptation_y(32));

@@ -44,6 +44,8 @@ typedef void(^toBottomAction)(void);
 - (instancetype)initWithFrame:(CGRect)frame;
 
 - (void)scrollToMiddle;
+
+- (void)goTop;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -924,14 +924,14 @@
     if (![[userInfo safeObjectForKey:@"status"] isEqualToString:@"安全"]) {
 
         if ([name isEqualToString:@"午睡中"]) {
-            [self.sleepMenuTableView scrollToMiddle];
+            [self.sleepMenuTableView goTop];
         }
         if ([name isEqualToString:@"散步中"]) {
-            [self.walkMenuTableView scrollToMiddle];
+            [self.walkMenuTableView goTop];
 
         }
         if ([name isEqualToString:@"在園中"]) {
-            [self.homeMenuTableView scrollToMiddle];
+            [self.homeMenuTableView goTop];
         }
         [self showAlertActionWithName:name];
 

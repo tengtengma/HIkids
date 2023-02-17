@@ -23,7 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
         
-    
+    self.view.backgroundColor = [UIColor clearColor];
     self.dataArray = @[@"アカウント:",@"メール:",@"位置情報",@"通知権限",@"Bluetooth",@"モバイルデータ通信"];
     [self createUI];
     
@@ -33,7 +33,7 @@
 
     [self.view addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(-PAaptation_y(2));
+        make.top.equalTo(self.view);
         make.left.equalTo(self.view);
         make.width.equalTo(self.view);
         make.height.mas_equalTo(PAaptation_y(32));

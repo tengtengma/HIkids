@@ -119,7 +119,7 @@
             make.left.equalTo(self.view).offset(PAdaptation_x(25));
         }];
         
-        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(580) + PAaptation_y(78)*3);
+        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(480) + PAaptation_y(78)*3);
 
         
     }else{
@@ -361,7 +361,7 @@
 {
     [self.scrollView addSubview:self.imageBgView];
     [self.imageBgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleView.mas_bottom);
+        make.top.equalTo(self.scrollView);
         make.left.equalTo(self.view).offset(PAdaptation_x(15));
         make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(15));
         make.height.mas_equalTo(PAaptation_y(350));

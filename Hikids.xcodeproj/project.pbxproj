@@ -69,6 +69,8 @@
 		9E25EB40295D666900FDAF78 /* HHomeMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E25EB3F295D666900FDAF78 /* HHomeMenuView.m */; };
 		9E25EB43295D7F0400FDAF78 /* HStudentStateTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E25EB42295D7F0400FDAF78 /* HStudentStateTopView.m */; };
 		9E25EB46295D8CE900FDAF78 /* HStudentStateBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E25EB45295D8CE900FDAF78 /* HStudentStateBottomView.m */; };
+		9E27EBE5299F29710053BB43 /* dest0.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9E27EBE3299F29710053BB43 /* dest0.jpeg */; };
+		9E27EBE6299F29710053BB43 /* dest1.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9E27EBE4299F29710053BB43 /* dest1.jpeg */; };
 		9E29CC34296456D4009DF7FD /* HSleepMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E29CC33296456D4009DF7FD /* HSleepMenuView.m */; };
 		9E29CC37296EF7C5009DF7FD /* BWGetSleepTaskReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E29CC36296EF7C5009DF7FD /* BWGetSleepTaskReq.m */; };
 		9E29CC3A296EF85C009DF7FD /* BWGetSleepTaskResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E29CC39296EF85C009DF7FD /* BWGetSleepTaskResp.m */; };
@@ -363,6 +365,8 @@
 		9E25EB42295D7F0400FDAF78 /* HStudentStateTopView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HStudentStateTopView.m; sourceTree = "<group>"; };
 		9E25EB44295D8CE900FDAF78 /* HStudentStateBottomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HStudentStateBottomView.h; sourceTree = "<group>"; };
 		9E25EB45295D8CE900FDAF78 /* HStudentStateBottomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HStudentStateBottomView.m; sourceTree = "<group>"; };
+		9E27EBE3299F29710053BB43 /* dest0.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dest0.jpeg; sourceTree = "<group>"; };
+		9E27EBE4299F29710053BB43 /* dest1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = dest1.jpeg; sourceTree = "<group>"; };
 		9E29CC32296456D4009DF7FD /* HSleepMenuView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HSleepMenuView.h; sourceTree = "<group>"; };
 		9E29CC33296456D4009DF7FD /* HSleepMenuView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HSleepMenuView.m; sourceTree = "<group>"; };
 		9E29CC35296EF7C5009DF7FD /* BWGetSleepTaskReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWGetSleepTaskReq.h; sourceTree = "<group>"; };
@@ -1387,6 +1391,8 @@
 				9EEC47982966B1740031CE9F /* account_tz@3x.png */,
 				9EEC479B2966B1740031CE9F /* sw_down@2x.png */,
 				9EEC47992966B1740031CE9F /* sw_down@3x.png */,
+				9E27EBE3299F29710053BB43 /* dest0.jpeg */,
+				9E27EBE4299F29710053BB43 /* dest1.jpeg */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1499,6 +1505,7 @@
 				9EF21B3928D985050075CFF0 /* icon_checked@2x.png in Resources */,
 				9EDF52712903DE0C0066BFDC /* clock@2x.png in Resources */,
 				9EDF527E290404000066BFDC /* dangerNav@2x.png in Resources */,
+				9E27EBE5299F29710053BB43 /* dest0.jpeg in Resources */,
 				9E68326029758D5300194199 /* sleep_wx@3x.png in Resources */,
 				9EF21B2E28D985050075CFF0 /* icon_mail@3x.png in Resources */,
 				9EF21B3B28D985050075CFF0 /* btn_login_available@2x.png in Resources */,
@@ -1577,6 +1584,7 @@
 				9EB411BD296BEB3300CFA8FE /* dateIcon@2x.png in Resources */,
 				9EEC479E2966B1740031CE9F /* account_tz@2x.png in Resources */,
 				9E03EFEC297143BC00A11E49 /* quit@2x.png in Resources */,
+				9E27EBE6299F29710053BB43 /* dest1.jpeg in Resources */,
 				9EDF524D2903CE6C0066BFDC /* dangerStatus@3x.png in Resources */,
 				9E17D1BE28ED68B5005FA5A9 /* default_mdd@2x.png in Resources */,
 				9EB4118F296BBBBE00CFA8FE /* moon.png in Resources */,
