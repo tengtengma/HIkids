@@ -924,17 +924,17 @@
     if (![[userInfo safeObjectForKey:@"status"] isEqualToString:@"安全"]) {
 
         if ([name isEqualToString:@"午睡中"]) {
-            [self.sleepMenuTableView goTop];
+            [self.sleepMenuTableView goCenter];
         }
         if ([name isEqualToString:@"散步中"]) {
-            [self.walkMenuTableView goTop];
+            [self.walkMenuTableView goCenter];
 
         }
         if ([name isEqualToString:@"在園中"]) {
-            [self.homeMenuTableView goTop];
+            [self.homeMenuTableView goCenter];
         }
         [self showAlertActionWithName:name];
-
+        
     }
 
 }

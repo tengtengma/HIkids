@@ -12,6 +12,7 @@
 @interface HBaseMenuView()<UIScrollViewDelegate,UIGestureRecognizerDelegate>
 @property (nonatomic,assign) float bottomH;//下滑后距离顶部的距离
 @property (nonatomic,assign) float stop_y;//tableView滑动停止的位置
+@property (nonatomic,assign) NSInteger state;//0 top 1 center 2 bottom
 @end
 
 @implementation HBaseMenuView
@@ -128,44 +129,135 @@
     // 在滑动手势结束时判断滑动视图距离顶部的距离是否超过了屏幕的一半，如果超过了一半就往下滑到底部
     // 如果小于一半就往上滑到顶部
     if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled) {
+                
         
         // 滑动速度
         CGPoint velocity = [pan velocityInView:self];
-        CGFloat speed = 350;
-        if (velocity.y < -speed) {
-            [self goTop];
-            [pan setTranslation:CGPointMake(0, 0) inView:self];
+                
+        NSLog(@"velocity = %f",velocity.y);
+        
+        
+        //停留在顶部0 ，停留在底部 520
+        CGFloat stayPointY = pan.view.origin.y;
+        
+        if (velocity.y >= -50 && velocity.y <= 50) {
+            NSLog(@"位置判断系");
+            //此处是如果慢慢的滑动 就按停留位置计算
+            if (stayPointY >= 0 && stayPointY <= 200) {
+                [self goTop];
+                return;
+            }
+            if (stayPointY > 200 && stayPointY < 346) {
+                [self goCenter];
+                return;
+
+            }
+            if (stayPointY >=346) {
+                [self goBack];
+                return;
+
+            }
+        }
+        
+
+
+        //速度在-3000 和 3000 之间的 属于中间center
+        if (velocity.y > - 3000 && velocity.y < 3000) {
+            NSLog(@"速度判断系 中");
+
+            if (velocity.y <= -1200) {
+                //在中间时，向上滑动
+                [self goTop];
+
+            }else if (velocity.y > 1200){
+                //在中间时，向下滑动
+                [self goBack];
+
+            }else{
+                if (self.state == 2 && velocity.y > 0) {
+                    return;
+                }
+                //在中间时，向上或向下速度不够 维持原样
+                NSLog(@"center");
+                [self goCenter];
+            }
             return;
-        }else if (velocity.y > speed){
-            NSLog(@"11111111");
+        }
+        //速度滑动快 直接到顶部 无center
+        if (velocity.y <= -3000 ) {
+            NSLog(@"速度判断系");
+
+            NSLog(@"top");
+            [self goTop];
+            return;
+        }
+        //速度滑动快 直接到底部 无center
+        if (velocity.y >= 3000) {
+            NSLog(@"速度判断系");
+
+            NSLog(@"bottom");
             [self goBack];
-            [pan setTranslation:CGPointMake(0, 0) inView:self];
             return;
         }
         
-        NSLog(@"top=%f",self.top);
-        NSLog(@"屏幕高度三=%f",SCREEN_HEIGHT/3);
+        
+//        CGFloat speed = 350;
 
-        if (self.top > SCREEN_HEIGHT/2) {
-            [self goBack];
-        }else{
-            [self goTop];
-        }
+//        if (velocity.y < -speed) {
+//            NSLog(@"top");
+//            [self goTop];
+//            [pan setTranslation:CGPointMake(0, 0) inView:self];
+//            return;
+//        }else if (velocity.y > speed){
+//            NSLog(@"bottom");
+//            [self goBack];
+//            [pan setTranslation:CGPointMake(0, 0) inView:self];
+//            return;
+//        }
+        
+//        NSLog(@"top=%f",self.top);
+//        NSLog(@"屏幕高度三=%f",SCREEN_HEIGHT/3);
+//
+//        if (self.top > SCREEN_HEIGHT/2) {
+//            [self goBack];
+//        }else{
+//            [self goTop];
+//        }
     }
     
     [pan setTranslation:CGPointMake(0, 0) inView:self];
 }
 
 - (void)goTop {
+    
     DefineWeakSelf;
     [UIView animateWithDuration:0.25 animations:^{
         self.top = self.topH;
     }completion:^(BOOL finished) {
         self.tableView.scrollEnabled = YES;
+        //此处用来控制gpsbutton的隐藏
         if (weakSelf.toTopBlock) {
             weakSelf.toTopBlock();
         }
     }];
+    self.state = 0;
+
+}
+- (void)goCenter
+{
+    DefineWeakSelf;
+    [UIView animateWithDuration:0.25 animations:^{
+        self.top = SCREEN_HEIGHT/5*2;
+    }completion:^(BOOL finished) {
+        self.tableView.scrollEnabled = NO;
+        
+        //此处用来控制gpsbutton的显示
+        if (weakSelf.toBottomBlock) {
+            weakSelf.toBottomBlock();
+        }
+    }];
+    self.state = 1;
+
 }
 
 - (void)goBack {
@@ -175,23 +267,15 @@
         self.top = self.bottomH;
     }completion:^(BOOL finished) {
         self.tableView.scrollEnabled = NO;
+        //此处用来控制gpsbutton的显示
         if (weakSelf.toBottomBlock) {
             weakSelf.toBottomBlock();
         }
     }];
+    self.state = 2;
+
 }
 
-- (void)scrollToMiddle
-{
-//    NSLog(@"%f",self.contentOffset.y);
-//
-//    //先设置为窗口用户自己展开时 为了防止窗口来回展开收起
-//    if (self.contentOffset.y > 0) {
-//        return;
-//    }
-//
-//    [self scrollRectToVisible:CGRectMake(0,  0, SCREEN_WIDTH, PAaptation_y(500)) animated:YES];
-}
 -(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event{
     
 //    NSLog(@"point=%@",NSStringFromCGPoint(point));
@@ -209,10 +293,11 @@
 {
     CGFloat currentPostion = scrollView.contentOffset.y;
     self.stop_y = currentPostion;
-        
+            
     if (scrollView.contentOffset.y <= 0) {
         self.tableView.scrollEnabled = NO;//tableView内容滚动到顶部时 锁住
     }
+
 
     
 //    if (self.top>self.topH) {
