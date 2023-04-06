@@ -303,6 +303,9 @@
 - (void)showSleepMenuVC
 {
     HSleepMenuVC *menuSleepVC = [[HSleepMenuVC alloc] init];
+    if ([BWTools getIsIpad]) {
+        menuSleepVC.modalPresentationStyle = UIModalPresentationFullScreen;
+    }
     [self presentViewController:menuSleepVC animated:YES completion:nil];
     
     //点击开启午睡
@@ -322,6 +325,9 @@
 {
     
     HWalkMenuVC *menuWalkVC = [[HWalkMenuVC alloc] init];
+    if ([BWTools getIsIpad]) {
+        menuWalkVC.modalPresentationStyle = UIModalPresentationFullScreen;
+    }
     [self presentViewController:menuWalkVC animated:YES completion:nil];
 
     //点击开启散步

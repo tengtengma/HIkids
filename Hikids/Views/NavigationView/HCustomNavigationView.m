@@ -65,7 +65,7 @@
     
     [self.backgroundImageView addSubview:self.updateTimeLabel];
     [self.updateTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.stateLabel.mas_bottom).offset(PAaptation_y(2));
+        make.top.equalTo(self.stateLabel.mas_bottom).offset([BWTools getIsIpad] ? LAdaptation_y(5) : PAaptation_y(2));
         make.left.equalTo(self.stateImageView);
     }];
     

@@ -79,7 +79,7 @@
 
 //谷歌地图key
 #define APIKEY_Google @"AIzaSyDbMPtKwpGdLOLgnG6EFYYfBs0WfQi32kg"
-
-
+#define APIKEY_Baidu  @"85f0b4c25c"
+#define APIKEY_JGPush @"496f47e209c078e110baeb32"
 
 #endif /* HConfig_h */

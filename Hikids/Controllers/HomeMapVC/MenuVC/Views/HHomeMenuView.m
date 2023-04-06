@@ -43,7 +43,7 @@
 #pragma mark - cell高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
-        return PAaptation_y(125+84);
+        return [BWTools getIsIpad] ? LAdaptation_y(209) : PAaptation_y(209);
     }
     
     if (self.exceptList.count == 0) {
@@ -159,45 +159,91 @@
     
     if (indexPath.section == 0) {
         
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(PAdaptation_x(23), 0, SCREEN_WIDTH, PAaptation_y(30))];
-        label.text = @"利用シーン";
-        label.font = [UIFont boldSystemFontOfSize:20];
-        [cell.contentView addSubview:label];
+        if ([BWTools getIsIpad]) {
+            
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(LAdaptation_x(23), 0, SCREEN_WIDTH, LAdaptation_y(30))];
+            label.text = @"利用シーン";
+            label.font = [UIFont boldSystemFontOfSize:20];
+            [cell.contentView addSubview:label];
+            
+            UIButton *sleepBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            sleepBtn.tag = 1000;
+            [sleepBtn setBackgroundImage:[UIImage imageNamed:@"btn_menu_sleep.png"] forState:UIControlStateNormal];
+            [sleepBtn addTarget:self action:@selector(gotoVCAction:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.contentView addSubview:sleepBtn];
+            
+            [sleepBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(cell.contentView);
+                make.left.equalTo(cell.contentView).offset(LAdaptation_x(23));
+                make.right.equalTo(cell.contentView.mas_centerX).offset(-LAdaptation_x(12));
+                make.height.mas_equalTo(LAdaptation_y(96));
+            }];
+            
+            UIButton *walkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            walkBtn.tag = 1001;
+            [walkBtn setBackgroundImage:[UIImage imageNamed:@"btn_menu_walk.png"] forState:UIControlStateNormal];
+            [walkBtn addTarget:self action:@selector(gotoVCAction:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.contentView addSubview:walkBtn];
+            
+            [walkBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(cell.contentView);
+                make.left.equalTo(cell.contentView.mas_centerX).offset(LAdaptation_x(12));
+                make.right.equalTo(cell.contentView.mas_right).offset(-LAdaptation_x(23));
+                make.height.mas_equalTo(LAdaptation_y(96));
+            }];
+            
+            UILabel *label1 = [[UILabel alloc] init];
+            label1.text = @"園児リスト";
+            label1.font = [UIFont boldSystemFontOfSize:20];
+            [cell.contentView addSubview:label1];
+            [label1 mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(walkBtn.mas_bottom).offset(LAdaptation_y(24));
+                make.left.equalTo(label);
+            }];
+            
+        }else{
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(PAdaptation_x(23), 0, SCREEN_WIDTH, PAaptation_y(30))];
+            label.text = @"利用シーン";
+            label.font = [UIFont boldSystemFontOfSize:20];
+            [cell.contentView addSubview:label];
+            
+            UIButton *sleepBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            sleepBtn.tag = 1000;
+            [sleepBtn setImage:[UIImage imageNamed:@"btn_menu_sleep.png"] forState:UIControlStateNormal];
+            [sleepBtn addTarget:self action:@selector(gotoVCAction:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.contentView addSubview:sleepBtn];
+            
+            [sleepBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(cell.contentView);
+                make.left.equalTo(cell.contentView).offset(PAdaptation_x(23));
+                make.width.mas_equalTo(PAdaptation_x(166));
+                make.height.mas_equalTo(PAaptation_y(96));
+            }];
+            
+            UIButton *walkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            walkBtn.tag = 1001;
+            [walkBtn setImage:[UIImage imageNamed:@"btn_menu_walk.png"] forState:UIControlStateNormal];
+            [walkBtn addTarget:self action:@selector(gotoVCAction:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.contentView addSubview:walkBtn];
+            
+            [walkBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(cell.contentView);
+                make.left.equalTo(sleepBtn.mas_right).offset(PAdaptation_x(12));
+                make.width.mas_equalTo(PAdaptation_x(166));
+                make.height.mas_equalTo(PAaptation_y(96));
+            }];
+            
+            UILabel *label1 = [[UILabel alloc] init];
+            label1.text = @"園児リスト";
+            label1.font = [UIFont boldSystemFontOfSize:20];
+            [cell.contentView addSubview:label1];
+            [label1 mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(walkBtn.mas_bottom).offset(PAaptation_y(24));
+                make.left.equalTo(label);
+            }];
+        }
         
-        UIButton *sleepBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        sleepBtn.tag = 1000;
-        [sleepBtn setImage:[UIImage imageNamed:@"btn_menu_sleep.png"] forState:UIControlStateNormal];
-        [sleepBtn addTarget:self action:@selector(gotoVCAction:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.contentView addSubview:sleepBtn];
-        
-        [sleepBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(cell.contentView);
-            make.left.equalTo(cell.contentView).offset(PAdaptation_x(23));
-            make.width.mas_equalTo(PAdaptation_x(166));
-            make.height.mas_equalTo(PAaptation_y(96));
-        }];
-        
-        UIButton *walkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        walkBtn.tag = 1001;
-        [walkBtn setImage:[UIImage imageNamed:@"btn_menu_walk.png"] forState:UIControlStateNormal];
-        [walkBtn addTarget:self action:@selector(gotoVCAction:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.contentView addSubview:walkBtn];
-        
-        [walkBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(cell.contentView);
-            make.left.equalTo(sleepBtn.mas_right).offset(PAdaptation_x(12));
-            make.width.mas_equalTo(PAdaptation_x(166));
-            make.height.mas_equalTo(PAaptation_y(96));
-        }];
-        
-        UILabel *label1 = [[UILabel alloc] init];
-        label1.text = @"園児リスト";
-        label1.font = [UIFont boldSystemFontOfSize:20];
-        [cell.contentView addSubview:label1];
-        [label1 mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(walkBtn.mas_bottom).offset(PAaptation_y(PAaptation_y(24)));
-            make.left.equalTo(label);
-        }];
+
         
     }
     
