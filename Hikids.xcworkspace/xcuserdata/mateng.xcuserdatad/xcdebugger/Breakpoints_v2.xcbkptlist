@@ -83,32 +83,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7095547B-19EE-4F60-93F8-C8D4D8DE07E6"
-            shouldBeEnabled = "Yes"
+            uuid = "E96B310B-3ED2-473D-BEC2-09D7F90C95AC"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Hikids/Controllers/HomeMapVC/Views/HSleepMainView.m"
+            filePath = "Hikids/Controllers/HomeMapVC/MenuVC/Controllers/MenuWalkVC/Models/HStudent.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "178"
-            endingLineNumber = "178"
-            landmarkName = "-dealloc"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
+            landmarkName = "-deviceInfo"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "CD71F7BF-7F9B-4E3D-A056-F3604B92462E"
-            shouldBeEnabled = "No"
+            uuid = "5A43579B-4261-4771-87D2-A46F65FF8251"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Hikids/Controllers/HomeMapVC/MenuVC/Views/HSleepMenuView.m"
+            filePath = "Hikids/Models/Network/BWNetManager.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "339"
-            endingLineNumber = "339"
-            landmarkName = "-loadExpandWithCell:byType:withIndexPath:"
+            startingLineNumber = "251"
+            endingLineNumber = "251"
+            landmarkName = "-failedWithRequest:error:withBlock:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

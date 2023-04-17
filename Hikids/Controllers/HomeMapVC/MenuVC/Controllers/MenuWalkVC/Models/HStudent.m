@@ -9,6 +9,13 @@
 
 @implementation HStudent
 
+- (HStudentDeviceInfo *)deviceInfo
+{
+    if (!_deviceInfo) {
+        _deviceInfo = [[HStudentDeviceInfo alloc] init];
+    }
+    return _deviceInfo;
+}
 @end
 
 @implementation HStudentDeviceInfo

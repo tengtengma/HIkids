@@ -28,7 +28,7 @@
             }else{
                 imageView.layer.borderColor = BWColor(108, 159, 155, 1).CGColor;
             }
-            imageView.layer.cornerRadius = PAdaptation_x(36)/2;
+            imageView.layer.cornerRadius = [BWTools getIsIpad] ? 36/2 : PAdaptation_x(36)/2;
             imageView.layer.masksToBounds = YES;
             imageView.layer.borderWidth = 2;
             [self addSubview:imageView];
@@ -40,8 +40,8 @@
                 }else{
                     make.left.equalTo(self).offset(PAdaptation_x(6));
                 }
-                make.width.mas_equalTo(PAdaptation_x(36));
-                make.height.mas_equalTo(PAaptation_y(36));
+                make.width.mas_equalTo([BWTools getIsIpad] ? 36 : PAdaptation_x(36));
+                make.height.mas_equalTo([BWTools getIsIpad] ? 36 : PAaptation_y(36));
             }];
             
             tempView = imageView;

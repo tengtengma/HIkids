@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *exceptionTime;
 @property (nonatomic, strong) NSString *exceptionType;
 @property (nonatomic, strong) HStudentDeviceInfo *deviceInfo;
+@property (nonatomic, strong) NSString *heartRate;//4.14 先单独新增一个数据
 @property (nonatomic, assign) BOOL isSelected;
 @end
 

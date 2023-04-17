@@ -249,6 +249,7 @@
     [UIView animateWithDuration:0.25 animations:^{
         self.top = SCREEN_HEIGHT/5*2;
     }completion:^(BOOL finished) {
+        self.stop_y = -100;
         self.tableView.scrollEnabled = NO;
         
         //此处用来控制gpsbutton的显示

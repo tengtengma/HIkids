@@ -17,7 +17,7 @@ target 'Hikids' do
     pod 'GoogleMaps'
     pod 'GooglePlaces'
     pod 'BaiduMobStatCodeless'
-    pod 'JPush'   
+#    pod 'JPush'   
 
 
 end

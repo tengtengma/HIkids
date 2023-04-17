@@ -22,9 +22,6 @@ PODS:
     - GoogleMaps/Base
   - GooglePlaces (4.1.0):
     - GoogleMaps/Base (= 4.1.0)
-  - JCore (4.1.0)
-  - JPush (4.9.0):
-    - JCore (>= 2.0.0)
   - lottie-ios (2.5.3)
   - Masonry (1.1.0)
   - MBProgressHUD (1.2.0)
@@ -39,7 +36,6 @@ DEPENDENCIES:
   - BaiduMobStatCodeless
   - GoogleMaps
   - GooglePlaces
-  - JPush
   - lottie-ios (~> 2.5)
   - Masonry
   - MBProgressHUD
@@ -53,8 +49,6 @@ SPEC REPOS:
     - BaiduMobStatCodeless
     - GoogleMaps
     - GooglePlaces
-    - JCore
-    - JPush
     - lottie-ios
     - Masonry
     - MBProgressHUD
@@ -67,8 +61,6 @@ SPEC CHECKSUMS:
   BaiduMobStatCodeless: b1029b96b02d54802049d280f2b1abb0c76f0e9e
   GoogleMaps: 008e2c80e38605b56b560e8deb73d4194ff30bef
   GooglePlaces: a058b776259c13e1323c9ff135549cb1b13ad8e7
-  JCore: ea26a5dde38ebf6e4e85b772d4ecce8e0e95fb55
-  JPush: 3d67f9844abca401a2beff8381dac015e09253a7
   lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
@@ -76,6 +68,6 @@ SPEC CHECKSUMS:
   MJRefresh: 6afc955813966afb08305477dd7a0d9ad5e79a16
   SDWebImage: 9169792e9eec3e45bba2a0c02f74bf8bd922d1ee
 
-PODFILE CHECKSUM: 7b3977a260004c0935873d569a6dfc614d3ae3bd
+PODFILE CHECKSUM: 397dc0a3c8a14a46035c36658b3678aa10247c3b
 
 COCOAPODS: 1.10.0

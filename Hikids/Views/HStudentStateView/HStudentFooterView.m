@@ -36,8 +36,8 @@
         [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self);
             make.left.equalTo(self).offset(PAdaptation_x(10));
-            make.width.mas_equalTo(PAdaptation_x(58));
-            make.height.mas_equalTo(PAaptation_y(58));
+            make.width.mas_equalTo([BWTools getIsIpad] ? 58 : PAdaptation_x(58));
+            make.height.mas_equalTo([BWTools getIsIpad] ? 58 : PAaptation_y(58));
         }];
         
         [self addSubview:self.titleLabel];
@@ -66,8 +66,8 @@
         [self.gpsImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.titleLabel.mas_bottom).offset(PAaptation_y(2));
             make.left.equalTo(self.headerView.mas_right).offset(PAdaptation_x(10));
-            make.width.mas_equalTo(PAdaptation_x(30));
-            make.height.mas_equalTo(PAaptation_y(30));
+            make.width.mas_equalTo([BWTools getIsIpad] ? 30 : PAdaptation_x(30));
+            make.height.mas_equalTo([BWTools getIsIpad] ? 30 : PAaptation_y(30));
         }];
         
         [self addSubview:self.distanceLabel];
@@ -142,11 +142,13 @@
 }
 - (void)loadSafeStyle
 {
-    if (self.student.deviceInfo.averangheart.length != 0) {
-        self.distanceLabel.text = [NSString stringWithFormat:@"%@bpm",self.student.deviceInfo.averangheart];
-    }else{
-        self.distanceLabel.text = [NSString stringWithFormat:@"--bpm"];
-    }
+//    if (self.student.deviceInfo.averangheart.length != 0) {
+//        self.distanceLabel.text = [NSString stringWithFormat:@"%@bpm",self.student.deviceInfo.averangheart];
+//    }else{
+//        self.distanceLabel.text = [NSString stringWithFormat:@"--bpm"];
+//    }
+    self.distanceLabel.text = [NSString stringWithFormat:@"%@ bpm",self.student.deviceInfo.averangheart];
+
     [self.gpsImageView setImage:[UIImage imageNamed:@"xintiao_safe.png"]];
     self.distanceLabel.textColor = BWColor(0, 176, 107, 1);
     self.headerView.layer.borderColor = BWColor(0, 176, 107, 1).CGColor;
@@ -163,11 +165,13 @@
         self.headerView.layer.borderColor = BWColor(255, 75, 0, 1).CGColor;
 
     }else{
-        if (self.student.deviceInfo.averangheart.length != 0) {
-            self.distanceLabel.text = [NSString stringWithFormat:@"%@bpm",self.student.deviceInfo.averangheart];
-        }else{
-            self.distanceLabel.text = [NSString stringWithFormat:@"--bpm"];
-        }
+//        if (self.student.deviceInfo.averangheart.length != 0) {
+//            self.distanceLabel.text = [NSString stringWithFormat:@"%@bpm",self.student.deviceInfo.averangheart];
+//        }else{
+//            self.distanceLabel.text = [NSString stringWithFormat:@"--bpm"];
+//        }
+        self.distanceLabel.text = [NSString stringWithFormat:@"%@ bpm",self.student.deviceInfo.averangheart];
+
         [self.gpsImageView setImage:[UIImage imageNamed:@"xintiao_danger.png"]];
         self.headerView.layer.borderColor = BWColor(108, 159, 155, 1).CGColor;
 
@@ -189,7 +193,7 @@
     if (!_headerView) {
         _headerView = [[UIImageView alloc] init];
         _headerView.layer.borderWidth = 2;
-        _headerView.layer.cornerRadius = PAdaptation_x(58)/2;
+        _headerView.layer.cornerRadius = [BWTools getIsIpad] ? 58/2 : PAdaptation_x(58)/2;
         _headerView.layer.masksToBounds = YES;
     }
     return _headerView;

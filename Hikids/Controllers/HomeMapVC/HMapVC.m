@@ -249,7 +249,13 @@
     CGFloat topH = 0;
 
     //20为状态栏高度；tableview设置的大小要和view的大小一致
-    self.sleepMenuTableView = [[HSleepMenuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-PAaptation_y(400), SCREEN_WIDTH, SCREEN_HEIGHT-topH)];
+    if ([BWTools getIsIpad]) {
+        self.sleepMenuTableView = [[HSleepMenuView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2 - LAdaptation_x(850)/2, SCREEN_HEIGHT-LAdaptation_y(250), LAdaptation_x(850), SCREEN_HEIGHT-topH)];
+
+    }else{
+        self.sleepMenuTableView = [[HSleepMenuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-PAaptation_y(400), SCREEN_WIDTH, SCREEN_HEIGHT-topH)];
+
+    }
     self.sleepMenuTableView.topH = topH;
     self.sleepMenuTableView.smallView.hidden = YES;
     self.sleepMenuTableView.gpsButton.hidden = YES;
