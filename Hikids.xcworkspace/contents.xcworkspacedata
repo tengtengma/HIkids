@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:../Hikids-onlyWalk/Hikids/Sources/home.gpx">
+   </FileRef>
+   <FileRef
       location = "group:Hikids.xcodeproj">
    </FileRef>
    <FileRef

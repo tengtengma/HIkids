@@ -40,6 +40,7 @@
 #import "HWalkReportVC.h"
 #import "HSettingVC.h"
 #import "HDateVC.h"
+#import "HWalkDownTimeView.h"
 
 @interface HMapVC ()<GMSMapViewDelegate,CLLocationManagerDelegate>
 @property (nonatomic,strong) GMSMapView *mapView;                   //谷歌地图
@@ -61,11 +62,13 @@
 @property (nonatomic,strong) HSleepMenuView *sleepMenuTableView;    //午睡底部菜单
 @property (nonatomic,strong) HSleepMainView *sleepMainView;         //开始午睡时展示
 @property (nonatomic,strong) HSettingVC *settingVC;                 //设置页面
-@property (nonatomic,assign) BOOL isWalkMode;                       //在目的地
+@property (nonatomic,strong) HWalkDownTimeView *downTimeView;       //提示是否到达目的地弹窗
+@property (nonatomic,strong) NSString *destFence;                   //目的地围栏信息
+@property (nonatomic,strong) NSString *kinFence;                    //院内围栏信息
+@property (nonatomic,assign) BOOL isInFence;                        //是否在围栏内
 @property (nonatomic,assign) BOOL firstLocationUpdate;              //第一次定位更新
 @property (nonatomic,assign) BOOL isDrawFence;                      //是否画围栏 防止重复画
-@property (nonatomic,assign) BOOL isInGard;                         //在院内
-@property (nonatomic,assign) BOOL isInDest;                         //在目的地
+
 
 
 @end
@@ -107,12 +110,10 @@
 //    3.当walkTask为1的时候 就是散步模式 不调用查询sleepTask接口
 
     
-    self.walkTimer = [NSTimer scheduledTimerWithTimeInterval:300 target:self selector:@selector(startGetStudentLocationRequest) userInfo:nil repeats:YES];
-
-    self.sleepTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(getSleepTaskRequest) userInfo:nil repeats:YES];
-    
+    self.walkTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(startGetStudentLocationRequest) userInfo:nil repeats:YES];
     [self.walkTimer setFireDate:[NSDate distantFuture]];
 
+    self.sleepTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(getSleepTaskRequest) userInfo:nil repeats:YES];
     [self.sleepTimer setFireDate:[NSDate distantFuture]];
 
     //获取当前的任务情况 内部还调用了sleepTask
@@ -139,6 +140,9 @@
 
     //加载假数据小朋友的
 //    [self reloadData];
+    
+    //开启定位
+    [self startLocation];
     
     //监听危险
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dangerAlertNotifi:) name:@"dangerAlertNotification" object:nil];
@@ -215,6 +219,9 @@
 //设置散步菜单
 - (void)setupWalkMenu
 {
+    if (self.walkMenuTableView != nil) {
+        return;
+    }
     CGFloat topH = 100;
 
     //20为状态栏高度；tableview设置的大小要和view的大小一致
@@ -276,6 +283,7 @@
     //点击头像弹出小朋友详情
     [self.stateInfoView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, PAaptation_y(351))];
     [self.view addSubview:self.stateInfoView];
+    [self.view bringSubviewToFront:self.stateInfoView];
     
     DefineWeakSelf;
     //marks的详情
@@ -341,8 +349,9 @@
     menuWalkVC.startWalkBlock = ^(HTask * _Nonnull walkTask) {
         
         weakSelf.currentTask = walkTask;
-        weakSelf.isWalkMode = YES;
-        [weakSelf startWalkMode];
+        //修改散步状态为2 在途中
+        [weakSelf changeTaskStateRequestWithStatus:@"2"];
+        
     };
 }
 //展示午睡报告
@@ -379,10 +388,7 @@
     DefineWeakSelf;
     walkReportVC.closeWalkReportBlock = ^{
         //todo
-                
         [weakSelf.walkMenuTableView removeFromSuperview]; //移除散步底部菜单
-        
-//        [weakSelf startStayMode];
     };
     
 }
@@ -401,7 +407,7 @@
         
         if (getTaskResp.itemList.count == 0) {
             //第一次打开app 任务为空 默认再院内
-            weakSelf.isWalkMode = NO;
+
             [weakSelf startStayMode];
             return;
         }
@@ -409,16 +415,35 @@
         //type 1散步 2午睡
         if ([weakSelf.currentTask.type isEqualToString:@"1"]) {
             
-            //散步模式开启
-            if ([weakSelf.currentTask.status isEqualToString:@"1"]) {
-                weakSelf.isWalkMode = YES;
-                [weakSelf startWalkMode];
-            }
-            //该任务已完成
+            //该任务已完成/无任务
             if ([weakSelf.currentTask.status isEqualToString:@"5"] || weakSelf.currentTask == nil) {
-                weakSelf.isWalkMode = NO;
                 //在院内模式
                 [weakSelf startStayMode];
+                
+            }else if([weakSelf.currentTask.status isEqualToString:@"2"]){
+                //途中模式开启 只画目的地围栏
+                
+                [weakSelf startWalkMode];
+                
+                //设置散步页底部菜单
+                [weakSelf setupWalkMenu];
+
+            }else if([weakSelf.currentTask.status isEqualToString:@"3"]){
+                //目的地模式开启
+               
+                [weakSelf startDestMode];
+                
+                //设置散步页底部菜单
+                [weakSelf setupWalkMenu];
+
+            }else if([weakSelf.currentTask.status isEqualToString:@"4"]){
+                //回程模式开启 只画院内围栏
+                
+                [weakSelf startBackMode];
+                
+                //设置散步页底部菜单
+                [weakSelf setupWalkMenu];
+
             }
         }else{
 
@@ -434,10 +459,6 @@
 
             }
         }
-        
-
-
-        
     } failure:^(BWBaseReq *req, NSError *error) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
@@ -509,15 +530,18 @@
         BWChangeTaskStateResp *changeResp = (BWChangeTaskStateResp *)resp;
         weakSelf.currentTask = [changeResp.itemList safeObjectAtIndex:0];
         
-        if ([weakSelf.currentTask.type isEqualToString:@"1"]) {
+        if ([weakSelf.currentTask.status isEqualToString:@"5"]) {
             
-            [weakSelf showWalkReport];
+            if ([weakSelf.currentTask.type isEqualToString:@"1"]) {
+                
+                [weakSelf showWalkReport];
 
-        }else{
-            [weakSelf showSleepReport];
+            }else{
+                [weakSelf showSleepReport];
 
+            }
+            
         }
-        
         //结束上一个任务改变该任务状态 并且查寻新的任务；
         [weakSelf getTaskRequest];
         
@@ -526,22 +550,6 @@
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
     }];
-}
-//开启园内模式
-- (void)startStayMode
-{
-    [self clearMap];
-    
-    self.mapView.hidden = NO;               //展示地图
-    self.homeMenuTableView.hidden = NO;     //展示首页底部菜单
-    
-    [self startLocation];                   //开启定位
-    
-    [self.sleepTimer setFireDate:[NSDate distantFuture]];
-    
-    [self getKinderRequest];                //获取围栏的信息
-    
-    
 }
 //开始午睡模式
 - (void)startSleepMode
@@ -559,9 +567,25 @@
     
     [self.sleepTimer setFireDate:[NSDate distantPast]];
     [self.walkTimer setFireDate:[NSDate distantFuture]];
-        
-    
 
+}
+//开启园内模式
+- (void)startStayMode
+{
+    [self clearMap];
+    
+    self.mapView.hidden = NO;               //展示地图
+    self.homeMenuTableView.hidden = NO;     //展示首页底部菜单
+        
+    [self.sleepTimer setFireDate:[NSDate distantFuture]];
+    [self.walkTimer setFireDate:[NSDate distantPast]];
+    
+    [self.locationManager stopUpdatingLocation];
+
+
+    [self getKinderRequest];                //获取围栏的信息
+    
+//    [self startLocation]; //开启定位
     
 }
 //开启散步模式
@@ -569,34 +593,81 @@
 {
     [self clearMap];
     
-    //设置散步页底部菜单
-    [self setupWalkMenu];
-    
     self.homeMenuTableView.hidden = YES;
     
     //开启定位
-    [self startLocation];
+//    [self startLocation];
     
-    [self.walkTimer setFireDate:[NSDate distantPast]];
+    [self.walkTimer setFireDate:[NSDate distantFuture]];
     [self.sleepTimer setFireDate:[NSDate distantFuture]];
+    
+    [self.locationManager startUpdatingLocation];
+
 
 }
 //开启目的地模式
-//- (void)startDestMode
-//{
-//
-//    [self clearMap];
-//
+- (void)startDestMode
+{
+    [self clearMap];
+    
+    self.homeMenuTableView.hidden = YES;
+    
 //    //开启定位
 //    [self startLocation];
     
-//    self.menuHomeVC.view.hidden = YES;
-        
-        
-//    self.gpsButton.hidden = NO;
+    [self.walkTimer setFireDate:[NSDate distantPast]];
+    [self.sleepTimer setFireDate:[NSDate distantFuture]];
     
-//    [self startDestRequest];
-//}
+    [self.locationManager stopUpdatingLocation];
+}
+//开启返回模式
+- (void)startBackMode
+{
+    [self clearMap];
+    
+    self.homeMenuTableView.hidden = YES;
+    
+    
+    [self.walkTimer setFireDate:[NSDate distantFuture]];
+    [self.sleepTimer setFireDate:[NSDate distantFuture]];
+    
+    [self.locationManager startUpdatingLocation];
+}
+//画围栏(在startGetStudentLocationRequest方法里)
+- (void)drawFenceWith:(NSString *)fence
+{
+    if (self.isDrawFence) {
+        return;
+    }
+
+    NSString *fenceStr = fence;
+
+    HLocation *myLocation = [[HLocation alloc] init];
+    NSArray *fenceArray = (NSArray *)[BWTools dictionaryWithJsonString:fenceStr];
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    for (NSDictionary *dic in fenceArray) {
+        HLocationInfo *info = [[HLocationInfo alloc] init];
+        info.longitude = [[dic safeObjectForKey:@"longitude"] doubleValue];
+        info.latitude = [[dic safeObjectForKey:@"latitude"] doubleValue];
+        [array addObject:info];
+    }
+    myLocation.fenceArray = array;
+
+    GMSMutablePath* path = [[GMSMutablePath alloc] init];
+
+    for (NSInteger i = 0; i < myLocation.fenceArray.count; i++) {
+        HLocationInfo *info = [myLocation.fenceArray safeObjectAtIndex:i];
+        [path addCoordinate:CLLocationCoordinate2DMake(info.latitude, info.longitude)];
+    }
+
+    GMSPolygon* poly = [GMSPolygon polygonWithPath:path];
+    poly.strokeWidth = 2.0;
+    poly.strokeColor = BWColor(83, 192, 137, 1);
+    poly.fillColor = BWColor(0, 176, 107, 0.2);
+    poly.map = self.mapView;
+
+    self.isDrawFence = YES;
+}
 //开启返程模式
 //- (void)startBackMode
 //{
@@ -608,7 +679,7 @@
 {
     [self.makerList removeAllObjects];
 
-    self.isDrawFence = YES;
+    self.isDrawFence = NO;
 
     [self.mapView clear];
     
@@ -627,34 +698,33 @@
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
 
         BWGetKindergartenResp *kinderResp = (BWGetKindergartenResp *)resp;
-        [weakSelf changeLocationInfoDataWithModel:[kinderResp.itemList safeObjectAtIndex:0]];
-        
-        //2023.02.16先注释掉
-//        [weakSelf startGetStudentLocationRequest];
+        HDestnationModel *kinModel = [kinderResp.itemList safeObjectAtIndex:0];
 
+        [weakSelf drawFenceWith:kinModel.fence];
         
+
+
     } failure:^(BWBaseReq *req, NSError *error) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
     }];
 }
-
 ////获取目的地接口数据
-//- (void)startDestRequest
+//- (void)getDestRequest
 //{
+//
 //    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 //    DefineWeakSelf;
-//    BWDestnationInfoReq *infoReq = [[BWDestnationInfoReq alloc] init];
-////    infoReq.dId = self.currentTask.destinationId; //1目的地
-//    infoReq.dId = @"1"; //1目的地
-//
-//    [NetManger getRequest:infoReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+//    BWDestnationInfoReq *destReq = [[BWDestnationInfoReq alloc] init];
+//    destReq.dId = self.currentTask.destinationId;
+//    [NetManger getRequest:destReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
 //        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
 //
-//        BWDestnationInfoResp *infoResp = (BWDestnationInfoResp *)resp;
-//        [weakSelf changeLocationInfoDataWithModel:[infoResp.itemList safeObjectAtIndex:0]];
-//
-//        [weakSelf startGetStudentLocationRequest];
+//        BWDestnationInfoResp *destResp = (BWDestnationInfoResp *)resp;
+////        HDestnationModel *kinModel = [kinderResp.itemList safeObjectAtIndex:0];
+////
+////        [weakSelf dealWithFence:kinModel.fence];
+////        [weakSelf startGetStudentLocationRequest];
 //
 //
 //    } failure:^(BWBaseReq *req, NSError *error) {
@@ -662,34 +732,34 @@
 //        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
 //    }];
 //}
+
 //获取学生坐标信息
 - (void)startGetStudentLocationRequest
 {
+    if (self.gpsLocation == nil) {
+        NSLog(@"无法获取定位");
+        return;
+    }
 
     DefineWeakSelf;
     BWStudentLocationReq *locationReq = [[BWStudentLocationReq alloc] init];
-    if (self.gpsLocation == nil) {
-        //先用围栏坐标替换
-        locationReq.latitude = self.fenceLocation.locationInfo.latitude;
-        locationReq.longitude = self.fenceLocation.locationInfo.longitude;
-    }else{
+//    if (self.gpsLocation == nil) {
+//        //先用围栏坐标替换
+//        locationReq.latitude = self.fenceLocation.locationInfo.latitude;
+//        locationReq.longitude = self.fenceLocation.locationInfo.longitude;
+//    }else{
         locationReq.latitude = self.gpsLocation.coordinate.latitude;
         locationReq.longitude = self.gpsLocation.coordinate.longitude;
-    }
+//    }
 
     [NetManger postRequest:locationReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         
         BWStudentLocationResp *locationResp = (BWStudentLocationResp *)resp;
 
-        if (weakSelf.isWalkMode) {
-            NSString *status = locationResp.exceptionKids.count != 0 ? @"危険" : @"安全";
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"dangerAlertNotification" object:@{@"name":@"散步中",@"status":status}];
-            
-            weakSelf.walkMenuTableView.safeList = locationResp.normalKids;
-            weakSelf.walkMenuTableView.exceptList = locationResp.exceptionKids;
-            [weakSelf.walkMenuTableView.tableView reloadData];
-        }else{
+        //在院内
+        if ([weakSelf.currentTask.status isEqualToString:@"5"] || weakSelf.currentTask == nil) {
+
             NSString *status = locationResp.exceptionKids.count != 0 ? @"危険" : @"安全";
             [[NSNotificationCenter defaultCenter] postNotificationName:@"dangerAlertNotification" object:@{@"name":@"在園中",@"status":status}];
             
@@ -698,51 +768,116 @@
             weakSelf.homeMenuTableView.safeList = locationResp.normalKids;
             weakSelf.homeMenuTableView.exceptList = locationResp.exceptionKids;
             [weakSelf.homeMenuTableView.tableView reloadData];
+            
+        }else{
+            
+            NSString *status = locationResp.exceptionKids.count != 0 ? @"危険" : @"安全";
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"dangerAlertNotification" object:@{@"name":@"散步中",@"status":status}];
+            
+            weakSelf.walkMenuTableView.safeList = locationResp.normalKids;
+            weakSelf.walkMenuTableView.exceptList = locationResp.exceptionKids;
+            [weakSelf.walkMenuTableView.tableView reloadData];
+            
+            weakSelf.isInFence = locationResp.isSafe;
+            weakSelf.destFence = locationResp.desFence;
+            weakSelf.kinFence = locationResp.kinFence;
+            
+            if ([weakSelf.currentTask.status isEqualToString:@"2"]) {
+                if (weakSelf.isInFence) {
+                    //判断是否到了目的地
+                    [weakSelf showDestAlertViewWithState:@"3"];
+                    NSLog(@"是否到达目的地？");
+                }
+                //构建目的地-途中模式（画目的地围栏）
+                [weakSelf drawFenceWith:weakSelf.destFence];
+
+            }
+            //目的地模式
+            if ([weakSelf.currentTask.status isEqualToString:@"3"]) {
+                
+                if (!weakSelf.isInFence) {
+                    //提示是否开启返程
+                    [weakSelf showDestAlertViewWithState:@"4"];
+                    NSLog(@"是否开启返程？");
+                }
+                [weakSelf drawFenceWith:weakSelf.destFence];
+
+
+            }
+            if ([weakSelf.currentTask.status isEqualToString:@"4"]) {
+
+                if (weakSelf.isInFence) {
+                    //判断是否到了园区
+                    [weakSelf showDestAlertViewWithState:@"5"];
+                    NSLog(@"是否回到了园区？");
+                }
+                //返程模式（画园区地围栏）
+                [weakSelf drawFenceWith:weakSelf.kinFence];
+            }
+            
         }
 
-//        [weakSelf addMarkersWithNomalList:locationResp.normalKids andExceptList:locationResp.exceptionKids]; //添加学生位置坐标
-        [weakSelf drawPolygon];
+        //添加/刷新学生位置坐标
+        [weakSelf addMarkersWithNomalList:locationResp.normalKids andExceptList:locationResp.exceptionKids];
                 
     } failure:^(BWBaseReq *req, NSError *error) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
     }];
 }
-
-//画围栏
-- (void)changeLocationInfoDataWithModel:(HDestnationModel *)model
+- (void)showDestAlertViewWithState:(NSString *)state
 {
-    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    NSString *content = [state isEqualToString:@"3"] ? @"是否到达目的地?" : @"是否开启返程?";
+    HWalkDownTimeView *downTimeView = [[HWalkDownTimeView alloc] initWithContent:content];
+    
+    [self.view addSubview:downTimeView];
+    [downTimeView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.view);
+        make.width.mas_equalTo(PAdaptation_x(300));
+        make.height.mas_equalTo(PAaptation_y(140));
+    }];
+    
+    DefineWeakSelf;
+    downTimeView.sureBlock = ^{
+        [weakSelf changeTaskStateRequestWithStatus:state];
+        
+    };
+}
+//处理院内模式围栏数据
+- (void)dealWithFence:(NSString *)fenceDataStr
+{
+    NSString *fenceStr = fenceDataStr;
+
     HLocation *myLocation = [[HLocation alloc] init];
-    NSArray *fence = [model.fence componentsSeparatedByString:@"_"];
-    for (NSInteger i = 0; i< fence.count; i++) {
-        NSString *gpsStr = [fence safeObjectAtIndex:i];
-        NSArray *gpsArray = [gpsStr componentsSeparatedByString:@","];
+    NSArray *fenceArray = (NSArray *)[BWTools dictionaryWithJsonString:fenceStr];
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    for (NSDictionary *dic in fenceArray) {
         HLocationInfo *info = [[HLocationInfo alloc] init];
-        info.longitude = [[gpsArray safeObjectAtIndex:0] doubleValue];
-        info.latitude = [[gpsArray safeObjectAtIndex:1] doubleValue];
-        [tempArray addObject:info];
+        info.longitude = [[dic safeObjectForKey:@"longitude"] doubleValue];
+        info.latitude = [[dic safeObjectForKey:@"latitude"] doubleValue];
+        [array addObject:info];
     }
-    NSString *currentStr = model.location;
-    NSArray *currentArray = [currentStr componentsSeparatedByString:@","];
-    myLocation.fenceArray = tempArray;
-    HLocationInfo *currentInfo = [[HLocationInfo alloc] init];
-    currentInfo.longitude = [[currentArray safeObjectAtIndex:0] doubleValue];
-    currentInfo.latitude = [[currentArray safeObjectAtIndex:1] doubleValue];
-    myLocation.locationInfo = currentInfo;
+    myLocation.fenceArray = array;
+    
+    //无法获取gps坐标时 使用围栏坐标
+    myLocation.locationInfo = [array safeObjectAtIndex:0];
     
     //围栏坐标信息
     self.fenceLocation = myLocation;
     
     //获取到围栏坐标后 开启刷小朋友信息接口
     [self.walkTimer setFireDate:[NSDate distantPast]];
+    
+    //画围栏
+    [self drawPolygon];
+
 
 }
 
-//画围栏
+//画院内模式围栏
 -(void)drawPolygon
 {
-    if (!self.isDrawFence) {
+    if (self.isDrawFence) {
         return;
     }
 
@@ -769,7 +904,7 @@
     //移动地图中心到当前位置
     self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:16];
     
-    self.isDrawFence = NO;
+    self.isDrawFence = YES;
     
 }
 -(void)addMarkersWithNomalList:(NSArray *)normalKids andExceptList:(NSArray *)exceptionKids{
@@ -833,29 +968,6 @@
             [self.makerList addObject:marker];
         }
     }
-    
-
-//
-//    if (self.myLocation.fenceArray.count == 0) {
-//        return;
-//    }
-//
-//    if (self.isDrawFence) {
-//
-//        if (self.currentTask.status.integerValue == 1) {
-//            //替换自己的坐标
-//            CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.myLocation.locationInfo.latitude, self.myLocation.locationInfo.longitude);
-//             //移动地图中心到当前位置
-//            self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:18];
-//
-//        }
-//
-//        [self drawPolygon];//画围栏
-//
-//        self.isDrawFence = NO;//每个状态围栏就画一次
-//
-//    }
-    
 }
 - (GMSMarker *)findMarkerWithStudentId:(NSString *)studentId
 {
@@ -914,7 +1026,7 @@
         //定位不能用
 //        [self locationPermissionAlert];
 //        [SVProgressHUD dismiss];
-        [MBProgressHUD showMessag:@"定位不可用，请开启定位设置" toView:self.view hudModel:MBProgressHUDModeText hide:YES];
+        [MBProgressHUD showMessag:@"位置決めは使用できません。位置決め設定をオンにしてください" toView:self.view hudModel:MBProgressHUDModeText hide:YES];
     }
 
 }
@@ -1095,7 +1207,10 @@
          //移动地图中心到当前位置
          self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:16];
         
-//        [self startGetStudentLocationRequest];
+        [self startGetStudentLocationRequest];
+        
+        NSLog(@"调用定位111111");
+        
 
     } else {
         [self.locationManager stopUpdatingLocation]; //停止获取
@@ -1143,6 +1258,8 @@
 }
 - (void)showStateInfoView
 {
+    self.walkMenuTableView.hidden = YES;
+    
     DefineWeakSelf;
     [UIView animateWithDuration:0.25 animations:^{
         [weakSelf.stateInfoView setFrame:CGRectMake(0, SCREEN_HEIGHT - PAaptation_y(351), SCREEN_WIDTH, PAaptation_y(351))];
@@ -1150,6 +1267,7 @@
 }
 - (void)hideStateInfoView
 {
+    self.walkMenuTableView.hidden = NO;
     DefineWeakSelf;
     [UIView animateWithDuration:0.25 animations:^{
         [weakSelf.stateInfoView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, PAaptation_y(351))];
@@ -1191,7 +1309,7 @@
         _locationManager.delegate = self;
         [_locationManager requestWhenInUseAuthorization];
         _locationManager.desiredAccuracy = kCLLocationAccuracyBest;//设置定位精度
-        _locationManager.distanceFilter = 20;//设置定位频率，每隔多少米定位一次
+        _locationManager.distanceFilter = 100;//设置定位频率，每隔多少米定位一次
         _locationManager.pausesLocationUpdatesAutomatically = NO;
         _locationManager.allowsBackgroundLocationUpdates = YES;
     }
@@ -1227,4 +1345,11 @@
     }
     return _settingVC;
 }
+//- (HWalkDownTimeView *)downTimeView
+//{
+//    if (!_downTimeView) {
+//        _downTimeView = [[HWalkDownTimeView alloc] init];
+//    }
+//    return _downTimeView;
+//}
 @end

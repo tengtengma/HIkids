@@ -20,6 +20,9 @@
             model.deviceInfo = [HStudentDeviceInfo mj_objectWithKeyValues:[exceptDic safeObjectForKey:@"data"]];
             model.sId = [exceptDic safeObjectForKey:@"id"];
             [exceptionKids addObject:model];
+            
+            NSLog(@"data  %@",[exceptDic safeObjectForKey:@"data"]);
+
         }
         
         NSMutableArray *nomalKids = [[NSMutableArray alloc] init];
@@ -32,6 +35,9 @@
 
         self.normalKids = nomalKids;
         self.exceptionKids = exceptionKids;
+        self.isSafe = [[dic safeObjectForKey:@"isSafe"] boolValue];
+        self.kinFence = [dic safeObjectForKey:@"kinFence"];
+        self.desFence = [dic safeObjectForKey:@"desFence"];
 
     }
     return self;

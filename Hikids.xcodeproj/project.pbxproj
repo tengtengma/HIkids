@@ -93,6 +93,8 @@
 		9E4C5F42295EC5D300E59C00 /* HWalkMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4C5F41295EC5D300E59C00 /* HWalkMenuView.m */; };
 		9E51FDD329640D8900EEC6EC /* HSleepMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E51FDD229640D8900EEC6EC /* HSleepMainView.m */; };
 		9E623F96299DE93C00091EBC /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E623F94299DE93B00091EBC /* UIView+Frame.m */; };
+		9E64D3642A2895C80063F07D /* btn_menu_only_walk@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E64D3622A2895C80063F07D /* btn_menu_only_walk@3x.png */; };
+		9E64D3652A2895C80063F07D /* btn_menu_only_walk@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E64D3632A2895C80063F07D /* btn_menu_only_walk@2x.png */; };
 		9E6832442972408600194199 /* BWGetTaskCalendarReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E6832432972408600194199 /* BWGetTaskCalendarReq.m */; };
 		9E6832472972409500194199 /* BWGetTaskCalendarResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E6832462972409500194199 /* BWGetTaskCalendarResp.m */; };
 		9E68324B297285A900194199 /* HReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E68324A297285A800194199 /* HReport.m */; };
@@ -110,6 +112,7 @@
 		9E683266297595C500194199 /* attention@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E683263297595C500194199 /* attention@2x.png */; };
 		9E8344B828C7912C00AB9D83 /* BWCheckTokenReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */; };
 		9E8344BB28C7913E00AB9D83 /* BWCheckTokenResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344BA28C7913E00AB9D83 /* BWCheckTokenResp.m */; };
+		9E8892BF2A29EFE800B65F99 /* HWalkDownTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8892BE2A29EFE800B65F99 /* HWalkDownTimeView.m */; };
 		9E8BDE7C296E87E30001C428 /* FFDropDownMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8BDE70296E87E30001C428 /* FFDropDownMenuCell.m */; };
 		9E8BDE7D296E87E30001C428 /* FFDropDownMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8BDE71296E87E30001C428 /* FFDropDownMenuView.m */; };
 		9E8BDE7E296E87E30001C428 /* FFDropDownMenuBasedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8BDE75296E87E30001C428 /* FFDropDownMenuBasedCell.m */; };
@@ -416,6 +419,8 @@
 		9E51FDD229640D8900EEC6EC /* HSleepMainView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HSleepMainView.m; sourceTree = "<group>"; };
 		9E623F92299DE93B00091EBC /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
 		9E623F94299DE93B00091EBC /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
+		9E64D3622A2895C80063F07D /* btn_menu_only_walk@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_menu_only_walk@3x.png"; sourceTree = "<group>"; };
+		9E64D3632A2895C80063F07D /* btn_menu_only_walk@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_menu_only_walk@2x.png"; sourceTree = "<group>"; };
 		9E6832422972408600194199 /* BWGetTaskCalendarReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWGetTaskCalendarReq.h; sourceTree = "<group>"; };
 		9E6832432972408600194199 /* BWGetTaskCalendarReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWGetTaskCalendarReq.m; sourceTree = "<group>"; };
 		9E6832452972409500194199 /* BWGetTaskCalendarResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWGetTaskCalendarResp.h; sourceTree = "<group>"; };
@@ -441,6 +446,8 @@
 		9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWCheckTokenReq.m; sourceTree = "<group>"; };
 		9E8344B928C7913E00AB9D83 /* BWCheckTokenResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWCheckTokenResp.h; sourceTree = "<group>"; };
 		9E8344BA28C7913E00AB9D83 /* BWCheckTokenResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWCheckTokenResp.m; sourceTree = "<group>"; };
+		9E8892BD2A29EFE800B65F99 /* HWalkDownTimeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWalkDownTimeView.h; sourceTree = "<group>"; };
+		9E8892BE2A29EFE800B65F99 /* HWalkDownTimeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWalkDownTimeView.m; sourceTree = "<group>"; };
 		9E8BDE6F296E87E30001C428 /* FFDropDownMenuBasedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFDropDownMenuBasedCell.h; sourceTree = "<group>"; };
 		9E8BDE70296E87E30001C428 /* FFDropDownMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFDropDownMenuCell.m; sourceTree = "<group>"; };
 		9E8BDE71296E87E30001C428 /* FFDropDownMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFDropDownMenuView.m; sourceTree = "<group>"; };
@@ -873,6 +880,8 @@
 				9E1F21B628E1805700C5041B /* btn_menu_sleep@3x.png */,
 				9E1F21B828E1805700C5041B /* btn_menu_walk@2x.png */,
 				9E1F21B728E1805700C5041B /* btn_menu_walk@3x.png */,
+				9E64D3632A2895C80063F07D /* btn_menu_only_walk@2x.png */,
+				9E64D3622A2895C80063F07D /* btn_menu_only_walk@3x.png */,
 				9EDF525C2903DE0B0066BFDC /* expand@2x.png */,
 				9EDF52592903DE0B0066BFDC /* expand@3x.png */,
 				9EDF52962904332C0066BFDC /* Ellipse@2x.png */,
@@ -943,6 +952,8 @@
 				9E4C5F41295EC5D300E59C00 /* HWalkMenuView.m */,
 				9E29CC32296456D4009DF7FD /* HSleepMenuView.h */,
 				9E29CC33296456D4009DF7FD /* HSleepMenuView.m */,
+				9E8892BD2A29EFE800B65F99 /* HWalkDownTimeView.h */,
+				9E8892BE2A29EFE800B65F99 /* HWalkDownTimeView.m */,
 				9E51FDCE29640B8100EEC6EC /* SmallCardView */,
 			);
 			path = Views;
@@ -1504,6 +1515,7 @@
 				9E0B547828B21E660026CD86 /* LaunchScreen.storyboard in Resources */,
 				9EF21B3928D985050075CFF0 /* icon_checked@2x.png in Resources */,
 				9EDF52712903DE0C0066BFDC /* clock@2x.png in Resources */,
+				9E64D3652A2895C80063F07D /* btn_menu_only_walk@2x.png in Resources */,
 				9EDF527E290404000066BFDC /* dangerNav@2x.png in Resources */,
 				9E27EBE5299F29710053BB43 /* dest0.jpeg in Resources */,
 				9E68326029758D5300194199 /* sleep_wx@3x.png in Resources */,
@@ -1538,6 +1550,7 @@
 				9EB41171296BBB9E00CFA8FE /* btn_napStart@3x.png in Resources */,
 				9E17D1B528ED563F005FA5A9 /* backBtn@2x.png in Resources */,
 				9E68325B29758BF900194199 /* sleep_danger_status@2x.png in Resources */,
+				9E64D3642A2895C80063F07D /* btn_menu_only_walk@3x.png in Resources */,
 				9E17D1BD28ED68B5005FA5A9 /* default_mdd@3x.png in Resources */,
 				9E17D19A28EABD96005FA5A9 /* safe@3x.png in Resources */,
 				9EF21B2B28D985050075CFF0 /* btn_login_unavailable@3x.png in Resources */,
@@ -1814,6 +1827,7 @@
 				9EDF5242290029C20066BFDC /* BWChangeTaskStateReq.m in Sources */,
 				9E683254297394A500194199 /* BWGetPDFResp.m in Sources */,
 				9E51FDD329640D8900EEC6EC /* HSleepMainView.m in Sources */,
+				9E8892BF2A29EFE800B65F99 /* HWalkDownTimeView.m in Sources */,
 				9E25EB43295D7F0400FDAF78 /* HStudentStateTopView.m in Sources */,
 				9E2DF80A28B2219300B0C9DA /* BaseVC.m in Sources */,
 				9E8344BB28C7913E00AB9D83 /* BWCheckTokenResp.m in Sources */,

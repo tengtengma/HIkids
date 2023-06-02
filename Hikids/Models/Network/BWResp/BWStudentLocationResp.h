@@ -12,6 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface BWStudentLocationResp : BWBaseResp
 @property (nonatomic, strong) NSArray *exceptionKids;
 @property (nonatomic, strong) NSArray *normalKids;
+@property (nonatomic, assign) BOOL isSafe;
+@property (nonatomic, copy) NSString *kinFence;     //园区围栏信息
+@property (nonatomic, copy) NSString *desFence;     //目的地围栏信息
+
 
 - (id)initWithJSONDictionary:(NSDictionary *)jsonDic;
 

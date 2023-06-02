@@ -10,7 +10,7 @@
 #define HttpsUrls_h
 
 //#define BaseURL                     @"https://open.ebeiwai.com/zhiketang"                         //正式服务器
-#define BaseURL                      @"http://api.hikids.blog:8089"                    //服务器生产环境
+#define BaseURL                      @"http://www.hikids.blog"                    //服务器生产环境
 //#define BaseURL                     @"http://75uezb.natappfree.cc"                //本地生产环境
 
 
@@ -21,7 +21,7 @@
 #define GetDestinationsURL         @"/v1/business/kindergarten/destinations"            //获取目的地列表
 #define GetStudentsURL             @"/v1/business/kids/getAllKids"                      //获取班级孩子列表
 #define GetAssistantURL            @"/v1/business/assistant/getall"                     //获取助教列表
-#define DestinationInfoURL         @"/v1/business/destination/getById"                  //目的地信息
+#define DestinationInfoURL         @"/v1/business/destination"                  //目的地信息
 #define StudentsLocationURL        @"/v1/business/hikidsTask/uploadLocation"            //查看学生状态
 #define TaskAddURL                 @"/v1/business/hikidsTask/taskAdd"                   //创建任务
 #define GetTaskURL                 @"/v1/business/hikidsTask/getNowTask"                //获取当前任务信息
@@ -31,6 +31,7 @@
 #define GetTaskWithCalendarURL     @"/v1/business/hikidsTask/getTasks"                  //根据时间获取周报告
 #define GetMonthCalendarURL        @"/v1/business/hikidsTask/getMonthTasks"             //根据获取一个月的报告
 #define GetPDFURL                  @"/v1/business/hikidsTask/getSleepReport"            //获取pdf地址
+#define GetKidInfoURL              @"/v1/business/kids"                                 //获取小孩详情
 #endif /* HttpsUrls_h */
 
 

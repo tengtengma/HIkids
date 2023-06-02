@@ -18,7 +18,8 @@
 
 //字典转换成json
 + (NSString *)DictionaryToJson:(NSDictionary *) dictionary;
-
+//json转字符串
++ (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
 //根据字体，限定的宽度，计算一个字符串的高度
 + (CGSize) SizeWithString:(NSString*) string withFont:(UIFont*) font withWidth:(CGFloat) width;
 + (CGSize)SizeWithString:(NSString *)string withFont:(UIFont *)font;

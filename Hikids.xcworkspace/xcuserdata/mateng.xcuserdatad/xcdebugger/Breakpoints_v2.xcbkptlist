@@ -99,16 +99,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5A43579B-4261-4771-87D2-A46F65FF8251"
-            shouldBeEnabled = "Yes"
+            uuid = "C386CACF-61CD-4EB5-ABF8-96974DE1E45C"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Hikids/Models/Network/BWNetManager.m"
+            filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "251"
-            endingLineNumber = "251"
-            landmarkName = "-failedWithRequest:error:withBlock:"
+            startingLineNumber = "1254"
+            endingLineNumber = "1254"
+            landmarkName = "-mapView:didTapMarker:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
