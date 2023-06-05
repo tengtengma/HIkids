@@ -113,6 +113,8 @@
 		9E8344B828C7912C00AB9D83 /* BWCheckTokenReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */; };
 		9E8344BB28C7913E00AB9D83 /* BWCheckTokenResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344BA28C7913E00AB9D83 /* BWCheckTokenResp.m */; };
 		9E8892BF2A29EFE800B65F99 /* HWalkDownTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8892BE2A29EFE800B65F99 /* HWalkDownTimeView.m */; };
+		9E8892C12A2E1A1C00B65F99 /* home.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 9E8892C02A2E1A1C00B65F99 /* home.gpx */; };
+		9E8892C32A2E29C100B65F99 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E8892C22A2E29C100B65F99 /* MapKit.framework */; };
 		9E8BDE7C296E87E30001C428 /* FFDropDownMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8BDE70296E87E30001C428 /* FFDropDownMenuCell.m */; };
 		9E8BDE7D296E87E30001C428 /* FFDropDownMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8BDE71296E87E30001C428 /* FFDropDownMenuView.m */; };
 		9E8BDE7E296E87E30001C428 /* FFDropDownMenuBasedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8BDE75296E87E30001C428 /* FFDropDownMenuBasedCell.m */; };
@@ -448,6 +450,8 @@
 		9E8344BA28C7913E00AB9D83 /* BWCheckTokenResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWCheckTokenResp.m; sourceTree = "<group>"; };
 		9E8892BD2A29EFE800B65F99 /* HWalkDownTimeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWalkDownTimeView.h; sourceTree = "<group>"; };
 		9E8892BE2A29EFE800B65F99 /* HWalkDownTimeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWalkDownTimeView.m; sourceTree = "<group>"; };
+		9E8892C02A2E1A1C00B65F99 /* home.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = home.gpx; sourceTree = "<group>"; };
+		9E8892C22A2E29C100B65F99 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		9E8BDE6F296E87E30001C428 /* FFDropDownMenuBasedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFDropDownMenuBasedCell.h; sourceTree = "<group>"; };
 		9E8BDE70296E87E30001C428 /* FFDropDownMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFDropDownMenuCell.m; sourceTree = "<group>"; };
 		9E8BDE71296E87E30001C428 /* FFDropDownMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFDropDownMenuView.m; sourceTree = "<group>"; };
@@ -659,6 +663,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E8892C32A2E29C100B65F99 /* MapKit.framework in Frameworks */,
 				43BDE8DD30B2D7A394F8B296 /* Pods_Hikids.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -669,6 +674,7 @@
 		2DECEAE8BE91461748D10A27 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9E8892C22A2E29C100B65F99 /* MapKit.framework */,
 				F8788F8B651400FC4EC71577 /* Pods_Hikids.framework */,
 			);
 			name = Frameworks;
@@ -974,6 +980,7 @@
 				9E42E69228D86F1500F0D7EA /* ThirdLib */,
 				9E2DF83728B2301F00B0C9DA /* UI */,
 				9E2DF80E28B2225500B0C9DA /* Utils */,
+				9E8892C02A2E1A1C00B65F99 /* home.gpx */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -1587,6 +1594,7 @@
 				9EF21B3028D985050075CFF0 /* logo@3x.png in Resources */,
 				9E0B547328B21E620026CD86 /* Main.storyboard in Resources */,
 				9E1F21D328E2D1E900C5041B /* triangle_small@2x.png in Resources */,
+				9E8892C12A2E1A1C00B65F99 /* home.gpx in Resources */,
 				9EF21B3628D985050075CFF0 /* btn_login_available@3x.png in Resources */,
 				9EDF526A2903DE0C0066BFDC /* expand@2x.png in Resources */,
 				9EB411A7296BD9A000CFA8FE /* back-data@2x.png in Resources */,

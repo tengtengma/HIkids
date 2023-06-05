@@ -126,8 +126,6 @@
     //创建导航
     [self createNavigationView];
     
-
-
     //设置导航栏信息
     [self.customNavigationView defautInfomation];
 
@@ -138,8 +136,6 @@
     //设置小朋友详情页
     [self setupStudentInfoView];
 
-    //加载假数据小朋友的
-//    [self reloadData];
     
     //开启定位
     [self startLocation];
@@ -587,6 +583,9 @@
     
 //    [self startLocation]; //开启定位
     
+//    //    加载假数据小朋友的
+//        [self reloadData];
+    
 }
 //开启散步模式
 - (void)startWalkMode
@@ -802,7 +801,6 @@
                 }
                 [weakSelf drawFenceWith:weakSelf.destFence];
 
-
             }
             if ([weakSelf.currentTask.status isEqualToString:@"4"]) {
 
@@ -984,20 +982,22 @@
 //{
 //    //    //测试用
 //        NSMutableArray *except = [[NSMutableArray alloc] init];
-//        for (NSInteger i = 0; i<10; i++) {
+//        for (NSInteger i = 0; i<1; i++) {
 //            HStudent *student = [[HStudent alloc] init];
 //            student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
 //            student.sId = [NSString stringWithFormat:@"%ld",100+i];
 //            student.name = @"asdfsa";
 //            student.exceptionTime = @"123";
 //            student.distance = @"200";
+//            student.deviceInfo.latitude = @"39.871893697139896";
+//            student.deviceInfo.longitude = @"116.28354814224828";
 //            [except addObject:student];
 //        }
 //
-//        self.exceptArray = except;
+////        self.exceptArray = except;
 //    //
 //        NSMutableArray *nomal = [[NSMutableArray alloc] init];
-//        for (NSInteger i = 0; i<12; i++) {
+//        for (NSInteger i = 0; i<1; i++) {
 //            HStudent *student = [[HStudent alloc] init];
 //            student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
 //            student.sId = [NSString stringWithFormat:@"%ld",300+i];
@@ -1005,13 +1005,15 @@
 //            [nomal addObject:student];
 //        }
 //
-//        self.nomalArray = nomal;
+////        self.nomalArray = nomal;
 //
 //
-//    self.homeMenuTableView.safeList = self.nomalArray;
-//    self.homeMenuTableView.exceptList = self.exceptArray;
-//    [self.homeMenuTableView reloadData];
+//    self.homeMenuTableView.safeList = nomal;
+//    self.homeMenuTableView.exceptList = except;
+//    [self.homeMenuTableView.tableView reloadData];
 //
+//
+//    [self addMarkersWithNomalList:nomal andExceptList:except];
 //
 //}
 
@@ -1218,32 +1220,10 @@
         [self.locationManager startUpdatingLocation]; //重新获取
         
     }
-
-//        [self getPlace:_coordinate2D];
-//    }
-    
 }
 
 
-//-(void)getPlace:(CLLocationCoordinate2D)coordinate2D{
-//
-//    [[GMSGeocoder geocoder] reverseGeocodeCoordinate:CLLocationCoordinate2DMake(coordinate2D.latitude, coordinate2D.longitude) completionHandler:^(GMSReverseGeocodeResponse * _Nullable response, NSError * _Nullable error) {
-//        if(!error){
-//            GMSAddress* addressObj = response.firstResult;
-//            NSLog(@"coordinate.latitude=%f", addressObj.coordinate.latitude);
-//            NSLog(@"coordinate.longitude=%f", addressObj.coordinate.longitude);
-//            NSLog(@"thoroughfare=%@", addressObj.thoroughfare);
-//            NSLog(@"locality=%@", addressObj.locality);
-//            NSLog(@"subLocality=%@", addressObj.subLocality);
-//            NSLog(@"administrativeArea=%@", addressObj.administrativeArea);
-//            NSLog(@"postalCode=%@", addressObj.postalCode);
-//            NSLog(@"country=%@", addressObj.country);
-//            NSLog(@"lines=%@", addressObj.lines);
-//        }else{
-//            NSLog(@"地理反编码错误");
-//        }
-//    }];
-//}
+
 
 -(BOOL)mapView:(GMSMapView *) mapView didTapMarker:(GMSMarker *)marker
 {
@@ -1297,7 +1277,7 @@
 {
     if (!_stateInfoView) {
         _stateInfoView = [[HStudentStateInfoView alloc] init];
-        _stateInfoView.backgroundColor = [UIColor whiteColor];
+        _stateInfoView.backgroundColor = [UIColor clearColor];
         
     }
     return _stateInfoView;
