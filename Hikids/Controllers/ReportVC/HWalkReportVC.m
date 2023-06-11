@@ -11,6 +11,10 @@
 #import "HStudentFooterView.h"
 #import "HTask.h"
 
+#import "BWGetWalkReportReq.h"
+#import "BWGetWalkReportResp.h"
+#import "HWalkReport.h"
+
 @interface HWalkReportVC ()<UIScrollViewDelegate>
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIImageView *topView;
@@ -32,15 +36,13 @@
 @property (nonatomic, strong) UILabel *studentDesLabel;
 @property (nonatomic, strong) UILabel *studentNumLabel;
 @property (nonatomic, strong) UILabel *dangerLabel;
-
 @property (nonatomic, strong) NSArray *teacherList;
 @property (nonatomic, strong) NSArray *studentList;
 @property (nonatomic, strong) NSArray *dangerList;
-
 @property (nonatomic, strong) UIButton *printBtn;
-
 @property (nonatomic, strong) UIImageView *imageBgView;
 @property (nonatomic, strong) UIImageView *rightImageView;
+@property (nonatomic, strong) HWalkReport *walkReport;
 
 @end
 
@@ -58,8 +60,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self createUI];
+    [self startRequest];
     
+}
+- (void)startRequest
+{
+    DefineWeakSelf;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    BWGetWalkReportReq *req = [[BWGetWalkReportReq alloc] init];
+    req.taskId = self.taskId;
+    [NetManger getRequest:req withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        BWGetWalkReportResp *walkResp = (BWGetWalkReportResp *)resp;
+        weakSelf.walkReport = [walkResp.itemList safeObjectAtIndex:0];
+        [weakSelf createUI];
+
+        
+    } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+    }];
 }
 - (void)createUI
 {
@@ -119,7 +139,7 @@
             make.left.equalTo(self.view).offset(PAdaptation_x(25));
         }];
         
-        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(480) + PAaptation_y(78)*3);
+        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(480) + PAaptation_y(78)*self.walkReport.unnormalList.count);
 
         
     }else{
@@ -128,13 +148,15 @@
             make.top.equalTo(self.scrollView);
             make.left.equalTo(self.scrollView).offset(PAdaptation_x(25));
         }];
-        
+        NSArray *dateList = [self.walkReport.dateTime componentsSeparatedByString:@"-"];
+        self.yearLabel.text = [NSString stringWithFormat:@"%@年%@月%@日",dateList[0],dateList[1],dateList[2]];
         [self.scrollView addSubview:self.yearLabel];
         [self.yearLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.timeDesLabel.mas_bottom).offset(PAaptation_y(6));
             make.left.equalTo(self.timeDesLabel);
         }];
         
+        self.timeLabel.text = [NSString stringWithFormat:@"%@~%@",self.walkReport.startTime,self.walkReport.endTime];
         [self.scrollView addSubview:self.timeLabel];
         [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.yearLabel.mas_bottom);
@@ -156,10 +178,11 @@
         }];
         
         
-        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(180) + PAaptation_y(78)*3);
+        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(180) + PAaptation_y(78)*self.walkReport.unnormalList.count);
 
     }
 
+    self.destLabel.text = self.walkReport.address;
     [self.scrollView addSubview:self.destLabel];
     [self.destLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.destDesLabel.mas_bottom).offset(PAaptation_y(6));
@@ -167,6 +190,7 @@
         make.width.mas_equalTo(PAdaptation_x(112));
     }];
     
+    self.distanceLabel.text = [NSString stringWithFormat:@"%@m",self.walkReport.distance];
     [self.scrollView addSubview:self.distanceLabel];
     [self.distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.destLabel.mas_bottom).offset(PAaptation_y(2));
@@ -187,6 +211,7 @@
         make.left.equalTo(self.destDesLabel);
     }];
     
+    self.groupLabel.text = self.walkReport.className;
     [self.scrollView addSubview:self.groupLabel];
     [self.groupLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.groupDesLabel.mas_bottom);
@@ -205,18 +230,24 @@
         make.left.equalTo(self.teacherDesLabel);
     }];
     
+    self.teacherNumLabel.text = [NSString stringWithFormat:@"%@人",self.walkReport.teacherCount];
     [self.scrollView addSubview:self.teacherNumLabel];
     [self.teacherNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.genderLabel.mas_bottom);
         make.left.equalTo(self.genderLabel.mas_right).offset(PAdaptation_x(10));
     }];
     
+    NSArray *teacherList = self.walkReport.teachersList;
+    
     UILabel *tempTeacherNameLabel;
-    for (NSInteger i = 0; i < 2; i++) {
+    for (NSInteger i = 0; i < teacherList.count; i++) {
+        
+        NSDictionary *dic = [teacherList safeObjectAtIndex:i];
+        
         UILabel *teacherNameLabel = [[UILabel alloc] init];
         teacherNameLabel.font = [UIFont boldSystemFontOfSize:20];
         teacherNameLabel.textColor = BWColor(0, 28, 41, 1);
-        teacherNameLabel.text = @"小林健一";
+        teacherNameLabel.text = [dic safeObjectForKey:@"name"];
         [self.scrollView addSubview:teacherNameLabel];
         
         [teacherNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -253,14 +284,19 @@
         make.left.equalTo(self.view).offset(PAdaptation_x(195));
     }];
     
+    self.studentNumLabel.text = [NSString stringWithFormat:@"%ld人",(long)self.walkReport.studentCount];
     [self.scrollView addSubview:self.studentNumLabel];
     [self.studentNumLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.studentDesLabel.mas_bottom);
         make.left.equalTo(self.studentDesLabel.mas_right).offset(PAdaptation_x(10));
     }];
     
+    NSArray *studentList = self.walkReport.studentList;
+    
     UIView *tempStudentHeaderView;
-    for (NSInteger i = 0; i < 6; i++) {
+    for (NSInteger i = 0; i < studentList.count; i++) {
+        
+        NSDictionary *studentDic = [studentList safeObjectAtIndex:i];
         
         UIImageView *headerImageView = [[UIImageView alloc] init];
         headerImageView = [[UIImageView alloc] init];
@@ -268,7 +304,7 @@
         headerImageView.layer.borderColor = BWColor(108, 159, 155, 1).CGColor;
         headerImageView.layer.cornerRadius = PAaptation_y(40)/2;
         headerImageView.layer.masksToBounds = YES;
-        [headerImageView sd_setImageWithURL:[NSURL URLWithString:@"https://yunpengmall.oss-cn-beijing.aliyuncs.com/1560875015170428928/material/19181666430944_.pic.jpg"]];
+        [headerImageView sd_setImageWithURL:[NSURL URLWithString:[studentDic safeObjectForKey:@"avatar"]]];
         [self.scrollView addSubview:headerImageView];
         
         [headerImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -285,7 +321,7 @@
         UILabel *studentNameLabel = [[UILabel alloc] init];
         studentNameLabel.font = [UIFont systemFontOfSize:20];
         studentNameLabel.textColor = BWColor(0, 28, 41, 1);
-        studentNameLabel.text = @"山上ハルコ";
+        studentNameLabel.text = [studentDic safeObjectForKey:@"name"];
         [self.scrollView addSubview:studentNameLabel];
         
         [studentNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -297,68 +333,75 @@
         
     }
     
-    [self.scrollView addSubview:self.dangerLabel];
-    [self.dangerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(tempStudentHeaderView.mas_bottom).offset(PAaptation_y(26));
-        make.left.equalTo(self.teacherDesLabel);
-    }];
-    
-    
-    HStudentStateTopView *dangerTopView = [[HStudentStateTopView alloc] init];
-    dangerTopView.type = TYPE_WALK;
-    dangerTopView.studentList = @[];
-    dangerTopView.expandBtn.hidden = YES;
-    dangerTopView.dangerTimeLabel.hidden = NO;
-    [dangerTopView loadDangerStyle];
-    [self.scrollView addSubview:dangerTopView];
-    
-    [dangerTopView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.dangerLabel.mas_bottom);
-        make.left.equalTo(self.dangerLabel);
-        make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(24));
-        make.height.mas_equalTo(PAaptation_y(47));
-    }];
-    
-    UIView *tempFootView = nil;
-    for (NSInteger i = 0; i < 3; i++) {
-        HStudent *student = [[HStudent alloc] init];
-        student.name = @"adfasdf";
-        student.exceptionTime = @"123";
-        student.avatar = @"https://yunpengmall.oss-cn-beijing.aliyuncs.com/1560875015170428928/material/19181666430944_.pic.jpg";
+    if (self.walkReport.unnormalList.count != 0) {
         
-        HStudentFooterView *footerView = [[HStudentFooterView alloc] init];
-        footerView.type = FootTYPE_WALK;
-        [footerView setupWithModel:student];
-        [footerView loadDangerStyle];
-        if (i == 2) {
-            [footerView setLastCellBorder];
-        }else{
-            [footerView setNomalBorder];
-        }
-        [self.scrollView addSubview:footerView];
-        
-        [footerView mas_makeConstraints:^(MASConstraintMaker *make) {
-            if (i == 0) {
-                make.top.equalTo(dangerTopView.mas_bottom);
-                make.left.equalTo(dangerTopView);
-                make.right.equalTo(dangerTopView.mas_right);
-                make.height.mas_equalTo(PAaptation_y(78));
-            }else{
-                make.top.equalTo(tempFootView.mas_bottom);
-                make.left.equalTo(dangerTopView);
-                make.right.equalTo(dangerTopView.mas_right);
-                make.height.mas_equalTo(PAaptation_y(78));
-            }
-
+        [self.scrollView addSubview:self.dangerLabel];
+        [self.dangerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(tempStudentHeaderView.mas_bottom).offset(PAaptation_y(26));
+            make.left.equalTo(self.teacherDesLabel);
         }];
         
-        tempFootView = footerView;
-    }
-    
+        
+        HStudentStateTopView *dangerTopView = [[HStudentStateTopView alloc] init];
+        dangerTopView.type = TYPE_WALK;
+        dangerTopView.studentList = @[];
+        dangerTopView.expandBtn.hidden = YES;
+        dangerTopView.dangerTimeLabel.hidden = NO;
+        [dangerTopView loadDangerStyle];
+        [self.scrollView addSubview:dangerTopView];
+        
+        [dangerTopView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.dangerLabel.mas_bottom);
+            make.left.equalTo(self.dangerLabel);
+            make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(24));
+            make.height.mas_equalTo(PAaptation_y(47));
+        }];
 
+        UIView *tempFootView = nil;
+        for (NSInteger i = 0; i < 3; i++) {
+            HStudent *student = [[HStudent alloc] init];
+            student.name = @"adfasdf";
+            student.exceptionTime = @"123";
+            student.avatar = @"https://yunpengmall.oss-cn-beijing.aliyuncs.com/1560875015170428928/material/19181666430944_.pic.jpg";
+            
+            HStudentFooterView *footerView = [[HStudentFooterView alloc] init];
+            footerView.type = FootTYPE_WALK;
+            [footerView setupWithModel:student];
+            [footerView loadDangerStyle];
+            if (i == 2) {
+                [footerView setLastCellBorder];
+            }else{
+                [footerView setNomalBorder];
+            }
+            [self.scrollView addSubview:footerView];
+            
+            [footerView mas_makeConstraints:^(MASConstraintMaker *make) {
+                if (i == 0) {
+                    make.top.equalTo(dangerTopView.mas_bottom);
+                    make.left.equalTo(dangerTopView);
+                    make.right.equalTo(dangerTopView.mas_right);
+                    make.height.mas_equalTo(PAaptation_y(78));
+                }else{
+                    make.top.equalTo(tempFootView.mas_bottom);
+                    make.left.equalTo(dangerTopView);
+                    make.right.equalTo(dangerTopView.mas_right);
+                    make.height.mas_equalTo(PAaptation_y(78));
+                }
+
+            }];
+            
+            tempFootView = footerView;
+        }
+    }
+   
 }
 - (void)createDateView
 {
+    if (self.walkReport.unnormalList.count == 0) {
+        [self.imageBgView setImage:[UIImage imageNamed:@"greenBg.png"]];
+    }else{
+        [self.imageBgView setImage:[UIImage imageNamed:@"yellowBg.png"]];
+    }
     [self.scrollView addSubview:self.imageBgView];
     [self.imageBgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.scrollView);
@@ -367,8 +410,10 @@
         make.height.mas_equalTo(PAaptation_y(350));
     }];
     
+    NSArray *dateList = [self.walkReport.dateTime componentsSeparatedByString:@"-"];
+    
     UILabel *yearLabel = [[UILabel alloc] init];
-    yearLabel.text = [BWTools getNowTimeStringWithFormate:@"YYYY年M月d日"];
+    yearLabel.text = [NSString stringWithFormat:@"%@年%@月%@日",dateList[0],dateList[1],dateList[2]];
     yearLabel.textColor = [UIColor whiteColor];
     yearLabel.font = [UIFont systemFontOfSize:20];
     [self.imageBgView addSubview:yearLabel];
@@ -379,7 +424,7 @@
     }];
     
     UILabel *dateLabel = [[UILabel alloc] init];
-    dateLabel.text = @"14:33~15:26";
+    dateLabel.text = [NSString stringWithFormat:@"%@~%@",self.walkReport.startTime,self.walkReport.endTime];
     dateLabel.textColor = [UIColor whiteColor];
     dateLabel.font = [UIFont boldSystemFontOfSize:32];
     [self.imageBgView addSubview:dateLabel];
@@ -409,7 +454,7 @@
     }];
     
     UILabel *locationDesLabel = [[UILabel alloc] init];
-    locationDesLabel.text = @"Hikidsで守りました。";
+    locationDesLabel.text = self.walkReport.address;
     locationDesLabel.textColor = [UIColor whiteColor];
     locationDesLabel.font = [UIFont boldSystemFontOfSize:20];
     locationDesLabel.textAlignment = NSTextAlignmentCenter;
@@ -433,7 +478,7 @@
     }];
     
     UILabel *mddDesLabel = [[UILabel alloc] init];
-    mddDesLabel.text = @"玉の井公園";
+    mddDesLabel.text = self.walkReport.address;
     mddDesLabel.textColor = [UIColor whiteColor];
     mddDesLabel.font = [UIFont systemFontOfSize:16];
     mddDesLabel.textAlignment = NSTextAlignmentCenter;
@@ -456,7 +501,7 @@
     }];
     
     UILabel *teacherLabel = [[UILabel alloc] init];
-    teacherLabel.text = @"2人";
+    teacherLabel.text = [NSString stringWithFormat:@"%@人",self.walkReport.teacherCount];
     teacherLabel.textColor = [UIColor whiteColor];
     teacherLabel.font = [UIFont systemFontOfSize:32];
     [self.imageBgView addSubview:teacherLabel];
@@ -478,7 +523,7 @@
     }];
     
     UILabel *studentLabel = [[UILabel alloc] init];
-    studentLabel.text = @"2人";
+    studentLabel.text = [NSString stringWithFormat:@"%ld人",(long)self.walkReport.studentCount];
     studentLabel.textColor = [UIColor whiteColor];
     studentLabel.font = [UIFont systemFontOfSize:32];
     [self.imageBgView addSubview:studentLabel];
@@ -500,7 +545,7 @@
     }];
     
     UILabel *alertLabel = [[UILabel alloc] init];
-    alertLabel.text = @"2回";
+    alertLabel.text = [NSString stringWithFormat:@"%@回",self.walkReport.travelCount];
     alertLabel.textColor = [UIColor whiteColor];
     alertLabel.font = [UIFont systemFontOfSize:32];
     [self.imageBgView addSubview:alertLabel];
@@ -584,7 +629,6 @@
     if (!_yearLabel) {
         _yearLabel = [[UILabel alloc] init];
         _yearLabel.font = [UIFont boldSystemFontOfSize:20.0];
-        _yearLabel.text = @"2022年7月21日";
         
 //        NSString *year = [dateArray safeObjectAtIndex:0];
 //        NSArray *tempArray = [year componentsSeparatedByString:@"-"];
@@ -600,7 +644,6 @@
     if (!_timeLabel) {
         _timeLabel = [[UILabel alloc] init];
         _timeLabel.font = [UIFont boldSystemFontOfSize:32.0];
-        _timeLabel.text = @"11:09~12:26";
     }
     return _timeLabel;
 }
@@ -619,7 +662,6 @@
     if (!_destLabel) {
         _destLabel = [[UILabel alloc] init];
         _destLabel.font = [UIFont boldSystemFontOfSize:16.0];
-        _destLabel.text = @"堅磐信誠幼稚園玉の井町６丁目玉のい公園";
         _destLabel.lineBreakMode = NSLineBreakByWordWrapping;
         _destLabel.numberOfLines = 0;
     }
@@ -631,7 +673,6 @@
         _distanceLabel = [[UILabel alloc] init];
         _distanceLabel.textColor = BWColor(0, 176, 107, 1);
         _distanceLabel.font = [UIFont boldSystemFontOfSize:32.0];
-        _distanceLabel.text = @"300m";
     }
     return _distanceLabel;
 }
@@ -661,7 +702,6 @@
     if (!_groupLabel) {
         _groupLabel = [[UILabel alloc] init];
         _groupLabel.font = [UIFont boldSystemFontOfSize:32.0];
-        _groupLabel.text = @"ひまわり組";
     }
     return _groupLabel;
 }
@@ -690,7 +730,6 @@
     if (!_teacherNumLabel) {
         _teacherNumLabel = [[UILabel alloc] init];
         _teacherNumLabel.font = [UIFont boldSystemFontOfSize:32.0];
-        _teacherNumLabel.text = @"2人";
         _teacherNumLabel.textColor = BWColor(108, 159, 155, 1);
 
     }
@@ -711,7 +750,6 @@
     if (!_studentNumLabel) {
         _studentNumLabel = [[UILabel alloc] init];
         _studentNumLabel.font = [UIFont boldSystemFontOfSize:32.0];
-        _studentNumLabel.text = @"6人";
         _studentNumLabel.textColor = BWColor(108, 159, 155, 1);
 
     }
@@ -739,7 +777,6 @@
 {
     if (!_imageBgView) {
         _imageBgView = [[UIImageView alloc] init];
-        [_imageBgView setImage:[UIImage imageNamed:@"greenBg.png"]];
     }
     return _imageBgView;
 }

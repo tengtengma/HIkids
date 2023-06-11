@@ -115,6 +115,17 @@
 		9E8892BF2A29EFE800B65F99 /* HWalkDownTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8892BE2A29EFE800B65F99 /* HWalkDownTimeView.m */; };
 		9E8892C12A2E1A1C00B65F99 /* home.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 9E8892C02A2E1A1C00B65F99 /* home.gpx */; };
 		9E8892C32A2E29C100B65F99 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E8892C22A2E29C100B65F99 /* MapKit.framework */; };
+		9E8892C62A3569E600B65F99 /* BWGetWalkReportReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8892C52A3569E600B65F99 /* BWGetWalkReportReq.m */; };
+		9E8892C92A3569FA00B65F99 /* BWGetWalkReportResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8892C82A3569FA00B65F99 /* BWGetWalkReportResp.m */; };
+		9E8892CE2A35745800B65F99 /* HWalkReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8892CD2A35745800B65F99 /* HWalkReport.m */; };
+		9E8892D12A35A56200B65F99 /* walk_danger_status@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E8892CF2A35A56200B65F99 /* walk_danger_status@2x.png */; };
+		9E8892D22A35A56200B65F99 /* walk_danger_status@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E8892D02A35A56200B65F99 /* walk_danger_status@3x.png */; };
+		9E8892D92A35AAD000B65F99 /* walkReport_gps@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E8892D32A35AACF00B65F99 /* walkReport_gps@3x.png */; };
+		9E8892DA2A35AAD000B65F99 /* walkReport_gps@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E8892D42A35AAD000B65F99 /* walkReport_gps@2x.png */; };
+		9E8892DB2A35AAD000B65F99 /* walkReport_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E8892D52A35AAD000B65F99 /* walkReport_green@2x.png */; };
+		9E8892DC2A35AAD000B65F99 /* walkReport_green@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E8892D62A35AAD000B65F99 /* walkReport_green@3x.png */; };
+		9E8892DD2A35AAD000B65F99 /* walkReport_Red@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E8892D72A35AAD000B65F99 /* walkReport_Red@2x.png */; };
+		9E8892DE2A35AAD000B65F99 /* walkReport_Red@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E8892D82A35AAD000B65F99 /* walkReport_Red@3x.png */; };
 		9E8BDE7C296E87E30001C428 /* FFDropDownMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8BDE70296E87E30001C428 /* FFDropDownMenuCell.m */; };
 		9E8BDE7D296E87E30001C428 /* FFDropDownMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8BDE71296E87E30001C428 /* FFDropDownMenuView.m */; };
 		9E8BDE7E296E87E30001C428 /* FFDropDownMenuBasedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8BDE75296E87E30001C428 /* FFDropDownMenuBasedCell.m */; };
@@ -452,6 +463,20 @@
 		9E8892BE2A29EFE800B65F99 /* HWalkDownTimeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWalkDownTimeView.m; sourceTree = "<group>"; };
 		9E8892C02A2E1A1C00B65F99 /* home.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = home.gpx; sourceTree = "<group>"; };
 		9E8892C22A2E29C100B65F99 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		9E8892C42A3569E600B65F99 /* BWGetWalkReportReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWGetWalkReportReq.h; sourceTree = "<group>"; };
+		9E8892C52A3569E600B65F99 /* BWGetWalkReportReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWGetWalkReportReq.m; sourceTree = "<group>"; };
+		9E8892C72A3569FA00B65F99 /* BWGetWalkReportResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWGetWalkReportResp.h; sourceTree = "<group>"; };
+		9E8892C82A3569FA00B65F99 /* BWGetWalkReportResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWGetWalkReportResp.m; sourceTree = "<group>"; };
+		9E8892CC2A35745800B65F99 /* HWalkReport.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWalkReport.h; sourceTree = "<group>"; };
+		9E8892CD2A35745800B65F99 /* HWalkReport.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWalkReport.m; sourceTree = "<group>"; };
+		9E8892CF2A35A56200B65F99 /* walk_danger_status@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "walk_danger_status@2x.png"; sourceTree = "<group>"; };
+		9E8892D02A35A56200B65F99 /* walk_danger_status@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "walk_danger_status@3x.png"; sourceTree = "<group>"; };
+		9E8892D32A35AACF00B65F99 /* walkReport_gps@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "walkReport_gps@3x.png"; sourceTree = "<group>"; };
+		9E8892D42A35AAD000B65F99 /* walkReport_gps@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "walkReport_gps@2x.png"; sourceTree = "<group>"; };
+		9E8892D52A35AAD000B65F99 /* walkReport_green@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "walkReport_green@2x.png"; sourceTree = "<group>"; };
+		9E8892D62A35AAD000B65F99 /* walkReport_green@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "walkReport_green@3x.png"; sourceTree = "<group>"; };
+		9E8892D72A35AAD000B65F99 /* walkReport_Red@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "walkReport_Red@2x.png"; sourceTree = "<group>"; };
+		9E8892D82A35AAD000B65F99 /* walkReport_Red@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "walkReport_Red@3x.png"; sourceTree = "<group>"; };
 		9E8BDE6F296E87E30001C428 /* FFDropDownMenuBasedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFDropDownMenuBasedCell.h; sourceTree = "<group>"; };
 		9E8BDE70296E87E30001C428 /* FFDropDownMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFDropDownMenuCell.m; sourceTree = "<group>"; };
 		9E8BDE71296E87E30001C428 /* FFDropDownMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFDropDownMenuView.m; sourceTree = "<group>"; };
@@ -930,6 +955,8 @@
 				9E68325A29758BF700194199 /* sleep_danger_status@3x.png */,
 				9E68325D29758D5300194199 /* sleep_wx@2x.png */,
 				9E68325E29758D5300194199 /* sleep_wx@3x.png */,
+				9E8892CF2A35A56200B65F99 /* walk_danger_status@2x.png */,
+				9E8892D02A35A56200B65F99 /* walk_danger_status@3x.png */,
 			);
 			path = MenuUI;
 			sourceTree = "<group>";
@@ -1057,6 +1084,8 @@
 				9E29CC36296EF7C5009DF7FD /* BWGetSleepTaskReq.m */,
 				9E03EFE02971265400A11E49 /* BWGetSleepReportReq.h */,
 				9E03EFE12971265400A11E49 /* BWGetSleepReportReq.m */,
+				9E8892C42A3569E600B65F99 /* BWGetWalkReportReq.h */,
+				9E8892C52A3569E600B65F99 /* BWGetWalkReportReq.m */,
 				9E6832422972408600194199 /* BWGetTaskCalendarReq.h */,
 				9E6832432972408600194199 /* BWGetTaskCalendarReq.m */,
 				9E68324F2973949200194199 /* BWGetPDFReq.h */,
@@ -1105,6 +1134,8 @@
 				9E29CC39296EF85C009DF7FD /* BWGetSleepTaskResp.m */,
 				9E03EFE32971266200A11E49 /* BWGetSleepReportResp.h */,
 				9E03EFE42971266200A11E49 /* BWGetSleepReportResp.m */,
+				9E8892C72A3569FA00B65F99 /* BWGetWalkReportResp.h */,
+				9E8892C82A3569FA00B65F99 /* BWGetWalkReportResp.m */,
 				9E6832452972409500194199 /* BWGetTaskCalendarResp.h */,
 				9E6832462972409500194199 /* BWGetTaskCalendarResp.m */,
 				9E683252297394A500194199 /* BWGetPDFResp.h */,
@@ -1210,12 +1241,30 @@
 		9E6832482972858100194199 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				9E8892CB2A35743800B65F99 /* WalkReport */,
+				9E8892CA2A35742700B65F99 /* SleepReport */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		9E8892CA2A35742700B65F99 /* SleepReport */ = {
+			isa = PBXGroup;
+			children = (
 				9E683249297285A800194199 /* HReport.h */,
 				9E68324A297285A800194199 /* HReport.m */,
 				9E68324C2972FD4D00194199 /* HReportInfo.h */,
 				9E68324D2972FD4D00194199 /* HReportInfo.m */,
 			);
-			path = Models;
+			path = SleepReport;
+			sourceTree = "<group>";
+		};
+		9E8892CB2A35743800B65F99 /* WalkReport */ = {
+			isa = PBXGroup;
+			children = (
+				9E8892CC2A35745800B65F99 /* HWalkReport.h */,
+				9E8892CD2A35745800B65F99 /* HWalkReport.m */,
+			);
+			path = WalkReport;
 			sourceTree = "<group>";
 		};
 		9E8BDE6E296E87E30001C428 /* FFDropDownMenu */ = {
@@ -1299,6 +1348,12 @@
 				9EB411AF296BDE8A00CFA8FE /* greenBg@3x.png */,
 				9EB411B1296BDE8A00CFA8FE /* yellowBg@2x.png */,
 				9EB411B2296BDE8A00CFA8FE /* yellowBg@3x.png */,
+				9E8892D42A35AAD000B65F99 /* walkReport_gps@2x.png */,
+				9E8892D32A35AACF00B65F99 /* walkReport_gps@3x.png */,
+				9E8892D52A35AAD000B65F99 /* walkReport_green@2x.png */,
+				9E8892D62A35AAD000B65F99 /* walkReport_green@3x.png */,
+				9E8892D72A35AAD000B65F99 /* walkReport_Red@2x.png */,
+				9E8892D82A35AAD000B65F99 /* walkReport_Red@3x.png */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1542,17 +1597,20 @@
 				9E17D1DB28EE7B85005FA5A9 /* walkStart_no@2x.png in Resources */,
 				9EDF521B28F6FB5C0066BFDC /* navBG_danger@2x.png in Resources */,
 				9E1F21BA28E1805700C5041B /* btn_menu_sleep@3x.png in Resources */,
+				9E8892D12A35A56200B65F99 /* walk_danger_status@2x.png in Resources */,
 				9EDF524E2903CE6C0066BFDC /* dangerStatus@2x.png in Resources */,
 				9EDF526C2903DE0C0066BFDC /* clock@3x.png in Resources */,
 				9EB41199296BBBBE00CFA8FE /* nap@2x.png in Resources */,
 				9EF21B3228D985050075CFF0 /* TextArea_Login@2x.png in Resources */,
 				9EB4118E296BBBBE00CFA8FE /* location_report@3x.png in Resources */,
+				9E8892D92A35AAD000B65F99 /* walkReport_gps@3x.png in Resources */,
 				9EB4118A296BBBBE00CFA8FE /* ol_96_color@2x.png in Resources */,
 				9E68325F29758D5300194199 /* sleep_wx@2x.png in Resources */,
 				9EB41172296BBB9E00CFA8FE /* btn_napEnd@3x.png in Resources */,
 				9E683264297595C500194199 /* attention@3x.png in Resources */,
 				9EEC479C2966B1740031CE9F /* account_tz@3x.png in Resources */,
 				9EDF529429042EFE0066BFDC /* listBottom_safe@3x.png in Resources */,
+				9E8892D22A35A56200B65F99 /* walk_danger_status@3x.png in Resources */,
 				9EDF522B28FA9B480066BFDC /* guihualujing@3x.png in Resources */,
 				9EB41171296BBB9E00CFA8FE /* btn_napStart@3x.png in Resources */,
 				9E17D1B528ED563F005FA5A9 /* backBtn@2x.png in Resources */,
@@ -1570,6 +1628,7 @@
 				9EB411BE296BEB3300CFA8FE /* dateIcon@3x.png in Resources */,
 				9EB411D1296BF93800CFA8FE /* date_notSelected@2x.png in Resources */,
 				9EB4119C296BBBBE00CFA8FE /* ol_96_color@3x.png in Resources */,
+				9E8892DE2A35AAD000B65F99 /* walkReport_Red@3x.png in Resources */,
 				9EDF52692903DE0C0066BFDC /* gps@3x.png in Resources */,
 				9E8BDE9C296E9F080001C428 /* ALCalendarPicker.bundle in Resources */,
 				9EB4119A296BBBBE00CFA8FE /* walk.png in Resources */,
@@ -1595,6 +1654,7 @@
 				9E0B547328B21E620026CD86 /* Main.storyboard in Resources */,
 				9E1F21D328E2D1E900C5041B /* triangle_small@2x.png in Resources */,
 				9E8892C12A2E1A1C00B65F99 /* home.gpx in Resources */,
+				9E8892DD2A35AAD000B65F99 /* walkReport_Red@2x.png in Resources */,
 				9EF21B3628D985050075CFF0 /* btn_login_available@3x.png in Resources */,
 				9EDF526A2903DE0C0066BFDC /* expand@2x.png in Resources */,
 				9EB411A7296BD9A000CFA8FE /* back-data@2x.png in Resources */,
@@ -1624,12 +1684,15 @@
 				9E1F21BB28E1805700C5041B /* btn_menu_walk@3x.png in Resources */,
 				9EB411AC296BD9F400CFA8FE /* nap_back@3x.png in Resources */,
 				9EDF529C29055E160066BFDC /* battery@2x.png in Resources */,
+				9E8892DA2A35AAD000B65F99 /* walkReport_gps@2x.png in Resources */,
 				9E17D1A228ED1E6B005FA5A9 /* dangerView@2x.png in Resources */,
 				9E1F21AC28E1722500C5041B /* menu_header@2x.png in Resources */,
+				9E8892DB2A35AAD000B65F99 /* walkReport_green@2x.png in Resources */,
 				9EB411A6296BD9A000CFA8FE /* back-data.png in Resources */,
 				9EB411B4296BDE8A00CFA8FE /* greenBg@2x.png in Resources */,
 				9EDF526B2903DE0C0066BFDC /* xintiao_safe@3x.png in Resources */,
 				9EB411C9296BF93800CFA8FE /* date_selected.png in Resources */,
+				9E8892DC2A35AAD000B65F99 /* walkReport_green@3x.png in Resources */,
 				9E1F21B928E1805700C5041B /* btn_menu_sleep@2x.png in Resources */,
 				9E1F21D228E2D1E900C5041B /* triangle_small@3x.png in Resources */,
 				9E17D1A528ED1E6B005FA5A9 /* safeView@2x.png in Resources */,
@@ -1792,6 +1855,7 @@
 				9E17D1F128F005E1005FA5A9 /* BWDestnationInfoResp.m in Sources */,
 				9E68324B297285A900194199 /* HReport.m in Sources */,
 				9E25EB3C295D64A000FDAF78 /* HBaseMenuView.m in Sources */,
+				9E8892C62A3569E600B65F99 /* BWGetWalkReportReq.m in Sources */,
 				9E17D1CE28EE7261005FA5A9 /* BWGetStudentReq.m in Sources */,
 				9EDF523628FD84200066BFDC /* BWGetKindergartenReq.m in Sources */,
 				9EDF522128FA99D60066BFDC /* HStudentStateInfoView.m in Sources */,
@@ -1821,6 +1885,7 @@
 				9E2DF80428B2209E00B0C9DA /* BWBaseResp.m in Sources */,
 				9E6832442972408600194199 /* BWGetTaskCalendarReq.m in Sources */,
 				9E2DF81B28B2225500B0C9DA /* BWAlertCtrl.m in Sources */,
+				9E8892CE2A35745800B65F99 /* HWalkReport.m in Sources */,
 				9EEC478F2966A1840031CE9F /* HSleepOrWalkSettingView.m in Sources */,
 				9E17D1D128EE7270005FA5A9 /* BWGetStudentResp.m in Sources */,
 				9EDF523F28FD84FF0066BFDC /* BWGetTaskResp.m in Sources */,
@@ -1830,6 +1895,7 @@
 				9E2DF81E28B2225500B0C9DA /* BWTools.m in Sources */,
 				9EC72A3128D8394F00494A74 /* MBProgressHUD+ShowMessage.m in Sources */,
 				9E2DF81F28B2225500B0C9DA /* BWFileManager.m in Sources */,
+				9E8892C92A3569FA00B65F99 /* BWGetWalkReportResp.m in Sources */,
 				9EEC4787296652CA0031CE9F /* HWalkReportVC.m in Sources */,
 				9E8BDE96296E9F080001C428 /* ALCalendarHeader.m in Sources */,
 				9EDF5242290029C20066BFDC /* BWChangeTaskStateReq.m in Sources */,

@@ -321,8 +321,8 @@
 
             HStudent *student = [[HStudent alloc] init];
             student.name = [unnormalDic safeObjectForKey:@"name"];
-//            student.avatar = [unnormalDic safeObjectForKey:@"avatar"];
-            student.avatar = @"https://yunpengmall.oss-cn-beijing.aliyuncs.com/1560875015170428928/material/19181666430944_.pic.jpg";
+            student.avatar = [unnormalDic safeObjectForKey:@"avatar"];
+//            student.avatar = @"https://yunpengmall.oss-cn-beijing.aliyuncs.com/1560875015170428928/material/19181666430944_.pic.jpg";
 
             HStudentFooterView *footerView = [[HStudentFooterView alloc] init];
             footerView.type = FootTYPE_SLEEP;

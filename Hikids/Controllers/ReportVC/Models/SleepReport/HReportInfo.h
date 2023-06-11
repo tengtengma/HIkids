@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
-//报告详情页模型
+//午睡报告详情页模型
 @interface HReportInfo : NSObject
 @property (nonatomic, strong) NSArray *assistantList;
 @property (nonatomic, strong) NSString *className;

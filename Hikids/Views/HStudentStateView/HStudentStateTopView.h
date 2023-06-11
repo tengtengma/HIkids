@@ -30,6 +30,7 @@ typedef void(^expandBlockAction)(void);
 
 - (void)loadSafeStyle;
 - (void)loadDangerStyle;
+- (void)loadWalkDangerReportStyle;
 
 
 @end

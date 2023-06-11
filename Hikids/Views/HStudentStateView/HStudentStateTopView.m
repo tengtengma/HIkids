@@ -139,5 +139,9 @@
     }
 
 }
+- (void)loadWalkDangerReportStyle
+{
+    
+}
 
 @end

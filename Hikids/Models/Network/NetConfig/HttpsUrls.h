@@ -28,6 +28,7 @@
 #define ChangeTaskStateURL         @"/v1/business/hikidsTask/changeStatus"              //修改任务状态
 #define GetSleepTaskURL            @"/v1/business/sleepTask/getTaskInfo"                //获取午睡任务接口
 #define GetSleepReportURL          @"/v1/business/sleepTask/getSleepTaskReportInfo"     //获取午睡报告接口
+#define GetTravelReportURL         @"/v1/business/report/travelreport"                  //获取散步报告接口
 #define GetTaskWithCalendarURL     @"/v1/business/hikidsTask/getTasks"                  //根据时间获取周报告
 #define GetMonthCalendarURL        @"/v1/business/hikidsTask/getMonthTasks"             //根据获取一个月的报告
 #define GetPDFURL                  @"/v1/business/hikidsTask/getSleepReport"            //获取pdf地址
