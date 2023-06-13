@@ -15,28 +15,27 @@ PODS:
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
   - BaiduMobStatCodeless (5.3.6)
-  - GoogleMaps (4.1.0):
-    - GoogleMaps/Maps (= 4.1.0)
-  - GoogleMaps/Base (4.1.0)
-  - GoogleMaps/Maps (4.1.0):
+  - GoogleMaps (5.2.0):
+    - GoogleMaps/Maps (= 5.2.0)
+  - GoogleMaps/Base (5.2.0)
+  - GoogleMaps/Maps (5.2.0):
     - GoogleMaps/Base
-  - GooglePlaces (4.1.0):
-    - GoogleMaps/Base (= 4.1.0)
-  - lottie-ios (2.5.3)
+  - GooglePlaces (5.1.0)
+  - lottie-ios (4.2.0)
   - Masonry (1.1.0)
   - MBProgressHUD (1.2.0)
-  - MJExtension (3.2.2)
-  - MJRefresh (3.5.0)
-  - SDWebImage (5.10.0):
-    - SDWebImage/Core (= 5.10.0)
-  - SDWebImage/Core (5.10.0)
+  - MJExtension (3.4.1)
+  - MJRefresh (3.7.5)
+  - SDWebImage (5.16.0):
+    - SDWebImage/Core (= 5.16.0)
+  - SDWebImage/Core (5.16.0)
 
 DEPENDENCIES:
   - AFNetworking
   - BaiduMobStatCodeless
   - GoogleMaps
   - GooglePlaces
-  - lottie-ios (~> 2.5)
+  - lottie-ios
   - Masonry
   - MBProgressHUD
   - MJExtension
@@ -57,17 +56,17 @@ SPEC REPOS:
     - SDWebImage
 
 SPEC CHECKSUMS:
-  AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
+  AFNetworking: 3bd23d814e976cd148d7d44c3ab78017b744cd58
   BaiduMobStatCodeless: b1029b96b02d54802049d280f2b1abb0c76f0e9e
-  GoogleMaps: 008e2c80e38605b56b560e8deb73d4194ff30bef
-  GooglePlaces: a058b776259c13e1323c9ff135549cb1b13ad8e7
-  lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
+  GoogleMaps: 025272d5876d3b32604e5c080dc25eaf68764693
+  GooglePlaces: c57cd5aa7e91d10fa5106c792de74f3bd6436260
+  lottie-ios: 809ecf2d460ed650a6aed7aa88b2ec45fab4779c
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
-  MJExtension: d9b9c74cbdeb724c1e9ecbb157b318276e62e876
-  MJRefresh: 6afc955813966afb08305477dd7a0d9ad5e79a16
-  SDWebImage: 9169792e9eec3e45bba2a0c02f74bf8bd922d1ee
+  MJExtension: 21c5f6f8c4d5d8844b7ae8fbae08fed0b501f961
+  MJRefresh: fdf5e979eb406a0341468932d1dfc8b7f9fce961
+  SDWebImage: 2aea163b50bfcb569a2726b6a754c54a4506fcf6
 
-PODFILE CHECKSUM: 397dc0a3c8a14a46035c36658b3678aa10247c3b
+PODFILE CHECKSUM: da6d5e8d99502b3c6cb80ac93fcc0a05b480d6e8
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.12.1

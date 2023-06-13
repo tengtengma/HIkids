@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+# platform :ios, '11.0'
 
 target 'Hikids' do
   # Comment the next line if you don't want to use dynamic frameworks
@@ -13,7 +13,7 @@ target 'Hikids' do
     pod 'MJExtension'
     pod 'MBProgressHUD'
     pod 'MJRefresh'
-    pod 'lottie-ios' , '~> 2.5'
+    pod 'lottie-ios'
     pod 'GoogleMaps'
     pod 'GooglePlaces'
     pod 'BaiduMobStatCodeless'
