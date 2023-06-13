@@ -737,6 +737,8 @@
 {
     if (self.gpsLocation == nil) {
         NSLog(@"无法获取定位");
+        
+        [self startLocation];
         return;
     }
 
