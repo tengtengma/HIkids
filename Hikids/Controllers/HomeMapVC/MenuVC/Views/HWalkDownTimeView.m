@@ -9,12 +9,14 @@
 
 @interface HWalkDownTimeView()
 @property (nonatomic, strong) dispatch_source_t timer;
+@property (nonatomic, strong) UILabel *desLabel;
+@property (nonatomic, strong) UIButton *sureBtn;
 
 @end
 
 @implementation HWalkDownTimeView
 
-- (instancetype)initWithContent:(NSString *)content
+- (instancetype)init
 {
     if (self = [super init]) {
         
@@ -32,13 +34,12 @@
             make.centerX.equalTo(self);
         }];
         
-        UILabel *desLabel = [[UILabel alloc] init];
-        desLabel.text = content;
-        desLabel.textAlignment = NSTextAlignmentCenter;
-        desLabel.font = [UIFont systemFontOfSize:14.0];
-        [self addSubview:desLabel];
+        self.desLabel = [[UILabel alloc] init];
+        self.desLabel.textAlignment = NSTextAlignmentCenter;
+        self.desLabel.font = [UIFont systemFontOfSize:14.0];
+        [self addSubview:self.desLabel];
         
-        [desLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.desLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(titleLabel.mas_bottom).offset(PAaptation_y(10));
             make.left.equalTo(self).offset(PAdaptation_x(10));
         }];
@@ -68,24 +69,29 @@
             make.height.mas_equalTo(PAaptation_y(45));
         }];
         
-        UIButton *sureBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-        [sureBtn setTitle:@"是(10)" forState:UIControlStateNormal];
-        [sureBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
-        [sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [sureBtn addTarget:self action:@selector(sureAction) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:sureBtn];
+        self.sureBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+        [self.sureBtn setTitle:@"是(10)" forState:UIControlStateNormal];
+        [self.sureBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
+        [self.sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.sureBtn addTarget:self action:@selector(sureAction) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:self.sureBtn];
         
-        [sureBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        [self.sureBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(cancelBtn);
             make.left.equalTo(cancelBtn.mas_right);
             make.right.equalTo(self.mas_right);
             make.height.mas_equalTo(PAaptation_y(45));
         }];
         
-        [self startCutDownTimeActionWithButton:sureBtn];
         
     }
     return self;
+}
+- (void)setupContent:(NSString *)content
+{
+    self.desLabel.text = content;
+    [self startCutDownTimeActionWithButton:self.sureBtn];
+
 }
 - (void)cancelAction
 {
@@ -97,7 +103,7 @@
 {
     if (self.sureBlock) {
         //(6)
-        dispatch_cancel(self.timer);
+//        dispatch_cancel(self.timer);
         self.timer = nil;
         self.sureBlock();
         [self removeFromSuperview];

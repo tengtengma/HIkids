@@ -11,8 +11,8 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import <GooglePlaces/GooglePlaces.h>
 #import <CoreLocation/CoreLocation.h>
-#import <AppTrackingTransparency/AppTrackingTransparency.h>
-#import <AdSupport/AdSupport.h>
+//#import <AppTrackingTransparency/AppTrackingTransparency.h>
+//#import <AdSupport/AdSupport.h>
 
 //#import "JPUSHService.h"
 //#import <PushKit/PushKit.h>
@@ -63,6 +63,7 @@
     //百度统计
     [self startBaidu];
     
+//    [self trackAction];
     
     
     
@@ -75,7 +76,20 @@
 - (void)startBaidu
 {
     [[BaiduMobStat defaultStat] startWithAppId:APIKEY_Baidu];
+    
 }
+//- (void)trackAction
+//{
+//    if (@available(iOS 14, *))
+//    {
+//        //IDFA 未请求权限：00000000-0000-0000-0000-000000000000 请求权限成功后：5AAEB13C-B619-43CF-9568-007B1B186D1F
+//        NSLog(@"IDFA：%@",[[ASIdentifierManager sharedManager] advertisingIdentifier]);
+//        //申请权限
+//        [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
+//            NSLog(@"%@",[[ASIdentifierManager sharedManager] advertisingIdentifier]);
+//        }];
+//    }
+//}
 //#pragma mark - 追踪权限 -
 //- (void)trackWithDic:(NSDictionary *)launchOptions
 //{

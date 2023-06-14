@@ -6,6 +6,12 @@ target 'Hikids' do
   use_frameworks!
 
   # Pods for Hikids
+  
+  post_install do |installer|
+      installer.pods_project.build_configurations.each do |config|
+        config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+      end
+  end
 
     pod 'SDWebImage'
     pod 'AFNetworking'

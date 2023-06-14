@@ -13,9 +13,11 @@ typedef void(^sure)(void);
 
 
 @interface HWalkDownTimeView : UIView
+@property (nonatomic, strong) NSString *source;
 @property (nonatomic, copy) sure sureBlock;
 
-- (instancetype)initWithContent:(NSString *)content;
+- (instancetype)init;
+- (void)setupContent:(NSString *)content;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -15,12 +15,12 @@ PODS:
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
   - BaiduMobStatCodeless (5.3.6)
-  - GoogleMaps (5.2.0):
-    - GoogleMaps/Maps (= 5.2.0)
-  - GoogleMaps/Base (5.2.0)
-  - GoogleMaps/Maps (5.2.0):
+  - GoogleMaps (6.2.1):
+    - GoogleMaps/Maps (= 6.2.1)
+  - GoogleMaps/Base (6.2.1)
+  - GoogleMaps/Maps (6.2.1):
     - GoogleMaps/Base
-  - GooglePlaces (5.1.0)
+  - GooglePlaces (6.2.1)
   - lottie-ios (4.2.0)
   - Masonry (1.1.0)
   - MBProgressHUD (1.2.0)
@@ -58,8 +58,8 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   AFNetworking: 3bd23d814e976cd148d7d44c3ab78017b744cd58
   BaiduMobStatCodeless: b1029b96b02d54802049d280f2b1abb0c76f0e9e
-  GoogleMaps: 025272d5876d3b32604e5c080dc25eaf68764693
-  GooglePlaces: c57cd5aa7e91d10fa5106c792de74f3bd6436260
+  GoogleMaps: 20d7b12be49a14287f797e88e0e31bc4156aaeb4
+  GooglePlaces: 94974aa119573d5acc2a35a699948dac838abd73
   lottie-ios: 809ecf2d460ed650a6aed7aa88b2ec45fab4779c
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
@@ -67,6 +67,6 @@ SPEC CHECKSUMS:
   MJRefresh: fdf5e979eb406a0341468932d1dfc8b7f9fce961
   SDWebImage: 2aea163b50bfcb569a2726b6a754c54a4506fcf6
 
-PODFILE CHECKSUM: da6d5e8d99502b3c6cb80ac93fcc0a05b480d6e8
+PODFILE CHECKSUM: 2745b34bce91cf2b0f12ff96b95bdb08d2afffbf
 
 COCOAPODS: 1.12.1

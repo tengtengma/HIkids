@@ -42,7 +42,7 @@
 #import "HDateVC.h"
 #import "HWalkDownTimeView.h"
 
-@interface HMapVC ()<GMSMapViewDelegate,CLLocationManagerDelegate>
+@interface HMapVC ()<GMSMapViewDelegate,CLLocationManagerDelegate,UIAlertViewDelegate>
 @property (nonatomic,strong) GMSMapView *mapView;                   //谷歌地图
 @property (nonatomic,strong) GMSMarker *marker;                     //大头针
 @property (nonatomic,strong) GMSPlacesClient * placesClient;        //可以获取某个地方的信息
@@ -68,8 +68,11 @@
 @property (nonatomic,assign) BOOL isInFence;                        //是否在围栏内
 @property (nonatomic,assign) BOOL firstLocationUpdate;              //第一次定位更新
 @property (nonatomic,assign) BOOL isDrawFence;                      //是否画围栏 防止重复画
+@property (nonatomic,assign) BOOL isDestMode;                       //是否是目的地模式
+@property (nonatomic,strong) GMSPolygon* kinPoly;                   //园区围栏路径
+@property (nonatomic,strong) GMSPolygon* destPoly;                  //目的地围栏路径
 
-
+@property (nonatomic,strong) NSString *appUrl;                      //检查更新版本
 
 @end
 
@@ -139,6 +142,9 @@
     
     //开启定位
     [self startLocation];
+    
+    //检测版本
+    [self checkVersion];
     
     //监听危险
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dangerAlertNotifi:) name:@"dangerAlertNotification" object:nil];
@@ -385,6 +391,7 @@
     walkReportVC.closeWalkReportBlock = ^{
         //todo
         [weakSelf.walkMenuTableView removeFromSuperview]; //移除散步底部菜单
+        weakSelf.walkMenuTableView = nil;
     };
     
 }
@@ -412,7 +419,7 @@
         if ([weakSelf.currentTask.type isEqualToString:@"1"]) {
             
             //该任务已完成/无任务
-            if ([weakSelf.currentTask.status isEqualToString:@"5"] || weakSelf.currentTask == nil) {
+            if ([weakSelf.currentTask.status isEqualToString:@"5"] || weakSelf.currentTask.status == nil) {
                 //在院内模式
                 [weakSelf startStayMode];
                 
@@ -449,7 +456,7 @@
                 [weakSelf startSleepMode];
             }
             //午睡模式结束 默认院内模式
-            if ([weakSelf.currentTask.status isEqualToString:@"5"] || weakSelf.currentTask == nil) {
+            if ([weakSelf.currentTask.status isEqualToString:@"5"] || weakSelf.currentTask.status == nil) {
                
                 [weakSelf startStayMode];
 
@@ -616,8 +623,11 @@
     
     [self.walkTimer setFireDate:[NSDate distantPast]];
     [self.sleepTimer setFireDate:[NSDate distantFuture]];
+        
+    self.isDestMode = YES;
     
-    [self.locationManager stopUpdatingLocation];
+    [self.locationManager startUpdatingLocation];
+
 }
 //开启返回模式
 - (void)startBackMode
@@ -633,8 +643,9 @@
     [self.locationManager startUpdatingLocation];
 }
 //画围栏(在startGetStudentLocationRequest方法里)
-- (void)drawFenceWith:(NSString *)fence
+- (void)drawFenceWith:(NSString *)fence ishome:(BOOL)home
 {
+
     if (self.isDrawFence) {
         return;
     }
@@ -666,6 +677,14 @@
     poly.map = self.mapView;
 
     self.isDrawFence = YES;
+    
+    if(home){
+        self.kinPoly = poly;
+    }else{
+        self.destPoly = poly;
+
+    }
+
 }
 //开启返程模式
 //- (void)startBackMode
@@ -679,6 +698,8 @@
     [self.makerList removeAllObjects];
 
     self.isDrawFence = NO;
+    
+    self.isDestMode = NO;
 
     [self.mapView clear];
     
@@ -699,7 +720,7 @@
         BWGetKindergartenResp *kinderResp = (BWGetKindergartenResp *)resp;
         HDestnationModel *kinModel = [kinderResp.itemList safeObjectAtIndex:0];
 
-        [weakSelf drawFenceWith:kinModel.fence];
+        [weakSelf drawFenceWith:kinModel.fence ishome:YES];
         
 
 
@@ -759,7 +780,7 @@
         BWStudentLocationResp *locationResp = (BWStudentLocationResp *)resp;
 
         //在院内
-        if ([weakSelf.currentTask.status isEqualToString:@"5"] || weakSelf.currentTask == nil) {
+        if ([weakSelf.currentTask.status isEqualToString:@"5"] || weakSelf.currentTask.status == nil) {
 
             NSString *status = locationResp.exceptionKids.count != 0 ? @"危険" : @"安全";
             [[NSNotificationCenter defaultCenter] postNotificationName:@"dangerAlertNotification" object:@{@"name":@"在園中",@"status":status}];
@@ -784,35 +805,51 @@
             weakSelf.kinFence = locationResp.kinFence;
             
             if ([weakSelf.currentTask.status isEqualToString:@"2"]) {
-                if (weakSelf.isInFence) {
+                
+                //构建目的地-途中模式（画目的地围栏）
+                [weakSelf drawFenceWith:weakSelf.destFence ishome:NO];
+                
+                if([self isInFenceAction:self.destPoly.path]){
                     //判断是否到了目的地
                     [weakSelf showDestAlertViewWithState:@"3"];
                     NSLog(@"是否到达目的地？");
                 }
-                //构建目的地-途中模式（画目的地围栏）
-                [weakSelf drawFenceWith:weakSelf.destFence];
+                
+//                if (weakSelf.isInFence) {
+//                    //判断是否到了目的地
+//                    [weakSelf showDestAlertViewWithState:@"3"];
+//                    NSLog(@"是否到达目的地？");
+//                }
 
             }
             //目的地模式
             if ([weakSelf.currentTask.status isEqualToString:@"3"]) {
                 
-                if (!weakSelf.isInFence) {
+//                if (!weakSelf.isInFence) {
+//                    //提示是否开启返程
+//                    [weakSelf showDestAlertViewWithState:@"4"];
+//                    NSLog(@"是否开启返程？");
+//                }
+                [weakSelf drawFenceWith:weakSelf.destFence ishome:NO];
+                
+                if(![self isInFenceAction:self.destPoly.path]){
                     //提示是否开启返程
                     [weakSelf showDestAlertViewWithState:@"4"];
                     NSLog(@"是否开启返程？");
                 }
-                [weakSelf drawFenceWith:weakSelf.destFence];
 
             }
             if ([weakSelf.currentTask.status isEqualToString:@"4"]) {
+                
+                //返程模式（画园区地围栏）
+                [weakSelf drawFenceWith:weakSelf.kinFence ishome:YES];
 
-                if (weakSelf.isInFence) {
+                if ([weakSelf isInFenceAction:weakSelf.kinPoly.path]) {
                     //判断是否到了园区
                     [weakSelf showDestAlertViewWithState:@"5"];
                     NSLog(@"是否回到了园区？");
                 }
-                //返程模式（画园区地围栏）
-                [weakSelf drawFenceWith:weakSelf.kinFence];
+
             }
             
         }
@@ -825,88 +862,110 @@
         [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
     }];
 }
+//前端来判断是否在围栏内(暂时替代后台 仅用在 散步和返程模式)
+- (BOOL)isInFenceAction:(GMSPath *)path
+{
+    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.gpsLocation.coordinate.latitude, self.gpsLocation.coordinate.longitude);
+    
+    if (GMSGeometryContainsLocation(coordinate, path, YES)) {
+        NSLog(@"YES: you are in this polygon.");
+        return YES;
+    }
+    return NO;
+}
 - (void)showDestAlertViewWithState:(NSString *)state
 {
-    NSString *content = [state isEqualToString:@"3"] ? @"是否到达目的地?" : @"是否开启返程?";
-    HWalkDownTimeView *downTimeView = [[HWalkDownTimeView alloc] initWithContent:content];
-    
-    [self.view addSubview:downTimeView];
-    [downTimeView mas_makeConstraints:^(MASConstraintMaker *make) {
+    NSString *content = nil;
+    if([state isEqualToString:@"3"]){
+        content = @"目的地に着きましたか？";
+    }
+    if([state isEqualToString:@"4"]){
+        content = @"復路を始めますか？";
+    }
+    if([state isEqualToString:@"5"]){
+        content = @"公園に着きましたか？";
+    }
+        
+    [self.downTimeView setupContent:content];
+    [self.view addSubview:self.downTimeView];
+    [self.downTimeView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.view);
         make.width.mas_equalTo(PAdaptation_x(300));
         make.height.mas_equalTo(PAaptation_y(140));
     }];
     
     DefineWeakSelf;
-    downTimeView.sureBlock = ^{
+    self.downTimeView.sureBlock = ^{
         [weakSelf changeTaskStateRequestWithStatus:state];
         
     };
 }
-//处理院内模式围栏数据
-- (void)dealWithFence:(NSString *)fenceDataStr
-{
-    NSString *fenceStr = fenceDataStr;
-
-    HLocation *myLocation = [[HLocation alloc] init];
-    NSArray *fenceArray = (NSArray *)[BWTools dictionaryWithJsonString:fenceStr];
-    NSMutableArray *array = [[NSMutableArray alloc] init];
-    for (NSDictionary *dic in fenceArray) {
-        HLocationInfo *info = [[HLocationInfo alloc] init];
-        info.longitude = [[dic safeObjectForKey:@"longitude"] doubleValue];
-        info.latitude = [[dic safeObjectForKey:@"latitude"] doubleValue];
-        [array addObject:info];
-    }
-    myLocation.fenceArray = array;
-    
-    //无法获取gps坐标时 使用围栏坐标
-    myLocation.locationInfo = [array safeObjectAtIndex:0];
-    
-    //围栏坐标信息
-    self.fenceLocation = myLocation;
-    
-    //获取到围栏坐标后 开启刷小朋友信息接口
-    [self.walkTimer setFireDate:[NSDate distantPast]];
-    
-    //画围栏
-    [self drawPolygon];
-
-
-}
+////处理院内模式围栏数据
+//- (void)dealWithFence:(NSString *)fenceDataStr
+//{
+//    NSString *fenceStr = fenceDataStr;
+//
+//    HLocation *myLocation = [[HLocation alloc] init];
+//    NSArray *fenceArray = (NSArray *)[BWTools dictionaryWithJsonString:fenceStr];
+//    NSMutableArray *array = [[NSMutableArray alloc] init];
+//    for (NSDictionary *dic in fenceArray) {
+//        HLocationInfo *info = [[HLocationInfo alloc] init];
+//        info.longitude = [[dic safeObjectForKey:@"longitude"] doubleValue];
+//        info.latitude = [[dic safeObjectForKey:@"latitude"] doubleValue];
+//        [array addObject:info];
+//    }
+//    myLocation.fenceArray = array;
+//
+//    //无法获取gps坐标时 使用围栏坐标
+//    myLocation.locationInfo = [array safeObjectAtIndex:0];
+//
+//    //围栏坐标信息
+//    self.fenceLocation = myLocation;
+//
+//    //获取到围栏坐标后 开启刷小朋友信息接口
+//    [self.walkTimer setFireDate:[NSDate distantPast]];
+//
+//    //画围栏
+//    [self drawPolygon];
+//
+//
+//}
 
 //画院内模式围栏
--(void)drawPolygon
-{
-    if (self.isDrawFence) {
-        return;
-    }
-
-    GMSMutablePath* path = [[GMSMutablePath alloc] init];
-    
-    for (NSInteger i = 0; i < self.fenceLocation.fenceArray.count; i++) {
-        HLocationInfo *info = [self.fenceLocation.fenceArray safeObjectAtIndex:i];
-        [path addCoordinate:CLLocationCoordinate2DMake(info.latitude, info.longitude)];
-    }
-
-    GMSPolygon* poly = [GMSPolygon polygonWithPath:path];
-    poly.strokeWidth = 2.0;
-    poly.strokeColor = BWColor(83, 192, 137, 1);
-    poly.fillColor = BWColor(0, 176, 107, 0.2);
-    poly.map = self.mapView;
-    
-    
-    CLLocationCoordinate2D coordinate;
-    if (self.gpsLocation == nil) {
-        coordinate = CLLocationCoordinate2DMake(self.fenceLocation.locationInfo.latitude, self.fenceLocation.locationInfo.longitude);
-    }else{
-        coordinate = CLLocationCoordinate2DMake(self.gpsLocation.coordinate.latitude, self.gpsLocation.coordinate.longitude);
-    }
-    //移动地图中心到当前位置
-    self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:16];
-    
-    self.isDrawFence = YES;
-    
-}
+//-(void)drawPolygon
+//{
+//    if (self.isDrawFence) {
+//        return;
+//    }
+//
+//    GMSMutablePath* path = [[GMSMutablePath alloc] init];
+//
+//    for (NSInteger i = 0; i < self.fenceLocation.fenceArray.count; i++) {
+//        HLocationInfo *info = [self.fenceLocation.fenceArray safeObjectAtIndex:i];
+//        [path addCoordinate:CLLocationCoordinate2DMake(info.latitude, info.longitude)];
+//    }
+//
+//    GMSPolygon* poly = [GMSPolygon polygonWithPath:path];
+//    poly.strokeWidth = 2.0;
+//    poly.strokeColor = BWColor(83, 192, 137, 1);
+//    poly.fillColor = BWColor(0, 176, 107, 0.2);
+//    poly.map = self.mapView;
+//
+//
+//    CLLocationCoordinate2D coordinate;
+//    if (self.gpsLocation == nil) {
+//        coordinate = CLLocationCoordinate2DMake(self.fenceLocation.locationInfo.latitude, self.fenceLocation.locationInfo.longitude);
+//    }else{
+//        coordinate = CLLocationCoordinate2DMake(self.gpsLocation.coordinate.latitude, self.gpsLocation.coordinate.longitude);
+//    }
+//    //移动地图中心到当前位置
+//    self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:16];
+//
+//    self.isDrawFence = YES;
+//
+//    self.kinPoly = poly;
+//
+//}
 -(void)addMarkersWithNomalList:(NSArray *)normalKids andExceptList:(NSArray *)exceptionKids{
     
     for (NSInteger i = 0;i<exceptionKids.count;i++) {
@@ -1211,6 +1270,9 @@
          //移动地图中心到当前位置
          self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:16];
         
+        if(self.isDestMode){
+            return;
+        }
         [self startGetStudentLocationRequest];
         
         NSLog(@"调用定位111111");
@@ -1255,6 +1317,89 @@
         [weakSelf.stateInfoView setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, PAaptation_y(351))];
     }];
 }
+- (void)checkVersion
+{
+    //获取当前版本号
+
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+
+    CFShow((__bridge CFTypeRef)(infoDictionary));
+
+    NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+
+    //获取苹果商店的版本号
+
+    NSError  *error;
+
+    NSString * urlStr = [NSString stringWithFormat:@"http://itunes.apple.com/lookup?id=6447280569"];
+
+    NSURL * url =[NSURL URLWithString:urlStr];
+
+    NSURLRequest * request =[NSURLRequest requestWithURL:url];
+
+    NSData * response =[NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+
+    NSDictionary * appInfo =[NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:&error];
+
+    if (error) {
+
+        NSLog(@"error:%@",[error description]);
+
+    }
+
+    NSArray *resultsArray =[appInfo objectForKey:@"results"];
+
+    if (![resultsArray count]) {
+
+        NSLog( @"error: nil");
+
+        return;
+    }
+
+    NSDictionary * infoDic =[resultsArray safeObjectAtIndex:0];
+
+    NSString * appVersion = [infoDic objectForKey:@"version"];
+
+    self.appUrl = [infoDic objectForKey:@"trackViewUrl"];
+
+    double doucurrV =[app_Version doubleValue];
+
+    double  douappV= [appVersion doubleValue];
+
+    //判断版本号对比
+
+    if (doucurrV < douappV) {
+        NSString * titleStr =[NSString stringWithFormat:@"检查更新"];
+
+        NSString * message =[NSString stringWithFormat:@"发现新版本，是否更新？"];
+
+        UIAlertView * alert = [[UIAlertView alloc]initWithTitle:titleStr message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+
+        alert.tag = 1001;
+
+        [alert show];
+
+
+    }else{
+        NSLog(@"已是最新版本");
+
+
+    }
+}
+//跳转更新
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.tag ==1001) {
+        
+        if (buttonIndex == 1) {
+            //        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:self.appUrl]];
+            
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.appUrl] options:@{} completionHandler:^(BOOL success) {
+                
+            }];
+        }
+    }
+}
 
 -(void)dealloc{
 //    [SVProgressHUD dismiss];
@@ -1291,7 +1436,7 @@
         _locationManager.delegate = self;
         [_locationManager requestWhenInUseAuthorization];
         _locationManager.desiredAccuracy = kCLLocationAccuracyBest;//设置定位精度
-        _locationManager.distanceFilter = 100;//设置定位频率，每隔多少米定位一次
+        _locationManager.distanceFilter = 20;//设置定位频率，每隔多少米定位一次
         _locationManager.pausesLocationUpdatesAutomatically = NO;
         _locationManager.allowsBackgroundLocationUpdates = YES;
     }
@@ -1327,11 +1472,11 @@
     }
     return _settingVC;
 }
-//- (HWalkDownTimeView *)downTimeView
-//{
-//    if (!_downTimeView) {
-//        _downTimeView = [[HWalkDownTimeView alloc] init];
-//    }
-//    return _downTimeView;
-//}
+- (HWalkDownTimeView *)downTimeView
+{
+    if (!_downTimeView) {
+        _downTimeView = [[HWalkDownTimeView alloc] init];
+    }
+    return _downTimeView;
+}
 @end

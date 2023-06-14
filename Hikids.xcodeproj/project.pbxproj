@@ -110,6 +110,8 @@
 		9E683264297595C500194199 /* attention@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E683261297595C400194199 /* attention@3x.png */; };
 		9E683265297595C500194199 /* attention.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E683262297595C400194199 /* attention.png */; };
 		9E683266297595C500194199 /* attention@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E683263297595C500194199 /* attention@2x.png */; };
+		9E7758F32A38A322009EBA00 /* HWalkDangerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7758F22A38A322009EBA00 /* HWalkDangerView.m */; };
+		9E7758F52A38C991009EBA00 /* dest.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 9E7758F42A38C991009EBA00 /* dest.gpx */; };
 		9E8344B828C7912C00AB9D83 /* BWCheckTokenReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */; };
 		9E8344BB28C7913E00AB9D83 /* BWCheckTokenResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344BA28C7913E00AB9D83 /* BWCheckTokenResp.m */; };
 		9E8892BF2A29EFE800B65F99 /* HWalkDownTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8892BE2A29EFE800B65F99 /* HWalkDownTimeView.m */; };
@@ -455,6 +457,9 @@
 		9E683261297595C400194199 /* attention@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "attention@3x.png"; sourceTree = "<group>"; };
 		9E683262297595C400194199 /* attention.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = attention.png; sourceTree = "<group>"; };
 		9E683263297595C500194199 /* attention@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "attention@2x.png"; sourceTree = "<group>"; };
+		9E7758F12A38A322009EBA00 /* HWalkDangerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWalkDangerView.h; sourceTree = "<group>"; };
+		9E7758F22A38A322009EBA00 /* HWalkDangerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWalkDangerView.m; sourceTree = "<group>"; };
+		9E7758F42A38C991009EBA00 /* dest.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = dest.gpx; sourceTree = "<group>"; };
 		9E8344B628C7912C00AB9D83 /* BWCheckTokenReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWCheckTokenReq.h; sourceTree = "<group>"; };
 		9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWCheckTokenReq.m; sourceTree = "<group>"; };
 		9E8344B928C7913E00AB9D83 /* BWCheckTokenResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWCheckTokenResp.h; sourceTree = "<group>"; };
@@ -1008,6 +1013,7 @@
 				9E2DF83728B2301F00B0C9DA /* UI */,
 				9E2DF80E28B2225500B0C9DA /* Utils */,
 				9E8892C02A2E1A1C00B65F99 /* home.gpx */,
+				9E7758F42A38C991009EBA00 /* dest.gpx */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -1247,6 +1253,15 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		9E7758F02A38A309009EBA00 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9E7758F12A38A322009EBA00 /* HWalkDangerView.h */,
+				9E7758F22A38A322009EBA00 /* HWalkDangerView.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		9E8892CA2A35742700B65F99 /* SleepReport */ = {
 			isa = PBXGroup;
 			children = (
@@ -1314,6 +1329,7 @@
 		9E98FA5B296514FA007194EF /* ReportVC */ = {
 			isa = PBXGroup;
 			children = (
+				9E7758F02A38A309009EBA00 /* Views */,
 				9E6832482972858100194199 /* Models */,
 				9E98FA5F29657B81007194EF /* UI */,
 				9E98FA5C29651519007194EF /* HSleepReportVC.h */,
@@ -1534,7 +1550,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 1320;
+				LastUpgradeCheck = 1420;
 				TargetAttributes = {
 					9E0B546428B21E620026CD86 = {
 						CreatedOnToolsVersion = 13.2.1;
@@ -1731,6 +1747,7 @@
 				9EDF523228FAA4510066BFDC /* walkEnd@2x.png in Resources */,
 				9EDF521A28F6FB5C0066BFDC /* navBG_safe@3x.png in Resources */,
 				9E1F21AB28E1722500C5041B /* menu_header@3x.png in Resources */,
+				9E7758F52A38C991009EBA00 /* dest.gpx in Resources */,
 				9EDF522A28FA9B480066BFDC /* guihualujing@2x.png in Resources */,
 				9EF21B3128D985050075CFF0 /* TextArea_Login@3x.png in Resources */,
 				9EDF529529042EFE0066BFDC /* listBottom_danger@3x.png in Resources */,
@@ -1866,6 +1883,7 @@
 				9E17D19D28EACD26005FA5A9 /* HSmallCardView.m in Sources */,
 				9E8BDE98296E9F080001C428 /* ALCalendarCollectionView.m in Sources */,
 				9E17D1E528EEAF4B005FA5A9 /* HTitleView.m in Sources */,
+				9E7758F32A38A322009EBA00 /* HWalkDangerView.m in Sources */,
 				9E98FA5E29651519007194EF /* HSleepReportVC.m in Sources */,
 				9EB411BA296BE97900CFA8FE /* HDateVC.m in Sources */,
 				9E17D1F728F03B6D005FA5A9 /* BWStudentLocationReq.m in Sources */,
@@ -2011,7 +2029,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2065,7 +2083,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -2077,28 +2095,28 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9640EDA3F4B6876B5095B9E8 /* Pods-Hikids.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.1;
 				DEVELOPMENT_TEAM = 87MRKC73D2;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "EXCLUDED_ARCHS__EFFECTIVE_PLATFORM_SUFFIX_simulator__NATIVE_ARCH_64_BIT_x86_64=arm64 arm64e armv7 armv7s armv6 armv8 EXCLUDED_ARCHS=$(inherited) $(EXCLUDED_ARCHS__EFFECTIVE_PLATFORM_SUFFIX_$(EFFECTIVE_PLATFORM_SUFFIX)__NATIVE_ARCH_64_BIT_$(NATIVE_ARCH_64_BIT))";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/HIkids/Hikids.pch";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Hikids/Info.plist;
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "访问蓝牙权限以用于设备数据读取和发送";
-				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "访问蓝牙权限以用于设备数据读取和发送";
-				INFOPLIST_KEY_NSCameraUsageDescription = "需要修改用户头像功能，是否允许此App使用你的相机？";
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "需要局域网权限用来播放本地离线视频，是否允许使用？";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "我们需要通过您的位置获取周边信息";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "App需要获取定位权限来选择您的地址";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "我们需要通过您的位置获取周边信息";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "需要保存图片，是否允许此App使用你的图片库？";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "需要修改用户头像或者反馈功能，是否允许此App访问你的媒体资料库？";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "需要使用您的设备ID，用来进行bug统计及app数据分析";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "デバイスデータの読み取りと送信のために、Bluetoothのアクセス許可が必要です。許可しますか？";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "デバイスデータの読み取りと送信のために、Bluetoothのアクセス許可が必要です。許可しますか？";
+				INFOPLIST_KEY_NSCameraUsageDescription = "ユーザーのプロフィール写真を変更するため、カメラを使用することを許可しますか？";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "ローカルのオフラインビデオの再生のため、このアプリがローカルネットワークへのアクセスを必要としています。許可しますか？";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "周辺情報を取得するために、位置情報を使用する必要があります。許可しますか？";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "アプリの位置情報を取得するために、位置情報のアクセス許可が必要です。許可しますか？";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "周辺情報を取得するために、位置情報を使用する必要があります。許可しますか？";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "画像を保存するため、このアプリが写真ライブラリにアクセスすることを許可しますか？";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "ユーザーのプロフィール写真の変更やフィードバック機能のため、このアプリがメディアライブラリにアクセスすることを許可しますか？";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
@@ -2125,29 +2143,29 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 33281BEE1161C470B4E9D572 /* Pods-Hikids.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 1.1;
 				DEVELOPMENT_TEAM = 87MRKC73D2;
 				EXCLUDED_ARCHS = "";
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "EXCLUDED_ARCHS__EFFECTIVE_PLATFORM_SUFFIX_simulator__NATIVE_ARCH_64_BIT_x86_64=arm64 arm64e armv7 armv7s armv6 armv8 EXCLUDED_ARCHS=$(inherited) $(EXCLUDED_ARCHS__EFFECTIVE_PLATFORM_SUFFIX_$(EFFECTIVE_PLATFORM_SUFFIX)__NATIVE_ARCH_64_BIT_$(NATIVE_ARCH_64_BIT))";
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/HIkids/Hikids.pch";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Hikids/Info.plist;
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "访问蓝牙权限以用于设备数据读取和发送";
-				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "访问蓝牙权限以用于设备数据读取和发送";
-				INFOPLIST_KEY_NSCameraUsageDescription = "需要修改用户头像功能，是否允许此App使用你的相机？";
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "需要局域网权限用来播放本地离线视频，是否允许使用？";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "我们需要通过您的位置获取周边信息";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "App需要获取定位权限来选择您的地址";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "我们需要通过您的位置获取周边信息";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "需要保存图片，是否允许此App使用你的图片库？";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "需要修改用户头像或者反馈功能，是否允许此App访问你的媒体资料库？";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "需要使用您的设备ID，用来进行bug统计及app数据分析";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "デバイスデータの読み取りと送信のために、Bluetoothのアクセス許可が必要です。許可しますか？";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "デバイスデータの読み取りと送信のために、Bluetoothのアクセス許可が必要です。許可しますか？";
+				INFOPLIST_KEY_NSCameraUsageDescription = "ユーザーのプロフィール写真を変更するため、カメラを使用することを許可しますか？";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "ローカルのオフラインビデオの再生のため、このアプリがローカルネットワークへのアクセスを必要としています。許可しますか？";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "周辺情報を取得するために、位置情報を使用する必要があります。許可しますか？";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "アプリの位置情報を取得するために、位置情報のアクセス許可が必要です。許可しますか？";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "周辺情報を取得するために、位置情報を使用する必要があります。許可しますか？";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "画像を保存するため、このアプリが写真ライブラリにアクセスすることを許可しますか？";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "ユーザーのプロフィール写真の変更やフィードバック機能のため、このアプリがメディアライブラリにアクセスすることを許可しますか？";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
