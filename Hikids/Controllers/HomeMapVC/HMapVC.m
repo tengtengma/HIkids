@@ -198,14 +198,15 @@
         [weakSelf presentViewController:dateVC animated:YES completion:nil];
     };
     homeMenuView.gpsBlock = ^{
-        CLLocationCoordinate2D coordinate;
+        
         if (weakSelf.gpsLocation == nil) {
-            coordinate = CLLocationCoordinate2DMake(weakSelf.fenceLocation.locationInfo.latitude, weakSelf.fenceLocation.locationInfo.longitude);
+            [MBProgressHUD showMessag:@"位置を取得できませんでした" toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
         }else{
-            coordinate = CLLocationCoordinate2DMake(weakSelf.gpsLocation.coordinate.latitude, weakSelf.gpsLocation.coordinate.longitude);
+            CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(weakSelf.gpsLocation.coordinate.latitude, weakSelf.gpsLocation.coordinate.longitude);
+            //移动地图中心到当前位置
+            weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:16];
         }
-        //移动地图中心到当前位置
-        weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:16];
+
     };
     homeMenuView.toTopBlock = ^{
         weakSelf.homeMenuTableView.gpsButton.hidden = YES;
@@ -1262,6 +1263,7 @@
         //数据可用
         //散步模式和返程模式 需要手机真实坐标
         self.gpsLocation = location;
+        
         //替换自己的坐标
          CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude);
 
@@ -1273,6 +1275,7 @@
         if(self.isDestMode){
             return;
         }
+
         [self startGetStudentLocationRequest];
         
         NSLog(@"调用定位111111");

@@ -17,9 +17,9 @@
 //#import "JPUSHService.h"
 //#import <PushKit/PushKit.h>
 //
-//#ifdef NSFoundationVersionNumber_iOS_9_x_Max
-//#import <UserNotifications/UserNotifications.h>
-//#endif
+#ifdef NSFoundationVersionNumber_iOS_9_x_Max
+#import <UserNotifications/UserNotifications.h>
+#endif
 
 #import "BaiduMobStat.h"
 
@@ -55,7 +55,7 @@
 
 
     //注册本地推送
-//    [self registerLocalAPN];
+    [self registerLocalAPN];
     
 //    //推送设置
 //    [self trackWithDic:launchOptions];
@@ -96,7 +96,7 @@
 //    __block NSString *advertisingId = @"";
 //    if (@available(iOS 14, *)) {
 //        //设置Info.plist中 NSUserTrackingUsageDescription 需要广告追踪权限，用来定位唯一用户标识
-//        [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
+//        [ATTrackingManager requestTrackingAut]\horizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
 //            if (status == ATTrackingManagerAuthorizationStatusAuthorized) {
 //              advertisingId = [[ASIdentifierManager sharedManager] advertisingIdentifier].UUIDString;
 //            }
@@ -150,21 +150,21 @@
     [GMSPlacesClient provideAPIKey:APIKEY_Google];
 }
 //#pragma mark - 初始化本地推送 -
-//- (void)registerLocalAPN {
-//
-//    // 检测通知授权情况。可选项，不一定要放在此处，可以运行一定时间后再调用
+- (void)registerLocalAPN {
+
+    // 检测通知授权情况。可选项，不一定要放在此处，可以运行一定时间后再调用
 //    [self performSelector:@selector(checkNotificationAuthorization) withObject:nil afterDelay:10];
-//
-//    if (@available(iOS 10.0, *)) {
-//        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-//        [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert + UNAuthorizationOptionSound) completionHandler:^(BOOL granted, NSError * _Nullable error) {
-//
-//        }];
-//    } else {
-//        UIUserNotificationSettings *setting = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert categories:nil];
-//        [[UIApplication sharedApplication] registerUserNotificationSettings:setting];
-//    }
-//}
+
+    if (@available(iOS 10.0, *)) {
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert + UNAuthorizationOptionSound) completionHandler:^(BOOL granted, NSError * _Nullable error) {
+
+        }];
+    } else {
+        UIUserNotificationSettings *setting = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:setting];
+    }
+}
 //竖屏显示
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
     if (self.isForceLandscape) {
