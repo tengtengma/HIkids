@@ -48,7 +48,7 @@
     
     if (self.exceptList.count == 0) {
         
-        if (indexPath.row == 1) {
+        if (indexPath.section == 1) {
             if (self.safeExpand) {
                 if (indexPath.row == 0) {
                     return PAaptation_y(129);
@@ -92,7 +92,7 @@
     }
     
 
-    return 1;
+    return PAaptation_y(129);
 }
 
 #pragma mark - cell数量

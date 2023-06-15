@@ -147,9 +147,21 @@
 //    }else{
 //        self.distanceLabel.text = [NSString stringWithFormat:@"--bpm"];
 //    }
-    self.distanceLabel.text = [NSString stringWithFormat:@"%@ bpm",self.student.deviceInfo.averangheart];
+    if (self.type == FootTYPE_WALK) {
+        if(self.student.distance.integerValue == 0){
+            self.distanceLabel.text = [NSString stringWithFormat:@"--"];
+        }else{
+            self.distanceLabel.text = [NSString stringWithFormat:@"%ld米",self.student.distance.integerValue];
 
-    [self.gpsImageView setImage:[UIImage imageNamed:@"xintiao_safe.png"]];
+        }
+        [self.gpsImageView setImage:[UIImage imageNamed:@"gps_safe.png"]];
+
+    }else{
+        self.distanceLabel.text = [NSString stringWithFormat:@"%@ bpm",self.student.deviceInfo.averangheart];
+        [self.gpsImageView setImage:[UIImage imageNamed:@"xintiao_safe.png"]];
+
+    }
+
     self.distanceLabel.textColor = BWColor(0, 176, 107, 1);
     self.headerView.layer.borderColor = BWColor(0, 176, 107, 1).CGColor;
     self.leftLineView.backgroundColor = BWColor(45, 100, 29, 1);

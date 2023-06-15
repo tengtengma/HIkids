@@ -10,9 +10,13 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^walkEndAction)(void);
+typedef void(^changeWalkStateAction)(UIButton *button);
+
 
 @interface HWalkMenuView : HBaseMenuView
 @property (nonatomic, strong) walkEndAction walkEndBlock;
+@property (nonatomic, strong) changeWalkStateAction changeWalkStateBlock;
+@property (nonatomic, strong) UIButton *changeButton;
 
 - (instancetype)initWithFrame:(CGRect)frame;
 @end

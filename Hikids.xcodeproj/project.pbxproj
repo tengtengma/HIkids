@@ -14,6 +14,8 @@
 		9E03EFE92971341B00A11E49 /* xintiao_danger@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E03EFE72971341B00A11E49 /* xintiao_danger@3x.png */; };
 		9E03EFEC297143BC00A11E49 /* quit@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E03EFEA297143BC00A11E49 /* quit@2x.png */; };
 		9E03EFED297143BC00A11E49 /* quit@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E03EFEB297143BC00A11E49 /* quit@3x.png */; };
+		9E08C3502A3B471D00485ED3 /* gps_safe@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E08C34E2A3B471D00485ED3 /* gps_safe@3x.png */; };
+		9E08C3512A3B471D00485ED3 /* gps_safe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E08C34F2A3B471D00485ED3 /* gps_safe@2x.png */; };
 		9E0B546A28B21E620026CD86 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E0B546928B21E620026CD86 /* AppDelegate.m */; };
 		9E0B547328B21E620026CD86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E0B547128B21E620026CD86 /* Main.storyboard */; };
 		9E0B547528B21E660026CD86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E0B547428B21E660026CD86 /* Assets.xcassets */; };
@@ -299,6 +301,8 @@
 		9E03EFE72971341B00A11E49 /* xintiao_danger@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xintiao_danger@3x.png"; sourceTree = "<group>"; };
 		9E03EFEA297143BC00A11E49 /* quit@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "quit@2x.png"; sourceTree = "<group>"; };
 		9E03EFEB297143BC00A11E49 /* quit@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "quit@3x.png"; sourceTree = "<group>"; };
+		9E08C34E2A3B471D00485ED3 /* gps_safe@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gps_safe@3x.png"; sourceTree = "<group>"; };
+		9E08C34F2A3B471D00485ED3 /* gps_safe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gps_safe@2x.png"; sourceTree = "<group>"; };
 		9E0B546528B21E620026CD86 /* Hikids.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hikids.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E0B546828B21E620026CD86 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9E0B546928B21E620026CD86 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -934,6 +938,8 @@
 				9EDF529B29055E160066BFDC /* battery@3x.png */,
 				9EDF525F2903DE0C0066BFDC /* gps@2x.png */,
 				9EDF525B2903DE0B0066BFDC /* gps@3x.png */,
+				9E08C34F2A3B471D00485ED3 /* gps_safe@2x.png */,
+				9E08C34E2A3B471D00485ED3 /* gps_safe@3x.png */,
 				9EDF52622903DE0C0066BFDC /* wifi@2x.png */,
 				9EDF52652903DE0C0066BFDC /* wifi@3x.png */,
 				9EDF52662903DE0C0066BFDC /* xintiao_safe@2x.png */,
@@ -1706,6 +1712,7 @@
 				9E8892DB2A35AAD000B65F99 /* walkReport_green@2x.png in Resources */,
 				9EB411A6296BD9A000CFA8FE /* back-data.png in Resources */,
 				9EB411B4296BDE8A00CFA8FE /* greenBg@2x.png in Resources */,
+				9E08C3512A3B471D00485ED3 /* gps_safe@2x.png in Resources */,
 				9EDF526B2903DE0C0066BFDC /* xintiao_safe@3x.png in Resources */,
 				9EB411C9296BF93800CFA8FE /* date_selected.png in Resources */,
 				9E8892DC2A35AAD000B65F99 /* walkReport_green@3x.png in Resources */,
@@ -1722,6 +1729,7 @@
 				9EB411CE296BF93800CFA8FE /* date_selected@2x.png in Resources */,
 				9E03EFED297143BC00A11E49 /* quit@3x.png in Resources */,
 				9E98FA6329657B91007194EF /* print@2x.png in Resources */,
+				9E08C3502A3B471D00485ED3 /* gps_safe@3x.png in Resources */,
 				9E03EFE82971341B00A11E49 /* xintiao_danger@2x.png in Resources */,
 				9EDF522F28FA9B480066BFDC /* naoling@2x.png in Resources */,
 				9EF21B3528D985050075CFF0 /* icon_mail@2x.png in Resources */,

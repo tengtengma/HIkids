@@ -240,6 +240,22 @@
         [weakSelf changeTaskStateRequestWithStatus:@"5"];
 
     };
+    self.walkMenuTableView.changeWalkStateBlock = ^(UIButton * _Nonnull button) {
+        
+        if([button.titleLabel.text isEqualToString:@"目的地に到着しました"]){
+            [weakSelf changeTaskStateRequestWithStatus:@"3"];
+
+        }
+        if([button.titleLabel.text isEqualToString:@"帰路に出発"]){
+            [weakSelf changeTaskStateRequestWithStatus:@"4"];
+
+        }
+        if([button.titleLabel.text isEqualToString:@"公園に到着しました"]){
+            [weakSelf changeTaskStateRequestWithStatus:@"5"];
+
+        }
+        
+    };
     self.walkMenuTableView.openReport = ^{
         NSLog(@"打开日历");
         HDateVC *dateVC = [[HDateVC alloc] init];
@@ -425,28 +441,35 @@
                 [weakSelf startStayMode];
                 
             }else if([weakSelf.currentTask.status isEqualToString:@"2"]){
-                //途中模式开启 只画目的地围栏
-                
-                [weakSelf startWalkMode];
                 
                 //设置散步页底部菜单
                 [weakSelf setupWalkMenu];
+                
+                //途中模式开启 只画目的地围栏
+                [weakSelf startWalkMode];
+                
+
 
             }else if([weakSelf.currentTask.status isEqualToString:@"3"]){
+                
+                //设置散步页底部菜单
+                [weakSelf setupWalkMenu];
+                
                 //目的地模式开启
                
                 [weakSelf startDestMode];
                 
-                //设置散步页底部菜单
-                [weakSelf setupWalkMenu];
+
 
             }else if([weakSelf.currentTask.status isEqualToString:@"4"]){
+                //设置散步页底部菜单
+                [weakSelf setupWalkMenu];
+                
                 //回程模式开启 只画院内围栏
                 
                 [weakSelf startBackMode];
                 
-                //设置散步页底部菜单
-                [weakSelf setupWalkMenu];
+
 
             }
         }else{
@@ -609,6 +632,8 @@
     [self.sleepTimer setFireDate:[NSDate distantFuture]];
     
     [self.locationManager startUpdatingLocation];
+    
+    [self.walkMenuTableView.changeButton setTitle:@"目的地に到着しました" forState:UIControlStateNormal];
 
 
 }
@@ -628,6 +653,9 @@
     self.isDestMode = YES;
     
     [self.locationManager startUpdatingLocation];
+    
+    [self.walkMenuTableView.changeButton setTitle:@"帰路に出発" forState:UIControlStateNormal];
+
 
 }
 //开启返回模式
@@ -642,6 +670,9 @@
     [self.sleepTimer setFireDate:[NSDate distantFuture]];
     
     [self.locationManager startUpdatingLocation];
+    
+    [self.walkMenuTableView.changeButton setTitle:@"公園に到着しました" forState:UIControlStateNormal];
+
 }
 //画围栏(在startGetStudentLocationRequest方法里)
 - (void)drawFenceWith:(NSString *)fence ishome:(BOOL)home

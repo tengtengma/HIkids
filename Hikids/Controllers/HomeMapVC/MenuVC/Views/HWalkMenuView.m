@@ -32,7 +32,7 @@
 }
 - (void)createTableFooterView
 {
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, PAaptation_y(124))];
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, PAaptation_y(164))];
     footerView.backgroundColor = [UIColor whiteColor];
     self.tableView.tableFooterView = footerView;
 
@@ -47,12 +47,34 @@
         make.height.mas_equalTo(PAaptation_y(47));
     }];
     
+    self.changeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.changeButton.titleLabel setFont:[UIFont boldSystemFontOfSize:16]];
+    self.changeButton.layer.backgroundColor = BWColor(255, 75, 0, 1).CGColor;
+    self.changeButton.layer.cornerRadius = 24;
+    self.changeButton.layer.borderWidth = 2;
+    self.changeButton.layer.borderColor = BWColor(76, 53, 41, 1).CGColor;
+    [self.changeButton addTarget:self action:@selector(destOrbackAction:) forControlEvents:UIControlEventTouchUpInside];
+    [footerView addSubview:self.changeButton];
+    
+    [self.changeButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(button.mas_bottom).offset(PAaptation_y(20));
+        make.left.equalTo(button);
+        make.width.mas_equalTo(PAdaptation_x(240));
+        make.height.mas_equalTo(PAaptation_y(47));
+    }];
+    
     
 }
 - (void)walkEndAction:(id)sender
 {
     if (self.walkEndBlock) {
         self.walkEndBlock();
+    }
+}
+- (void)destOrbackAction:(UIButton *)button
+{
+    if(self.changeWalkStateBlock){
+        self.changeWalkStateBlock(button);
     }
 }
 

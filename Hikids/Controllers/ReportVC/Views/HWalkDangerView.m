@@ -14,6 +14,7 @@
 @property (nonatomic, strong) UIImageView *redView;
 @property (nonatomic, strong) UIImageView *greenView;
 @property (nonatomic, strong) UIImageView *photoView;
+@property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, strong) UILabel *nameLabel;
@@ -29,6 +30,36 @@
 - (instancetype)init
 {
     if(self = [super init]){
+        
+        self.backgroundColor = [UIColor clearColor];
+        
+        [self addSubview:self.topView];
+        [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self);
+            make.left.equalTo(self);
+            make.width.equalTo(self);
+            make.height.mas_equalTo(PAaptation_y(48));
+        }];
+        
+        [self.topView addSubview:self.iconView];
+        [self.iconView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.topView);
+            make.left.equalTo(self.topView).offset(PAdaptation_x(13));
+            make.width.mas_equalTo(PAdaptation_x(24));
+            make.height.mas_equalTo(PAaptation_y(24));
+        }];
+        
+        [self.topView addSubview:self.dangerLabel];
+        [self.dangerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.topView);
+            make.left.equalTo(self.iconView.mas_right).offset(PAdaptation_x(9));
+        }];
+        
+        [self.topView addSubview:self.timeLabel];
+        [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.topView);
+            make.right.equalTo(self.topView.mas_right).offset(-PAdaptation_x(11));
+        }];
         
     }
     return self;
@@ -82,6 +113,17 @@
         _photoView = [[UIImageView alloc] init];
     }
     return _photoView;
+}
+- (UIView *)bottomView
+{
+    if(!_bottomView){
+        _bottomView = [[UIView alloc] init];
+        _bottomView.layer.backgroundColor = BWColor(255, 251, 227, 1).CGColor;
+        _bottomView.layer.cornerRadius = 12;
+        _bottomView.layer.borderWidth = 2;
+        _bottomView.layer.borderColor = BWColor(76, 53, 41, 1).CGColor;
+    }
+    return _bottomView;
 }
 - (UILabel *)titleLabel
 {
