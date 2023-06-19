@@ -7,22 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "984190A5-EC06-4DD9-84F9-29F2B8076BD5"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "869"
-            endingLineNumber = "869"
-            landmarkName = "-startGetStudentLocationRequest"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "78D7886E-7BF7-4984-94E6-DE39D713D0F6"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -30,13 +14,13 @@
             filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1431"
-            endingLineNumber = "1431"
+            startingLineNumber = "1466"
+            endingLineNumber = "1466"
             landmarkName = "-alertView:clickedButtonAtIndex:"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "78D7886E-7BF7-4984-94E6-DE39D713D0F6 - 9d10e21dcad38b2f"
+                  uuid = "78D7886E-7BF7-4984-94E6-DE39D713D0F6 - 9d10e21dcad386aa"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -46,12 +30,12 @@
                   urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Controllers/HomeMapVC/HMapVC.m"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1431"
-                  endingLineNumber = "1431"
+                  startingLineNumber = "1466"
+                  endingLineNumber = "1466"
                   offsetFromSymbolStart = "100">
                </Location>
                <Location
-                  uuid = "78D7886E-7BF7-4984-94E6-DE39D713D0F6 - 6237447ab7abdaf4"
+                  uuid = "78D7886E-7BF7-4984-94E6-DE39D713D0F6 - 6237447ab7abd771"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -61,8 +45,8 @@
                   urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Controllers/HomeMapVC/HMapVC.m"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1433"
-                  endingLineNumber = "1433"
+                  startingLineNumber = "1468"
+                  endingLineNumber = "1468"
                   offsetFromSymbolStart = "24">
                </Location>
             </Locations>
@@ -78,8 +62,8 @@
             filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1440"
-            endingLineNumber = "1440"
+            startingLineNumber = "1475"
+            endingLineNumber = "1475"
             landmarkName = "-dealloc"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,25 +78,9 @@
             filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1291"
-            endingLineNumber = "1291"
+            startingLineNumber = "1303"
+            endingLineNumber = "1303"
             landmarkName = "-locationManager:didUpdateLocations:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "93E6014B-09F4-4F39-B150-44D55AD8C369"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "881"
-            endingLineNumber = "881"
-            landmarkName = "-startGetStudentLocationRequest"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

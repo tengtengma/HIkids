@@ -136,9 +136,31 @@
     self.student = model;
     
     [self.headerView sd_setImageWithURL:[NSURL URLWithString:model.avatar]];
-    [self.batteryImageView setImage:[UIImage imageNamed:@"battery.png"]];
+    [self.batteryImageView setImage:[self batteryLevelImageWithString:model.deviceInfo.batteryLevel]];
     [self.wifiImageView setImage:[UIImage imageNamed:@"wifi.png"]];
     self.titleLabel.text = model.name;
+}
+- (UIImage *)batteryLevelImageWithString:(NSString *)rate
+{
+    UIImage *image = nil;
+    
+    if(rate.doubleValue >= 0 && rate.doubleValue <= 20.0){
+        image = [UIImage imageNamed:@"battery_empty.png"];
+        
+    }else if(rate.doubleValue > 20.0 && rate.doubleValue <= 40.0){
+        image = [UIImage imageNamed:@"battery_low.png"];
+
+    }else if(rate.doubleValue > 40.0 && rate.doubleValue <= 60.0){
+        image = [UIImage imageNamed:@"battery_half.png"];
+
+    }else if(rate.doubleValue > 60.0 && rate.doubleValue <= 80.0){
+        image = [UIImage imageNamed:@"battery_high.png"];
+
+    }else{
+        image = [UIImage imageNamed:@"battery_full.png"];
+
+    }
+    return image;
 }
 - (void)loadSafeStyle
 {

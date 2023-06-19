@@ -42,6 +42,8 @@
 #import "HDateVC.h"
 #import "HWalkDownTimeView.h"
 
+#define default_Zoom 18.5
+
 @interface HMapVC ()<GMSMapViewDelegate,CLLocationManagerDelegate,UIAlertViewDelegate>
 @property (nonatomic,strong) GMSMapView *mapView;                   //谷歌地图
 @property (nonatomic,strong) GMSMarker *marker;                     //大头针
@@ -71,6 +73,7 @@
 @property (nonatomic,assign) BOOL isDestMode;                       //是否是目的地模式
 @property (nonatomic,strong) GMSPolygon* kinPoly;                   //园区围栏路径
 @property (nonatomic,strong) GMSPolygon* destPoly;                  //目的地围栏路径
+@property (nonatomic,assign) float lastZoom;                        //上次保存的放大倍数
 
 @property (nonatomic,strong) NSString *appUrl;                      //检查更新版本
 
@@ -204,7 +207,7 @@
         }else{
             CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(weakSelf.gpsLocation.coordinate.latitude, weakSelf.gpsLocation.coordinate.longitude);
             //移动地图中心到当前位置
-            weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:16];
+            weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:self.lastZoom == 0 ? default_Zoom : self.lastZoom];
         }
 
     };
@@ -264,7 +267,7 @@
     self.walkMenuTableView.gpsBlock = ^{
         CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(weakSelf.gpsLocation.coordinate.latitude, weakSelf.gpsLocation.coordinate.longitude);
         //移动地图中心到当前位置
-        weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:16];
+        weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:weakSelf.lastZoom == 0 ? default_Zoom : weakSelf.lastZoom];
     };
     
 }
@@ -628,7 +631,7 @@
     //开启定位
 //    [self startLocation];
     
-    [self.walkTimer setFireDate:[NSDate distantFuture]];
+    [self.walkTimer setFireDate:[NSDate distantPast]];
     [self.sleepTimer setFireDate:[NSDate distantFuture]];
     
     [self.locationManager startUpdatingLocation];
@@ -666,7 +669,7 @@
     self.homeMenuTableView.hidden = YES;
     
     
-    [self.walkTimer setFireDate:[NSDate distantFuture]];
+    [self.walkTimer setFireDate:[NSDate distantPast]];
     [self.sleepTimer setFireDate:[NSDate distantFuture]];
     
     [self.locationManager startUpdatingLocation];
@@ -875,7 +878,6 @@
                 
                 //返程模式（画园区地围栏）
                 [weakSelf drawFenceWith:weakSelf.kinFence ishome:YES];
-
                 if ([weakSelf isInFenceAction:weakSelf.kinPoly.path]) {
                     //判断是否到了园区
                     [weakSelf showDestAlertViewWithState:@"5"];
@@ -1027,6 +1029,16 @@
         marker.userData = student;
         marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
         marker.map = self.mapView;
+        
+        
+//        GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc] initWithCoordinate:marker.position coordinate:marker.position];
+//
+////            for (GMSMarker *marker in markers)
+////            {
+//                bounds = [bounds includingCoordinate:marker.position];
+////            }
+//         
+//            [self.mapView animateWithCameraUpdate:[GMSCameraUpdate fitBounds:bounds]];
         
                 
         if (![self.makerList containsObject:marker]) {
@@ -1301,13 +1313,13 @@
          //如果是国内，就会转化坐标系，如果是国外坐标，则不会转换。
  //        _coordinate2D = [JZLocationConverter wgs84ToGcj02:location.coordinate];
          //移动地图中心到当前位置
-         self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:16];
+         self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:self.lastZoom == 0 ? default_Zoom : self.lastZoom];
         
-        if(self.isDestMode){
-            return;
-        }
-
-        [self startGetStudentLocationRequest];
+//        if(self.isDestMode){
+//            return;
+//        }
+//
+//        [self startGetStudentLocationRequest];
         
         NSLog(@"调用定位111111");
         
@@ -1320,9 +1332,8 @@
     }
 }
 
-
-
-
+#pragma mark -
+#pragma mark - GoogleDelegate -
 -(BOOL)mapView:(GMSMapView *) mapView didTapMarker:(GMSMarker *)marker
 {
     [self hideStateInfoView];
@@ -1333,6 +1344,30 @@
     [self showStateInfoView];
 
     return YES;
+}
+- (void)mapView:(GMSMapView *)mapView didChangeCameraPosition:(GMSCameraPosition *)position
+{
+//    GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc] init];
+
+//            for (GMSMarker *marker in self.makerList)
+//            {
+//            bounds = [bounds includingCoordinate:marker.position];
+//            }
+
+//        [self.mapView animateWithCameraUpdate:[GMSCameraUpdate fitBounds:bounds]];
+
+//    for (GMSMarker *marker in self.makerList)
+//    {
+//        CGSize size = CGSizeMake(PAdaptation_x(2) * position.zoom, PAaptation_y(2) * position.zoom);
+//        marker.iconView.frame = CGRectMake(0, 0, size.width, size.height);
+//
+//        NSLog(@"iconWidth = %f, iconHeight = %f",marker.iconView.frame.size.width,marker.iconView.frame.size.height);
+//
+//    }
+    
+    self.lastZoom = position.zoom;
+
+    NSLog(@"zoom = %f",position.zoom);
 }
 - (void)showStateInfoView
 {
@@ -1446,7 +1481,7 @@
 {
     if (!_mapView) {
         //设置地图view，这里是随便初始化了一个经纬度，在获取到当前用户位置到时候会直接更新的
-        GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:38.02 longitude:114.52 zoom:15];
+        GMSCameraPosition *camera = [GMSCameraPosition cameraWithLatitude:38.02 longitude:114.52 zoom:default_Zoom];
         _mapView = [GMSMapView mapWithFrame:CGRectMake(0, PAaptation_y(148), SCREEN_WIDTH,self.view.frame.size.height - PAaptation_y(161)) camera:camera];
         _mapView.delegate = self;
         _mapView.settings.myLocationButton = NO;
@@ -1470,7 +1505,7 @@
         _locationManager.delegate = self;
         [_locationManager requestWhenInUseAuthorization];
         _locationManager.desiredAccuracy = kCLLocationAccuracyBest;//设置定位精度
-        _locationManager.distanceFilter = 20;//设置定位频率，每隔多少米定位一次
+        _locationManager.distanceFilter = 10;//设置定位频率，每隔多少米定位一次
         _locationManager.pausesLocationUpdatesAutomatically = NO;
         _locationManager.allowsBackgroundLocationUpdates = YES;
     }
