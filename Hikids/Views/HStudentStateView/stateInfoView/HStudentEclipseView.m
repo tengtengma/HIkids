@@ -7,31 +7,50 @@
 
 #import "HStudentEclipseView.h"
 #import "HStudent.h"
+
+@interface HStudentEclipseView()
+@property (nonatomic, strong) UIImageView *ellipseView;
+@property (nonatomic, strong) UIImageView *imageView;
+
+@end
+
 @implementation HStudentEclipseView
 
-- (instancetype)initWithFrame:(CGRect)frame withStudent:(HStudent *)student withBgImage:(UIImage *)bgImg
+- (instancetype)initWithFrame:(CGRect)frame withStudent:(HStudent *)student
 {
     if(self = [super initWithFrame:frame]){
         
-        UIImageView *ellipseView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        ellipseView.tag = 1000;
-        [ellipseView setImage:bgImg];
-        [self addSubview:ellipseView];
+        [self addSubview:self.ellipseView];
         
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(frame.size.width/2 - PAdaptation_x(40)/2, frame.size.height/2 - PAaptation_y(40)/2, PAdaptation_x(40), PAaptation_y(40))];
-        imageView.layer.cornerRadius = PAaptation_y(40)/2;
-        imageView.layer.masksToBounds = YES;
-        imageView.layer.borderWidth = 4;
-        imageView.layer.borderColor = student.exceptionTime.length == 0 ? BWColor(79, 173, 113, 1).CGColor : BWColor(255, 75, 0, 1).CGColor;
-        [imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
-        [ellipseView addSubview:imageView];
+        self.imageView.layer.borderColor = student.exceptionTime.length == 0 ? BWColor(79, 173, 113, 1).CGColor : BWColor(255, 75, 0, 1).CGColor;
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
+        [self.ellipseView addSubview:self.imageView];
         
     }
     return self;
 }
-- (void)setDefaultBgImage:(UIImage *)img
+- (void)setBgImage:(UIImage *)img
 {
-    UIImageView *imageView = (UIImageView *)[self viewWithTag:1000];
-    [imageView setImage:img];
+//    UIImageView *imageView = (UIImageView *)[self viewWithTag:1000];
+    [self.ellipseView setImage:img];
+}
+
+#pragma mark - LazyLoad -
+- (UIImageView *)ellipseView
+{
+    if(!_ellipseView){
+        _ellipseView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+    }
+    return _ellipseView;
+}
+- (UIImageView *)imageView
+{
+    if(!_imageView){
+        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.size.width/2 - PAdaptation_x(40)/2, self.frame.size.height/2 - PAaptation_y(40)/2, PAdaptation_x(40), PAaptation_y(40))];
+        _imageView.layer.cornerRadius = PAaptation_y(40)/2;
+        _imageView.layer.masksToBounds = YES;
+        _imageView.layer.borderWidth = 4;
+    }
+    return _imageView;
 }
 @end

@@ -326,7 +326,7 @@
         [weakSelf hideStateInfoView];
         
         HStudentEclipseView *lastView = (HStudentEclipseView *)[weakSelf.mapView viewWithTag:weakSelf.lastMarkerTag];
-        [lastView setDefaultBgImage:lastView.isExcept ? [UIImage imageNamed:@"Ellipse.png"] : [UIImage imageNamed:@""]];
+        [lastView setBgImage:lastView.isExcept ? [UIImage imageNamed:@"Ellipse.png"] : [UIImage imageNamed:@"1"]];
 
     };
 }
@@ -1026,8 +1026,14 @@
 
         CGRect ellipseframe = CGRectMake(0, 0, PAdaptation_x(80), PAaptation_y(80));
         
-        HStudentEclipseView *ellipseView = [[HStudentEclipseView alloc] initWithFrame:ellipseframe withStudent:student withBgImage:[UIImage imageNamed:@"Ellipse.png"]];
+        HStudentEclipseView *ellipseView = [[HStudentEclipseView alloc] initWithFrame:ellipseframe withStudent:student];
+        if(self.lastMarkerTag == 7000+student.sId.integerValue){
+            [ellipseView setBgImage:[UIImage imageNamed:@"studentInfo_yellow.png"]];
+        }else{
+            [ellipseView setBgImage:[UIImage imageNamed:@"Ellipse.png"]];
+        }
         ellipseView.isExcept = YES;
+        
 
         GMSMarker *marker = [self findMarkerWithStudentId:student.sId];
         
@@ -1061,7 +1067,12 @@
         
         CGRect frame = CGRectMake(0, 0, PAdaptation_x(40), PAaptation_y(40));
         
-        HStudentEclipseView *ellipseView = [[HStudentEclipseView alloc] initWithFrame:frame withStudent:student withBgImage:[UIImage imageNamed:@""]];
+        HStudentEclipseView *ellipseView = [[HStudentEclipseView alloc] initWithFrame:frame withStudent:student];
+        if(self.lastMarkerTag == 7000+student.sId.integerValue){
+            [ellipseView setBgImage:[UIImage imageNamed:@"studentInfo_yellow.png"]];
+        }else{
+            [ellipseView setBgImage:[UIImage imageNamed:@"1"]];
+        }
         ellipseView.isExcept = NO;
 
         GMSMarker *marker = [self findMarkerWithStudentId:student.sId];
@@ -1362,13 +1373,14 @@
 {
     if (self.lastMarkerTag != -1) {
         HStudentEclipseView *lastView = (HStudentEclipseView *)[self.mapView viewWithTag:self.lastMarkerTag];
-        [lastView setDefaultBgImage:lastView.isExcept ? [UIImage imageNamed:@"Ellipse.png"] : [UIImage imageNamed:@""]];
+        [lastView setBgImage:lastView.isExcept ? [UIImage imageNamed:@"Ellipse.png"] : [UIImage imageNamed:@""]];
     }
     
     self.lastMarkerTag = 7000 + student.sId.integerValue;
     
     CGRect ellipseframe = CGRectMake(0, 0, PAdaptation_x(80), PAaptation_y(80));
-    HStudentEclipseView *ellipseView = [[HStudentEclipseView alloc] initWithFrame:ellipseframe withStudent:student withBgImage:[UIImage imageNamed:@"studentInfo_yellow.png"]];
+    HStudentEclipseView *ellipseView = [[HStudentEclipseView alloc] initWithFrame:ellipseframe withStudent:student];
+    [ellipseView setBgImage:[UIImage imageNamed:@"studentInfo_yellow.png"]];
     ellipseView.isExcept = student.exceptionTime.length == 0 ? NO : YES;
     ellipseView.tag = self.lastMarkerTag;
     marker.iconView = ellipseView;
@@ -1383,7 +1395,7 @@
     [self hideStateInfoView];
 
     HStudentEclipseView *lastView = (HStudentEclipseView *)[mapView viewWithTag:self.lastMarkerTag];
-    [lastView setDefaultBgImage:lastView.isExcept ? [UIImage imageNamed:@"Ellipse.png"] : [UIImage imageNamed:@""]];
+    [lastView setBgImage:lastView.isExcept ? [UIImage imageNamed:@"Ellipse.png"] : [UIImage imageNamed:@""]];
 }
 - (void)mapView:(GMSMapView *)mapView didChangeCameraPosition:(GMSCameraPosition *)position
 {

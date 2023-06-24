@@ -14,8 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface HStudentEclipseView : UIView
 @property (nonatomic, assign) BOOL isExcept;
 
-- (instancetype)initWithFrame:(CGRect)frame withStudent:(HStudent *)student withBgImage:(UIImage *)bgImg;
-- (void)setDefaultBgImage:(UIImage *)img;
+- (instancetype)initWithFrame:(CGRect)frame withStudent:(HStudent *)student;
+- (void)setBgImage:(UIImage *)img;
 @end
 
 NS_ASSUME_NONNULL_END
