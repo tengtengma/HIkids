@@ -222,44 +222,44 @@
             [cell.contentView addSubview:label];
             
 //            当前暂时隐藏 2023.0601
-            UIButton *sleepBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            sleepBtn.tag = 1000;
-            [sleepBtn setImage:[UIImage imageNamed:@"btn_menu_sleep.png"] forState:UIControlStateNormal];
-            [sleepBtn addTarget:self action:@selector(gotoVCAction:) forControlEvents:UIControlEventTouchUpInside];
-            [cell.contentView addSubview:sleepBtn];
-
-            [sleepBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.centerY.equalTo(cell.contentView);
-                make.left.equalTo(cell.contentView).offset(PAdaptation_x(23));
-                make.width.mas_equalTo(PAdaptation_x(166));
-                make.height.mas_equalTo(PAaptation_y(96));
-            }];
-
-            UIButton *walkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-            walkBtn.tag = 1001;
-            [walkBtn setImage:[UIImage imageNamed:@"btn_menu_walk.png"] forState:UIControlStateNormal];
-            [walkBtn addTarget:self action:@selector(gotoVCAction:) forControlEvents:UIControlEventTouchUpInside];
-            [cell.contentView addSubview:walkBtn];
-
-            [walkBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.centerY.equalTo(cell.contentView);
-                make.left.equalTo(sleepBtn.mas_right).offset(PAdaptation_x(12));
-                make.width.mas_equalTo(PAdaptation_x(166));
-                make.height.mas_equalTo(PAaptation_y(96));
-            }];
-            
+//            UIButton *sleepBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//            sleepBtn.tag = 1000;
+//            [sleepBtn setImage:[UIImage imageNamed:@"btn_menu_sleep.png"] forState:UIControlStateNormal];
+//            [sleepBtn addTarget:self action:@selector(gotoVCAction:) forControlEvents:UIControlEventTouchUpInside];
+//            [cell.contentView addSubview:sleepBtn];
+//
+//            [sleepBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//                make.centerY.equalTo(cell.contentView);
+//                make.left.equalTo(cell.contentView).offset(PAdaptation_x(23));
+//                make.width.mas_equalTo(PAdaptation_x(166));
+//                make.height.mas_equalTo(PAaptation_y(96));
+//            }];
+//
 //            UIButton *walkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
 //            walkBtn.tag = 1001;
-//            [walkBtn setBackgroundImage:[UIImage imageNamed:@"btn_menu_only_walk.png"] forState:UIControlStateNormal];
+//            [walkBtn setImage:[UIImage imageNamed:@"btn_menu_walk.png"] forState:UIControlStateNormal];
 //            [walkBtn addTarget:self action:@selector(gotoVCAction:) forControlEvents:UIControlEventTouchUpInside];
 //            [cell.contentView addSubview:walkBtn];
 //
 //            [walkBtn mas_makeConstraints:^(MASConstraintMaker *make) {
 //                make.centerY.equalTo(cell.contentView);
-//                make.left.equalTo(cell.contentView).offset(PAdaptation_x(25));
-//                make.right.equalTo(cell.contentView.mas_right).offset(-PAdaptation_x(25));
+//                make.left.equalTo(sleepBtn.mas_right).offset(PAdaptation_x(12));
+//                make.width.mas_equalTo(PAdaptation_x(166));
 //                make.height.mas_equalTo(PAaptation_y(96));
 //            }];
+            
+            UIButton *walkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            walkBtn.tag = 1001;
+            [walkBtn setBackgroundImage:[UIImage imageNamed:@"btn_menu_only_walk.png"] forState:UIControlStateNormal];
+            [walkBtn addTarget:self action:@selector(gotoVCAction:) forControlEvents:UIControlEventTouchUpInside];
+            [cell.contentView addSubview:walkBtn];
+
+            [walkBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(cell.contentView);
+                make.left.equalTo(cell.contentView).offset(PAdaptation_x(25));
+                make.right.equalTo(cell.contentView.mas_right).offset(-PAdaptation_x(25));
+                make.height.mas_equalTo(PAaptation_y(96));
+            }];
             
             UILabel *label1 = [[UILabel alloc] init];
             label1.text = @"園児リスト";

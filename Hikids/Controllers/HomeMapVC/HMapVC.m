@@ -212,7 +212,7 @@
             //移动地图中心到当前位置
             weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:self.lastZoom == 0 ? default_Zoom : self.lastZoom];
             
-//            [weakSelf startGetStudentLocationRequest];
+            [weakSelf startGetStudentLocationRequest];
         }
 
     };
@@ -634,7 +634,7 @@
 //    [self startLocation]; //开启定位
     
     //    加载假数据小朋友的
-        [self reloadData];
+//        [self reloadData];
     
 }
 //开启散步模式
@@ -840,9 +840,9 @@
             
             weakSelf.homeMenuTableView.smallView.safeLabel.text = [NSString stringWithFormat:@"使用中%ld人",locationResp.normalKids.count];
             weakSelf.homeMenuTableView.smallView.dangerLabel.text = [NSString stringWithFormat:@"アラート%ld回",locationResp.exceptionKids.count];
-//            weakSelf.homeMenuTableView.safeList = locationResp.normalKids;
-//            weakSelf.homeMenuTableView.exceptList = locationResp.exceptionKids;
-//            [weakSelf.homeMenuTableView.tableView reloadData];
+            weakSelf.homeMenuTableView.safeList = locationResp.normalKids;
+            weakSelf.homeMenuTableView.exceptList = locationResp.exceptionKids;
+            [weakSelf.homeMenuTableView.tableView reloadData];
             
         }else{
             
@@ -1026,7 +1026,7 @@
 
         CGRect ellipseframe = CGRectMake(0, 0, PAdaptation_x(80), PAaptation_y(80));
         
-        HStudentEclipseView *ellipseView = [[HStudentEclipseView alloc] initWithFrame:ellipseframe withHeadStr:student.avatar withBgImage:[UIImage imageNamed:@"Ellipse.png"]];
+        HStudentEclipseView *ellipseView = [[HStudentEclipseView alloc] initWithFrame:ellipseframe withStudent:student withBgImage:[UIImage imageNamed:@"Ellipse.png"]];
         ellipseView.isExcept = YES;
 
         GMSMarker *marker = [self findMarkerWithStudentId:student.sId];
@@ -1061,7 +1061,7 @@
         
         CGRect frame = CGRectMake(0, 0, PAdaptation_x(40), PAaptation_y(40));
         
-        HStudentEclipseView *ellipseView = [[HStudentEclipseView alloc] initWithFrame:frame withHeadStr:student.avatar withBgImage:[UIImage imageNamed:@""]];
+        HStudentEclipseView *ellipseView = [[HStudentEclipseView alloc] initWithFrame:frame withStudent:student withBgImage:[UIImage imageNamed:@""]];
         ellipseView.isExcept = NO;
 
         GMSMarker *marker = [self findMarkerWithStudentId:student.sId];
@@ -1090,45 +1090,45 @@
     return nil;
 }
 
-- (void)reloadData
-{
-    //    //测试用
-        NSMutableArray *except = [[NSMutableArray alloc] init];
-        for (NSInteger i = 0; i<1; i++) {
-            HStudent *student = [[HStudent alloc] init];
-            student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
-            student.sId = [NSString stringWithFormat:@"%ld",100+i];
-            student.name = @"asdfsa";
-            student.exceptionTime = @"123";
-            student.distance = @"200";
-            student.deviceInfo.latitude = @"39.871893697139896";
-            student.deviceInfo.longitude = @"116.28354814224828";
-            [except addObject:student];
-        }
-
-//        self.exceptArray = except;
-    //
-        NSMutableArray *nomal = [[NSMutableArray alloc] init];
-        for (NSInteger i = 0; i<1; i++) {
-            HStudent *student = [[HStudent alloc] init];
-            student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
-            student.sId = [NSString stringWithFormat:@"%ld",300+i];
-            student.name = @"asdfsa";
-            student.deviceInfo.latitude = @"39.871908";
-            student.deviceInfo.longitude = @"116.281441";
-            [nomal addObject:student];
-        }
-//        self.nomalArray = nomal;
-
-
-    self.homeMenuTableView.safeList = nomal;
-    self.homeMenuTableView.exceptList = except;
-    [self.homeMenuTableView.tableView reloadData];
-
-
-    [self addMarkersWithNomalList:nomal andExceptList:except];
-
-}
+//- (void)reloadData
+//{
+//    //    //测试用
+//        NSMutableArray *except = [[NSMutableArray alloc] init];
+//        for (NSInteger i = 0; i<1; i++) {
+//            HStudent *student = [[HStudent alloc] init];
+//            student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
+//            student.sId = [NSString stringWithFormat:@"%ld",100+i];
+//            student.name = @"asdfsa";
+//            student.exceptionTime = @"123";
+//            student.distance = @"200";
+//            student.deviceInfo.latitude = @"39.871893697139896";
+//            student.deviceInfo.longitude = @"116.28354814224828";
+//            [except addObject:student];
+//        }
+//
+////        self.exceptArray = except;
+//    //
+//        NSMutableArray *nomal = [[NSMutableArray alloc] init];
+//        for (NSInteger i = 0; i<1; i++) {
+//            HStudent *student = [[HStudent alloc] init];
+//            student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
+//            student.sId = [NSString stringWithFormat:@"%ld",300+i];
+//            student.name = @"asdfsa";
+//            student.deviceInfo.latitude = @"39.871908";
+//            student.deviceInfo.longitude = @"116.281441";
+//            [nomal addObject:student];
+//        }
+////        self.nomalArray = nomal;
+//
+//
+//    self.homeMenuTableView.safeList = nomal;
+//    self.homeMenuTableView.exceptList = except;
+//    [self.homeMenuTableView.tableView reloadData];
+//
+//
+//    [self addMarkersWithNomalList:nomal andExceptList:except];
+//
+//}
 
 
 - (void)startLocation {
@@ -1368,7 +1368,7 @@
     self.lastMarkerTag = 7000 + student.sId.integerValue;
     
     CGRect ellipseframe = CGRectMake(0, 0, PAdaptation_x(80), PAaptation_y(80));
-    HStudentEclipseView *ellipseView = [[HStudentEclipseView alloc] initWithFrame:ellipseframe withHeadStr:student.avatar withBgImage:[UIImage imageNamed:@"studentInfo_yellow.png"]];
+    HStudentEclipseView *ellipseView = [[HStudentEclipseView alloc] initWithFrame:ellipseframe withStudent:student withBgImage:[UIImage imageNamed:@"studentInfo_yellow.png"]];
     ellipseView.isExcept = student.exceptionTime.length == 0 ? NO : YES;
     ellipseView.tag = self.lastMarkerTag;
     marker.iconView = ellipseView;

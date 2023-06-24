@@ -6,10 +6,10 @@
 //
 
 #import "HStudentEclipseView.h"
-
+#import "HStudent.h"
 @implementation HStudentEclipseView
 
-- (instancetype)initWithFrame:(CGRect)frame withHeadStr:(NSString *)avatar withBgImage:(nonnull UIImage *)bgImg
+- (instancetype)initWithFrame:(CGRect)frame withStudent:(HStudent *)student withBgImage:(UIImage *)bgImg
 {
     if(self = [super initWithFrame:frame]){
         
@@ -22,8 +22,8 @@
         imageView.layer.cornerRadius = PAaptation_y(40)/2;
         imageView.layer.masksToBounds = YES;
         imageView.layer.borderWidth = 4;
-        imageView.layer.borderColor = BWColor(255, 75, 0, 1).CGColor;
-        [imageView sd_setImageWithURL:[NSURL URLWithString:avatar]];
+        imageView.layer.borderColor = student.exceptionTime.length == 0 ? BWColor(79, 173, 113, 1).CGColor : BWColor(255, 75, 0, 1).CGColor;
+        [imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
         [ellipseView addSubview:imageView];
         
     }
