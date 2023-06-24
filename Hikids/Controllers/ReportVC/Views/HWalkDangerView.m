@@ -61,6 +61,50 @@
             make.right.equalTo(self.topView.mas_right).offset(-PAdaptation_x(11));
         }];
         
+        [self addSubview:self.bottomView];
+        [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.topView.mas_bottom);
+            make.left.equalTo(self.topView);
+            make.width.equalTo(self.topView);
+            make.height.equalTo(self.mas_bottom);
+        }];
+        
+        [self.bottomView addSubview:self.photoView];
+        [self.photoView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.bottomView).offset(PAaptation_y(15));
+            make.left.equalTo(self.bottomView).offset(PAdaptation_x(15));
+            make.width.mas_equalTo(PAdaptation_x(52));
+            make.height.mas_equalTo(PAaptation_y(52));
+        }];
+        
+        [self.bottomView addSubview:self.titleLabel];
+        [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.bottomView).offset(PAaptation_y(12));
+            make.left.equalTo(self.photoView.mas_right).offset(PAdaptation_x(13));
+        }];
+        
+        [self.bottomView addSubview:self.gpsView];
+        [self.gpsView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.titleLabel.mas_bottom).offset(PAaptation_y(2));
+            make.left.equalTo(self.photoView.mas_right).offset(PAdaptation_x(17));
+            make.width.mas_equalTo(PAdaptation_x(18));
+            make.height.mas_equalTo(PAaptation_y(24));
+        }];
+        
+        [self.bottomView addSubview:self.distanceLabel];
+        [self.distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.titleLabel.mas_bottom);
+            make.left.equalTo(self.gpsView.mas_right).offset(PAdaptation_x(11));
+        }];
+        
+        [self.bottomView addSubview:self.redView];
+        [self.redView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.photoView.mas_bottom).offset(PAaptation_y(20));
+            make.centerX.equalTo(self.photoView);
+            make.width.mas_equalTo(PAdaptation_x(14));
+            make.height.mas_equalTo(PAaptation_y(14));
+        }];
+        
     }
     return self;
 }
@@ -111,6 +155,9 @@
 {
     if(!_photoView){
         _photoView = [[UIImageView alloc] init];
+        _photoView.layer.borderWidth = 2;
+        _photoView.layer.cornerRadius = PAdaptation_x(52)/2;
+        _photoView.layer.masksToBounds = YES;
     }
     return _photoView;
 }
@@ -143,5 +190,14 @@
         _timeLabel.textColor = [UIColor whiteColor];
     }
     return _timeLabel;
+}
+- (UILabel *)distanceLabel
+{
+    if(!_distanceLabel){
+        _distanceLabel = [[UILabel alloc] init];
+        _distanceLabel.textColor = BWColor(241, 109, 82, 1);
+        _distanceLabel.font = [UIFont systemFontOfSize:24];
+    }
+    return _distanceLabel;
 }
 @end

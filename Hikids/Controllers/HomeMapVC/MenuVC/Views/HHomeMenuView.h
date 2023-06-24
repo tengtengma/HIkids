@@ -13,10 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^showSleepMenuBlock)(void);
 typedef void(^showWalkMenuBlock)(void);
+typedef void(^showSelectMarkerBlock)(HStudent *student);
 
 @interface HHomeMenuView : HBaseMenuView
 @property (nonatomic, copy) showWalkMenuBlock showWalkMenu;
 @property (nonatomic, copy) showSleepMenuBlock showSleepMenu;
+@property (nonatomic, copy) showSelectMarkerBlock showSelectMarkerBlock;
 
 - (instancetype)initWithFrame:(CGRect)frame;
 @end

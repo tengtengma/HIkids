@@ -10,6 +10,7 @@
 #import "HStudentStateBottomView.h"
 #import "HStudentFooterView.h"
 
+
 @interface HWalkMenuView()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, assign) BOOL safeExpand;
 @property (nonatomic, assign) BOOL exceptExpand;
@@ -476,5 +477,19 @@
         
     }
 }
-
+#pragma mark - UITableViewDelegate -
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    HStudent *student = nil;
+    if(indexPath.section == 1){
+        student = [self.safeList safeObjectAtIndex:indexPath.row];
+    }
+    if(indexPath.section == 2){
+        student = [self.exceptList safeObjectAtIndex:indexPath.row];
+    }
+    
+    if(self.showSelectMarkerBlock){
+        self.showSelectMarkerBlock(student);
+    }
+}
 @end

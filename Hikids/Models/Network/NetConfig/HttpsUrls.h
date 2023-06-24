@@ -11,7 +11,7 @@
 
 //#define BaseURL                     @"https://open.ebeiwai.com/zhiketang"                         //正式服务器
 #define BaseURL                      @"http://www.hikids.blog"                    //服务器生产环境
-//#define BaseURL                     @"http://75uezb.natappfree.cc"                //本地生产环境
+//#define BaseURL                     @"http://api.hikids.blog:8089"                //午睡生产环境
 
 
 #define Login_URL                  @"/v1/login"                                         //登录接口

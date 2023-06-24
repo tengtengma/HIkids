@@ -14,13 +14,13 @@
             filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1466"
-            endingLineNumber = "1466"
+            startingLineNumber = "1488"
+            endingLineNumber = "1488"
             landmarkName = "-alertView:clickedButtonAtIndex:"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "78D7886E-7BF7-4984-94E6-DE39D713D0F6 - 9d10e21dcad386aa"
+                  uuid = "78D7886E-7BF7-4984-94E6-DE39D713D0F6 - 9d10e21dcad38074"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -30,12 +30,12 @@
                   urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Controllers/HomeMapVC/HMapVC.m"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1466"
-                  endingLineNumber = "1466"
+                  startingLineNumber = "1488"
+                  endingLineNumber = "1488"
                   offsetFromSymbolStart = "100">
                </Location>
                <Location
-                  uuid = "78D7886E-7BF7-4984-94E6-DE39D713D0F6 - 6237447ab7abd771"
+                  uuid = "78D7886E-7BF7-4984-94E6-DE39D713D0F6 - 6237447ab7abd22b"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -45,8 +45,8 @@
                   urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Controllers/HomeMapVC/HMapVC.m"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1468"
-                  endingLineNumber = "1468"
+                  startingLineNumber = "1490"
+                  endingLineNumber = "1490"
                   offsetFromSymbolStart = "24">
                </Location>
             </Locations>
@@ -62,8 +62,8 @@
             filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1475"
-            endingLineNumber = "1475"
+            startingLineNumber = "1497"
+            endingLineNumber = "1497"
             landmarkName = "-dealloc"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,10 +78,22 @@
             filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1303"
-            endingLineNumber = "1303"
+            startingLineNumber = "1311"
+            endingLineNumber = "1311"
             landmarkName = "-locationManager:didUpdateLocations:"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            uuid = "26245C36-DD1F-4486-B677-8F3DBD7640CB"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            breakpointStackSelectionBehavior = "1"
+            scope = "1"
+            stopOnStyle = "0">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
