@@ -56,6 +56,8 @@
 		9E17D1F428F00CA5005FA5A9 /* HLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17D1F328F00CA5005FA5A9 /* HLocation.m */; };
 		9E17D1F728F03B6D005FA5A9 /* BWStudentLocationReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17D1F628F03B6D005FA5A9 /* BWStudentLocationReq.m */; };
 		9E17D1FA28F03B83005FA5A9 /* BWStudentLocationResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E17D1F928F03B83005FA5A9 /* BWStudentLocationResp.m */; };
+		9E1BA5CB2A49C67F008A07FA /* HBGRunManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1BA5CA2A49C67F008A07FA /* HBGRunManager.m */; };
+		9E1BA5CD2A49C969008A07FA /* noSound.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9E1BA5CC2A49C969008A07FA /* noSound.m4a */; };
 		9E1F21AB28E1722500C5041B /* menu_header@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E1F21A928E1722500C5041B /* menu_header@3x.png */; };
 		9E1F21AC28E1722500C5041B /* menu_header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E1F21AA28E1722500C5041B /* menu_header@2x.png */; };
 		9E1F21AF28E174AA00C5041B /* line@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E1F21AD28E174AA00C5041B /* line@2x.png */; };
@@ -383,6 +385,9 @@
 		9E17D1F628F03B6D005FA5A9 /* BWStudentLocationReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWStudentLocationReq.m; sourceTree = "<group>"; };
 		9E17D1F828F03B83005FA5A9 /* BWStudentLocationResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWStudentLocationResp.h; sourceTree = "<group>"; };
 		9E17D1F928F03B83005FA5A9 /* BWStudentLocationResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWStudentLocationResp.m; sourceTree = "<group>"; };
+		9E1BA5C92A49C67F008A07FA /* HBGRunManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HBGRunManager.h; sourceTree = "<group>"; };
+		9E1BA5CA2A49C67F008A07FA /* HBGRunManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HBGRunManager.m; sourceTree = "<group>"; };
+		9E1BA5CC2A49C969008A07FA /* noSound.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = noSound.m4a; sourceTree = "<group>"; };
 		9E1F21A928E1722500C5041B /* menu_header@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_header@3x.png"; sourceTree = "<group>"; };
 		9E1F21AA28E1722500C5041B /* menu_header@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu_header@2x.png"; sourceTree = "<group>"; };
 		9E1F21AD28E174AA00C5041B /* line@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "line@2x.png"; sourceTree = "<group>"; };
@@ -858,6 +863,16 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		9E1BA5C82A49C64A008A07FA /* BackgroundManager */ = {
+			isa = PBXGroup;
+			children = (
+				9E1BA5CC2A49C969008A07FA /* noSound.m4a */,
+				9E1BA5C92A49C67F008A07FA /* HBGRunManager.h */,
+				9E1BA5CA2A49C67F008A07FA /* HBGRunManager.m */,
+			);
+			path = BackgroundManager;
+			sourceTree = "<group>";
+		};
 		9E1F219928E1688B00C5041B /* HomeUI */ = {
 			isa = PBXGroup;
 			children = (
@@ -1082,6 +1097,7 @@
 		9E2DF7EF28B2205200B0C9DA /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				9E1BA5C82A49C64A008A07FA /* BackgroundManager */,
 				9E2DF7F028B2209E00B0C9DA /* Network */,
 			);
 			path = Models;
@@ -1763,6 +1779,7 @@
 				9EB4118F296BBBBE00CFA8FE /* moon.png in Resources */,
 				9EDF527F290404000066BFDC /* dangerNav@3x.png in Resources */,
 				9E98FA6229657B91007194EF /* print@3x.png in Resources */,
+				9E1BA5CD2A49C969008A07FA /* noSound.m4a in Resources */,
 				9EF21B2D28D985050075CFF0 /* help@3x.png in Resources */,
 				9E683265297595C500194199 /* attention.png in Resources */,
 				9E17D1DA28EE7B85005FA5A9 /* walkStart_no@3x.png in Resources */,
@@ -1938,6 +1955,7 @@
 				9E8BDE81296E87E30001C428 /* FFDropDownMenuTriangleView.m in Sources */,
 				9E17D1B128ED38E9005FA5A9 /* HWalkMenuVC.m in Sources */,
 				9E8BDE7D296E87E30001C428 /* FFDropDownMenuView.m in Sources */,
+				9E1BA5CB2A49C67F008A07FA /* HBGRunManager.m in Sources */,
 				9E2DF81D28B2225500B0C9DA /* NSArray+safe.m in Sources */,
 				9E8BDE9B296E9F080001C428 /* UIView+ALFrame.m in Sources */,
 				9E17D1E828F00385005FA5A9 /* BWGetAssistantReq.m in Sources */,

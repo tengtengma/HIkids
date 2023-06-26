@@ -43,6 +43,8 @@
 #import "HWalkDownTimeView.h"
 #import "HStudentEclipseView.h"
 
+#import "HBGRunManager.h"
+
 
 #define default_Zoom 18.5
 
@@ -156,6 +158,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dangerAlertNotifi:) name:@"dangerAlertNotification" object:nil];
     //退出账户
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logOutAction:) name:@"quitAccountNoti" object:nil];
+    
+    //app进入前台 关闭长链接模式
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterActive:) name:@"enterActive" object:nil];
+    //app进入后台 开启长链接模式
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterBackground:) name:@"enterBackground" object:nil];
     
     self.lastMarkerTag = -1;
     
@@ -1155,6 +1162,15 @@
         [MBProgressHUD showMessag:@"位置決めは使用できません。位置決め設定をオンにしてください" toView:self.view hudModel:MBProgressHUDModeText hide:YES];
     }
 
+}
+//进入后台 开启长链接模式 用来刷新定位及报警系统
+- (void)enterBackground:(NSNotification *)noti
+{
+    [HBGManager startBGRun];
+}
+- (void)enterActive:(NSNotification *)noti
+{
+    [HBGManager stopBGRun];
 }
 - (void)logOutAction:(NSNotification *)noti
 {

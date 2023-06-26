@@ -56,7 +56,7 @@
         }];
         
         UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-        [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+        [cancelBtn setTitle:@"いいえ" forState:UIControlStateNormal];
         [cancelBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
         [cancelBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         [cancelBtn addTarget:self action:@selector(cancelAction) forControlEvents:UIControlEventTouchUpInside];
@@ -70,7 +70,7 @@
         }];
         
         self.sureBtn = [UIButton buttonWithType:UIButtonTypeSystem];
-        [self.sureBtn setTitle:@"是(10)" forState:UIControlStateNormal];
+        [self.sureBtn setTitle:@"はい(10)" forState:UIControlStateNormal];
         [self.sureBtn.titleLabel setFont:[UIFont systemFontOfSize:14]];
         [self.sureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [self.sureBtn addTarget:self action:@selector(sureAction) forControlEvents:UIControlEventTouchUpInside];
@@ -125,7 +125,7 @@
                if (second == 0) {
                    [weakSelf sureAction];
                } else {
-                   [button setTitle:[NSString stringWithFormat:@"是(%ld)",second] forState:UIControlStateNormal];
+                   [button setTitle:[NSString stringWithFormat:@"はい(%ld)",second] forState:UIControlStateNormal];
                    second--;
                }
            });

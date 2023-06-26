@@ -63,15 +63,21 @@
     //百度统计
     [self startBaidu];
     
+    //广告追踪
 //    [self trackAction];
-    
-    
-    
+        
     return YES;
 }
+//app进入前台
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"enterActive" object:nil];
+}
+//app进入后台
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"enterBackground" object:nil];
+
 }
 - (void)startBaidu
 {
