@@ -1611,8 +1611,8 @@
 				9E0B546128B21E620026CD86 /* Sources */,
 				9E0B546228B21E620026CD86 /* Frameworks */,
 				9E0B546328B21E620026CD86 /* Resources */,
-				D83CD469C0BFB7D10EE96026 /* [CP] Embed Pods Frameworks */,
-				73265D56C76CFC7970DDF4F2 /* [CP] Copy Pods Resources */,
+				8B676CFF4CD32E7EB1CBF0F7 /* [CP] Embed Pods Frameworks */,
+				08144AD8E49937CC981B5113 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1862,6 +1862,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		08144AD8E49937CC981B5113 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Hikids/Pods-Hikids-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Hikids/Pods-Hikids-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hikids/Pods-Hikids-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		5B9CCEF3E2701ED6ED4E2BFC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1884,24 +1901,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		73265D56C76CFC7970DDF4F2 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Hikids/Pods-Hikids-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Hikids/Pods-Hikids-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Hikids/Pods-Hikids-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D83CD469C0BFB7D10EE96026 /* [CP] Embed Pods Frameworks */ = {
+		8B676CFF4CD32E7EB1CBF0F7 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2202,7 +2202,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1;
+				CURRENT_PROJECT_VERSION = 1.1.1;
 				DEVELOPMENT_TEAM = 87MRKC73D2;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/HIkids/Hikids.pch";
@@ -2218,6 +2218,7 @@
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "画像を保存するため、このアプリが写真ライブラリにアクセスすることを許可しますか？";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "ユーザーのプロフィール写真の変更やフィードバック機能のため、このアプリがメディアライブラリにアクセスすることを許可しますか？";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -2250,7 +2251,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1;
+				CURRENT_PROJECT_VERSION = 1.1.1;
 				DEVELOPMENT_TEAM = 87MRKC73D2;
 				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2267,6 +2268,7 @@
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "画像を保存するため、このアプリが写真ライブラリにアクセスすることを許可しますか？";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "ユーザーのプロフィール写真の変更やフィードバック機能のため、このアプリがメディアライブラリにアクセスすることを許可しますか？";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
 				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

@@ -204,8 +204,9 @@
 
     if([[UIApplication sharedApplication] canOpenURL:url]) {
 
-        NSURL*url =[NSURL URLWithString:UIApplicationOpenSettingsURLString];
-        [[UIApplication sharedApplication] openURL:url];
+        [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:^(BOOL success) {
+            
+        }];
 
     }
     
@@ -218,7 +219,6 @@
     UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:@"注意" message:@"ログアウトします。よろしいでしょうか？" preferredStyle:UIAlertControllerStyleAlert];
         
 
-    
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"いいえ" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
         
         

@@ -1206,10 +1206,6 @@
 }
 - (void)showAlertActionWithName:(NSString *)name
 {
-//    [self.shakeTimer setFireDate:[NSDate distantPast]];
-
-//    if (!self.isAlert) {
-    
     NSString *content = ![name isEqualToString:@"午睡中"] ? @"安全地帯を出てしまったお子さんもいるかもしれませんので、ご確認ください。" : @"お子さまの再確認をお願いします。";
     NSString *sureStr = ![name isEqualToString:@"午睡中"] ? @"アラート停止" : @"確認する";
     
@@ -1219,21 +1215,13 @@
         [self getChatMessageGoToShake];
         //调用系统声音
         [self getChatMessageGoToSound];
-        
-//        DefineWeakSelf;
-
     
         [BWAlertCtrl alertControllerWithTitle:@"ご注意ください！" buttonArray:@[sureStr] message:content preferredStyle:UIAlertControllerStyleAlert clickBlock:^(NSString *buttonTitle) {
             
             if ([buttonTitle isEqualToString:sureStr]) {
-    //            [weakSelf.shakeTimer setFireDate:[NSDate distantFuture]];
-//                weakSelf.isAlert = YES;
-
             }
             
         }];
-//    }
-
 }
 #pragma  -mark -调用系统震动
 - (void)getChatMessageGoToShake
@@ -1326,9 +1314,27 @@
     if ([error code] == kCLErrorDenied) {
         NSLog(@"访问被拒绝");
 //        [self locationPermissionAlert];
+        [MBProgressHUD showMessag:@"位置決めは使用できません。位置決め設定をオンにしてください" toView:self.view hudModel:MBProgressHUDModeText hide:YES];
+
     }
     if ([error code] == kCLErrorLocationUnknown) {
         NSLog(@"无法获取位置信息");
+        [BWAlertCtrl alertControllerWithTitle:@"ヒント" buttonArray:@[@"設定",@"キャンセル"] message:@"位置を取得できませんでした" preferredStyle:UIAlertControllerStyleAlert clickBlock:^(NSString *buttonTitle) {
+            
+            if ([buttonTitle isEqualToString:@"設定"]) {
+                NSURL * url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+
+                if([[UIApplication sharedApplication] canOpenURL:url]) {
+
+                    [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:^(BOOL success) {
+                        
+                    }];
+
+                }
+            }
+            
+        }];
+
     }
 //    [SVProgressHUD dismiss];
 }
