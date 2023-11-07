@@ -44,6 +44,7 @@
 #import "HStudentEclipseView.h"
 
 #import "HBGRunManager.h"
+#import "HNomalGroupStudentView.h"
 
 
 #define default_Zoom 18.5
@@ -133,6 +134,9 @@
 
     //设置地图
     [self createMapView];
+    
+//    //    加载假数据小朋友的
+//        [self reloadData];
 
     //创建导航
     [self createNavigationView];
@@ -218,9 +222,13 @@
             CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(weakSelf.gpsLocation.coordinate.latitude, weakSelf.gpsLocation.coordinate.longitude);
             //移动地图中心到当前位置
             weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:self.lastZoom == 0 ? default_Zoom : self.lastZoom];
-            
+
             [weakSelf startGetStudentLocationRequest];
         }
+        
+//        //test1107
+//        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(39.871908, 116.281441);
+//        weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:self.lastZoom == 0 ? default_Zoom : self.lastZoom];
 
     };
     homeMenuView.toTopBlock = ^{
@@ -640,8 +648,7 @@
     
 //    [self startLocation]; //开启定位
     
-    //    加载假数据小朋友的
-//        [self reloadData];
+
     
 }
 //开启散步模式
@@ -1054,26 +1061,21 @@
         marker.map = self.mapView;
         
         
-//        GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc] initWithCoordinate:marker.position coordinate:marker.position];
-//
-////            for (GMSMarker *marker in markers)
-////            {
-//                bounds = [bounds includingCoordinate:marker.position];
-////            }
-//         
-//            [self.mapView animateWithCameraUpdate:[GMSCameraUpdate fitBounds:bounds]];
-        
-                
         if (![self.makerList containsObject:marker]) {
             [self.makerList addObject:marker];
         }
         
     }
-    for (NSInteger i = 0;i<normalKids.count;i++) {
-        HStudent *student = [normalKids safeObjectAtIndex:i];
+    
+    GMSMarker *marker = nil;
+    if(normalKids.count == 0){
+        NSLog(@"no nomal student");
+        
+    }else if (normalKids.count == 1){
+        HStudent *student = [normalKids safeObjectAtIndex:0];
         
         CGRect frame = CGRectMake(0, 0, PAdaptation_x(40), PAaptation_y(40));
-        
+
         HStudentEclipseView *ellipseView = [[HStudentEclipseView alloc] initWithFrame:frame withStudent:student];
         if(self.lastMarkerTag == 7000+student.sId.integerValue){
             [ellipseView setBgImage:[UIImage imageNamed:@"studentInfo_yellow.png"]];
@@ -1081,8 +1083,8 @@
             [ellipseView setBgImage:[UIImage imageNamed:@"1"]];
         }
         ellipseView.isExcept = NO;
-
-        GMSMarker *marker = [self findMarkerWithStudentId:student.sId];
+        
+        marker = [self findMarkerWithStudentId:student.sId];
         if (marker == nil) {
             marker = [[GMSMarker alloc] init];
         }
@@ -1091,11 +1093,61 @@
         marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
         marker.userData = student;
         marker.map = self.mapView;
-                
-        if (![self.makerList containsObject:marker]) {
-            [self.makerList addObject:marker];
+        
+    }else if (normalKids.count == 2){
+        
+        //组 只取第一个的坐标
+        HStudent *student = [normalKids safeObjectAtIndex:0];
+        
+        HNomalGroupStudentView *groupView = [[HNomalGroupStudentView alloc] initWithFrame:CGRectMake(0, 0, PAdaptation_x(138), PAaptation_y(87)) withGroupList:normalKids];
+        
+        marker = [self findMarkerWithStudentId:student.sId];
+        if (marker == nil) {
+            marker = [[GMSMarker alloc] init];
         }
+        marker.iconView = groupView;
+        marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
+        marker.userData = student;
+        marker.map = self.mapView;
+
+        
+    }else if(normalKids.count == 3){
+        //组 只取第一个的坐标
+        HStudent *student = [normalKids safeObjectAtIndex:0];
+        
+        HNomalGroupStudentView *groupView = [[HNomalGroupStudentView alloc] initWithFrame:CGRectMake(0, 0, PAdaptation_x(202), PAaptation_y(87)) withGroupList:normalKids];
+        
+        marker = [self findMarkerWithStudentId:student.sId];
+        if (marker == nil) {
+            marker = [[GMSMarker alloc] init];
+        }
+        marker.iconView = groupView;
+        marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
+        marker.userData = student;
+        marker.map = self.mapView;
+        
+    }else{
+        //>3
+        //组 只取第一个的坐标
+        HStudent *student = [normalKids safeObjectAtIndex:0];
+        
+        HNomalGroupStudentView *groupView = [[HNomalGroupStudentView alloc] initWithFrame:CGRectMake(0, 0, PAdaptation_x(202), PAaptation_y(87)) withGroupList:normalKids];
+        
+        marker = [self findMarkerWithStudentId:student.sId];
+        if (marker == nil) {
+            marker = [[GMSMarker alloc] init];
+        }
+        marker.iconView = groupView;
+        marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
+        marker.userData = student;
+        marker.map = self.mapView;
     }
+    
+    if (marker == nil) return;
+    if (![self.makerList containsObject:marker]) {
+        [self.makerList addObject:marker];
+    }
+    
 }
 - (GMSMarker *)findMarkerWithStudentId:(NSString *)studentId
 {
@@ -1108,50 +1160,49 @@
     return nil;
 }
 
-//- (void)reloadData
-//{
-//    //    //测试用
-//        NSMutableArray *except = [[NSMutableArray alloc] init];
-//        for (NSInteger i = 0; i<1; i++) {
-//            HStudent *student = [[HStudent alloc] init];
-//            student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
-//            student.sId = [NSString stringWithFormat:@"%ld",100+i];
-//            student.name = @"asdfsa";
-//            student.exceptionTime = @"123";
-//            student.distance = @"200";
-//            student.deviceInfo.latitude = @"39.871893697139896";
-//            student.deviceInfo.longitude = @"116.28354814224828";
-//            [except addObject:student];
-//        }
-//
-////        self.exceptArray = except;
-//    //
-//        NSMutableArray *nomal = [[NSMutableArray alloc] init];
-//        for (NSInteger i = 0; i<1; i++) {
-//            HStudent *student = [[HStudent alloc] init];
-//            student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
-//            student.sId = [NSString stringWithFormat:@"%ld",300+i];
-//            student.name = @"asdfsa";
-//            student.deviceInfo.latitude = @"39.871908";
-//            student.deviceInfo.longitude = @"116.281441";
-//            [nomal addObject:student];
-//        }
-////        self.nomalArray = nomal;
-//
-//
-//    self.homeMenuTableView.safeList = nomal;
-//    self.homeMenuTableView.exceptList = except;
-//    [self.homeMenuTableView.tableView reloadData];
-//
-//
-//    [self addMarkersWithNomalList:nomal andExceptList:except];
-//
-//}
+- (void)reloadData
+{
+    //    //测试用
+        NSMutableArray *except = [[NSMutableArray alloc] init];
+        for (NSInteger i = 0; i<1; i++) {
+            HStudent *student = [[HStudent alloc] init];
+            student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
+            student.sId = [NSString stringWithFormat:@"%ld",100+i];
+            student.name = @"asdfsa";
+            student.exceptionTime = @"123";
+            student.distance = @"200";
+            student.deviceInfo.latitude = @"39.871893697139896";
+            student.deviceInfo.longitude = @"116.28354814224828";
+            [except addObject:student];
+        }
+
+//        self.exceptArray = except;
+    //
+        NSMutableArray *nomal = [[NSMutableArray alloc] init];
+        for (NSInteger i = 0; i<2; i++) {
+            HStudent *student = [[HStudent alloc] init];
+            student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
+            student.sId = [NSString stringWithFormat:@"%ld",300+i];
+            student.name = @"asdfsa";
+            student.deviceInfo.latitude = @"39.871908";
+            student.deviceInfo.longitude = @"116.281441";
+            [nomal addObject:student];
+        }
+//        self.nomalArray = nomal;
+
+
+    self.homeMenuTableView.safeList = nomal;
+    self.homeMenuTableView.exceptList = except;
+    [self.homeMenuTableView.tableView reloadData];
+
+
+    [self addMarkersWithNomalList:nomal andExceptList:except];
+
+}
 
 
 - (void)startLocation {
-    if ([CLLocationManager locationServicesEnabled] &&
-        ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways)) {
+    if (([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways) && [CLLocationManager locationServicesEnabled]) {
         //定位功能可用
 
         [self.locationManager startUpdatingLocation];
@@ -1380,6 +1431,9 @@
     [self hideStateInfoView];
     
     HStudent *student = marker.userData;
+    if (student.exceptionTime.length == 0) {
+        return NO;
+    }
     NSLog(@"点击了%@",student.name);
     [self.stateInfoView setInfomationWithModel:student];
     [self showStateInfoView];
