@@ -90,7 +90,7 @@
             countLabel.backgroundColor = [UIColor clearColor];
             countLabel.textColor = [UIColor whiteColor];
             countLabel.font = [UIFont boldSystemFontOfSize:16.0];
-            countLabel.text = [NSString stringWithFormat:@"+%ld",groupList.count];
+            countLabel.text = [NSString stringWithFormat:@"+%ld",groupList.count - 2];
             countLabel.textAlignment = NSTextAlignmentCenter;
             [numView addSubview:countLabel];
             

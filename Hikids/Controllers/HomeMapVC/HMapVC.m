@@ -1614,8 +1614,8 @@
         _locationManager = [[CLLocationManager alloc]init];
         _locationManager.delegate = self;
         [_locationManager requestWhenInUseAuthorization];
-        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;//设置定位精度
-        _locationManager.distanceFilter = 10;//设置定位频率，每隔多少米定位一次
+        _locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;//设置定位精度
+        _locationManager.distanceFilter = 20;//设置定位频率，每隔多少米定位一次
         _locationManager.pausesLocationUpdatesAutomatically = NO;
         _locationManager.allowsBackgroundLocationUpdates = YES;
     }
