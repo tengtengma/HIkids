@@ -572,11 +572,16 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HStudent *student = nil;
-    if(indexPath.section == 1){
+    if(self.exceptList.count == 0){
         student = [self.safeList safeObjectAtIndex:indexPath.row];
-    }
-    if(indexPath.section == 2){
-        student = [self.exceptList safeObjectAtIndex:indexPath.row];
+    }else{
+        if(indexPath.section == 0){
+            student = [self.exceptList safeObjectAtIndex:indexPath.row];
+        }
+        if(indexPath.section == 1){
+            student = [self.safeList safeObjectAtIndex:indexPath.row];
+        }
+
     }
     
     if(self.showSelectMarkerBlock){
