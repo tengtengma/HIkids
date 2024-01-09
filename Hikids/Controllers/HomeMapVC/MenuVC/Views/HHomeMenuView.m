@@ -575,10 +575,10 @@
     if(self.exceptList.count == 0){
         student = [self.safeList safeObjectAtIndex:indexPath.row];
     }else{
-        if(indexPath.section == 0){
+        if(indexPath.section == 1){
             student = [self.exceptList safeObjectAtIndex:indexPath.row];
         }
-        if(indexPath.section == 1){
+        if(indexPath.section == 2){
             student = [self.safeList safeObjectAtIndex:indexPath.row];
         }
 

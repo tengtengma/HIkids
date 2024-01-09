@@ -10,7 +10,8 @@
 #define HttpsUrls_h
 
 //#define BaseURL                     @"https://open.ebeiwai.com/zhiketang"                         //正式服务器
-#define BaseURL                      @"http://www.hikids.blog"                    //服务器生产环境
+//#define BaseURL                      @"http://www.hikids.blog"                    //服务器生产环境
+#define BaseURL                       @"http://api.hikids.blog"
 //#define BaseURL                     @"http://b73irr.natappfree.cc"                  //云鹏电脑测试
 //#define BaseURL                     @"http://api.hikids.blog:8089"                //午睡生产环境
 

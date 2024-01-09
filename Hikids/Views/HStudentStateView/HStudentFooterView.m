@@ -170,10 +170,10 @@
 //        self.distanceLabel.text = [NSString stringWithFormat:@"--bpm"];
 //    }
     if (self.type == FootTYPE_WALK) {
-        if(self.student.distance.integerValue == 0){
+        if(self.student.distance.integerValue == -1){
             self.distanceLabel.text = [NSString stringWithFormat:@"--"];
         }else{
-            self.distanceLabel.text = [NSString stringWithFormat:@"%ld米",self.student.distance.integerValue];
+            self.distanceLabel.text = [NSString stringWithFormat:@"%ldm",self.student.distance.integerValue];
 
         }
         [self.gpsImageView setImage:[UIImage imageNamed:@"gps_safe.png"]];
@@ -194,7 +194,12 @@
 - (void)loadDangerStyle
 {
     if (self.type == FootTYPE_WALK) {
-        self.distanceLabel.text = [NSString stringWithFormat:@"%ld米",self.student.distance.integerValue];
+        if(self.student.distance.integerValue == -1){
+            self.distanceLabel.text = [NSString stringWithFormat:@"--"];
+        }else{
+            self.distanceLabel.text = [NSString stringWithFormat:@"%ldm",self.student.distance.integerValue];
+
+        }
         [self.gpsImageView setImage:[UIImage imageNamed:@"gps.png"]];
         self.headerView.layer.borderColor = BWColor(255, 75, 0, 1).CGColor;
 

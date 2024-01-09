@@ -231,20 +231,32 @@
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return 4;
+    //2024.1.2暂时隐藏
+//    return 4;
+    
+    return 2;
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
+//2024.1.2暂时隐藏
+//    if (section == 0) {
+//        return self.destnationArray.count;
+//    }
+//    if (section == 1) {
+//        return self.timeArray.count;
+//    }
+//    if (section == 2) {
+//        return self.teacherArray.count;
+//    }
+//    return self.studentArray.count;
+
+    
     if (section == 0) {
-        return self.destnationArray.count;
-    }
-    if (section == 1) {
-        return self.timeArray.count;
-    }
-    if (section == 2) {
         return self.teacherArray.count;
     }
     return self.studentArray.count;
+    
+    
 }
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -254,47 +266,88 @@
     
     for (id v in cell.contentView.subviews)
         [v removeFromSuperview];
+    //2024.1.2暂时隐藏
+//    if (indexPath.section == 0) {
+//        
+//        HDestnationModel *destModel = [self.destnationArray safeObjectAtIndex:indexPath.row];
+//        
+//        HMddView *mddView = [[HMddView alloc] init];
+//        [mddView setupWithModel:destModel];
+//        [cell.contentView addSubview:mddView];
+//        
+//        [mddView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.edges.equalTo(cell.contentView);
+//        }];
+//        
+//        if (destModel.isSelected) {
+//            [mddView cellSelected];
+//        }else{
+//            [mddView cellNomal];
+//        }
+//
+//        
+//    }
+//        
+//    if (indexPath.section == 1) {
+//        
+//        HTime *timeModel = [self.timeArray safeObjectAtIndex:indexPath.row];
+//        
+//        HTitleView *timeView = [[HTitleView alloc] init];
+//        [timeView setupWithModel:timeModel];
+//        [cell.contentView addSubview:timeView];
+//        
+//        [timeView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.edges.equalTo(cell.contentView);
+//        }];
+//        
+//        if (timeModel.isSelected) {
+//            [timeView cellSelected];
+//        }else{
+//            [timeView cellNomal];
+//        }
+//    }
+//    if (indexPath.section == 2) {
+//        
+//        HTeacher *teacherModel = [self.teacherArray safeObjectAtIndex:indexPath.row];
+//        
+//        HTitleView *titView = [[HTitleView alloc] init];
+//        [titView setupWithModel:teacherModel];
+//        [cell.contentView addSubview:titView];
+//        
+//        [titView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.edges.equalTo(cell.contentView);
+//        }];
+//        
+//        if (teacherModel.isSelected) {
+//            [titView cellSelected];
+//        }else{
+//            [titView cellNomal];
+//        }
+//    }
+//   
+//    if (indexPath.section == 3) {
+//        
+//        HStudent *student = [self.studentArray safeObjectAtIndex:indexPath.row];
+//        
+//        HStudentView *studentView = [[HStudentView alloc] init];
+//        [studentView setupWithModel:student];
+//        [cell.contentView addSubview:studentView];
+//
+//        [studentView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.edges.equalTo(cell.contentView);
+//        }];
+//        
+//        if (student.isSelected) {
+//            [studentView cellSelected];
+//        }else{
+//            [studentView cellNomal];
+//        }
+//
+//    }
+    //2024.1.2暂时隐藏
+    
     
     if (indexPath.section == 0) {
-        
-        HDestnationModel *destModel = [self.destnationArray safeObjectAtIndex:indexPath.row];
-        
-        HMddView *mddView = [[HMddView alloc] init];
-        [mddView setupWithModel:destModel];
-        [cell.contentView addSubview:mddView];
-        
-        [mddView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(cell.contentView);
-        }];
-        
-        if (destModel.isSelected) {
-            [mddView cellSelected];
-        }else{
-            [mddView cellNomal];
-        }
-
-        
-    }
-        
-    if (indexPath.section == 1) {
-        
-        HTime *timeModel = [self.timeArray safeObjectAtIndex:indexPath.row];
-        
-        HTitleView *timeView = [[HTitleView alloc] init];
-        [timeView setupWithModel:timeModel];
-        [cell.contentView addSubview:timeView];
-        
-        [timeView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(cell.contentView);
-        }];
-        
-        if (timeModel.isSelected) {
-            [timeView cellSelected];
-        }else{
-            [timeView cellNomal];
-        }
-    }
-    if (indexPath.section == 2) {
         
         HTeacher *teacherModel = [self.teacherArray safeObjectAtIndex:indexPath.row];
         
@@ -313,7 +366,7 @@
         }
     }
    
-    if (indexPath.section == 3) {
+    if (indexPath.section == 1) {
         
         HStudent *student = [self.studentArray safeObjectAtIndex:indexPath.row];
         
@@ -340,58 +393,100 @@
 #pragma mark- UICollectionViewDataDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    //2024.1.2暂时隐藏
+//    if (indexPath.section == 0) {
+//        
+//        HDestnationModel *selectModel = [self.destnationArray safeObjectAtIndex:indexPath.row];
+//        
+//        if (selectModel.isSelected) {
+//            selectModel.isSelected = NO;
+//            if ([self.selectDestArray containsObject:selectModel]) {
+//                [self.selectDestArray removeObject:selectModel];
+//            }
+//
+//        }else{
+//            [self.destnationArray enumerateObjectsUsingBlock:^(HDestnationModel * obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//                if (selectModel.dId.integerValue == obj.dId.integerValue) {
+//                    obj.isSelected = YES;
+//                    [self.selectDestArray addObject:selectModel];
+//                    return;
+//                }else{
+//                    obj.isSelected = NO;
+//                    [self.selectDestArray removeObject:obj];
+//
+//                }
+//            }];
+//        }
+//
+//    }
+//    if (indexPath.section == 1) {
+//        
+//        HTime *selectModel = [self.timeArray safeObjectAtIndex:indexPath.row];
+//        if (selectModel.isSelected) {
+//            selectModel.isSelected = NO;
+//            
+//            if ([self.selectTimeArray containsObject:selectModel]) {
+//                [self.selectTimeArray removeObject:selectModel];
+//            }
+//            
+//        }else{
+//            [self.timeArray enumerateObjectsUsingBlock:^(HTime * obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//                if (selectModel.tId == obj.tId) {
+//                    obj.isSelected = YES;
+//                    [self.selectTimeArray addObject:selectModel];
+//
+//                    return;
+//                }else{
+//                    obj.isSelected = NO;
+//                    [self.selectTimeArray removeObject:obj];
+//
+//                }
+//            }];
+//        }
+//        
+//    }
+//    if (indexPath.section == 2) {
+//        
+//        HTeacher *selectModel = [self.teacherArray safeObjectAtIndex:indexPath.row];
+//        if (selectModel.isSelected) {
+//            selectModel.isSelected = NO;
+//            
+//            if ([self.selectTeacherArray containsObject:selectModel]) {
+//                [self.selectTeacherArray removeObject:selectModel];
+//            }
+//        }else{
+//            [self.teacherArray enumerateObjectsUsingBlock:^(HTeacher * obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//                if (selectModel.tId.integerValue == obj.tId.integerValue) {
+//                    obj.isSelected = YES;
+//                    [self.selectTeacherArray addObject:selectModel];
+//
+//                    return;
+//                }
+//            }];
+//        }
+//    }
+//    if (indexPath.section == 3) {
+//       
+//        HStudent *selectModel = [self.studentArray safeObjectAtIndex:indexPath.row];
+//        if (selectModel.isSelected) {
+//            selectModel.isSelected = NO;
+//            if ([self.selectStudentArray containsObject:selectModel]) {
+//                [self.selectStudentArray removeObject:selectModel];
+//            }
+//        }else{
+//            [self.studentArray enumerateObjectsUsingBlock:^(HStudent * obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//                if (selectModel.sId.integerValue == obj.sId.integerValue) {
+//                    obj.isSelected = YES;
+//                    [self.selectStudentArray addObject:selectModel];
+//                    return;
+//                }
+//            }];
+//        }
+//    }
+    
+    
     if (indexPath.section == 0) {
-        
-        HDestnationModel *selectModel = [self.destnationArray safeObjectAtIndex:indexPath.row];
-        
-        if (selectModel.isSelected) {
-            selectModel.isSelected = NO;
-            if ([self.selectDestArray containsObject:selectModel]) {
-                [self.selectDestArray removeObject:selectModel];
-            }
-
-        }else{
-            [self.destnationArray enumerateObjectsUsingBlock:^(HDestnationModel * obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if (selectModel.dId.integerValue == obj.dId.integerValue) {
-                    obj.isSelected = YES;
-                    [self.selectDestArray addObject:selectModel];
-                    return;
-                }else{
-                    obj.isSelected = NO;
-                    [self.selectDestArray removeObject:obj];
-
-                }
-            }];
-        }
-
-    }
-    if (indexPath.section == 1) {
-        
-        HTime *selectModel = [self.timeArray safeObjectAtIndex:indexPath.row];
-        if (selectModel.isSelected) {
-            selectModel.isSelected = NO;
-            
-            if ([self.selectTimeArray containsObject:selectModel]) {
-                [self.selectTimeArray removeObject:selectModel];
-            }
-            
-        }else{
-            [self.timeArray enumerateObjectsUsingBlock:^(HTime * obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if (selectModel.tId == obj.tId) {
-                    obj.isSelected = YES;
-                    [self.selectTimeArray addObject:selectModel];
-
-                    return;
-                }else{
-                    obj.isSelected = NO;
-                    [self.selectTimeArray removeObject:obj];
-
-                }
-            }];
-        }
-        
-    }
-    if (indexPath.section == 2) {
         
         HTeacher *selectModel = [self.teacherArray safeObjectAtIndex:indexPath.row];
         if (selectModel.isSelected) {
@@ -411,7 +506,7 @@
             }];
         }
     }
-    if (indexPath.section == 3) {
+    if (indexPath.section == 1) {
        
         HStudent *selectModel = [self.studentArray safeObjectAtIndex:indexPath.row];
         if (selectModel.isSelected) {
@@ -437,15 +532,21 @@
 #pragma mark - UICollectionViewLayoutDelegate -
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    //2024.1.2暂时隐藏
+//    if (indexPath.section == 0) {
+//        return CGSizeMake(PAdaptation_x(170), PAaptation_y(76));
+//
+//    }
+//    if (indexPath.section == 1) {
+//        return CGSizeMake(PAdaptation_x(68), PAaptation_y(36));
+//
+//    }
+//    if (indexPath.section == 2) {
+//        return CGSizeMake(PAdaptation_x(110), PAaptation_y(36));
+//    }
+//    return CGSizeMake(PAdaptation_x(170), PAaptation_y(54));
+    
     if (indexPath.section == 0) {
-        return CGSizeMake(PAdaptation_x(170), PAaptation_y(76));
-
-    }
-    if (indexPath.section == 1) {
-        return CGSizeMake(PAdaptation_x(68), PAaptation_y(36));
-
-    }
-    if (indexPath.section == 2) {
         return CGSizeMake(PAdaptation_x(110), PAaptation_y(36));
     }
     return CGSizeMake(PAdaptation_x(170), PAaptation_y(54));
@@ -454,50 +555,73 @@
                    layout:(UICollectionViewLayout*)collectionViewLayout
                     minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
+    //2024.1.2暂时隐藏
+//    if (section == 0) {
+//        return PAdaptation_x(10);
+//
+//    }
+//    if (section == 1) {
+//        return 0;
+//
+//    }
+//    if (section == 2) {
+//        return 0;
+//    }
+//    return PAdaptation_x(10);
+    
     if (section == 0) {
-        return PAdaptation_x(10);
-
-    }
-    if (section == 1) {
-        return 0;
-
-    }
-    if (section == 2) {
         return 0;
     }
     return PAdaptation_x(10);
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
+    //2024.1.2暂时隐藏
+//    if (section == 0) {
+//        return PAaptation_y(10);
+//
+//    }
+//    if (section == 1) {
+//        return 0;
+//
+//    }
+//    if (section == 2) {
+//        return 0;
+//    }
+//    return PAaptation_y(10);
+    
     if (section == 0) {
-        return PAaptation_y(10);
-
-    }
-    if (section == 1) {
-        return 0;
-
-    }
-    if (section == 2) {
         return 0;
     }
     return PAaptation_y(10);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return CGSizeMake(SCREEN_WIDTH, PAaptation_y(30));
-    }
+    //2024.1.2暂时隐藏
+//    if (section == 0) {
+//        return CGSizeMake(SCREEN_WIDTH, PAaptation_y(30));
+//    }
+//    return CGSizeMake(SCREEN_WIDTH, PAaptation_y(40));
+    
     return CGSizeMake(SCREEN_WIDTH, PAaptation_y(40));
 }
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
+    //2024.1.2暂时隐藏
+//    if (section == 0) {
+//        return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(18));
+//    }
+//    if (section == 1) {
+//        return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(10));
+//    }
+//    if (section == 2) {
+//        return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(30));
+//    }
+//
+//    return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(18));
+    
+   
     if (section == 0) {
-        return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(18));
-    }
-    if (section == 1) {
-        return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(10));
-    }
-    if (section == 2) {
         return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(30));
     }
 
@@ -522,11 +646,19 @@
        label.textColor = BWColor(34, 34, 34, 1.0);
        [headerView addSubview:label];
        
-       if (indexPath.section == 0) {
-           label.text = @"目的地選択:";
-       }else if(indexPath.section == 1){
-           label.text = @"散歩予定時間:";
-       }else if(indexPath.section == 2){
+       //2024.1.2暂时隐藏
+       
+//       if (indexPath.section == 0) {
+//           label.text = @"目的地選択:";
+//       }else if(indexPath.section == 1){
+//           label.text = @"散歩予定時間:";
+//       }else if(indexPath.section == 2){
+//           label.text = @"確認者(複数選択可):";
+//       }else{
+//           label.text = @"参加児童:";
+//       }
+       
+        if(indexPath.section == 0){
            label.text = @"確認者(複数選択可):";
        }else{
            label.text = @"参加児童:";
@@ -540,6 +672,113 @@
 }
 - (void)updateWalkBtnState
 {
+    //2024.1.2 暂时隐藏
+//    UILabel *destLabel = (UILabel *)[self.view viewWithTag:10000];
+//    if (self.selectDestArray.count != 0) {
+//        HDestnationModel *destModel = [self.selectDestArray safeObjectAtIndex:0];
+//        if (destLabel == nil) {
+//            destLabel = [[UILabel alloc] init];
+//            destLabel.tag = 10000;
+//            destLabel.font = [UIFont boldSystemFontOfSize:12];
+//            destLabel.backgroundColor = BWColor(252, 229, 216, 1.0);
+//            destLabel.layer.cornerRadius = 8;
+//            destLabel.layer.masksToBounds = YES;
+//            [self.selectView addSubview:destLabel];
+//        }
+//        destLabel.text = [NSString stringWithFormat:@"   %@   ",destModel.name];
+//        
+//        [destLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+//            make.centerY.equalTo(self.selectView);
+//            make.left.equalTo(self.selectView);
+//            make.height.mas_equalTo(PAaptation_y(24));
+//
+//        }];
+//    }else{
+//        destLabel.text = @"";
+//    }
+//    
+//    UILabel *timeLabel = (UILabel *)[self.view viewWithTag:10001];
+//    if (self.selectTimeArray.count != 0) {
+//        HTime *timeModel = [self.selectTimeArray safeObjectAtIndex:0];
+//        if (timeLabel == nil) {
+//            timeLabel = [[UILabel alloc] init];
+//            timeLabel.tag = 10001;
+//            timeLabel.font = [UIFont boldSystemFontOfSize:12];
+//            timeLabel.backgroundColor = BWColor(252, 229, 216, 1.0);
+//            timeLabel.layer.cornerRadius = 8;
+//            timeLabel.layer.masksToBounds = YES;
+//            [self.selectView addSubview:timeLabel];
+//        }
+//        timeLabel.text = timeModel.name;
+//        
+//        [timeLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+//            make.centerY.equalTo(self.selectView);
+//            make.left.equalTo(destLabel == nil ? self.selectView : destLabel.mas_right).offset(PAdaptation_x(2));
+//            make.height.mas_equalTo(PAaptation_y(24));
+//
+//        }];
+//    }else{
+//        timeLabel.text = @"";
+//
+//    }
+//    
+//    UILabel *teacherLabel = (UILabel *)[self.view viewWithTag:10002];
+//    if (self.selectTeacherArray.count != 0) {
+//        if (teacherLabel == nil) {
+//            teacherLabel = [[UILabel alloc] init];
+//            teacherLabel.tag = 10002;
+//            teacherLabel.font = [UIFont boldSystemFontOfSize:12];
+//            teacherLabel.backgroundColor = BWColor(252, 229, 216, 1.0);
+//            teacherLabel.layer.cornerRadius = 8;
+//            teacherLabel.layer.masksToBounds = YES;
+//            [self.selectView addSubview:teacherLabel];
+//        }
+//        teacherLabel.text = [NSString stringWithFormat:@"   先生%ld人   ",self.selectTeacherArray.count];
+//        
+//        [teacherLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+//            make.centerY.equalTo(self.selectView);
+//            make.left.equalTo(timeLabel == nil ? self.selectView : timeLabel.mas_right).offset(PAdaptation_x(2));
+//            make.height.mas_equalTo(PAaptation_y(24));
+//
+//        }];
+//    }else{
+//        teacherLabel.text = @"";
+//
+//    }
+//    
+//    UILabel *studentLabel = (UILabel *)[self.view viewWithTag:10003];
+//    if (self.selectStudentArray.count != 0) {
+//        if (studentLabel == nil) {
+//            studentLabel = [[UILabel alloc] init];
+//            studentLabel.tag = 10003;
+//            studentLabel.font = [UIFont boldSystemFontOfSize:12];
+//            studentLabel.backgroundColor = BWColor(252, 229, 216, 1.0);
+//            studentLabel.layer.cornerRadius = 8;
+//            studentLabel.layer.masksToBounds = YES;
+//            [self.selectView addSubview:studentLabel];
+//        }
+//        studentLabel.text = [NSString stringWithFormat:@"   児童%ld人   ",self.selectStudentArray.count];
+//        
+//        [studentLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+//            make.centerY.equalTo(self.selectView);
+//            make.left.equalTo(teacherLabel == nil ? self.selectView : teacherLabel.mas_right).offset(PAdaptation_x(2));
+//            make.height.mas_equalTo(PAaptation_y(24));
+//
+//        }];
+//    }else{
+//        studentLabel.text = @"";
+//
+//    }
+//    
+//    
+//    if (self.selectDestArray.count != 0 && self.selectTimeArray.count != 0 && self.selectTeacherArray.count != 0 && self.selectStudentArray.count != 0) {
+//        self.startWalkBtn.enabled = YES;
+//        [self.startWalkBtn setImage:[UIImage imageNamed:@"walkStart.png"] forState:UIControlStateNormal];
+//    }else{
+//        self.startWalkBtn.enabled = NO;
+//        [self.startWalkBtn setImage:[UIImage imageNamed:@"walkStart_no.png"] forState:UIControlStateNormal];
+//    }
+    
     UILabel *destLabel = (UILabel *)[self.view viewWithTag:10000];
     if (self.selectDestArray.count != 0) {
         HDestnationModel *destModel = [self.selectDestArray safeObjectAtIndex:0];
@@ -638,7 +877,7 @@
     }
     
     
-    if (self.selectDestArray.count != 0 && self.selectTimeArray.count != 0 && self.selectTeacherArray.count != 0 && self.selectStudentArray.count != 0) {
+    if (self.selectTeacherArray.count != 0 && self.selectStudentArray.count != 0) {
         self.startWalkBtn.enabled = YES;
         [self.startWalkBtn setImage:[UIImage imageNamed:@"walkStart.png"] forState:UIControlStateNormal];
     }else{
@@ -678,8 +917,13 @@
     DefineWeakSelf;
     BWAddTaskReq *taskReq = [[BWAddTaskReq alloc] init];
     taskReq.type = type;
-    taskReq.destinationId = destinationId;
-    taskReq.planTime = planTime;
+    //2024.1.2 暂时隐藏
+//    taskReq.destinationId = destinationId;
+//    taskReq.planTime = planTime;
+    
+    taskReq.destinationId = @"10";
+    taskReq.planTime = @"0";
+    
     taskReq.assistants = assistantsArray;
     taskReq.kids = kidsArray;
     taskReq.remark = remark;

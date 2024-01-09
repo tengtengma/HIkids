@@ -135,8 +135,7 @@
     //设置地图
     [self createMapView];
     
-//    //    加载假数据小朋友的
-//        [self reloadData];
+   
 
     //创建导航
     [self createNavigationView];
@@ -157,6 +156,9 @@
     
     //检测版本
     [self checkVersion];
+    
+    //    加载假数据小朋友的
+//        [self reloadData];
     
     //监听危险
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dangerAlertNotifi:) name:@"dangerAlertNotification" object:nil];
@@ -214,6 +216,7 @@
         HDateVC *dateVC = [[HDateVC alloc] init];
         [weakSelf presentViewController:dateVC animated:YES completion:nil];
     };
+    __block BOOL isSelected = YES;
     homeMenuView.gpsBlock = ^{
         
         if (weakSelf.gpsLocation == nil) {
@@ -222,13 +225,9 @@
             CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(weakSelf.gpsLocation.coordinate.latitude, weakSelf.gpsLocation.coordinate.longitude);
             //移动地图中心到当前位置
             weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:self.lastZoom == 0 ? default_Zoom : self.lastZoom];
-
             [weakSelf startGetStudentLocationRequest];
         }
         
-//        //test1107
-//        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(39.871908, 116.281441);
-//        weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:self.lastZoom == 0 ? default_Zoom : self.lastZoom];
 
     };
     homeMenuView.toTopBlock = ^{
@@ -240,6 +239,10 @@
         weakSelf.homeMenuTableView.smallView.hidden = NO;
     };
     homeMenuView.showSelectMarkerBlock = ^(HStudent * _Nonnull student) {
+        if (student.deviceInfo.latitude.length == 0) {
+            [MBProgressHUD showMessag:@"位置情報が取得中" toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+            return;
+        }
         GMSMarker *marker = [weakSelf findMarkerWithStudentId:student.sId];
         [weakSelf selectMarkerWithStudent:student andMarker:marker];
     };
@@ -293,7 +296,12 @@
         //移动地图中心到当前位置
         weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:weakSelf.lastZoom == 0 ? default_Zoom : weakSelf.lastZoom];
     };
+   
     self.walkMenuTableView.showSelectMarkerBlock = ^(HStudent * _Nonnull student) {
+        if (student.deviceInfo.latitude.length == 0) {
+            [MBProgressHUD showMessag:@"位置情報が取得中" toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+            return;
+        }
         GMSMarker *marker = [weakSelf findMarkerWithStudentId:student.sId];
         [weakSelf selectMarkerWithStudent:student andMarker:marker];
     };
@@ -1034,6 +1042,16 @@
 //}
 -(void)addMarkersWithNomalList:(NSArray *)normalKids andExceptList:(NSArray *)exceptionKids{
     
+    //清除掉过去的点 重新绘制
+    NSMutableArray *tempArray = [self.makerList copy];
+    
+    for (GMSMarker *marker in tempArray) {
+        marker.map = nil;
+        [self.makerList removeObject:marker];
+
+    }
+    
+    
     for (NSInteger i = 0;i<exceptionKids.count;i++) {
                 
         HStudent *student = [exceptionKids safeObjectAtIndex:i];
@@ -1048,7 +1066,6 @@
         }
         ellipseView.isExcept = YES;
         
-
         GMSMarker *marker = [self findMarkerWithStudentId:student.sId];
         
         if (marker == nil) {
@@ -1094,6 +1111,8 @@
         marker.userData = student;
         marker.map = self.mapView;
         
+        
+        
     }else if (normalKids.count == 2){
         
         //组 只取第一个的坐标
@@ -1105,6 +1124,8 @@
         if (marker == nil) {
             marker = [[GMSMarker alloc] init];
         }
+        
+
         marker.iconView = groupView;
         marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
         marker.userData = student;
@@ -1143,11 +1164,12 @@
         marker.map = self.mapView;
     }
     
-    if (marker == nil) return;
+//    if (marker == nil) return;
     if (![self.makerList containsObject:marker]) {
-        [self.makerList addObject:marker];
+        if (marker != nil) {
+            [self.makerList addObject:marker];
+        }
     }
-    
 }
 - (GMSMarker *)findMarkerWithStudentId:(NSString *)studentId
 {
@@ -1179,7 +1201,7 @@
 //        self.exceptArray = except;
     //
         NSMutableArray *nomal = [[NSMutableArray alloc] init];
-        for (NSInteger i = 0; i<2; i++) {
+        for (NSInteger i = 0; i<1; i++) {
             HStudent *student = [[HStudent alloc] init];
             student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
             student.sId = [NSString stringWithFormat:@"%ld",300+i];
@@ -1454,12 +1476,12 @@
     
     self.lastMarkerTag = 7000 + student.sId.integerValue;
     
-    CGRect ellipseframe = CGRectMake(0, 0, PAdaptation_x(80), PAaptation_y(80));
-    HStudentEclipseView *ellipseView = [[HStudentEclipseView alloc] initWithFrame:ellipseframe withStudent:student];
-    [ellipseView setBgImage:[UIImage imageNamed:@"studentInfo_yellow.png"]];
-    ellipseView.isExcept = student.exceptionTime.length == 0 ? NO : YES;
-    ellipseView.tag = self.lastMarkerTag;
-    marker.iconView = ellipseView;
+//    CGRect ellipseframe = CGRectMake(0, 0, PAdaptation_x(80), PAaptation_y(80));
+//    HStudentEclipseView *ellipseView = [[HStudentEclipseView alloc] initWithFrame:ellipseframe withStudent:student];
+//    [ellipseView setBgImage:[UIImage imageNamed:@"studentInfo_yellow.png"]];
+//    ellipseView.isExcept = student.exceptionTime.length == 0 ? NO : YES;
+//    ellipseView.tag = self.lastMarkerTag;
+//    marker.iconView = ellipseView;
     
     CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue, student.deviceInfo.longitude.doubleValue);
     //移动地图中心到当前位置
