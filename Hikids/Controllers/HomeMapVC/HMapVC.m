@@ -123,14 +123,17 @@
 
     
     self.walkTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(startGetStudentLocationRequest) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:self.walkTimer forMode:NSRunLoopCommonModes];
     [self.walkTimer setFireDate:[NSDate distantFuture]];
 
     self.sleepTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(getSleepTaskRequest) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:self.sleepTimer forMode:NSRunLoopCommonModes];
     [self.sleepTimer setFireDate:[NSDate distantFuture]];
+    
+
 
     //获取当前的任务情况 内部还调用了sleepTask
     [self getTaskRequest];
-
 
     //设置地图
     [self createMapView];
@@ -157,8 +160,7 @@
     //检测版本
     [self checkVersion];
     
-    //    加载假数据小朋友的
-//        [self reloadData];
+
     
     //监听危险
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dangerAlertNotifi:) name:@"dangerAlertNotification" object:nil];
@@ -171,6 +173,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterBackground:) name:@"enterBackground" object:nil];
     
     self.lastMarkerTag = -1;
+    
+//    
+//    //    加载假数据小朋友的
+//        [self reloadData];
     
 }
 - (void)createNavigationView
@@ -216,7 +222,7 @@
         HDateVC *dateVC = [[HDateVC alloc] init];
         [weakSelf presentViewController:dateVC animated:YES completion:nil];
     };
-    __block BOOL isSelected = YES;
+    
     homeMenuView.gpsBlock = ^{
         
         if (weakSelf.gpsLocation == nil) {
@@ -1164,7 +1170,6 @@
         marker.map = self.mapView;
     }
     
-//    if (marker == nil) return;
     if (![self.makerList containsObject:marker]) {
         if (marker != nil) {
             [self.makerList addObject:marker];
@@ -1186,7 +1191,7 @@
 {
     //    //测试用
         NSMutableArray *except = [[NSMutableArray alloc] init];
-        for (NSInteger i = 0; i<1; i++) {
+        for (NSInteger i = 0; i<3; i++) {
             HStudent *student = [[HStudent alloc] init];
             student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
             student.sId = [NSString stringWithFormat:@"%ld",100+i];
@@ -1201,9 +1206,9 @@
 //        self.exceptArray = except;
     //
         NSMutableArray *nomal = [[NSMutableArray alloc] init];
-        for (NSInteger i = 0; i<1; i++) {
+        for (NSInteger i = 0; i<30; i++) {
             HStudent *student = [[HStudent alloc] init];
-            student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
+            student.avatar = @"https://yunpengmall.oss-cn-beijing.aliyuncs.com/1560875015170428928/material/19181666430944_.pic.jpg";
             student.sId = [NSString stringWithFormat:@"%ld",300+i];
             student.name = @"asdfsa";
             student.deviceInfo.latitude = @"39.871908";
@@ -1230,8 +1235,6 @@
         [self.locationManager startUpdatingLocation];
     } else {
         //定位不能用
-//        [self locationPermissionAlert];
-//        [SVProgressHUD dismiss];
         [MBProgressHUD showMessag:@"位置決めは使用できません。位置決め設定をオンにしてください" toView:self.view hudModel:MBProgressHUDModeText hide:YES];
     }
 
@@ -1279,29 +1282,27 @@
 }
 - (void)showAlertActionWithName:(NSString *)name
 {
+
     NSString *content = ![name isEqualToString:@"午睡中"] ? @"安全地帯を出てしまったお子さんもいるかもしれませんので、ご確認ください。" : @"お子さまの再確認をお願いします。";
     NSString *sureStr = ![name isEqualToString:@"午睡中"] ? @"アラート停止" : @"確認する";
     
         
     [self addLocalNoticeWithName:name];
-        //调用系统震动
-        [self getChatMessageGoToShake];
-        //调用系统声音
-        [self getChatMessageGoToSound];
+    //调用系统震动
+    [self getChatMessageGoToShake];
+    //调用系统声音
+    [self getChatMessageGoToSound];
     
-        [BWAlertCtrl alertControllerWithTitle:@"ご注意ください！" buttonArray:@[sureStr] message:content preferredStyle:UIAlertControllerStyleAlert clickBlock:^(NSString *buttonTitle) {
-            
-            if ([buttonTitle isEqualToString:sureStr]) {
-            }
-            
-        }];
+    [BWAlertCtrl alertControllerWithTitle:@"ご注意ください！" buttonArray:@[sureStr] message:content preferredStyle:UIAlertControllerStyleAlert clickBlock:^(NSString *buttonTitle) {
+        if ([buttonTitle isEqualToString:sureStr]) {
+        }
+    }];
 }
 #pragma  -mark -调用系统震动
 - (void)getChatMessageGoToShake
 {
      //调用系统震动
      AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-    
 }
 
 #pragma -mark -调用系统声音
@@ -1606,6 +1607,7 @@
 //    [SVProgressHUD dismiss];
     [self.locationManager stopUpdatingLocation];
     self.mapView = nil;
+    
 }
 
 #pragma mark - LazyLoad -

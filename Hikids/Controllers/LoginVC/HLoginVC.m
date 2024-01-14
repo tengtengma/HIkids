@@ -47,7 +47,7 @@
     [self.view addSubview:self.myScrollView];
     
     [self.helpBtn setFrame:CGRectMake(SCREEN_WIDTH - PAdaptation_x(24) - PAdaptation_x(40), PAaptation_y(59), PAdaptation_x(40), PAaptation_y(40))];
-    [self.myScrollView addSubview:self.helpBtn];
+    [self.view addSubview:self.helpBtn];
 
 
     [self.headerView setFrame:CGRectMake(SCREEN_WIDTH/2 - PAdaptation_x(290)/2, PAaptation_y(216), PAdaptation_x(290), PAaptation_y(58))];
@@ -79,16 +79,14 @@
     [self.companyLabel setFrame:CGRectMake(0, SCREEN_HEIGHT - PAaptation_y(37), SCREEN_WIDTH, PAaptation_y(37))];
     [self.view addSubview:self.companyLabel];
 
-    
-//    self.userView.textField.text = @"admin";
-//    self.pwView.textField.text = @"admin123";
-//    self.userView.textField.text = @"hikids";
-//    self.pwView.textField.text = @"123456";
 
 }
 
 - (void)loginAction:(id)sender
 {
+    [self.userView.textField resignFirstResponder];
+    [self.pwView.textField resignFirstResponder];
+    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     DefineWeakSelf;
@@ -166,16 +164,16 @@
 //
 //    }
 //}
-- (void)checkAction:(id)sender
-{
-    BWCheckTokenReq *loginReq = [[BWCheckTokenReq alloc] init];
-    [NetManger getRequest:loginReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
-        
-    } failure:^(BWBaseReq *req, NSError *error) {
-        [MBProgressHUD showMessag:error.domain toView:self.view hudModel:MBProgressHUDModeText hide:YES];
-
-    }];
-}
+//- (void)checkAction:(id)sender
+//{
+//    BWCheckTokenReq *loginReq = [[BWCheckTokenReq alloc] init];
+//    [NetManger getRequest:loginReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+//        
+//    } failure:^(BWBaseReq *req, NSError *error) {
+//        [MBProgressHUD showMessag:error.domain toView:self.view hudModel:MBProgressHUDModeText hide:YES];
+//
+//    }];
+//}
 - (void)helpAction:(id)sender
 {
     NSLog(@"点击了help按钮");
@@ -192,11 +190,6 @@
 - (UIButton *)helpBtn
 {
     if (!_helpBtn) {
-        
-        //多语言example
-        NSString * tempStr = NSLocalizedString(@"test_label", nil);
-        //多语言example
-        
         _helpBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_helpBtn setImage:[UIImage imageNamed:@"help.png"] forState:UIControlStateNormal];
         [_helpBtn addTarget:self action:@selector(helpAction:) forControlEvents:UIControlEventTouchUpInside];

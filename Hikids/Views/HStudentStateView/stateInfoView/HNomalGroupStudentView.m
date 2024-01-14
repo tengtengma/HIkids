@@ -25,13 +25,16 @@
             
             UIView *tempView = nil;
             for (HStudent *student in groupList) {
-                UIImageView *header = [[UIImageView alloc] initWithFrame:CGRectMake(tempView.frame.size.width, 0, contentView.frame.size.width/2, contentView.frame.size.height)];
-                header.layer.cornerRadius = contentView.frame.size.height/2;
-                header.layer.masksToBounds = YES;
-                [header sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
-                [contentView addSubview:header];
+                UIView *headerBg = [[UIView alloc] initWithFrame:CGRectMake(tempView.frame.size.width, 0, contentView.frame.size.width/2, contentView.frame.size.height)];
+                headerBg.layer.cornerRadius = contentView.frame.size.height/2;
+                headerBg.layer.masksToBounds = YES;
+                [contentView addSubview:headerBg];
                 
-                tempView = header;
+                UIImageView *header = [[UIImageView alloc] initWithFrame:CGRectMake(headerBg.frame.size.width/2 - PAdaptation_x(45)/2, headerBg.frame.size.height/2 - PAaptation_y(45)/2, PAdaptation_x(45), PAaptation_y(45))];
+                [header sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
+                [headerBg addSubview:header];
+                
+                tempView = headerBg;
             }
             
         }else if (groupList.count == 3){
@@ -45,13 +48,16 @@
             
             UIView *tempView = nil;
             for (HStudent *student in groupList) {
-                UIImageView *header = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(tempView.frame), 0, contentView.frame.size.width/3, contentView.frame.size.height)];
-                header.layer.cornerRadius = contentView.frame.size.height/2;
-                header.layer.masksToBounds = YES;
-                [header sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
-                [contentView addSubview:header];
+                UIView *headerBg = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(tempView.frame), 0, contentView.frame.size.width/3, contentView.frame.size.height)];
+                headerBg.layer.cornerRadius = contentView.frame.size.height/2;
+                headerBg.layer.masksToBounds = YES;
+                [contentView addSubview:headerBg];
                 
-                tempView = header;
+                UIImageView *header = [[UIImageView alloc] initWithFrame:CGRectMake(headerBg.frame.size.width/2 - PAdaptation_x(45)/2, headerBg.frame.size.height/2 - PAaptation_y(45)/2, PAdaptation_x(45), PAaptation_y(45))];
+                [header sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
+                [headerBg addSubview:header];
+                
+                tempView = headerBg;
             }
             
         }else{
@@ -73,16 +79,16 @@
             
             HStudent *student1 = [groupList safeObjectAtIndex:1];
 
-            UIImageView *header1 = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(header.frame), 0, contentView.frame.size.width/3, contentView.frame.size.height)];
+            UIImageView *header1 = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(header.frame)+PAdaptation_x(10), 0, contentView.frame.size.width/3, contentView.frame.size.height)];
             header1.layer.cornerRadius = contentView.frame.size.height/2;
             header1.layer.masksToBounds = YES;
             [header1 sd_setImageWithURL:[NSURL URLWithString:student1.avatar]];
             [contentView addSubview:header1];
             
-            UIView *numBgView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(header1.frame), 0, contentView.frame.size.width/3, contentView.frame.size.height)];
+            UIView *numBgView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(header1.frame)+PAdaptation_x(5), 0, contentView.frame.size.width/3, contentView.frame.size.height)];
             [contentView addSubview:numBgView];
             
-            UIImageView *numView = [[UIImageView alloc] initWithFrame:CGRectMake(numBgView.frame.size.width/2 - PAdaptation_x(46)/2, numBgView.frame.size.height/2 - PAaptation_y(40)/2, PAdaptation_x(46), PAaptation_y(40))];
+            UIImageView *numView = [[UIImageView alloc] initWithFrame:CGRectMake(0, numBgView.frame.size.height/2 - PAaptation_y(40)/2, PAdaptation_x(46), PAaptation_y(40))];
             [numView setImage:[UIImage imageNamed:@"num.png"]];
             [numBgView addSubview:numView];
             

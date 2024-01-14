@@ -24,7 +24,10 @@
     [super viewDidLoad];
         
     self.view.backgroundColor = [UIColor clearColor];
-    self.dataArray = @[@"アカウント:",@"メール:",@"位置情報",@"通知権限",@"Bluetooth",@"モバイルデータ通信"];
+    //暂时隐藏 14/01/2024
+//    self.dataArray = @[@"アカウント:",@"メール:",@"位置情報",@"通知権限",@"Bluetooth",@"モバイルデータ通信"];
+    self.dataArray = @[@"アカウント:",@"メール:",@"位置情報",@"通知権限",@"モバイルデータ通信"];
+
     [self createUI];
     
 }

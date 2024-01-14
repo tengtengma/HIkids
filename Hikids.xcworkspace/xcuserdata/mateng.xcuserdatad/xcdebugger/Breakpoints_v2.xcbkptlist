@@ -26,73 +26,10 @@
             filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1472"
-            endingLineNumber = "1472"
+            startingLineNumber = "1473"
+            endingLineNumber = "1473"
             landmarkName = "-selectMarkerWithStudent:andMarker:"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "9220C26E-9626-4C6A-97FB-CDEC8CF6C190"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "301"
-            endingLineNumber = "301"
-            landmarkName = "-setupWalkMenu"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "9220C26E-9626-4C6A-97FB-CDEC8CF6C190 - 55c89ccb292913e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__23-[HMapVC setupWalkMenu]_block_invoke_3"
-                  moduleName = "Hikids"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Controllers/HomeMapVC/HMapVC.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "359"
-                  endingLineNumber = "359"
-                  offsetFromSymbolStart = "44">
-               </Location>
-               <Location
-                  uuid = "9220C26E-9626-4C6A-97FB-CDEC8CF6C190 - 55c89ccb292911d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__23-[HMapVC setupWalkMenu]_block_invoke_3"
-                  moduleName = "Hikids"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Controllers/HomeMapVC/HMapVC.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "360"
-                  endingLineNumber = "360"
-                  offsetFromSymbolStart = "44">
-               </Location>
-               <Location
-                  uuid = "9220C26E-9626-4C6A-97FB-CDEC8CF6C190 - 55c89ccb29299b8"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__23-[HMapVC setupWalkMenu]_block_invoke_3"
-                  moduleName = "Hikids"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Controllers/HomeMapVC/HMapVC.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "301"
-                  endingLineNumber = "301"
-                  offsetFromSymbolStart = "44">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

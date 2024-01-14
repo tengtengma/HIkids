@@ -83,18 +83,29 @@
 #pragma mark - 分组 -
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    //暂时隐藏01/14/2024
+//    return 3;
+    
+    return 2;
 }
 
 #pragma mark - cell高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    //暂时隐藏01/14/2024
+//    if (indexPath.section == 0) {
+//        return PAaptation_y(58);
+//    }
+//    if (indexPath.section == 1) {
+//        return PAaptation_y(58);
+//    }
+//    if (indexPath.section == 2) {
+//        return PAaptation_y(98);
+//    }
     if (indexPath.section == 0) {
         return PAaptation_y(58);
     }
     if (indexPath.section == 1) {
-        return PAaptation_y(58);
-    }
-    if (indexPath.section == 2) {
         return PAaptation_y(98);
     }
     return 1;
@@ -102,13 +113,20 @@
 
 #pragma mark - cell数量
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    //暂时隐藏01/14/2024
+//    if (section == 0) {
+//        return 1;
+//    }
+//    if (section == 1) {
+//        return 2;
+//    }
+//    if (section == 2) {
+//        return 1;
+//    }
     if (section == 0) {
         return 1;
     }
     if (section == 1) {
-        return 2;
-    }
-    if (section == 2) {
         return 1;
     }
     return 1;
@@ -123,10 +141,17 @@
     label.textColor = BWColor(0, 28, 41, 1);
     [headerView addSubview:label];
     
+    //暂时隐藏01/14/2024
+//    if (section == 0) {
+//        label.text = @"クラス管理";
+//    }else if (section == 1){
+//        label.text = @"午睡・散歩";
+//    }else{
+//        label.text = @"アプリ・アカウント";
+//    }
+    
     if (section == 0) {
         label.text = @"クラス管理";
-    }else if (section == 1){
-        label.text = @"午睡・散歩";
     }else{
         label.text = @"アプリ・アカウント";
     }
@@ -147,6 +172,72 @@
     for (id v in cell.contentView.subviews)
         [v removeFromSuperview];
     
+    //暂时隐藏01/14/2024
+//    if (indexPath.section == 0) {
+//        
+//        [self setupCell:cell withNameList:@[@"クラス情報"] indexPath:indexPath];
+//        
+//        
+//    }
+//    if (indexPath.section == 1) {
+//        
+//        NSArray *array = @[@"午睡設定",@"散歩設定"];
+//        [self setupCell:cell withNameList:array indexPath:indexPath];
+//
+//    }
+//    if (indexPath.section == 2) {
+//        
+//        UIView *bgView = [[UIView alloc] init];
+//        bgView.layer.cornerRadius = 8;
+//        bgView.layer.borderWidth = 2;
+//        bgView.layer.borderColor = BWColor(34, 34, 34, 1).CGColor;
+//        [cell.contentView addSubview:bgView];
+//        
+//        [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(cell.contentView).offset(PAaptation_y(5));
+//            make.left.equalTo(cell.contentView).offset(PAdaptation_x(24));
+//            make.right.equalTo(cell.contentView.mas_right).offset(-PAdaptation_x(24));
+//            make.bottom.equalTo(cell.contentView.mas_bottom).offset(-PAaptation_y(5));
+//        }];
+//        
+//        UIImageView *headerView = [[UIImageView alloc] init];
+//        headerView.layer.borderWidth = 2;
+//        headerView.layer.cornerRadius = PAdaptation_x(58)/2;
+//        headerView.layer.masksToBounds = YES;
+//        [headerView sd_setImageWithURL:[NSURL URLWithString:@"https://yunpengmall.oss-cn-beijing.aliyuncs.com/1560875015170428928/material/19181666430944_.pic.jpg"] placeholderImage:[UIImage imageNamed:@"teacher.png"]];
+//        [cell.contentView addSubview:headerView];
+//        
+//        [headerView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.centerY.equalTo(bgView);
+//            make.left.equalTo(bgView).offset(PAdaptation_x(18));
+//            make.width.mas_equalTo(PAdaptation_x(58));
+//            make.height.mas_equalTo(PAaptation_y(58));
+//        }];
+//        
+//        UILabel *nameLabel = [[UILabel alloc] init];
+//        nameLabel.font = [UIFont boldSystemFontOfSize:24.0];
+//        nameLabel.text = @"ひまわり";
+//        nameLabel.textColor = BWColor(34, 34, 34, 1.0);
+//        [bgView addSubview:nameLabel];
+//        
+//        [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(headerView);
+//            make.left.equalTo(headerView.mas_right).offset(PAdaptation_x(16));
+//        }];
+//        
+//        UILabel *desLabel = [[UILabel alloc] init];
+//        desLabel.font = [UIFont systemFontOfSize:14.0];
+//        desLabel.text = @"アプリ設定・情報確認・ログアウト";
+//        desLabel.textColor = BWColor(34, 34, 34, 1.0);
+//        [bgView addSubview:desLabel];
+//        
+//        [desLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.bottom.equalTo(headerView.mas_bottom);
+//            make.left.equalTo(nameLabel);
+//        }];
+//       
+//    }
+    
     if (indexPath.section == 0) {
         
         [self setupCell:cell withNameList:@[@"クラス情報"] indexPath:indexPath];
@@ -154,12 +245,6 @@
         
     }
     if (indexPath.section == 1) {
-        
-        NSArray *array = @[@"午睡設定",@"散歩設定"];
-        [self setupCell:cell withNameList:array indexPath:indexPath];
-
-    }
-    if (indexPath.section == 2) {
         
         UIView *bgView = [[UIView alloc] init];
         bgView.layer.cornerRadius = 8;
@@ -178,7 +263,7 @@
         headerView.layer.borderWidth = 2;
         headerView.layer.cornerRadius = PAdaptation_x(58)/2;
         headerView.layer.masksToBounds = YES;
-        [headerView sd_setImageWithURL:[NSURL URLWithString:@"https://yunpengmall.oss-cn-beijing.aliyuncs.com/1560875015170428928/material/19181666430944_.pic.jpg"]];
+        [headerView sd_setImageWithURL:[NSURL URLWithString:@"https://yunpengmall.oss-cn-beijing.aliyuncs.com/1560875015170428928/material/19181666430944_.pic.jpg"] placeholderImage:[UIImage imageNamed:@"teacher.png"]];
         [cell.contentView addSubview:headerView];
         
         [headerView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -243,22 +328,31 @@
 #pragma mark - UITableViewDelegate -
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //暂时隐藏01/14/2024
+//    if (indexPath.section == 0) {
+//        HInfomationVC *infomationVC = [[HInfomationVC alloc] init];
+//        [self presentViewController:infomationVC animated:YES completion:nil];
+//    }
+//    if (indexPath.section == 1) {
+//        if (indexPath.row == 0) {
+//            //午睡设置
+//            [self showSleepOrWalkViewByTyep:type_Sleep];
+//        }
+//        if (indexPath.row == 1) {
+//            //散步设置
+//            [self showSleepOrWalkViewByTyep:type_Walk];
+//
+//        }
+//    }
+//    if (indexPath.section == 2) {
+//        HAccountVC *accountVC = [[HAccountVC alloc] init];
+//        [self presentViewController:accountVC animated:YES completion:nil];
+//    }
     if (indexPath.section == 0) {
         HInfomationVC *infomationVC = [[HInfomationVC alloc] init];
         [self presentViewController:infomationVC animated:YES completion:nil];
     }
     if (indexPath.section == 1) {
-        if (indexPath.row == 0) {
-            //午睡设置
-            [self showSleepOrWalkViewByTyep:type_Sleep];
-        }
-        if (indexPath.row == 1) {
-            //散步设置
-            [self showSleepOrWalkViewByTyep:type_Walk];
-
-        }
-    }
-    if (indexPath.section == 2) {
         HAccountVC *accountVC = [[HAccountVC alloc] init];
         [self presentViewController:accountVC animated:YES completion:nil];
     }

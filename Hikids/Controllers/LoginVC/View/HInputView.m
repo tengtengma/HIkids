@@ -44,8 +44,9 @@
     
     [self.bgView addSubview:self.textField];
     [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.bgView);
+        make.centerY.equalTo(self.bgView);
         make.left.equalTo(self.iconImageView.mas_right).offset(PAdaptation_x(8));
+        make.right.equalTo(self.bgView.mas_right).offset(-PAdaptation_x(24));
     }];
 }
 
@@ -80,6 +81,7 @@
         _textField = [[UITextField alloc] init];
 //        _textField.delegate = self;
         _textField.font = [UIFont systemFontOfSize:14.0];
+        _textField.clearButtonMode = YES;
         _textField.autocorrectionType = UITextAutocorrectionTypeNo;
         [_textField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
     }

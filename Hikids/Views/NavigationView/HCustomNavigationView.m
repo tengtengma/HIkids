@@ -93,6 +93,7 @@
     self.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
     
     self.userNameLabel.text = @"--";
+    [self.userImageView sd_setImageWithURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"teacher.png"]];
     [self.backgroundImageView setImage:[UIImage imageNamed:@"title_back.png"]];
 
 }
@@ -117,7 +118,6 @@
     self.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
     self.userNameLabel.text = @"ひまわり";
     [self.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
-    [self.userImageView setImage:[UIImage imageNamed:@"teacher.png"]];
     [self.backgroundImageView setImage:[UIImage imageNamed:@"navBG_safe.png"]];
 
 }
@@ -130,7 +130,6 @@
     self.updateTimeLabel.textColor = BWColor(164, 0, 0, 1);
     self.userNameLabel.text = @"ひまわり";
     [self.stateImageView setImage:[typeName isEqualToString:@"午睡中"] ? [UIImage imageNamed:@"attention.png"] : [UIImage imageNamed:@"dangerNav.png"]];
-    [self.userImageView setImage:[UIImage imageNamed:@"teacher.png"]];
     [self.backgroundImageView setImage:[UIImage imageNamed:@"navBG_danger.png"]];
 
 }
