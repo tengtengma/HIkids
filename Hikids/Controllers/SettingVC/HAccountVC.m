@@ -130,9 +130,12 @@
             make.left.equalTo(cell.contentView).offset(PAdaptation_x(24));
         }];
         
+        NSString *nameStr = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_NickName];
+        NSString *emailStr = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_Email];
+        
         UILabel *nameLabel = [[UILabel alloc] init];
         nameLabel.font = [UIFont boldSystemFontOfSize:20.0];
-        nameLabel.text = indexPath.row == 0 ? @"愛知　太郎" : @"xxxxxxxx@aa.com";
+        nameLabel.text = indexPath.row == 0 ? nameStr : emailStr;
         nameLabel.textColor = BWColor(0, 28, 41, 1);
         
         [cell.contentView addSubview:nameLabel];

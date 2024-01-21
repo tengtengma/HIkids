@@ -259,11 +259,14 @@
             make.bottom.equalTo(cell.contentView.mas_bottom).offset(-PAaptation_y(5));
         }];
         
+        NSString *teacherUrl = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_Avatar];
+        NSString *nickName = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_NickName];
+        
         UIImageView *headerView = [[UIImageView alloc] init];
         headerView.layer.borderWidth = 2;
         headerView.layer.cornerRadius = PAdaptation_x(58)/2;
         headerView.layer.masksToBounds = YES;
-        [headerView sd_setImageWithURL:[NSURL URLWithString:@"https://yunpengmall.oss-cn-beijing.aliyuncs.com/1560875015170428928/material/19181666430944_.pic.jpg"] placeholderImage:[UIImage imageNamed:@"teacher.png"]];
+        [headerView sd_setImageWithURL:[NSURL URLWithString:teacherUrl] placeholderImage:[UIImage imageNamed:@"teacher.png"]];
         [cell.contentView addSubview:headerView];
         
         [headerView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -275,7 +278,7 @@
         
         UILabel *nameLabel = [[UILabel alloc] init];
         nameLabel.font = [UIFont boldSystemFontOfSize:24.0];
-        nameLabel.text = @"ひまわり";
+        nameLabel.text = nickName;
         nameLabel.textColor = BWColor(34, 34, 34, 1.0);
         [bgView addSubview:nameLabel];
         

@@ -40,14 +40,12 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    HLoginVC *loginVC = [[HLoginVC alloc] init];
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     NSString *userName = [user objectForKey:KEY_UserName];
     if (userName.length != 0) {
-        [loginVC autoLoginAction];//此处为了刷新一下token
         self.window.rootViewController = [[HMapVC alloc] init];
     }else{
-        self.window.rootViewController = loginVC;
+        self.window.rootViewController = [[HLoginVC alloc] init];
     }
 
     [self.window makeKeyAndVisible];

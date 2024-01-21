@@ -8,6 +8,7 @@
 #import "HBaseMenuView.h"
 #import "HSmallCardView.h"
 #import "UIView+Frame.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface HBaseMenuView()<UIScrollViewDelegate,UIGestureRecognizerDelegate>
 @property (nonatomic,assign) float bottomH;//下滑后距离顶部的距离
@@ -56,6 +57,7 @@
     [self addSubview:headerView];
     
     self.smallView = [[HSmallCardView alloc] initWithFrame:CGRectMake(PAdaptation_x(10),0 , PAdaptation_x(115), PAaptation_y(79))];
+    self.smallView.tag = 1001;
     [headerView addSubview:self.smallView ];
     
     DefineWeakSelf;
@@ -66,6 +68,7 @@
     };
     
     self.gpsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.gpsButton.tag = 1002;
     [self.gpsButton setFrame:CGRectMake(headerView.frame.size.width - PAdaptation_x(50) , headerView.frame.size.height - PAaptation_y(82), PAdaptation_x(40), PAaptation_y(40))];
     [self.gpsButton setImage:[UIImage imageNamed:@"location.png"] forState:UIControlStateNormal];
     [self.gpsButton addTarget:self action:@selector(clickGpsAction) forControlEvents:UIControlEventTouchUpInside];
@@ -99,6 +102,34 @@
         self.gpsBlock();
     }
 }
+
+- (CAShapeLayer *)createTrapezoidLayer {
+    CAShapeLayer *trapezoidLayer = [CAShapeLayer layer];
+
+    // 设置梯形的位置和大小
+    trapezoidLayer.frame = CGRectMake(0, 0, self.bounds.size.width, [self PAaptation_y:121]);
+
+    // 创建梯形路径
+    UIBezierPath *trapezoidPath = [UIBezierPath bezierPath];
+    [trapezoidPath moveToPoint:CGPointMake(0, [self PAaptation_y:121])];
+    [trapezoidPath addLineToPoint:CGPointMake(self.bounds.size.width, [self PAaptation_y:121])];
+    [trapezoidPath addLineToPoint:CGPointMake(self.bounds.size.width, 0)];
+    [trapezoidPath addLineToPoint:CGPointMake(0, 0)];
+    [trapezoidPath closePath];
+
+    // 将路径设置为梯形图层的路径
+    trapezoidLayer.path = trapezoidPath.CGPath;
+
+    // 设置梯形的填充颜色
+    trapezoidLayer.fillColor = [UIColor greenColor].CGColor; // 你可以根据需要更改颜色
+
+    return trapezoidLayer;
+}
+
+- (CGFloat)PAaptation_y:(CGFloat)value {
+    // 这里你可以根据需要进行屏幕适配
+    return value;
+}
 #pragma mark - 滑动
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     return YES;
@@ -106,6 +137,17 @@
 
 - (void)panAction:(UIPanGestureRecognizer *)pan
 {
+    // 获取点击的位置
+    CGPoint tapLocation = [pan locationInView:self];
+    NSLog(@"x = %f, y = %f", tapLocation.x, tapLocation.y);
+
+    // 通过位置判断手指是否在某个 UIView 上
+    for (UIView *subview in self.subviews) {
+
+        if ([subview isKindOfClass:[UITableView class]]) {
+        }
+    }
+    
     // 获取视图偏移量
     CGPoint point = [pan translationInView:self];
     // stop_y是tableview的偏移量，当tableview的偏移量大于0时则不去处理视图滑动的事件
@@ -199,30 +241,7 @@
             [self goBack];
             return;
         }
-        
-        
-//        CGFloat speed = 350;
-
-//        if (velocity.y < -speed) {
-//            NSLog(@"top");
-//            [self goTop];
-//            [pan setTranslation:CGPointMake(0, 0) inView:self];
-//            return;
-//        }else if (velocity.y > speed){
-//            NSLog(@"bottom");
-//            [self goBack];
-//            [pan setTranslation:CGPointMake(0, 0) inView:self];
-//            return;
-//        }
-        
-//        NSLog(@"top=%f",self.top);
-//        NSLog(@"屏幕高度三=%f",SCREEN_HEIGHT/3);
-//
-//        if (self.top > SCREEN_HEIGHT/2) {
-//            [self goBack];
-//        }else{
-//            [self goTop];
-//        }
+    
     }
     
     [pan setTranslation:CGPointMake(0, 0) inView:self];
@@ -310,6 +329,7 @@
 {
     if (!_tableView) {
         _tableView = [[UITableView alloc] init];
+        _tableView.tag = 1000;
         _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.showsVerticalScrollIndicator = NO;

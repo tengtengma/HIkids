@@ -110,31 +110,15 @@
        
     }];
 }
-- (void)autoLoginAction
-{
-    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *userName = [user objectForKey:KEY_UserName];
-    NSString *passWord = [user objectForKey:KEY_Password];
-    
-    DefineWeakSelf;
-    BWLoginReq *loginReq = [[BWLoginReq alloc] init];
-    loginReq.username = userName;
-    loginReq.password = passWord;
-    [NetManger postRequest:loginReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
-        
-        BWLoginResp *loginResp = (BWLoginResp *)resp;
-        
-        [weakSelf saveUserInfomationWithDic:loginResp.item];
-            
-    } failure:^(BWBaseReq *req, NSError *error) {
-       
-    }];
-}
+
 - (void)saveUserInfomationWithDic:(NSDictionary *)userInfo
 {
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
     [user setObject:self.userView.textField.text forKey:KEY_UserName];
     [user setObject:self.pwView.textField.text forKey:KEY_Password];
+    [user setObject:[userInfo safeObjectForKey:@"nickName"] forKey:KEY_NickName];
+    [user setObject:[userInfo safeObjectForKey:@"avatar"] forKey:KEY_Avatar];
+    [user setObject:[userInfo safeObjectForKey:@"email"] forKey:KEY_Email];
     [user synchronize];
 }
 - (void)selectAction:(UITapGestureRecognizer *)tap
