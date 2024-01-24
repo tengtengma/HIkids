@@ -13,6 +13,7 @@
 #import "HInputView.h"
 #import "TPKeyboardAvoidingScrollView.h"
 #import "HMapVC.h"
+#import "HelpVC.h"
 
 @interface HLoginVC ()<UITextFieldDelegate>
 @property (nonatomic, strong) TPKeyboardAvoidingScrollView *myScrollView;
@@ -32,6 +33,20 @@
 @end
 
 @implementation HLoginVC
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBarHidden = YES;
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    self.navigationController.navigationBarHidden = NO;
+
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -161,6 +176,8 @@
 - (void)helpAction:(id)sender
 {
     NSLog(@"点击了help按钮");
+    HelpVC *vc = [[HelpVC alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - LazyLoad -

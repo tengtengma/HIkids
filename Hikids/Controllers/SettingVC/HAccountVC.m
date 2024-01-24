@@ -244,7 +244,8 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"quitAccountNoti" object:nil];
 
         AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        app.window.rootViewController = [[HLoginVC alloc] init];
+        UINavigationController *navCtrl = [[UINavigationController alloc] initWithRootViewController:[[HLoginVC alloc] init]];
+        app.window.rootViewController = navCtrl;
     }];
     
     

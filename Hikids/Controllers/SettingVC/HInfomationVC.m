@@ -8,6 +8,8 @@
 #import "HInfomationVC.h"
 #import "HDestnationModel.h"
 #import "HMddView.h"
+#import "BWGetInformationReq.h"
+#import "BWGetInformationResp.h"
 
 @interface HInfomationVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property (nonatomic, strong) UIView *bgView;
@@ -19,8 +21,11 @@
 @property (nonatomic, strong) NSArray *sectionArray;
 @property (nonatomic, strong) NSArray *mainTeacherArray;
 @property (nonatomic, strong) NSArray *teacherArray;
-@property (nonatomic, strong) NSArray *kidsArray;
-@property (nonatomic, strong) NSArray *destArray;
+@property (nonatomic, strong) NSArray *classKids;
+@property (nonatomic, copy) NSString *classAge;
+@property (nonatomic, copy) NSString *className;
+
+//@property (nonatomic, strong) NSArray *destArray;
 
 @end
 
@@ -30,32 +35,52 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor clearColor];
-    
-    self.sectionArray = @[@"クラス：",@"年齢：",@"担任先生：",@"先生：",@"子供：",@"散歩目的地："];
-    
-    self.mainTeacherArray = @[@"柴山 志帆",@"前田 慈子"];
-    
-    self.teacherArray = @[@"岩越 宏美",@"笹川 幸枝",@"上出 孝子",@"井本 美加子"];
-    
-    self.kidsArray = @[@"鈴木 和久",@"加藤 幸一",@"和田 浩",@"山本 義弘",@"三好 聡",@"鈴木 真平",@"藤村 健一",@"吉川 光",@"山本 隆",@"山村 武",@"鈴木 武明",@"竹中 靖",@"須藤 宏",@"大石 修二",@"山岸 慶太",@"石橋 伸治",@"小林 尊之",@"中川 貴哉",@"落合 武彦",@"江口 幸彦",@"星野 勝博",@"津田 博章",@"本橋 弘幸",@"大沢 真一郎",@"佐々木 裕希",@"福田 七重",@"早川 千紘",@"馬渕 真由美",@"上田 絢",@"益田 理恵",@"小堀 あゆみ",@"杉田 早苗",@"吉田 由真",@"森 有希",@"市村 香織"];
-    
-    self.destArray = @[@{@"name":@"東山動植物園",@"distance":@"0.9",@"image":[UIImage imageNamed:@"dest0.jpeg"]},@{@"name":@"植園公園",@"distance":@"1.2",@"image":[UIImage imageNamed:@"dest1.jpeg"]}];
-    
-    
+
+//    self.sectionArray = @[@"クラス：",@"年齢：",@"担任先生：",@"先生：",@"園児：",@"散歩目的地："];
+    self.sectionArray = @[@"クラス：",@"年齢：",@"担任先生：",@"園児："];
     [self createUI];
+
+    [self startRequest];
+}
+- (void)startRequest
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    DefineWeakSelf;
+    BWGetInformationReq *req = [[BWGetInformationReq alloc] init];
+    [NetManger getRequest:req withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        
+        BWGetInformationResp *infoResp = (BWGetInformationResp *)resp;
+        
+        weakSelf.mainTeacherArray = [infoResp.item safeObjectForKey:@"classTeacher"];
+        weakSelf.classKids = [infoResp.item safeObjectForKey:@"classKids"];
+        weakSelf.className = [infoResp.item safeObjectForKey:@"className"];
+        weakSelf.classAge = [infoResp.item safeObjectForKey:@"classAge"];
+        
+        [weakSelf.collectionView reloadData];
+        
+    } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+    
+    }];
 }
 - (void)createUI
 {
-    [self.view addSubview:self.bgView];
-    [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.view);
-    }];
     
-    [self.bgView addSubview:self.topView];
+//    self.destArray = @[@{@"name":@"東山動植物園",@"distance":@"0.9",@"image":[UIImage imageNamed:@"dest0.jpeg"]},@{@"name":@"植園公園",@"distance":@"1.2",@"image":[UIImage imageNamed:@"dest1.jpeg"]}];
+    
+//    [self.view addSubview:self.bgView];
+//    [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.edges.equalTo(self.view);
+//    }];
+    
+    [self.view addSubview:self.topView];
     [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.bgView);
-        make.left.equalTo(self.bgView);
-        make.width.equalTo(self.bgView);
+        make.top.equalTo(self.view);
+        make.left.equalTo(self.view);
+        make.width.equalTo(self.view);
         make.height.mas_equalTo(PAaptation_y(32));
     }];
     
@@ -65,11 +90,11 @@
 }
 - (void)createTitleView
 {
-   [self.bgView addSubview:self.titleView];
+   [self.view addSubview:self.titleView];
    [self.titleView mas_makeConstraints:^(MASConstraintMaker *make) {
        make.top.equalTo(self.topView.mas_bottom);
-       make.left.equalTo(self.bgView);
-       make.width.equalTo(self.bgView);
+       make.left.equalTo(self.view);
+       make.width.equalTo(self.view);
        make.height.mas_equalTo(PAaptation_y(68+24));
    }];
    
@@ -123,14 +148,13 @@
         return self.mainTeacherArray.count;
     }
     if (section == 3) {
-        return self.teacherArray.count;
+        return self.classKids.count;
     }
-    if (section == 4) {
-        return self.kidsArray.count;
-    }
-    if (section == 5) {
-        return 2;
-    }
+//    if (section == 4) {
+//    }
+//    if (section == 5) {
+//        return 2;
+//    }
     return 0;
     
 }
@@ -143,50 +167,67 @@
     for (id v in cell.contentView.subviews)
         [v removeFromSuperview];
     
-    
-    
-    if (indexPath.section == 5) {
+    if (indexPath.section == 0) {
         
-        NSDictionary *dic = [self.destArray safeObjectAtIndex:indexPath.row];
+        [self setupContentWithName:self.className cell:cell];
         
-        HDestnationModel *destModel = [[HDestnationModel alloc]init];
-        destModel.name = [dic safeObjectForKey:@"name"];
-        destModel.distance = [dic safeObjectForKey:@"distance"];
-        destModel.img = [dic safeObjectForKey:@"image"];
-        
-        HMddView *mddView = [[HMddView alloc] init];
-        [mddView setupWithModel:destModel];
-        [cell.contentView addSubview:mddView];
-
-        [mddView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(cell.contentView);
-        }];
-
-        if (destModel.isSelected) {
-            [mddView cellSelected];
-        }else{
-            [mddView cellNomal];
-        }
-
-
-    }else{
-        UILabel *label = [[UILabel alloc] init];
-        label.font = [UIFont boldSystemFontOfSize:20];
-        label.textColor = BWColor(0, 28, 41, 1);
-        label.text = [self.kidsArray safeObjectAtIndex:indexPath.row];
-        [cell.contentView addSubview:label];
-        
-        [label mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(cell.contentView);
-            make.left.equalTo(cell.contentView);
-        }];
     }
+    if (indexPath.section == 1) {
+        [self setupContentWithName:self.classAge cell:cell];
+
+    }
+    if (indexPath.section == 2) {
+        [self setupContentWithName:self.mainTeacherArray[indexPath.row] cell:cell];
+
+    }
+    if (indexPath.section == 3) {
+        NSDictionary *kidDic = [self.classKids safeObjectAtIndex:indexPath.row];
         
+        [self setupContentWithName:[kidDic safeObjectForKey:@"name"] cell:cell];
+    }
+
+//    if (indexPath.section == 5) {
+        
+//        NSDictionary *dic = [self.destArray safeObjectAtIndex:indexPath.row];
+//        
+//        HDestnationModel *destModel = [[HDestnationModel alloc]init];
+//        destModel.name = [dic safeObjectForKey:@"name"];
+//        destModel.distance = [dic safeObjectForKey:@"distance"];
+//        destModel.img = [dic safeObjectForKey:@"image"];
+//        
+//        HMddView *mddView = [[HMddView alloc] init];
+//        [mddView setupWithModel:destModel];
+//        [cell.contentView addSubview:mddView];
+//
+//        [mddView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.edges.equalTo(cell.contentView);
+//        }];
+//
+//        if (destModel.isSelected) {
+//            [mddView cellSelected];
+//        }else{
+//            [mddView cellNomal];
+//        }
+
+
+//    }
     
 
     return cell;
 }
-
+- (void)setupContentWithName:(NSString *)name cell:(UICollectionViewCell *)cell
+{
+    UILabel *label = [[UILabel alloc] init];
+    label.font = [UIFont boldSystemFontOfSize:20];
+    label.textColor = BWColor(0, 28, 41, 1);
+    label.text = name;
+    [cell.contentView addSubview:label];
+    
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(cell.contentView);
+        make.left.equalTo(cell.contentView);
+    }];
+}
 
 #pragma mark - UICollectionViewLayoutDelegate -
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -300,7 +341,6 @@
 
 }
 #pragma mark - LazyLoad -
-#pragma mark - LazyLoad -
 - (UICollectionView *)collectionView
 {
     if (!_collectionView) {
@@ -325,13 +365,7 @@
     return _collectionView;
 }
 
-- (UIView *)bgView
-{
-    if (!_bgView) {
-        _bgView = [[UIView alloc] init];
-    }
-    return _bgView;
-}
+
 
 - (UIView *)titleView
 {

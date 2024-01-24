@@ -15,7 +15,6 @@
 @property (nonatomic, strong) UILabel *userNameLabel;
 @property (nonatomic, strong) UILabel *stateLabel;
 @property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UILabel *updateTimeLabel;
 
 @end
 
@@ -66,7 +65,7 @@
     [self.backgroundImageView addSubview:self.updateTimeLabel];
     [self.updateTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.stateLabel.mas_bottom).offset([BWTools getIsIpad] ? LAdaptation_y(5) : PAaptation_y(2));
-        make.left.equalTo(self.stateImageView);
+        make.left.equalTo(self.stateImageView.mas_right);
     }];
     
     [self.backgroundImageView addSubview:self.userImageView];
@@ -92,7 +91,7 @@
     self.updateTimeLabel.text = @"--";
     self.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
     
-    self.userNameLabel.text = @"--";
+    self.userNameLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_NickName];
     NSString *teacherUrl = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_Avatar];
     [self.userImageView sd_setImageWithURL:[NSURL URLWithString:teacherUrl] placeholderImage:[UIImage imageNamed:@"teacher.png"]];
     [self.backgroundImageView setImage:[UIImage imageNamed:@"title_back.png"]];
@@ -115,9 +114,7 @@
     self.titleLabel.text = typeName;
     self.stateLabel.text = @"安全";
     self.stateLabel.textColor = BWColor(0, 176, 107, 1);
-    self.updateTimeLabel.text = @"最終更新：20秒";
     self.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
-    self.userNameLabel.text = @"ひまわり";
     [self.stateImageView setImage:[UIImage imageNamed:@"safe.png"]];
     [self.backgroundImageView setImage:[UIImage imageNamed:@"navBG_safe.png"]];
 
@@ -127,50 +124,12 @@
     self.titleLabel.text = typeName;
     self.stateLabel.text = [typeName isEqualToString:@"午睡中"] ? @"要注意" : @"危险";
     self.stateLabel.textColor = [typeName isEqualToString:@"午睡中"] ? BWColor(76, 53, 41, 1) :  BWColor(164, 0, 0, 1);
-    self.updateTimeLabel.text = @"最終更新：20秒";
     self.updateTimeLabel.textColor = BWColor(164, 0, 0, 1);
-    self.userNameLabel.text = @"ひまわり";
     [self.stateImageView setImage:[typeName isEqualToString:@"午睡中"] ? [UIImage imageNamed:@"attention.png"] : [UIImage imageNamed:@"dangerNav.png"]];
     [self.backgroundImageView setImage:[UIImage imageNamed:@"navBG_danger.png"]];
 
 }
-- (NSString *)timeIntervalStringForLastUpdate:(NSTimeInterval)timestamp{
-    
 
-    // 将时间戳转换为NSDate
-    NSDate *lastUpdateTime = [NSDate dateWithTimeIntervalSince1970:timestamp];
-    
-    // 获取当前时间
-    NSDate *currentTime = [NSDate date];
-
-    // 计算时间间隔
-    NSTimeInterval timeInterval = [currentTime timeIntervalSinceDate:lastUpdateTime];
-    
-    // 如果小于5分钟，则显示"ただいま"
-    if (timeInterval < 5 * 60) {
-        return @"ただいま";
-    } else {
-        // 大于5分钟，显示时间间隔字符串
-        NSCalendar *calendar = [NSCalendar currentCalendar];
-        NSDateComponents *components = [calendar components:NSCalendarUnitMinute | NSCalendarUnitSecond
-                                                   fromDate:lastUpdateTime
-                                                     toDate:currentTime
-                                                    options:0];
-
-        NSInteger minutes = components.minute;
-        NSInteger seconds = components.second;
-
-        // 格式化字符串
-        NSString *timeString = nil;
-        if (minutes > 0) {
-            timeString = [NSString stringWithFormat:@"%ld分前", (long)minutes];
-        } else {
-            timeString = [NSString stringWithFormat:@"%ld秒前", (long)seconds];
-        }
-
-        return timeString;
-    }
-}
 - (void)loginOutAction:(UITapGestureRecognizer *)tap
 {
     
@@ -233,6 +192,9 @@
     if (!_userImageView) {
         _userImageView = [[UIImageView alloc] init];
         _userImageView.userInteractionEnabled = YES;
+//        _userImageView.layer.borderWidth = 2;
+//        _userImageView.layer.cornerRadius = PAdaptation_x(56)/2;
+//        _userImageView.layer.masksToBounds = YES;
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(loginOutAction:)];
         [_userImageView addGestureRecognizer:tap];

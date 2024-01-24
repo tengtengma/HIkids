@@ -1,25 +1,22 @@
 //
-//  BWCheckTokenReq.m
+//  BWGetInfomationReq.m
 //  Hikids
 //
-//  Created by 马腾 on 2022/9/6.
+//  Created by 马腾 on 2024/1/22.
 //
 
-#import "BWCheckTokenReq.h"
+#import "BWGetInformationReq.h"
 
-@implementation BWCheckTokenReq
-
+@implementation BWGetInformationReq
 - (NSURL *)url
 {
-    NSString *str = [NSString stringWithFormat:@"%@%@",BaseURL,CheckTokenURL];
+    NSString *str = [NSString stringWithFormat:@"%@%@",BaseURL,GetInfomationURL];
     return [NSURL URLWithString:str];
 }
-
 - (NSMutableDictionary *)getRequestParametersDictionary
 {
-    
     NSMutableDictionary *dic = [super getRequestParametersDictionary];
-    
+
     return dic;
 }
 @end

@@ -38,6 +38,7 @@
         self.isSafe = [[dic safeObjectForKey:@"isSafe"] boolValue];
         self.kinFence = [dic safeObjectForKey:@"kinFence"];
         self.desFence = [dic safeObjectForKey:@"desFence"];
+        self.deviceLastUpload = [[dic safeObjectForKey:@"deviceLastUpload"] floatValue];
 
     }
     return self;

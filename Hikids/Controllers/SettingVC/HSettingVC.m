@@ -263,9 +263,9 @@
         NSString *nickName = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_NickName];
         
         UIImageView *headerView = [[UIImageView alloc] init];
-        headerView.layer.borderWidth = 2;
-        headerView.layer.cornerRadius = PAdaptation_x(58)/2;
-        headerView.layer.masksToBounds = YES;
+//        headerView.layer.borderWidth = 2;
+//        headerView.layer.cornerRadius = PAdaptation_x(58)/2;
+//        headerView.layer.masksToBounds = YES;
         [headerView sd_setImageWithURL:[NSURL URLWithString:teacherUrl] placeholderImage:[UIImage imageNamed:@"teacher.png"]];
         [cell.contentView addSubview:headerView];
         

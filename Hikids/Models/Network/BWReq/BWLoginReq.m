@@ -12,7 +12,7 @@
 
 - (NSURL *)url
 {
-    NSString *str = [NSString stringWithFormat:@"%@%@",BaseURL,Login_URL];
+    NSString *str = [NSString stringWithFormat:@"%@%@",BaseURL,LoginURL];
     return [NSURL URLWithString:str];
 }
 

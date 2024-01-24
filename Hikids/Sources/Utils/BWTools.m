@@ -692,4 +692,41 @@
         return @"刚刚";
     }
 }
++ (NSString *)timeIntervalStringForLastUpdate:(NSTimeInterval)timestamp{
+    
+
+    // 将时间戳转换为NSDate
+    NSDate *lastUpdateTime = [NSDate dateWithTimeIntervalSince1970:timestamp];
+    
+    // 获取当前时间
+    NSDate *currentTime = [NSDate date];
+
+    // 计算时间间隔
+    NSTimeInterval timeInterval = [currentTime timeIntervalSinceDate:lastUpdateTime];
+    
+    // 如果小于5分钟，则显示"ただいま"
+    if (timeInterval < 5 * 60) {
+        return @"ただいま";
+    } else {
+        // 大于5分钟，显示时间间隔字符串
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSDateComponents *components = [calendar components:NSCalendarUnitMinute | NSCalendarUnitSecond
+                                                   fromDate:lastUpdateTime
+                                                     toDate:currentTime
+                                                    options:0];
+
+        NSInteger minutes = components.minute;
+        NSInteger seconds = components.second;
+
+        // 格式化字符串
+        NSString *timeString = nil;
+        if (minutes > 0) {
+            timeString = [NSString stringWithFormat:@"%ld分前", (long)minutes];
+        } else {
+            timeString = [NSString stringWithFormat:@"%ld秒前", (long)seconds];
+        }
+
+        return timeString;
+    }
+}
 @end

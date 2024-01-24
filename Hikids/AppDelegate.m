@@ -45,7 +45,8 @@
     if (userName.length != 0) {
         self.window.rootViewController = [[HMapVC alloc] init];
     }else{
-        self.window.rootViewController = [[HLoginVC alloc] init];
+        UINavigationController *navCtrl = [[UINavigationController alloc] initWithRootViewController:[[HLoginVC alloc] init]];
+        self.window.rootViewController = navCtrl;
     }
 
     [self.window makeKeyAndVisible];

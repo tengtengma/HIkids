@@ -17,8 +17,8 @@
 //#define BaseURL                     @"http://api.hikids.blog:8089"                //午睡生产环境
 
 
-#define Login_URL                  @"/v1/login"                                         //登录接口
-#define CheckToken_URL             @"/v1/system/user/list"                              //检测token
+#define LoginURL                   @"/v1/login"                                         //登录接口
+#define CheckTokenURL              @"/v1/system/user/list"                              //检测token
 #define ffurl                      @"/v1/system/user/2"
 #define GetKindergartenURL         @"/v1/business/hikidsTask/getKindergarten"           //获取园区围栏信息
 #define GetDestinationsURL         @"/v1/business/kindergarten/destinations"            //获取目的地列表
@@ -36,6 +36,8 @@
 #define GetMonthCalendarURL        @"/v1/business/hikidsTask/getMonthTasks"             //根据获取一个月的报告
 #define GetPDFURL                  @"/v1/business/hikidsTask/getSleepReport"            //获取pdf地址
 #define GetKidInfoURL              @"/v1/business/kids"                                 //获取小孩详情
+#define GetInfomationURL           @"/v1/business/hikidsTask/getCorrentTaskInfo"        //获取情报
+#define HelpURL                    @"https://yohaku-bunka.notion.site/Q-A-66b097ecd75f4103938c30238525e677?pvs=4" //帮助页面
 #endif /* HttpsUrls_h */
 
 

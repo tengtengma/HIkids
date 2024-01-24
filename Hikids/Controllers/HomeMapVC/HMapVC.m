@@ -859,7 +859,10 @@
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         
         BWStudentLocationResp *locationResp = (BWStudentLocationResp *)resp;
-
+        
+        
+        weakSelf.customNavigationView.updateTimeLabel.text = [BWTools timeIntervalStringForLastUpdate:locationResp.deviceLastUpload];
+        
         //在院内
         if ([weakSelf.currentTask.status isEqualToString:@"5"] || weakSelf.currentTask.status == nil) {
 

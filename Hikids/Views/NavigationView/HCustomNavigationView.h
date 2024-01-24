@@ -13,6 +13,7 @@ typedef void(^clickHeaderBlock)(void);
 
 @interface HCustomNavigationView : UIView
 @property (nonatomic, copy) clickHeaderBlock clickHeader;
+@property (nonatomic, strong) UILabel *updateTimeLabel;
 
 - (instancetype)init;
 

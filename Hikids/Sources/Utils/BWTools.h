@@ -135,4 +135,8 @@
 
 // 时间戳转换
 + (NSString *)getMomentTime:(long long)timestamp;
+
+//时间戳转换 新01/24/2024
++ (NSString *)timeIntervalStringForLastUpdate:(NSTimeInterval)timestamp;
+
 @end

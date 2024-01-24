@@ -94,6 +94,7 @@
 		9E2DF84628B2606F00B0C9DA /* HCustomNavigationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF84528B2606F00B0C9DA /* HCustomNavigationView.m */; };
 		9E42E69828D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E42E69528D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		9E42E69928D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E42E69628D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.m */; };
+		9E48F6B62B60C2020007AC02 /* HelpVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E48F6B52B60C2020007AC02 /* HelpVC.m */; };
 		9E4C5F42295EC5D300E59C00 /* HWalkMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4C5F41295EC5D300E59C00 /* HWalkMenuView.m */; };
 		9E51FDD329640D8900EEC6EC /* HSleepMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E51FDD229640D8900EEC6EC /* HSleepMainView.m */; };
 		9E623F96299DE93C00091EBC /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E623F94299DE93B00091EBC /* UIView+Frame.m */; };
@@ -125,6 +126,8 @@
 		9E6B5C1C2A46C68800BFB284 /* studentInfo_yellow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E6B5C1A2A46C68800BFB284 /* studentInfo_yellow@2x.png */; };
 		9E6B5C1D2A46C68800BFB284 /* studentInfo_yellow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E6B5C1B2A46C68800BFB284 /* studentInfo_yellow@3x.png */; };
 		9E6B5C202A46CC8F00BFB284 /* HStudentEclipseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E6B5C1F2A46CC8F00BFB284 /* HStudentEclipseView.m */; };
+		9E6F45EC2B5E545F00DFC545 /* BWGetInformationReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F45EB2B5E545F00DFC545 /* BWGetInformationReq.m */; };
+		9E6F45EF2B5E54B300DFC545 /* BWGetInformationResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E6F45EE2B5E54B300DFC545 /* BWGetInformationResp.m */; };
 		9E7758F32A38A322009EBA00 /* HWalkDangerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7758F22A38A322009EBA00 /* HWalkDangerView.m */; };
 		9E7758F52A38C991009EBA00 /* dest.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 9E7758F42A38C991009EBA00 /* dest.gpx */; };
 		9E8344B828C7912C00AB9D83 /* BWCheckTokenReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8344B728C7912C00AB9D83 /* BWCheckTokenReq.m */; };
@@ -461,6 +464,8 @@
 		9E42E69528D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
 		9E42E69628D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		9E42E69728D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
+		9E48F6B42B60C2020007AC02 /* HelpVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelpVC.h; sourceTree = "<group>"; };
+		9E48F6B52B60C2020007AC02 /* HelpVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelpVC.m; sourceTree = "<group>"; };
 		9E4C5F40295EC5D300E59C00 /* HWalkMenuView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWalkMenuView.h; sourceTree = "<group>"; };
 		9E4C5F41295EC5D300E59C00 /* HWalkMenuView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWalkMenuView.m; sourceTree = "<group>"; };
 		9E51FDD129640D8900EEC6EC /* HSleepMainView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HSleepMainView.h; sourceTree = "<group>"; };
@@ -503,6 +508,10 @@
 		9E6B5C1B2A46C68800BFB284 /* studentInfo_yellow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "studentInfo_yellow@3x.png"; sourceTree = "<group>"; };
 		9E6B5C1E2A46CC8F00BFB284 /* HStudentEclipseView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HStudentEclipseView.h; sourceTree = "<group>"; };
 		9E6B5C1F2A46CC8F00BFB284 /* HStudentEclipseView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HStudentEclipseView.m; sourceTree = "<group>"; };
+		9E6F45EA2B5E545F00DFC545 /* BWGetInformationReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWGetInformationReq.h; sourceTree = "<group>"; };
+		9E6F45EB2B5E545F00DFC545 /* BWGetInformationReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWGetInformationReq.m; sourceTree = "<group>"; };
+		9E6F45ED2B5E54B300DFC545 /* BWGetInformationResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWGetInformationResp.h; sourceTree = "<group>"; };
+		9E6F45EE2B5E54B300DFC545 /* BWGetInformationResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWGetInformationResp.m; sourceTree = "<group>"; };
 		9E7758F12A38A322009EBA00 /* HWalkDangerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWalkDangerView.h; sourceTree = "<group>"; };
 		9E7758F22A38A322009EBA00 /* HWalkDangerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HWalkDangerView.m; sourceTree = "<group>"; };
 		9E7758F42A38C991009EBA00 /* dest.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = dest.gpx; sourceTree = "<group>"; };
@@ -1169,6 +1178,8 @@
 				9E6832432972408600194199 /* BWGetTaskCalendarReq.m */,
 				9E68324F2973949200194199 /* BWGetPDFReq.h */,
 				9E6832502973949200194199 /* BWGetPDFReq.m */,
+				9E6F45EA2B5E545F00DFC545 /* BWGetInformationReq.h */,
+				9E6F45EB2B5E545F00DFC545 /* BWGetInformationReq.m */,
 			);
 			path = BWReq;
 			sourceTree = "<group>";
@@ -1219,6 +1230,8 @@
 				9E6832462972409500194199 /* BWGetTaskCalendarResp.m */,
 				9E683252297394A500194199 /* BWGetPDFResp.h */,
 				9E683253297394A500194199 /* BWGetPDFResp.m */,
+				9E6F45ED2B5E54B300DFC545 /* BWGetInformationResp.h */,
+				9E6F45EE2B5E54B300DFC545 /* BWGetInformationResp.m */,
 			);
 			path = BWResp;
 			sourceTree = "<group>";
@@ -1513,6 +1526,8 @@
 				9EC72A3228D84FE000494A74 /* View */,
 				9EDAFE4828C4CDBA00FA9B5F /* HLoginVC.h */,
 				9EDAFE4928C4CDBA00FA9B5F /* HLoginVC.m */,
+				9E48F6B42B60C2020007AC02 /* HelpVC.h */,
+				9E48F6B52B60C2020007AC02 /* HelpVC.m */,
 			);
 			path = LoginVC;
 			sourceTree = "<group>";
@@ -2007,6 +2022,7 @@
 				9E25EB3C295D64A000FDAF78 /* HBaseMenuView.m in Sources */,
 				9E8892C62A3569E600B65F99 /* BWGetWalkReportReq.m in Sources */,
 				9E17D1CE28EE7261005FA5A9 /* BWGetStudentReq.m in Sources */,
+				9E6F45EF2B5E54B300DFC545 /* BWGetInformationResp.m in Sources */,
 				9E6B5C202A46CC8F00BFB284 /* HStudentEclipseView.m in Sources */,
 				9EDF523628FD84200066BFDC /* BWGetKindergartenReq.m in Sources */,
 				9EDF522128FA99D60066BFDC /* HStudentStateInfoView.m in Sources */,
@@ -2036,6 +2052,7 @@
 				9E6832512973949200194199 /* BWGetPDFReq.m in Sources */,
 				9E2DF80428B2209E00B0C9DA /* BWBaseResp.m in Sources */,
 				9E6832442972408600194199 /* BWGetTaskCalendarReq.m in Sources */,
+				9E48F6B62B60C2020007AC02 /* HelpVC.m in Sources */,
 				9E2DF81B28B2225500B0C9DA /* BWAlertCtrl.m in Sources */,
 				9E8892CE2A35745800B65F99 /* HWalkReport.m in Sources */,
 				9EEC478F2966A1840031CE9F /* HSleepOrWalkSettingView.m in Sources */,
@@ -2053,6 +2070,7 @@
 				9EDF5242290029C20066BFDC /* BWChangeTaskStateReq.m in Sources */,
 				9E683254297394A500194199 /* BWGetPDFResp.m in Sources */,
 				9E51FDD329640D8900EEC6EC /* HSleepMainView.m in Sources */,
+				9E6F45EC2B5E545F00DFC545 /* BWGetInformationReq.m in Sources */,
 				9E8892BF2A29EFE800B65F99 /* HWalkDownTimeView.m in Sources */,
 				9E25EB43295D7F0400FDAF78 /* HStudentStateTopView.m in Sources */,
 				9E2DF80A28B2219300B0C9DA /* BaseVC.m in Sources */,
