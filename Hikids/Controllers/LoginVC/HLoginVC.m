@@ -69,7 +69,7 @@
     [self.myScrollView addSubview:self.headerView];
 
     
-    self.userView.textField.placeholder = @"メールアドレス";
+    self.userView.textField.placeholder = @"ユーザーID";
     [self.userView setFrame:CGRectMake(PAdaptation_x(50), CGRectGetMaxY(self.headerView.frame)+PAaptation_y(40), PAdaptation_x(290), PAaptation_y(56))];
     [self.myScrollView addSubview:self.userView];
 
@@ -125,12 +125,39 @@
        
     }];
 }
+- (void)autoLoginAction
+{
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *username = [user objectForKey:KEY_UserName];
+    NSString *password = [user objectForKey:KEY_Password];
 
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    DefineWeakSelf;
+    BWLoginReq *loginReq = [[BWLoginReq alloc] init];
+    loginReq.username = username;
+    loginReq.password = password;
+    [NetManger postRequest:loginReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        
+        BWLoginResp *loginResp = (BWLoginResp *)resp;
+        
+        [weakSelf saveUserInfomationWithDic:loginResp.item];
+        
+            
+    } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [MBProgressHUD showMessag:error.domain toView:self.view hudModel:MBProgressHUDModeText hide:YES];
+       
+    }];
+}
 - (void)saveUserInfomationWithDic:(NSDictionary *)userInfo
 {
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    [user setObject:self.userView.textField.text forKey:KEY_UserName];
-    [user setObject:self.pwView.textField.text forKey:KEY_Password];
+    if (self.userView.textField.text.length != 0) {
+        [user setObject:self.userView.textField.text forKey:KEY_UserName];
+        [user setObject:self.pwView.textField.text forKey:KEY_Password];
+    }
     [user setObject:[userInfo safeObjectForKey:@"nickName"] forKey:KEY_NickName];
     [user setObject:[userInfo safeObjectForKey:@"avatar"] forKey:KEY_Avatar];
     [user setObject:[userInfo safeObjectForKey:@"email"] forKey:KEY_Email];

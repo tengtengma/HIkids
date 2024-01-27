@@ -177,7 +177,7 @@
     if(!_titleLabel){
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = [UIFont boldSystemFontOfSize:20];
-        _titleLabel.text = @"危険";
+        _titleLabel.text = @"要注意";
         _titleLabel.textColor = [UIColor whiteColor];
     }
     return _titleLabel;

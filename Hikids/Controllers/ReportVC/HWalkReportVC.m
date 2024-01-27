@@ -30,7 +30,7 @@
 @property (nonatomic, strong) UIImageView *destImageView;
 @property (nonatomic, strong) UILabel *groupDesLabel;
 @property (nonatomic, strong) UILabel *groupLabel;
-@property (nonatomic, strong) UILabel *teacherDesLabel;
+//@property (nonatomic, strong) UILabel *teacherDesLabel;
 @property (nonatomic, strong) UILabel *genderLabel;
 @property (nonatomic, strong) UILabel *teacherNumLabel;
 @property (nonatomic, strong) UILabel *studentDesLabel;
@@ -133,13 +133,20 @@
         [self createDateView];
         
         
-        [self.scrollView addSubview:self.destDesLabel];
-        [self.destDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.imageBgView.mas_bottom).offset(PAaptation_y(24));
-            make.left.equalTo(self.view).offset(PAdaptation_x(25));
+//        [self.scrollView addSubview:self.destDesLabel];
+//        [self.destDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(self.imageBgView.mas_bottom).offset(PAaptation_y(24));
+//            make.left.equalTo(self.view).offset(PAdaptation_x(25));
+//        }];
+        
+        self.groupLabel.text = self.walkReport.className;
+        [self.scrollView addSubview:self.groupLabel];
+        [self.groupLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.imageBgView.mas_bottom).offset(PAaptation_y(20));
+            make.left.equalTo(self.imageBgView);
         }];
         
-        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(480) + PAaptation_y(78)*self.walkReport.unnormalList.count);
+        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(380) + PAaptation_y(78)*self.walkReport.unnormalList.count);
 
         
     }else{
@@ -179,55 +186,58 @@
         
         
         self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(180) + PAaptation_y(78)*self.walkReport.unnormalList.count);
+        
+        self.destLabel.text = self.walkReport.address;
+        [self.scrollView addSubview:self.destLabel];
+        [self.destLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.destDesLabel.mas_bottom).offset(PAaptation_y(6));
+            make.left.equalTo(self.destDesLabel);
+            make.width.mas_equalTo(PAdaptation_x(112));
+        }];
+        
+        self.distanceLabel.text = [NSString stringWithFormat:@"%@m",self.walkReport.distance];
+        [self.scrollView addSubview:self.distanceLabel];
+        [self.distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.destLabel.mas_bottom).offset(PAaptation_y(2));
+            make.left.equalTo(self.destDesLabel);
+        }];
+        
+        [self.scrollView addSubview:self.destImageView];
+        [self.destImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.destDesLabel.mas_bottom).offset(PAaptation_y(5));
+            make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(25));
+            make.width.mas_equalTo(PAdaptation_x(120));
+            make.height.mas_equalTo(PAaptation_y(120));
+        }];
+        
+        [self.scrollView addSubview:self.groupDesLabel];
+        [self.groupDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.distanceLabel.mas_bottom).offset(PAaptation_y(16));
+            make.left.equalTo(self.destDesLabel);
+        }];
+        
+        self.groupLabel.text = self.walkReport.className;
+        [self.scrollView addSubview:self.groupLabel];
+        [self.groupLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.groupDesLabel.mas_bottom);
+            make.left.equalTo(self.groupDesLabel);
+        }];
 
     }
 
-    self.destLabel.text = self.walkReport.address;
-    [self.scrollView addSubview:self.destLabel];
-    [self.destLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.destDesLabel.mas_bottom).offset(PAaptation_y(6));
-        make.left.equalTo(self.destDesLabel);
-        make.width.mas_equalTo(PAdaptation_x(112));
-    }];
     
-    self.distanceLabel.text = [NSString stringWithFormat:@"%@m",self.walkReport.distance];
-    [self.scrollView addSubview:self.distanceLabel];
-    [self.distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.destLabel.mas_bottom).offset(PAaptation_y(2));
-        make.left.equalTo(self.destDesLabel);
-    }];
+
     
-    [self.scrollView addSubview:self.destImageView];
-    [self.destImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.destDesLabel.mas_bottom).offset(PAaptation_y(5));
-        make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(25));
-        make.width.mas_equalTo(PAdaptation_x(120));
-        make.height.mas_equalTo(PAaptation_y(120));
-    }];
-    
-    [self.scrollView addSubview:self.groupDesLabel];
-    [self.groupDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.distanceLabel.mas_bottom).offset(PAaptation_y(16));
-        make.left.equalTo(self.destDesLabel);
-    }];
-    
-    self.groupLabel.text = self.walkReport.className;
-    [self.scrollView addSubview:self.groupLabel];
-    [self.groupLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.groupDesLabel.mas_bottom);
-        make.left.equalTo(self.groupDesLabel);
-    }];
-    
-    [self.scrollView addSubview:self.teacherDesLabel];
-    [self.teacherDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.groupLabel.mas_bottom).offset(PAaptation_y(16));
-        make.left.equalTo(self.groupDesLabel);
-    }];
+//    [self.scrollView addSubview:self.teacherDesLabel];
+//    [self.teacherDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.groupLabel.mas_bottom).offset(PAaptation_y(16));
+//        make.left.equalTo(self.groupDesLabel);
+//    }];
     
     [self.scrollView addSubview:self.genderLabel];
     [self.genderLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.teacherDesLabel.mas_bottom).offset(PAaptation_y(32));
-        make.left.equalTo(self.teacherDesLabel);
+        make.top.equalTo(self.groupLabel.mas_bottom).offset(PAaptation_y(32));
+        make.left.equalTo(self.groupLabel);
     }];
     
     self.teacherNumLabel.text = [NSString stringWithFormat:@"%@人",self.walkReport.teacherCount];
@@ -256,31 +266,31 @@
             }else{
                 make.top.equalTo(tempTeacherNameLabel.mas_bottom).offset(PAaptation_y(6));
             }
-            make.left.equalTo(self.teacherDesLabel);
+            make.left.equalTo(self.genderLabel);
         }];
         
         tempTeacherNameLabel = teacherNameLabel;
         
-        if (i == 0) {
-            UILabel *mainNameLabel = [[UILabel alloc] init];
-            mainNameLabel.text = @"責任者";
-            mainNameLabel.textColor = [UIColor whiteColor];
-            mainNameLabel.backgroundColor = BWColor(108, 159, 155, 1);
-            mainNameLabel.font = [UIFont systemFontOfSize:10];
-            mainNameLabel.textAlignment = NSTextAlignmentCenter;
-            [self.scrollView addSubview:mainNameLabel];
-            
-            [mainNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.centerY.equalTo(teacherNameLabel);
-                make.left.equalTo(teacherNameLabel.mas_right).offset(PAdaptation_x(20));
-            }];
-        }
+//        if (i == 0) {
+//            UILabel *mainNameLabel = [[UILabel alloc] init];
+//            mainNameLabel.text = @"責任者";
+//            mainNameLabel.textColor = [UIColor whiteColor];
+//            mainNameLabel.backgroundColor = BWColor(108, 159, 155, 1);
+//            mainNameLabel.font = [UIFont systemFontOfSize:10];
+//            mainNameLabel.textAlignment = NSTextAlignmentCenter;
+//            [self.scrollView addSubview:mainNameLabel];
+//            
+//            [mainNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//                make.centerY.equalTo(teacherNameLabel);
+//                make.left.equalTo(teacherNameLabel.mas_right).offset(PAdaptation_x(20));
+//            }];
+//        }
         
     }
     
     [self.scrollView addSubview:self.studentDesLabel];
     [self.studentDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.teacherDesLabel.mas_bottom).offset(PAaptation_y(32));
+        make.top.equalTo(self.genderLabel);
         make.left.equalTo(self.view).offset(PAdaptation_x(195));
     }];
     
@@ -338,7 +348,7 @@
         [self.scrollView addSubview:self.dangerLabel];
         [self.dangerLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(tempStudentHeaderView.mas_bottom).offset(PAaptation_y(26));
-            make.left.equalTo(self.teacherDesLabel);
+            make.left.equalTo(self.teacherNumLabel);
         }];
         
         
@@ -356,19 +366,17 @@
             make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(24));
             make.height.mas_equalTo(PAaptation_y(47));
         }];
-
+        
+        NSArray *exceptArray = self.walkReport.unnormalList;
         UIView *tempFootView = nil;
-        for (NSInteger i = 0; i < 3; i++) {
-            HStudent *student = [[HStudent alloc] init];
-            student.name = @"adfasdf";
-            student.exceptionTime = @"123";
-            student.avatar = @"https://yunpengmall.oss-cn-beijing.aliyuncs.com/1560875015170428928/material/19181666430944_.pic.jpg";
+        for (NSInteger i = 0; i < exceptArray.count; i++) {
+            HStudent *student = [exceptArray safeObjectAtIndex:i];
             
             HStudentFooterView *footerView = [[HStudentFooterView alloc] init];
             footerView.type = FootTYPE_WALK;
             [footerView setupWithModel:student];
             [footerView loadDangerStyle];
-            if (i == 2) {
+            if (i == exceptArray.count - 1) {
                 [footerView setLastCellBorder];
             }else{
                 [footerView setNomalBorder];
@@ -454,7 +462,7 @@
     }];
     
     UILabel *locationDesLabel = [[UILabel alloc] init];
-    locationDesLabel.text = self.walkReport.address;
+    locationDesLabel.text = @"Hikidsで守りました。";
     locationDesLabel.textColor = [UIColor whiteColor];
     locationDesLabel.font = [UIFont boldSystemFontOfSize:20];
     locationDesLabel.textAlignment = NSTextAlignmentCenter;
@@ -466,28 +474,28 @@
         make.right.equalTo(self.imageBgView.mas_right).offset(-PAdaptation_x(25));
     }];
     
-    UIImageView *locationView = [[UIImageView alloc] init];
-    [locationView setImage:[UIImage imageNamed:@"location_report.png"]];
-    [self.imageBgView addSubview:locationView];
-    
-    [locationView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(locationDesLabel.mas_bottom);
-        make.left.equalTo(self.imageBgView).offset(PAdaptation_x(124));
-        make.width.mas_equalTo(PAdaptation_x(20));
-        make.height.mas_equalTo(PAaptation_y(20));
-    }];
-    
-    UILabel *mddDesLabel = [[UILabel alloc] init];
-    mddDesLabel.text = self.walkReport.address;
-    mddDesLabel.textColor = [UIColor whiteColor];
-    mddDesLabel.font = [UIFont systemFontOfSize:16];
-    mddDesLabel.textAlignment = NSTextAlignmentCenter;
-    [self.imageBgView addSubview:mddDesLabel];
-    
-    [mddDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(locationView);
-        make.left.equalTo(locationView.mas_right).offset(PAdaptation_x(12));
-    }];
+//    UIImageView *locationView = [[UIImageView alloc] init];
+//    [locationView setImage:[UIImage imageNamed:@"location_report.png"]];
+//    [self.imageBgView addSubview:locationView];
+//    
+//    [locationView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(locationDesLabel.mas_bottom);
+//        make.left.equalTo(self.imageBgView).offset(PAdaptation_x(124));
+//        make.width.mas_equalTo(PAdaptation_x(20));
+//        make.height.mas_equalTo(PAaptation_y(20));
+//    }];
+//    
+//    UILabel *mddDesLabel = [[UILabel alloc] init];
+//    mddDesLabel.text = self.walkReport.address;
+//    mddDesLabel.textColor = [UIColor whiteColor];
+//    mddDesLabel.font = [UIFont systemFontOfSize:16];
+//    mddDesLabel.textAlignment = NSTextAlignmentCenter;
+//    [self.imageBgView addSubview:mddDesLabel];
+//    
+//    [mddDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(locationView);
+//        make.left.equalTo(locationView.mas_right).offset(PAdaptation_x(12));
+//    }];
     
     UILabel *teacherDesLabel = [[UILabel alloc] init];
     teacherDesLabel.text = @"先生";
@@ -496,7 +504,7 @@
     [self.imageBgView addSubview:teacherDesLabel];
     
     [teacherDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(mddDesLabel.mas_bottom).offset(PAaptation_y(34));
+        make.top.equalTo(locationDesLabel.mas_bottom).offset(PAaptation_y(34));
         make.left.equalTo(self.imageBgView).offset(PAdaptation_x(45));
     }];
     
@@ -512,13 +520,13 @@
     }];
     
     UILabel *studentDesLabel = [[UILabel alloc] init];
-    studentDesLabel.text = @"子供";
+    studentDesLabel.text = @"園児";
     studentDesLabel.textColor = [UIColor whiteColor];
     studentDesLabel.font = [UIFont systemFontOfSize:14];
     [self.imageBgView addSubview:studentDesLabel];
     
     [studentDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(mddDesLabel.mas_bottom).offset(PAaptation_y(34));
+        make.top.equalTo(locationDesLabel.mas_bottom).offset(PAaptation_y(34));
         make.centerX.equalTo(self.imageBgView);
     }];
     
@@ -540,7 +548,7 @@
     [self.imageBgView addSubview:alertDesLabel];
     
     [alertDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(mddDesLabel.mas_bottom).offset(PAaptation_y(34));
+        make.top.equalTo(locationDesLabel.mas_bottom).offset(PAaptation_y(34));
         make.right.equalTo(self.imageBgView.mas_right).offset(-PAdaptation_x(45));
     }];
     
@@ -705,16 +713,16 @@
     }
     return _groupLabel;
 }
-- (UILabel *)teacherDesLabel
-{
-    if (!_teacherDesLabel) {
-        _teacherDesLabel = [[UILabel alloc] init];
-        _teacherDesLabel.font = [UIFont systemFontOfSize:14.0];
-        _teacherDesLabel.text = @"人員：";
-        _teacherDesLabel.textColor = BWColor(0, 28, 41, 1);
-    }
-    return _teacherDesLabel;
-}
+//- (UILabel *)teacherDesLabel
+//{
+//    if (!_teacherDesLabel) {
+//        _teacherDesLabel = [[UILabel alloc] init];
+//        _teacherDesLabel.font = [UIFont systemFontOfSize:14.0];
+//        _teacherDesLabel.text = @"人員：";
+//        _teacherDesLabel.textColor = BWColor(0, 28, 41, 1);
+//    }
+//    return _teacherDesLabel;
+//}
 - (UILabel *)genderLabel
 {
     if (!_genderLabel) {
@@ -740,7 +748,7 @@
     if (!_studentDesLabel) {
         _studentDesLabel = [[UILabel alloc] init];
         _studentDesLabel.font = [UIFont systemFontOfSize:14.0];
-        _studentDesLabel.text = @"子供：";
+        _studentDesLabel.text = @"園児：";
         _studentDesLabel.textColor = BWColor(0, 28, 41, 1);
     }
     return _studentDesLabel;

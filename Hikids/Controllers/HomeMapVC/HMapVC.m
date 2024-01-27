@@ -133,7 +133,7 @@
 
 
     //获取当前的任务情况 内部还调用了sleepTask
-    [self getTaskRequest];
+//    [self getTaskRequest];
 
     //设置地图
     [self createMapView];
@@ -176,7 +176,7 @@
     
 //    
 //    //    加载假数据小朋友的
-//        [self reloadData];
+        [self reloadData];
     
 }
 - (void)createNavigationView
@@ -355,7 +355,7 @@
         [weakSelf hideStateInfoView];
         
         HStudentEclipseView *lastView = (HStudentEclipseView *)[weakSelf.mapView viewWithTag:weakSelf.lastMarkerTag];
-        [lastView setBgImage:lastView.isExcept ? [UIImage imageNamed:@"Ellipse.png"] : [UIImage imageNamed:@"1"]];
+//        [lastView setBgImage:lastView.isExcept ? [UIImage imageNamed:@"Ellipse.png"] : [UIImage imageNamed:@"1"]];
 
     };
 }
@@ -591,7 +591,7 @@
     self.sleepMenuTableView.exceptList = tempDangerArray;
     [self.sleepMenuTableView.tableView reloadData];
     
-    NSString *status = tempDangerArray.count != 0 ? @"危険" : @"安全";
+    NSString *status = tempDangerArray.count != 0 ? @"要注意" : @"安全";
     [[NSNotificationCenter defaultCenter] postNotificationName:@"dangerAlertNotification" object:@{@"name":@"午睡中",@"status":status}];
 }
 - (void)changeTaskStateRequestWithStatus:(NSString *)status
@@ -860,13 +860,13 @@
         
         BWStudentLocationResp *locationResp = (BWStudentLocationResp *)resp;
         
-        
-        weakSelf.customNavigationView.updateTimeLabel.text = [BWTools timeIntervalStringForLastUpdate:locationResp.deviceLastUpload];
+        NSString *updateTime = [NSString stringWithFormat:@"最終更新：%@",[BWTools timeIntervalStringForLastUpdate:locationResp.deviceLastUpload]];
+        weakSelf.customNavigationView.updateTimeLabel.text = updateTime;
         
         //在院内
         if ([weakSelf.currentTask.status isEqualToString:@"5"] || weakSelf.currentTask.status == nil) {
 
-            NSString *status = locationResp.exceptionKids.count != 0 ? @"危険" : @"安全";
+            NSString *status = locationResp.exceptionKids.count != 0 ? @"要注意" : @"安全";
             [[NSNotificationCenter defaultCenter] postNotificationName:@"dangerAlertNotification" object:@{@"name":@"在園中",@"status":status}];
             
             weakSelf.homeMenuTableView.smallView.safeLabel.text = [NSString stringWithFormat:@"使用中%ld人",locationResp.normalKids.count];
@@ -877,7 +877,7 @@
             
         }else{
             
-            NSString *status = locationResp.exceptionKids.count != 0 ? @"危険" : @"安全";
+            NSString *status = locationResp.exceptionKids.count != 0 ? @"要注意" : @"安全";
             [[NSNotificationCenter defaultCenter] postNotificationName:@"dangerAlertNotification" object:@{@"name":@"散步中",@"status":status}];
             
             weakSelf.walkMenuTableView.safeList = locationResp.normalKids;
@@ -1065,32 +1065,7 @@
                 
         HStudent *student = [exceptionKids safeObjectAtIndex:i];
 
-        CGRect ellipseframe = CGRectMake(0, 0, PAdaptation_x(80), PAaptation_y(80));
-        
-        HStudentEclipseView *ellipseView = [[HStudentEclipseView alloc] initWithFrame:ellipseframe withStudent:student];
-        if(self.lastMarkerTag == 7000+student.sId.integerValue){
-            [ellipseView setBgImage:[UIImage imageNamed:@"studentInfo_yellow.png"]];
-        }else{
-            [ellipseView setBgImage:[UIImage imageNamed:@"Ellipse.png"]];
-        }
-        ellipseView.isExcept = YES;
-        
-        GMSMarker *marker = [self findMarkerWithStudentId:student.sId];
-        
-        if (marker == nil) {
-            marker = [[GMSMarker alloc] init];
-        }
-        marker.title = student.name;
-        marker.iconView = ellipseView;
-        marker.userData = student;
-        marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
-        marker.map = self.mapView;
-        
-        
-        if (![self.makerList containsObject:marker]) {
-            [self.makerList addObject:marker];
-        }
-        
+        [self createOneMarkerStudent:student status:YES];
     }
     
     GMSMarker *marker = nil;
@@ -1100,77 +1075,32 @@
     }else if (normalKids.count == 1){
         HStudent *student = [normalKids safeObjectAtIndex:0];
         
-        CGRect frame = CGRectMake(0, 0, PAdaptation_x(40), PAaptation_y(40));
-
-        HStudentEclipseView *ellipseView = [[HStudentEclipseView alloc] initWithFrame:frame withStudent:student];
-        if(self.lastMarkerTag == 7000+student.sId.integerValue){
-            [ellipseView setBgImage:[UIImage imageNamed:@"studentInfo_yellow.png"]];
-        }else{
-            [ellipseView setBgImage:[UIImage imageNamed:@"1"]];
-        }
-        ellipseView.isExcept = NO;
-        
-        marker = [self findMarkerWithStudentId:student.sId];
-        if (marker == nil) {
-            marker = [[GMSMarker alloc] init];
-        }
-        marker.title = student.name;
-        marker.iconView = ellipseView;
-        marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
-        marker.userData = student;
-        marker.map = self.mapView;
-        
-        
+        [self createOneMarkerStudent:student status:NO];
         
     }else if (normalKids.count == 2){
         
         //组 只取第一个的坐标
         HStudent *student = [normalKids safeObjectAtIndex:0];
         
-        HNomalGroupStudentView *groupView = [[HNomalGroupStudentView alloc] initWithFrame:CGRectMake(0, 0, PAdaptation_x(138), PAaptation_y(87)) withGroupList:normalKids];
-        
-        marker = [self findMarkerWithStudentId:student.sId];
-        if (marker == nil) {
-            marker = [[GMSMarker alloc] init];
-        }
-        
-
-        marker.iconView = groupView;
-        marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
-        marker.userData = student;
-        marker.map = self.mapView;
+        CGRect rect = CGRectMake(0, 0, PAdaptation_x(138), PAaptation_y(87));
+        [self createGroupMarkerWithSafeStudent:student withList:normalKids withRect:rect];
 
         
     }else if(normalKids.count == 3){
         //组 只取第一个的坐标
         HStudent *student = [normalKids safeObjectAtIndex:0];
         
-        HNomalGroupStudentView *groupView = [[HNomalGroupStudentView alloc] initWithFrame:CGRectMake(0, 0, PAdaptation_x(202), PAaptation_y(87)) withGroupList:normalKids];
+        CGRect rect = CGRectMake(0, 0, PAdaptation_x(202), PAaptation_y(87));
+        [self createGroupMarkerWithSafeStudent:student withList:normalKids withRect:rect];
         
-        marker = [self findMarkerWithStudentId:student.sId];
-        if (marker == nil) {
-            marker = [[GMSMarker alloc] init];
-        }
-        marker.iconView = groupView;
-        marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
-        marker.userData = student;
-        marker.map = self.mapView;
         
     }else{
         //>3
         //组 只取第一个的坐标
         HStudent *student = [normalKids safeObjectAtIndex:0];
         
-        HNomalGroupStudentView *groupView = [[HNomalGroupStudentView alloc] initWithFrame:CGRectMake(0, 0, PAdaptation_x(202), PAaptation_y(87)) withGroupList:normalKids];
-        
-        marker = [self findMarkerWithStudentId:student.sId];
-        if (marker == nil) {
-            marker = [[GMSMarker alloc] init];
-        }
-        marker.iconView = groupView;
-        marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
-        marker.userData = student;
-        marker.map = self.mapView;
+        CGRect rect = CGRectMake(0, 0, PAdaptation_x(202), PAaptation_y(87));
+        [self createGroupMarkerWithSafeStudent:student withList:normalKids withRect:rect];
     }
     
     if (![self.makerList containsObject:marker]) {
@@ -1189,12 +1119,67 @@
     }
     return nil;
 }
+- (void)createOneMarkerStudent:(HStudent *)student status:(BOOL)isExcept
+{
+    CGRect ellipseframe = CGRectMake(0, 0, PAdaptation_x(40), PAaptation_y(40));
+    
+    HStudentEclipseView *ellipseView = [[HStudentEclipseView alloc] initWithFrame:ellipseframe withStudent:student];
+    if(self.lastMarkerTag == 7000+student.sId.integerValue){
+//            [ellipseView setBgImage:[UIImage imageNamed:@"studentInfo_yellow.png"]];
+    }else{
+//            [ellipseView setBgImage:[UIImage imageNamed:@"Ellipse.png"]];
+    }
+    ellipseView.isExcept = isExcept;
+    
+    GMSMarker *marker = [[GMSMarker alloc] init];
+    marker.title = student.name;
+    marker.iconView = ellipseView;
+    marker.userData = student;
+    marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
+    marker.map = self.mapView;
+    
+    GMSCircle *circle = [GMSCircle circleWithPosition:marker.position radius:80];
+    if (isExcept) {
+        circle.fillColor = [UIColor colorWithRed:236.0/255.0 green:90.0/255.0 blue:41.0/255.0 alpha:0.2];
+        circle.strokeColor = [UIColor colorWithRed:236.0/255.0 green:90.0/255.0 blue:41.0/255.0 alpha:0.8];
+        circle.strokeWidth = 0.5;
+    }else{
+        circle.fillColor = [UIColor colorWithRed:78/255.0 green:173.0/255.0 blue:113.0/255.0 alpha:0.2];
+        circle.strokeColor = [UIColor colorWithRed:78/255.0 green:173.0/255.0 blue:113.0/255.0 alpha:0.8];
+        circle.strokeWidth = 0.5;
+    }
 
+    circle.map = self.mapView;
+    
+    if (![self.makerList containsObject:marker]) {
+        [self.makerList addObject:marker];
+    }
+}
+- (void)createGroupMarkerWithSafeStudent:(HStudent *)student withList:(NSArray *)normalKids withRect:(CGRect)frame
+{
+    HNomalGroupStudentView *groupView = [[HNomalGroupStudentView alloc] initWithFrame:frame withGroupList:normalKids];
+    
+    GMSMarker *marker = [self findMarkerWithStudentId:student.sId];
+    if (marker == nil) {
+        marker = [[GMSMarker alloc] init];
+    }
+    
+    marker.iconView = groupView;
+    marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
+    marker.userData = student;
+    marker.map = self.mapView;
+    
+    GMSCircle *circle = [GMSCircle circleWithPosition:marker.position radius:80];
+    circle.fillColor = [UIColor colorWithRed:78/255.0 green:173.0/255.0 blue:113.0/255.0 alpha:0.2];
+    circle.strokeColor = [UIColor colorWithRed:78/255.0 green:173.0/255.0 blue:113.0/255.0 alpha:0.8];
+    circle.strokeWidth = 0.5;
+    circle.map = self.mapView;
+}
 - (void)reloadData
 {
     //    //测试用
         NSMutableArray *except = [[NSMutableArray alloc] init];
-        for (NSInteger i = 0; i<3; i++) {
+        for (NSInteger i = 0; i<1; i++) {
             HStudent *student = [[HStudent alloc] init];
             student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
             student.sId = [NSString stringWithFormat:@"%ld",100+i];
@@ -1286,7 +1271,7 @@
 - (void)showAlertActionWithName:(NSString *)name
 {
 
-    NSString *content = ![name isEqualToString:@"午睡中"] ? @"安全地帯を出てしまったお子さんもいるかもしれませんので、ご確認ください。" : @"お子さまの再確認をお願いします。";
+    NSString *content = ![name isEqualToString:@"午睡中"] ? @"安全エリアから離れた園児がいます。ご確認ください。" : @"お子さまの再確認をお願いします。";
     NSString *sureStr = ![name isEqualToString:@"午睡中"] ? @"アラート停止" : @"確認する";
     
         
@@ -1326,8 +1311,8 @@
 }
 - (void)addLocalNoticeWithName:(NSString *)name {
     
-    NSString *body = ![name isEqualToString:@"午睡中"] ? @"安全地帯を出てしまったお子さんもいるかもしれませんので、ご確認ください。" : @"お子さまの再確認をお願いします。";
-    NSString *subtitle = ![name isEqualToString:@"午睡中"] ? @"危険" : @"要注意";
+    NSString *body = ![name isEqualToString:@"午睡中"] ? @"安全エリアから離れた園児がいます。ご確認ください。" : @"お子さまの再確認をお願いします。";
+    NSString *subtitle = ![name isEqualToString:@"午睡中"] ? @"要注意" : @"要注意";
     
     if (@available(iOS 10.0, *)) {
         UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
@@ -1475,7 +1460,7 @@
 {
     if (self.lastMarkerTag != -1) {
         HStudentEclipseView *lastView = (HStudentEclipseView *)[self.mapView viewWithTag:self.lastMarkerTag];
-        [lastView setBgImage:lastView.isExcept ? [UIImage imageNamed:@"Ellipse.png"] : [UIImage imageNamed:@""]];
+//        [lastView setBgImage:lastView.isExcept ? [UIImage imageNamed:@"Ellipse.png"] : [UIImage imageNamed:@""]];
     }
     
     self.lastMarkerTag = 7000 + student.sId.integerValue;
@@ -1497,7 +1482,7 @@
     [self hideStateInfoView];
 
     HStudentEclipseView *lastView = (HStudentEclipseView *)[mapView viewWithTag:self.lastMarkerTag];
-    [lastView setBgImage:lastView.isExcept ? [UIImage imageNamed:@"Ellipse.png"] : [UIImage imageNamed:@""]];
+//    [lastView setBgImage:lastView.isExcept ? [UIImage imageNamed:@"Ellipse.png"] : [UIImage imageNamed:@""]];
 }
 - (void)mapView:(GMSMapView *)mapView didChangeCameraPosition:(GMSCameraPosition *)position
 {
@@ -1631,6 +1616,7 @@
     if (!_stateInfoView) {
         _stateInfoView = [[HStudentStateInfoView alloc] init];
         _stateInfoView.backgroundColor = [UIColor clearColor];
+        _stateInfoView.vc = self;
         
     }
     return _stateInfoView;

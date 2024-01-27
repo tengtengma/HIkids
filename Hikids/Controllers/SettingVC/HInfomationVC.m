@@ -37,7 +37,7 @@
     self.view.backgroundColor = [UIColor clearColor];
 
 //    self.sectionArray = @[@"クラス：",@"年齢：",@"担任先生：",@"先生：",@"園児：",@"散歩目的地："];
-    self.sectionArray = @[@"クラス：",@"年齢：",@"担任先生：",@"園児："];
+    self.sectionArray = @[@"クラス：",@"学年：",@"管理者：",@"園児："];
     [self createUI];
 
     [self startRequest];

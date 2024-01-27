@@ -264,6 +264,13 @@
 }
 - (void)goCenter
 {
+    if (self.tableView.isDragging || self.tableView.isDecelerating) {
+        // UITableView 正在滚动中
+        NSLog(@"UITableView 正在滚动中");
+        return;
+        
+    }
+    
     DefineWeakSelf;
     [UIView animateWithDuration:0.25 animations:^{
         self.top = SCREEN_HEIGHT/5*2;

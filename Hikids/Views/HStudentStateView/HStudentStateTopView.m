@@ -126,7 +126,7 @@
     if (self.type == TYPE_WALK) {
         [self.topView setImage:[UIImage imageNamed:@"dangerStatus.png"]];
         [self.iconView setImage:[UIImage imageNamed:@"dangerIcon.png"]];
-        self.stateLabel.text =  @"危険";
+        self.stateLabel.text =  @"要注意";
         self.numberLabel.textColor = BWColor(255, 75, 0, 1);
         self.numberBg.backgroundColor = [UIColor whiteColor];
     }else{

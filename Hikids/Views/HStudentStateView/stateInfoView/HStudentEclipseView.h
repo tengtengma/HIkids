@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isExcept;
 
 - (instancetype)initWithFrame:(CGRect)frame withStudent:(HStudent *)student;
-- (void)setBgImage:(UIImage *)img;
+//- (void)setBgImage:(UIImage *)img;
 @end
 
 NS_ASSUME_NONNULL_END

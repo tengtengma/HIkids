@@ -65,7 +65,7 @@
     [self.backgroundImageView addSubview:self.updateTimeLabel];
     [self.updateTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.stateLabel.mas_bottom).offset([BWTools getIsIpad] ? LAdaptation_y(5) : PAaptation_y(2));
-        make.left.equalTo(self.stateImageView.mas_right);
+        make.left.equalTo(self.stateImageView);
     }];
     
     [self.backgroundImageView addSubview:self.userImageView];
@@ -122,7 +122,7 @@
 - (void)dangerStyleWithName:(NSString *)typeName
 {
     self.titleLabel.text = typeName;
-    self.stateLabel.text = [typeName isEqualToString:@"午睡中"] ? @"要注意" : @"危险";
+    self.stateLabel.text = [typeName isEqualToString:@"午睡中"] ? @"要注意" : @"要注意";
     self.stateLabel.textColor = [typeName isEqualToString:@"午睡中"] ? BWColor(76, 53, 41, 1) :  BWColor(164, 0, 0, 1);
     self.updateTimeLabel.textColor = BWColor(164, 0, 0, 1);
     [self.stateImageView setImage:[typeName isEqualToString:@"午睡中"] ? [UIImage imageNamed:@"attention.png"] : [UIImage imageNamed:@"dangerNav.png"]];
@@ -192,9 +192,9 @@
     if (!_userImageView) {
         _userImageView = [[UIImageView alloc] init];
         _userImageView.userInteractionEnabled = YES;
-//        _userImageView.layer.borderWidth = 2;
-//        _userImageView.layer.cornerRadius = PAdaptation_x(56)/2;
-//        _userImageView.layer.masksToBounds = YES;
+        _userImageView.layer.borderWidth = 2;
+        _userImageView.layer.cornerRadius = PAdaptation_x(56)/2;
+        _userImageView.layer.masksToBounds = YES;
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(loginOutAction:)];
         [_userImageView addGestureRecognizer:tap];

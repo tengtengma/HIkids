@@ -473,59 +473,62 @@
     
 }
 
-//获取一周时间 数组
-- (NSMutableArray *)getCurrentWeeksWithFirstDiff:(NSInteger)first lastDiff:(NSInteger)last withFormatter:(NSString *)formatter{
+- (NSString *)transWeekNameWithNumber:(NSInteger)weekNumber {
+    NSString *targetWeekName = @"";
     
+    switch (weekNumber) {
+        case 1:
+            targetWeekName = @"日";
+            break;
+        case 2:
+            targetWeekName = @"月";
+            break;
+        case 3:
+            targetWeekName = @"火";
+            break;
+        case 4:
+            targetWeekName = @"水";
+            break;
+        case 5:
+            targetWeekName = @"木";
+            break;
+        case 6:
+            targetWeekName = @"金";
+            break;
+        case 7:
+            targetWeekName = @"土";
+            break;
+        default:
+            break;
+    }
+    
+    return targetWeekName;
+}
+
+- (NSMutableArray *)getCurrentWeeksWithFirstDiff:(NSInteger)first lastDiff:(NSInteger)last withFormatter:(NSString *)formatter {
     NSMutableArray *eightArr = [[NSMutableArray alloc] init];
-    for (NSInteger i = first; i < last + 1; i ++) {
+    
+    for (NSInteger i = first; i < last + 1; i++) {
         //从现在开始的24小时
-        NSTimeInterval secondsPerDay = i * 24*60*60;
+        NSTimeInterval secondsPerDay = i * 24 * 60 * 60;
         NSDate *curDate = [NSDate dateWithTimeIntervalSinceNow:secondsPerDay];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:formatter];
         NSString *dateStr = [dateFormatter stringFromDate:curDate];//几月几号
-        //NSString *dateStr = @"5月31日";
-        NSDateFormatter *weekFormatter = [[NSDateFormatter alloc] init];
-        [weekFormatter setDateFormat:@"EEEE"];//星期几 @"HH:mm 'on' EEEE MMMM d"];
-        NSString *weekStr = [weekFormatter stringFromDate:curDate];
         
-        //转换文案
-        weekStr = [self transWeekName:weekStr];
+        //获取星期数字（1-7，1表示星期日，7表示星期六）
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSInteger weekNumber = [calendar component:NSCalendarUnitWeekday fromDate:curDate];
+        
+        //转换为目标星期文案
+        NSString *weekStr = [self transWeekNameWithNumber:weekNumber];
         
         //组合时间
-        NSString *strTime = [NSString stringWithFormat:@"%@:%@",dateStr,weekStr];
+        NSString *strTime = [NSString stringWithFormat:@"%@:%@", dateStr, weekStr];
         [eightArr addObject:strTime];
-        
     }
+    
     return eightArr;
-}
--(NSString *)transWeekName:(NSString *)orrignWeekName
-{
-    NSString *targetWeekName = @"";
-    
-    //转换文案
-    if ([orrignWeekName isEqualToString:@"星期日"] || [orrignWeekName isEqualToString:@"にちようび"]) {
-        targetWeekName = @"日";
-    }
-    else if ([orrignWeekName isEqualToString:@"星期一"] || [orrignWeekName isEqualToString:@"げつようび"]) {
-        targetWeekName = @"月";
-    }
-    else if ([orrignWeekName isEqualToString:@"星期二"] || [orrignWeekName isEqualToString:@"かようび"]) {
-        targetWeekName = @"火";
-    }
-    else if ([orrignWeekName isEqualToString:@"星期三"] || [orrignWeekName isEqualToString:@"すいようび"]) {
-        targetWeekName = @"水";
-    }
-    else if ([orrignWeekName isEqualToString:@"星期四"] || [orrignWeekName isEqualToString:@"もくようび"]) {
-        targetWeekName = @"木";
-    }
-    else if ([orrignWeekName isEqualToString:@"星期五"] || [orrignWeekName isEqualToString:@"きんようび"]) {
-        targetWeekName = @"金";
-    }else{
-        targetWeekName = @"土";
-    }
-    
-    return targetWeekName;
 }
 
 #pragma mark - 选择一个日期 -
@@ -593,6 +596,11 @@
         return YES; // Day1 在 Day2 之前
     }
     return YES;
+}
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    UIView *calendarBgView = (UIView *)[self.view viewWithTag:10000];
+    calendarBgView.hidden = YES;
 }
 #pragma mark - cell高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

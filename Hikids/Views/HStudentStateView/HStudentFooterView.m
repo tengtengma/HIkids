@@ -173,7 +173,8 @@
         if(self.student.distance.integerValue == -1){
             self.distanceLabel.text = [NSString stringWithFormat:@"--"];
         }else{
-            self.distanceLabel.text = [NSString stringWithFormat:@"%ldm",self.student.distance.integerValue];
+//            self.distanceLabel.text = [NSString stringWithFormat:@"%ldm",self.student.distance.integerValue];
+            self.distanceLabel.text = @"安全エリア内";
 
         }
         [self.gpsImageView setImage:[UIImage imageNamed:@"gps_safe.png"]];

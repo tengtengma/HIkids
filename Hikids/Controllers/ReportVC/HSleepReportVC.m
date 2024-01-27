@@ -546,7 +546,7 @@
     if (!_studentDesLabel) {
         _studentDesLabel = [[UILabel alloc] init];
         _studentDesLabel.font = [UIFont systemFontOfSize:14.0];
-        _studentDesLabel.text = @"子供：";
+        _studentDesLabel.text = @"園児：";
         _studentDesLabel.textColor = BWColor(0, 28, 41, 1);
     }
     return _studentDesLabel;

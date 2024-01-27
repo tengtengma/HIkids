@@ -15,6 +15,7 @@ typedef void(^closeAction)(void);
 typedef void(^lujingAction)(HStudent *student);
 
 @interface HStudentStateInfoView : UIView
+@property (nonatomic, strong) UIViewController *vc;
 @property (nonatomic, copy) closeAction closeBlock;
 
 - (void)setInfomationWithModel:(HStudent *)student;

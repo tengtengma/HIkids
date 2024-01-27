@@ -37,15 +37,19 @@
     //初始化map基础数据
     [self setupGoogleMap];
     
-    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
+    
     NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-    NSString *userName = [user objectForKey:KEY_UserName];
-    if (userName.length != 0) {
+    NSString *username = [user objectForKey:KEY_UserName];
+    
+    HLoginVC *loginVC = [[HLoginVC alloc] init];
+
+    if (username.length != 0) {
+        [loginVC autoLoginAction];
         self.window.rootViewController = [[HMapVC alloc] init];
     }else{
-        UINavigationController *navCtrl = [[UINavigationController alloc] initWithRootViewController:[[HLoginVC alloc] init]];
+        UINavigationController *navCtrl = [[UINavigationController alloc] initWithRootViewController:loginVC];
         self.window.rootViewController = navCtrl;
     }
 

@@ -26,7 +26,7 @@
     self.view.backgroundColor = [UIColor clearColor];
     //暂时隐藏 14/01/2024
 //    self.dataArray = @[@"アカウント:",@"メール:",@"位置情報",@"通知権限",@"Bluetooth",@"モバイルデータ通信"];
-    self.dataArray = @[@"アカウント:",@"メール:",@"位置情報",@"通知権限",@"モバイルデータ通信"];
+    self.dataArray = @[@"アカウント:",@"位置情報",@"通知権限",@"モバイルデータ通信"];
 
     [self createUI];
     
@@ -93,8 +93,8 @@
 
 #pragma mark - cell高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0 || indexPath.row == 1) {
-        return PAaptation_y(62);
+    if (indexPath.row == 0) {
+        return PAaptation_y(120);
     }
     return PAaptation_y(80);
 }
@@ -117,7 +117,7 @@
     for (id v in cell.contentView.subviews)
         [v removeFromSuperview];
     
-    if (indexPath.row == 0 || indexPath.row == 1) {
+    if (indexPath.row == 0) {
         
         UILabel *desLabel = [[UILabel alloc] init];
         desLabel.font = [UIFont systemFontOfSize:14.0];
@@ -203,7 +203,7 @@
 #pragma mark - UITableViewDelegate -
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0|| indexPath.row == 1) {
+    if (indexPath.row == 0) {
         return;
     }
     NSURL * url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];

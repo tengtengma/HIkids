@@ -87,27 +87,27 @@
             make.right.equalTo(self.mas_right).offset(-PAdaptation_x(53));
         }];
         
-        [self.bgView addSubview:self.naolingView];
-        [self.naolingView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.headerView.mas_bottom).offset(PAaptation_y(30));
-            make.left.equalTo(self.headerView);
-            make.width.mas_equalTo(PAdaptation_x(160));
-            make.height.mas_equalTo(PAaptation_y(100));
-        }];
+//        [self.bgView addSubview:self.naolingView];
+//        [self.naolingView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(self.headerView.mas_bottom).offset(PAaptation_y(30));
+//            make.left.equalTo(self.headerView);
+//            make.width.mas_equalTo(PAdaptation_x(160));
+//            make.height.mas_equalTo(PAaptation_y(100));
+//        }];
         
         
-        [self.bgView addSubview:self.lujingView];
-        [self.lujingView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.naolingView);
-            make.left.equalTo(self.naolingView.mas_right).offset(PAdaptation_x(20));
-            make.width.mas_equalTo(PAdaptation_x(160));
-            make.height.mas_equalTo(PAaptation_y(100));
-        }];
+//        [self.bgView addSubview:self.lujingView];
+//        [self.lujingView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.equalTo(self.naolingView);
+//            make.left.equalTo(self.naolingView.mas_right).offset(PAdaptation_x(20));
+//            make.width.mas_equalTo(PAdaptation_x(160));
+//            make.height.mas_equalTo(PAaptation_y(100));
+//        }];
         
         [self.bgView addSubview:self.thirdlujingView];
         [self.thirdlujingView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.lujingView.mas_bottom).offset(PAaptation_y(16));
-            make.left.equalTo(self.naolingView);
+            make.top.equalTo(self.wifiImageView.mas_bottom).offset(PAaptation_y(16));
+            make.left.equalTo(self.headerView);
             make.width.mas_equalTo(PAdaptation_x(340));
             make.height.mas_equalTo(PAaptation_y(88));
         }];
@@ -198,6 +198,35 @@
         }
     }];
 }
+
+- (void)openMapOptions {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil
+                                                                             message:nil
+                                                                      preferredStyle:UIAlertControllerStyleActionSheet];
+
+    UIAlertAction *appleMapsAction = [UIAlertAction actionWithTitle:@"Apple Map"
+                                                          style:UIAlertActionStyleDefault
+                                                        handler:^(UIAlertAction *action) {
+                                                            [self openAppleMap];
+                                                        }];
+
+    UIAlertAction *googleMapsAction = [UIAlertAction actionWithTitle:@"Google Map"
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction *action) {
+                                                             [self openGoogleMap];
+                                                         }];
+
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel"
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:nil];
+
+    [alertController addAction:appleMapsAction];
+    [alertController addAction:googleMapsAction];
+    [alertController addAction:cancelAction];
+
+    [self.vc presentViewController:alertController animated:YES completion:nil];
+}
+
 - (void)openAppleMap
 {
     NSURL * apple_App = [NSURL URLWithString:@"http://maps.apple.com/"];
@@ -214,6 +243,30 @@
         tolocation.name = self.locationLabel.text;
         [MKMapItem openMapsWithItems:@[currentLocation,tolocation] launchOptions:@{MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeDriving,
                                                                                    MKLaunchOptionsShowsTrafficKey:[NSNumber numberWithBool:YES]}];
+    }else{
+        [MBProgressHUD showMessag:@"アプリケーションが見つかりませんでした" toView:self.vc.view hudModel:MBProgressHUDModeText hide:YES];
+    }
+}
+- (void)openGoogleMap {
+    // 检查是否安装了谷歌地图应用
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]]) {
+        // 使用谷歌地图 URL Scheme 打开导航
+        NSString *urlString = [NSString stringWithFormat:@"comgooglemaps://?daddr=%f,%f&directionsmode=driving",
+                               self.student.deviceInfo.latitude.doubleValue,
+                               self.student.deviceInfo.longitude.doubleValue];
+
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]
+                                           options:@{}
+                                 completionHandler:nil];
+    } else {
+        // 如果未安装谷歌地图应用，则在浏览器中打开 Google 地图网页
+        NSString *urlString = [NSString stringWithFormat:@"http://maps.google.com/maps?daddr=%f,%f&directionsmode=driving",
+                               self.student.deviceInfo.latitude.doubleValue,
+                               self.student.deviceInfo.longitude.doubleValue];
+
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]
+                                           options:@{}
+                                 completionHandler:nil];
     }
 }
 #pragma mark - LazyLoad -
@@ -278,7 +331,7 @@
         [_thirdlujingView setImage:[UIImage imageNamed:@"thirdlujing.png"]];
         _thirdlujingView.userInteractionEnabled = YES;
 
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openAppleMap)];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openMapOptions)];
         [_thirdlujingView addGestureRecognizer:tap];
 
     }

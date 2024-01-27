@@ -443,7 +443,7 @@
        }else if(indexPath.section == 1){
            label.text = @"確認者(複数選択可):";
        }else{
-           label.text = @"参加児童:";
+           label.text = @"参加園児:";
        }
        
        return headerView;
@@ -514,7 +514,7 @@
             studentLabel.layer.masksToBounds = YES;
             [self.selectView addSubview:studentLabel];
         }
-        studentLabel.text = [NSString stringWithFormat:@"   児童%ld人   ",self.selectStudentArray.count];
+        studentLabel.text = [NSString stringWithFormat:@"   園児%ld人   ",self.selectStudentArray.count];
         
         [studentLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.selectView);
