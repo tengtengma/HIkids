@@ -133,7 +133,7 @@
 
 
     //获取当前的任务情况 内部还调用了sleepTask
-//    [self getTaskRequest];
+    [self getTaskRequest];
 
     //设置地图
     [self createMapView];
@@ -176,7 +176,7 @@
     
 //    
 //    //    加载假数据小朋友的
-        [self reloadData];
+//        [self reloadData];
     
 }
 - (void)createNavigationView
