@@ -127,113 +127,24 @@
 - (void)contentView
 {
     [self.view addSubview:self.scrollView];
-
-    if ([self.source isEqualToString:@"1"]) {
-        
-        [self createDateView];
-        
-        
-//        [self.scrollView addSubview:self.destDesLabel];
-//        [self.destDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.top.equalTo(self.imageBgView.mas_bottom).offset(PAaptation_y(24));
-//            make.left.equalTo(self.view).offset(PAdaptation_x(25));
-//        }];
-        
-        self.groupLabel.text = self.walkReport.className;
-        [self.scrollView addSubview:self.groupLabel];
-        [self.groupLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.imageBgView.mas_bottom).offset(PAaptation_y(20));
-            make.left.equalTo(self.imageBgView);
-        }];
-        
-        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(380) + PAaptation_y(78)*self.walkReport.unnormalList.count);
-
-        
-    }else{
-        [self.scrollView addSubview:self.timeDesLabel];
-        [self.timeDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.scrollView);
-            make.left.equalTo(self.scrollView).offset(PAdaptation_x(25));
-        }];
-        NSArray *dateList = [self.walkReport.dateTime componentsSeparatedByString:@"-"];
-        self.yearLabel.text = [NSString stringWithFormat:@"%@年%@月%@日",dateList[0],dateList[1],dateList[2]];
-        [self.scrollView addSubview:self.yearLabel];
-        [self.yearLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.timeDesLabel.mas_bottom).offset(PAaptation_y(6));
-            make.left.equalTo(self.timeDesLabel);
-        }];
-        
-        self.timeLabel.text = [NSString stringWithFormat:@"%@~%@",self.walkReport.startTime,self.walkReport.endTime];
-        [self.scrollView addSubview:self.timeLabel];
-        [self.timeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.yearLabel.mas_bottom);
-            make.left.equalTo(self.yearLabel);
-        }];
-        
-        [self.scrollView addSubview:self.destDesLabel];
-        [self.destDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.timeLabel.mas_bottom).offset(PAaptation_y(16));
-            make.left.equalTo(self.timeLabel);
-        }];
-        
-        [self.scrollView addSubview:self.rightImageView];
-        [self.rightImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.scrollView);
-            make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(15));
-            make.width.mas_equalTo(PAdaptation_x(50));
-            make.height.mas_equalTo(PAaptation_y(50));
-        }];
-        
-        
-        self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(180) + PAaptation_y(78)*self.walkReport.unnormalList.count);
-        
-        self.destLabel.text = self.walkReport.address;
-        [self.scrollView addSubview:self.destLabel];
-        [self.destLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.destDesLabel.mas_bottom).offset(PAaptation_y(6));
-            make.left.equalTo(self.destDesLabel);
-            make.width.mas_equalTo(PAdaptation_x(112));
-        }];
-        
-        self.distanceLabel.text = [NSString stringWithFormat:@"%@m",self.walkReport.distance];
-        [self.scrollView addSubview:self.distanceLabel];
-        [self.distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.destLabel.mas_bottom).offset(PAaptation_y(2));
-            make.left.equalTo(self.destDesLabel);
-        }];
-        
-        [self.scrollView addSubview:self.destImageView];
-        [self.destImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.destDesLabel.mas_bottom).offset(PAaptation_y(5));
-            make.right.equalTo(self.view.mas_right).offset(-PAdaptation_x(25));
-            make.width.mas_equalTo(PAdaptation_x(120));
-            make.height.mas_equalTo(PAaptation_y(120));
-        }];
-        
-        [self.scrollView addSubview:self.groupDesLabel];
-        [self.groupDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.distanceLabel.mas_bottom).offset(PAaptation_y(16));
-            make.left.equalTo(self.destDesLabel);
-        }];
-        
-        self.groupLabel.text = self.walkReport.className;
-        [self.scrollView addSubview:self.groupLabel];
-        [self.groupLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.groupDesLabel.mas_bottom);
-            make.left.equalTo(self.groupDesLabel);
-        }];
-
-    }
-
+    
+    [self createDateView];
     
 
+    [self.scrollView addSubview:self.groupDesLabel];
+    [self.groupDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.imageBgView.mas_bottom).offset(PAaptation_y(16));
+        make.left.equalTo(self.imageBgView);
+    }];
     
-//    [self.scrollView addSubview:self.teacherDesLabel];
-//    [self.teacherDesLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.groupLabel.mas_bottom).offset(PAaptation_y(16));
-//        make.left.equalTo(self.groupDesLabel);
-//    }];
-    
+    self.groupLabel.text = self.walkReport.className;
+    [self.scrollView addSubview:self.groupLabel];
+    [self.groupLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.groupDesLabel.mas_bottom);
+        make.left.equalTo(self.groupDesLabel);
+    }];
+
+
     [self.scrollView addSubview:self.genderLabel];
     [self.genderLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.groupLabel.mas_bottom).offset(PAaptation_y(32));
@@ -271,20 +182,6 @@
         
         tempTeacherNameLabel = teacherNameLabel;
         
-//        if (i == 0) {
-//            UILabel *mainNameLabel = [[UILabel alloc] init];
-//            mainNameLabel.text = @"責任者";
-//            mainNameLabel.textColor = [UIColor whiteColor];
-//            mainNameLabel.backgroundColor = BWColor(108, 159, 155, 1);
-//            mainNameLabel.font = [UIFont systemFontOfSize:10];
-//            mainNameLabel.textAlignment = NSTextAlignmentCenter;
-//            [self.scrollView addSubview:mainNameLabel];
-//            
-//            [mainNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//                make.centerY.equalTo(teacherNameLabel);
-//                make.left.equalTo(teacherNameLabel.mas_right).offset(PAdaptation_x(20));
-//            }];
-//        }
         
     }
     
@@ -401,6 +298,9 @@
             tempFootView = footerView;
         }
     }
+    
+    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(380) + PAaptation_y(78)*self.walkReport.unnormalList.count);
+
    
 }
 - (void)createDateView

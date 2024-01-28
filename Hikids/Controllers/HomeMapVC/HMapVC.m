@@ -62,6 +62,7 @@
 @property (nonatomic,strong) HStudentStateInfoView *stateInfoView;  //点击地图上小朋友显示详情页
 @property (nonatomic,strong) HTask *currentTask;                    //当前任务
 @property (nonatomic,strong) NSMutableArray *makerList;             //保存所有孩子maker
+@property (nonatomic,strong) NSMutableArray *circleList;             //保存所有孩子circle
 @property (nonatomic,strong) HCustomNavigationView *customNavigationView;
 //@property (nonatomic,assign) BOOL isAlert; //只弹窗一次 仅演示使用
 @property (nonatomic,strong) HHomeMenuView *homeMenuTableView;      //首页底部菜单
@@ -143,9 +144,6 @@
     //创建导航
     [self createNavigationView];
     
-    //设置导航栏信息
-    [self.customNavigationView defautInfomation];
-
 
     //设置首页底部菜单
     [self setupHomeMenu];
@@ -181,7 +179,9 @@
 }
 - (void)createNavigationView
 {
+    //设置导航栏信息
     [self.customNavigationView defautInfomation];
+    
     [self.view addSubview:self.customNavigationView];
     [self.customNavigationView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view);
@@ -447,7 +447,7 @@
 - (void)showWalkReport
 {
     HWalkReportVC *walkReportVC = [[HWalkReportVC alloc] init];
-    walkReportVC.source = @"1";
+//    walkReportVC.source = @"1";
     walkReportVC.taskId = self.currentTask.tId;
     [self presentViewController:walkReportVC animated:YES completion:nil];
     
@@ -863,6 +863,9 @@
         NSString *updateTime = [NSString stringWithFormat:@"最終更新：%@",[BWTools timeIntervalStringForLastUpdate:locationResp.deviceLastUpload]];
         weakSelf.customNavigationView.updateTimeLabel.text = updateTime;
         
+        NSString *teacherUrl = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_Avatar];
+        [weakSelf.customNavigationView.userImageView sd_setImageWithURL:[NSURL URLWithString:teacherUrl] placeholderImage:[UIImage imageNamed:@"teacher.png"]];
+        
         //在院内
         if ([weakSelf.currentTask.status isEqualToString:@"5"] || weakSelf.currentTask.status == nil) {
 
@@ -1060,6 +1063,13 @@
 
     }
     
+    NSMutableArray *temp2Array = [self.circleList copy];
+    
+    for (GMSCircle *circle in temp2Array) {
+        circle.map = nil;
+        [self.circleList removeObject:circle];
+
+    }
     
     for (NSInteger i = 0;i<exceptionKids.count;i++) {
                 
@@ -1154,6 +1164,10 @@
     if (![self.makerList containsObject:marker]) {
         [self.makerList addObject:marker];
     }
+    
+    if (![self.circleList containsObject:circle]) {
+        [self.circleList addObject:circle];
+    }
 }
 - (void)createGroupMarkerWithSafeStudent:(HStudent *)student withList:(NSArray *)normalKids withRect:(CGRect)frame
 {
@@ -1174,6 +1188,14 @@
     circle.strokeColor = [UIColor colorWithRed:78/255.0 green:173.0/255.0 blue:113.0/255.0 alpha:0.8];
     circle.strokeWidth = 0.5;
     circle.map = self.mapView;
+    
+    if (![self.makerList containsObject:marker]) {
+        [self.makerList addObject:marker];
+    }
+    
+    if (![self.circleList containsObject:circle]) {
+        [self.circleList addObject:circle];
+    }
 }
 - (void)reloadData
 {
@@ -1640,6 +1662,13 @@
         _makerList = [[NSMutableArray alloc] init];
     }
     return _makerList;
+}
+- (NSMutableArray *)circleList
+{
+    if (!_circleList) {
+        _circleList = [[NSMutableArray alloc] init];
+    }
+    return _circleList;
 }
 - (HCustomNavigationView *)customNavigationView
 {

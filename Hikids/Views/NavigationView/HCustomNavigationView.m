@@ -11,7 +11,6 @@
 @interface HCustomNavigationView()
 @property (nonatomic, strong) UIImageView *backgroundImageView;
 @property (nonatomic, strong) UIImageView *stateImageView;
-@property (nonatomic, strong) UIImageView *userImageView;
 @property (nonatomic, strong) UILabel *userNameLabel;
 @property (nonatomic, strong) UILabel *stateLabel;
 @property (nonatomic, strong) UILabel *titleLabel;
@@ -92,8 +91,6 @@
     self.updateTimeLabel.textColor = BWColor(0, 176, 107, 1);
     
     self.userNameLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_NickName];
-    NSString *teacherUrl = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_Avatar];
-    [self.userImageView sd_setImageWithURL:[NSURL URLWithString:teacherUrl] placeholderImage:[UIImage imageNamed:@"teacher.png"]];
     [self.backgroundImageView setImage:[UIImage imageNamed:@"title_back.png"]];
 
 }

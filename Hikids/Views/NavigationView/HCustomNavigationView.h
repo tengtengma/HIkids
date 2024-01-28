@@ -14,6 +14,7 @@ typedef void(^clickHeaderBlock)(void);
 @interface HCustomNavigationView : UIView
 @property (nonatomic, copy) clickHeaderBlock clickHeader;
 @property (nonatomic, strong) UILabel *updateTimeLabel;
+@property (nonatomic, strong) UIImageView *userImageView;
 
 - (instancetype)init;
 

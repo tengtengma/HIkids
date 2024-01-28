@@ -14,7 +14,7 @@ typedef void(^closeWalkReportAction)(void);
 @interface HWalkReportVC : BaseVC
 @property (nonatomic, copy) closeWalkReportAction closeWalkReportBlock;
 @property (nonatomic, strong) NSString *taskId;
-@property (nonatomic, strong) NSString *source;
+//@property (nonatomic, strong) NSString *source;
 
 @end
 
