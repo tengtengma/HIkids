@@ -860,7 +860,13 @@
         
         BWStudentLocationResp *locationResp = (BWStudentLocationResp *)resp;
         
-        NSString *updateTime = [NSString stringWithFormat:@"最終更新：%@",[BWTools timeIntervalStringForLastUpdate:locationResp.deviceLastUpload]];
+        NSString *updateTime;
+        if (locationResp.deviceLastUpload == 0) {
+            updateTime = [NSString stringWithFormat:@"最終更新：ただいま"];
+        }else{
+            updateTime = [NSString stringWithFormat:@"最終更新：%@",[BWTools timeIntervalStringForLastUpdate:locationResp.deviceLastUpload]];
+
+        }
         weakSelf.customNavigationView.updateTimeLabel.text = updateTime;
         
         NSString *teacherUrl = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_Avatar];

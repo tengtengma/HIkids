@@ -26,8 +26,8 @@
             filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1483"
-            endingLineNumber = "1483"
+            startingLineNumber = "1489"
+            endingLineNumber = "1489"
             landmarkName = "-selectMarkerWithStudent:andMarker:"
             landmarkType = "7">
          </BreakpointContent>
