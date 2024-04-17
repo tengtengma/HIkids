@@ -46,6 +46,7 @@
 #import "HBGRunManager.h"
 #import "HNomalGroupStudentView.h"
 
+#import "HConfirmAlertVC.h"
 
 #define default_Zoom 18.5
 
@@ -134,7 +135,7 @@
 
 
     //获取当前的任务情况 内部还调用了sleepTask
-    [self getTaskRequest];
+//    [self getTaskRequest];
 
     //设置地图
     [self createMapView];
@@ -165,6 +166,9 @@
     //退出账户
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logOutAction:) name:@"quitAccountNoti" object:nil];
     
+    //监听手动解除警报情况
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(confirmSafeStudentAction:) name:@"confirmSafeStudentNoti" object:nil];
+
     //app进入前台 关闭长链接模式
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enterActive:) name:@"enterActive" object:nil];
     //app进入后台 开启长链接模式
@@ -173,8 +177,8 @@
     self.lastMarkerTag = -1;
     
 //    
-//    //    加载假数据小朋友的
-//        [self reloadData];
+    //    加载假数据小朋友的
+        [self reloadData];
     
 }
 - (void)createNavigationView
@@ -224,13 +228,13 @@
     };
     
     homeMenuView.gpsBlock = ^{
-        
+                
         if (weakSelf.gpsLocation == nil) {
             [MBProgressHUD showMessag:@"位置を取得できませんでした" toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
         }else{
             CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(weakSelf.gpsLocation.coordinate.latitude, weakSelf.gpsLocation.coordinate.longitude);
             //移动地图中心到当前位置
-            weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:self.lastZoom == 0 ? default_Zoom : self.lastZoom];
+            weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:weakSelf.lastZoom == 0 ? default_Zoom : weakSelf.lastZoom];
             [weakSelf startGetStudentLocationRequest];
         }
         
@@ -1207,7 +1211,7 @@
 {
     //    //测试用
         NSMutableArray *except = [[NSMutableArray alloc] init];
-        for (NSInteger i = 0; i<1; i++) {
+        for (NSInteger i = 0; i<10; i++) {
             HStudent *student = [[HStudent alloc] init];
             student.avatar = @"https://img0.baidu.com/it/u=2643936262,3742092684&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=357";
             student.sId = [NSString stringWithFormat:@"%ld",100+i];
@@ -1273,6 +1277,24 @@
     self.sleepTimer = nil;
     
 }
+- (void)confirmSafeStudentAction:(NSNotification *)noti
+{
+    HStudent *student = [noti.object safeObjectForKey:@"student"];
+    
+    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue, student.deviceInfo.longitude.doubleValue);
+    self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:self.lastZoom == 0 ? default_Zoom : self.lastZoom];
+    
+    HConfirmAlertVC *alertCtrl = [[HConfirmAlertVC alloc] initWithStudent:student];
+    alertCtrl.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    [self presentViewController:alertCtrl animated:NO completion:nil];
+
+    DefineWeakSelf;
+    alertCtrl.confirmBlock = ^{
+        NSLog(@"%@",student.sId);
+        //todo 调用接口 接口成功后 将danger小朋友删掉 加入到对应的safelist中，然后reload tableview
+    };
+
+}
 - (void)dangerAlertNotifi:(NSNotification *)noti
 {
     
@@ -1309,10 +1331,10 @@
     //调用系统声音
     [self getChatMessageGoToSound];
     
-    [BWAlertCtrl alertControllerWithTitle:@"ご注意ください！" buttonArray:@[sureStr] message:content preferredStyle:UIAlertControllerStyleAlert clickBlock:^(NSString *buttonTitle) {
-        if ([buttonTitle isEqualToString:sureStr]) {
-        }
-    }];
+//    [BWAlertCtrl alertControllerWithTitle:@"ご注意ください！" buttonArray:@[sureStr] message:content preferredStyle:UIAlertControllerStyleAlert clickBlock:^(NSString *buttonTitle) {
+//        if ([buttonTitle isEqualToString:sureStr]) {
+//        }
+//    }];
 }
 #pragma  -mark -调用系统震动
 - (void)getChatMessageGoToShake
@@ -1503,6 +1525,8 @@
     CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue, student.deviceInfo.longitude.doubleValue);
     //移动地图中心到当前位置
     self.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:self.lastZoom == 0 ? default_Zoom : self.lastZoom];
+    
+
 }
 //点击地图空白处取消选中maker
 - (void)mapView:(GMSMapView *)mapView didTapAtCoordinate:(CLLocationCoordinate2D)coordinate
@@ -1511,6 +1535,8 @@
 
     HStudentEclipseView *lastView = (HStudentEclipseView *)[mapView viewWithTag:self.lastMarkerTag];
 //    [lastView setBgImage:lastView.isExcept ? [UIImage imageNamed:@"Ellipse.png"] : [UIImage imageNamed:@""]];
+    
+
 }
 - (void)mapView:(GMSMapView *)mapView didChangeCameraPosition:(GMSCameraPosition *)position
 {

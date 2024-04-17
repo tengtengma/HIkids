@@ -9,6 +9,7 @@
 #import "HSleepOrWalkSettingView.h"
 #import "HAccountVC.h"
 #import "HInfomationVC.h"
+#import "HSetAudioVC.h"
 
 @interface HSettingVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
@@ -58,7 +59,7 @@
         make.top.equalTo(self.topView.mas_bottom);
         make.left.equalTo(self.view);
         make.width.equalTo(self.view);
-        make.height.mas_equalTo(PAaptation_y(68));
+        make.height.mas_equalTo(PAaptation_y(38));
     }];
     
     [self.titleView addSubview:self.titleLabel];
@@ -86,7 +87,7 @@
     //暂时隐藏01/14/2024
 //    return 3;
     
-    return 2;
+    return 3;
 }
 
 #pragma mark - cell高度
@@ -106,6 +107,9 @@
         return PAaptation_y(58);
     }
     if (indexPath.section == 1) {
+        return PAaptation_y(58);
+    }
+    if (indexPath.section == 2) {
         return PAaptation_y(98);
     }
     return 1;
@@ -127,6 +131,9 @@
         return 1;
     }
     if (section == 1) {
+        return 2;
+    }
+    if (section == 2) {
         return 1;
     }
     return 1;
@@ -152,6 +159,8 @@
     
     if (section == 0) {
         label.text = @"クラス管理";
+    }else if(section == 1){
+        label.text = @"散歩設定";
     }else{
         label.text = @"アプリ・アカウント";
     }
@@ -245,6 +254,10 @@
         
     }
     if (indexPath.section == 1) {
+        [self setupCell:cell withNameList:@[@"アラート精度設定：普通",@"アラート通知音設定：ワンちゃん"] indexPath:indexPath];
+
+    }
+    if (indexPath.section == 2) {
         
         UIView *bgView = [[UIView alloc] init];
         bgView.layer.cornerRadius = 8;
@@ -356,6 +369,16 @@
         [self presentViewController:infomationVC animated:YES completion:nil];
     }
     if (indexPath.section == 1) {
+        if (indexPath.row == 0) {
+            NSLog(@"精度");
+        }
+        if (indexPath.row == 1) {
+            NSLog(@"声音");
+            HSetAudioVC *audioVC = [[HSetAudioVC alloc] init];
+            [self presentViewController:audioVC animated:YES completion:nil];
+        }
+    }
+    if (indexPath.section == 2) {
         HAccountVC *accountVC = [[HAccountVC alloc] init];
         [self presentViewController:accountVC animated:YES completion:nil];
     }

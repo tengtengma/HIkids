@@ -229,6 +229,15 @@
 		9EB411D0296BF93800CFA8FE /* date_Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EB411C7296BF93800CFA8FE /* date_Default@2x.png */; };
 		9EB411D1296BF93800CFA8FE /* date_notSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EB411C8296BF93800CFA8FE /* date_notSelected@2x.png */; };
 		9EB411D4296BFB4200CFA8FE /* HDateCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EB411D3296BFB4200CFA8FE /* HDateCard.m */; };
+		9EC5C0F42BCF4A2400038550 /* confirm_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EC5C0F22BCF4A2400038550 /* confirm_btn@2x.png */; };
+		9EC5C0F52BCF4A2400038550 /* confirm_btn@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EC5C0F32BCF4A2400038550 /* confirm_btn@3x.png */; };
+		9EC5C0F82BCF58C200038550 /* HConfirmSafeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC5C0F72BCF58C200038550 /* HConfirmSafeButton.m */; };
+		9EC5C0FC2BCF5B3500038550 /* HConfirmAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC5C0FB2BCF5B3500038550 /* HConfirmAlertVC.m */; };
+		9EC5C1032BCF620D00038550 /* safe_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EC5C0FF2BCF620D00038550 /* safe_btn@2x.png */; };
+		9EC5C1042BCF620D00038550 /* caution_btn@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EC5C1002BCF620D00038550 /* caution_btn@3x.png */; };
+		9EC5C1052BCF620D00038550 /* caution_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EC5C1012BCF620D00038550 /* caution_btn@2x.png */; };
+		9EC5C1062BCF620D00038550 /* safe_btn@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EC5C1022BCF620D00038550 /* safe_btn@3x.png */; };
+		9EC5C10C2BCF72E600038550 /* HSetAudioVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC5C10B2BCF72E600038550 /* HSetAudioVC.m */; };
 		9EC72A2128D8349A00494A74 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9EC72A2328D8349A00494A74 /* InfoPlist.strings */; };
 		9EC72A2728D8357A00494A74 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9EC72A2928D8357A00494A74 /* Localizable.strings */; };
 		9EC72A3128D8394F00494A74 /* MBProgressHUD+ShowMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EC72A3028D8394F00494A74 /* MBProgressHUD+ShowMessage.m */; };
@@ -641,6 +650,18 @@
 		9EB411C8296BF93800CFA8FE /* date_notSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "date_notSelected@2x.png"; sourceTree = "<group>"; };
 		9EB411D2296BFB4200CFA8FE /* HDateCard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDateCard.h; sourceTree = "<group>"; };
 		9EB411D3296BFB4200CFA8FE /* HDateCard.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HDateCard.m; sourceTree = "<group>"; };
+		9EC5C0F22BCF4A2400038550 /* confirm_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "confirm_btn@2x.png"; sourceTree = "<group>"; };
+		9EC5C0F32BCF4A2400038550 /* confirm_btn@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "confirm_btn@3x.png"; sourceTree = "<group>"; };
+		9EC5C0F62BCF58C200038550 /* HConfirmSafeButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HConfirmSafeButton.h; sourceTree = "<group>"; };
+		9EC5C0F72BCF58C200038550 /* HConfirmSafeButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HConfirmSafeButton.m; sourceTree = "<group>"; };
+		9EC5C0FA2BCF5B3500038550 /* HConfirmAlertVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HConfirmAlertVC.h; sourceTree = "<group>"; };
+		9EC5C0FB2BCF5B3500038550 /* HConfirmAlertVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HConfirmAlertVC.m; sourceTree = "<group>"; };
+		9EC5C0FF2BCF620D00038550 /* safe_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "safe_btn@2x.png"; sourceTree = "<group>"; };
+		9EC5C1002BCF620D00038550 /* caution_btn@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "caution_btn@3x.png"; sourceTree = "<group>"; };
+		9EC5C1012BCF620D00038550 /* caution_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "caution_btn@2x.png"; sourceTree = "<group>"; };
+		9EC5C1022BCF620D00038550 /* safe_btn@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "safe_btn@3x.png"; sourceTree = "<group>"; };
+		9EC5C10A2BCF72E600038550 /* HSetAudioVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HSetAudioVC.h; sourceTree = "<group>"; };
+		9EC5C10B2BCF72E600038550 /* HSetAudioVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HSetAudioVC.m; sourceTree = "<group>"; };
 		9EC72A1D28D833A400494A74 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		9EC72A1E28D833A400494A74 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		9EC72A2228D8349A00494A74 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -830,6 +851,7 @@
 		9E17D1AB28ED3880005FA5A9 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				9EC5C0FD2BCF5B5700038550 /* HConfirmAlertVC */,
 				9EB411B7296BE95E00CFA8FE /* MenuDateVC */,
 				9E17D1AE28ED38B3005FA5A9 /* MenuSleepVC */,
 				9E17D1AD28ED38AA005FA5A9 /* MenuWalkVC */,
@@ -971,6 +993,8 @@
 		9E1F21B428E17FEA00C5041B /* MenuUI */ = {
 			isa = PBXGroup;
 			children = (
+				9EC5C0F22BCF4A2400038550 /* confirm_btn@2x.png */,
+				9EC5C0F32BCF4A2400038550 /* confirm_btn@3x.png */,
 				9EB411A3296BD9A000CFA8FE /* back-data.png */,
 				9EB411A4296BD9A000CFA8FE /* back-data@2x.png */,
 				9EB411A5296BD9A000CFA8FE /* back-data@3x.png */,
@@ -1511,6 +1535,29 @@
 			path = date;
 			sourceTree = "<group>";
 		};
+		9EC5C0FD2BCF5B5700038550 /* HConfirmAlertVC */ = {
+			isa = PBXGroup;
+			children = (
+				9EC5C0FE2BCF61D600038550 /* UI */,
+				9EC5C0F62BCF58C200038550 /* HConfirmSafeButton.h */,
+				9EC5C0F72BCF58C200038550 /* HConfirmSafeButton.m */,
+				9EC5C0FA2BCF5B3500038550 /* HConfirmAlertVC.h */,
+				9EC5C0FB2BCF5B3500038550 /* HConfirmAlertVC.m */,
+			);
+			path = HConfirmAlertVC;
+			sourceTree = "<group>";
+		};
+		9EC5C0FE2BCF61D600038550 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				9EC5C0FF2BCF620D00038550 /* safe_btn@2x.png */,
+				9EC5C1022BCF620D00038550 /* safe_btn@3x.png */,
+				9EC5C1012BCF620D00038550 /* caution_btn@2x.png */,
+				9EC5C1002BCF620D00038550 /* caution_btn@3x.png */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		9EC72A3228D84FE000494A74 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -1573,6 +1620,8 @@
 				9EEC478C296695D90031CE9F /* Views */,
 				9EEC4789296695D30031CE9F /* HSettingVC.h */,
 				9EEC478A296695D30031CE9F /* HSettingVC.m */,
+				9EC5C10A2BCF72E600038550 /* HSetAudioVC.h */,
+				9EC5C10B2BCF72E600038550 /* HSetAudioVC.m */,
 				9EEC47952966AB700031CE9F /* HAccountVC.h */,
 				9EEC47962966AB700031CE9F /* HAccountVC.m */,
 				9EEC47A02966B5270031CE9F /* HInfomationVC.h */,
@@ -1751,6 +1800,7 @@
 				9EB4118A296BBBBE00CFA8FE /* ol_96_color@2x.png in Resources */,
 				9E68325F29758D5300194199 /* sleep_wx@2x.png in Resources */,
 				9EB41172296BBB9E00CFA8FE /* btn_napEnd@3x.png in Resources */,
+				9EC5C0F42BCF4A2400038550 /* confirm_btn@2x.png in Resources */,
 				9E683264297595C500194199 /* attention@3x.png in Resources */,
 				9EEC479C2966B1740031CE9F /* account_tz@3x.png in Resources */,
 				9E6458DB2AFA31CA0000BBAE /* num.png in Resources */,
@@ -1787,6 +1837,7 @@
 				9E17D1B628ED563F005FA5A9 /* backBtn@3x.png in Resources */,
 				9EB411B5296BDE8A00CFA8FE /* yellowBg@2x.png in Resources */,
 				9EDF522E28FA9B480066BFDC /* naoling@3x.png in Resources */,
+				9EC5C1062BCF620D00038550 /* safe_btn@3x.png in Resources */,
 				9E9A28F02A3EEFD3004E463B /* battery_low@2x.png in Resources */,
 				9EF21B3828D985050075CFF0 /* icon_checked@3x.png in Resources */,
 				9EB411CA296BF93800CFA8FE /* date_Default@3x.png in Resources */,
@@ -1808,6 +1859,7 @@
 				9E8892C12A2E1A1C00B65F99 /* home.gpx in Resources */,
 				9E8892DD2A35AAD000B65F99 /* walkReport_Red@2x.png in Resources */,
 				9EF21B3628D985050075CFF0 /* btn_login_available@3x.png in Resources */,
+				9EC5C1032BCF620D00038550 /* safe_btn@2x.png in Resources */,
 				9EDF526A2903DE0C0066BFDC /* expand@2x.png in Resources */,
 				9EB411A7296BD9A000CFA8FE /* back-data@2x.png in Resources */,
 				9EDF5289290422E30066BFDC /* close@2x.png in Resources */,
@@ -1841,6 +1893,7 @@
 				9E9A28ED2A3EEFD3004E463B /* battery_high@3x.png in Resources */,
 				9E8892DA2A35AAD000B65F99 /* walkReport_gps@2x.png in Resources */,
 				9E6458DE2AFA31CA0000BBAE /* pin3@2x.png in Resources */,
+				9EC5C1052BCF620D00038550 /* caution_btn@2x.png in Resources */,
 				9E17D1A228ED1E6B005FA5A9 /* dangerView@2x.png in Resources */,
 				9E1F21AC28E1722500C5041B /* menu_header@2x.png in Resources */,
 				9E8892DB2A35AAD000B65F99 /* walkReport_green@2x.png in Resources */,
@@ -1868,6 +1921,7 @@
 				9E08C3502A3B471D00485ED3 /* gps_safe@3x.png in Resources */,
 				9E03EFE82971341B00A11E49 /* xintiao_danger@2x.png in Resources */,
 				9EDF522F28FA9B480066BFDC /* naoling@2x.png in Resources */,
+				9EC5C1042BCF620D00038550 /* caution_btn@3x.png in Resources */,
 				9EF21B3528D985050075CFF0 /* icon_mail@2x.png in Resources */,
 				9E68325729739F1600194199 /* heart@2x.png in Resources */,
 				9EB4119B296BBBBE00CFA8FE /* location_report.png in Resources */,
@@ -1878,6 +1932,7 @@
 				9EB4116F296BBB9E00CFA8FE /* btn_napStart.png in Resources */,
 				9EDF521128F6F69A0066BFDC /* safeIcon@2x.png in Resources */,
 				9EEC47942966A38E0031CE9F /* save@2x.png in Resources */,
+				9EC5C0F52BCF4A2400038550 /* confirm_btn@3x.png in Resources */,
 				9EDF52A0290589660066BFDC /* location@2x.png in Resources */,
 				9EDF52A1290589660066BFDC /* location@3x.png in Resources */,
 				9EEC479D2966B1740031CE9F /* sw_down@3x.png in Resources */,
@@ -2029,6 +2084,7 @@
 				9EC72A3528D84FFA00494A74 /* HInputView.m in Sources */,
 				9E8344B828C7912C00AB9D83 /* BWCheckTokenReq.m in Sources */,
 				9EEC47972966AB700031CE9F /* HAccountVC.m in Sources */,
+				9EC5C0FC2BCF5B3500038550 /* HConfirmAlertVC.m in Sources */,
 				9E2DF84328B2596600B0C9DA /* HMapVC.m in Sources */,
 				9E17D19D28EACD26005FA5A9 /* HSmallCardView.m in Sources */,
 				9E8BDE98296E9F080001C428 /* ALCalendarCollectionView.m in Sources */,
@@ -2069,6 +2125,7 @@
 				9E8BDE96296E9F080001C428 /* ALCalendarHeader.m in Sources */,
 				9EDF5242290029C20066BFDC /* BWChangeTaskStateReq.m in Sources */,
 				9E683254297394A500194199 /* BWGetPDFResp.m in Sources */,
+				9EC5C0F82BCF58C200038550 /* HConfirmSafeButton.m in Sources */,
 				9E51FDD329640D8900EEC6EC /* HSleepMainView.m in Sources */,
 				9E6F45EC2B5E545F00DFC545 /* BWGetInformationReq.m in Sources */,
 				9E8892BF2A29EFE800B65F99 /* HWalkDownTimeView.m in Sources */,
@@ -2080,6 +2137,7 @@
 				9E99397728F7DD0D00119CA7 /* HTask.m in Sources */,
 				9EDF5245290029D10066BFDC /* BWChangeTaskStateResp.m in Sources */,
 				9E8BDE7F296E87E30001C428 /* FFDropDownMenuBasedModel.m in Sources */,
+				9EC5C10C2BCF72E600038550 /* HSetAudioVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2269,6 +2327,7 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "周辺情報を取得するために、位置情報を使用する必要があります。許可しますか？";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "画像を保存するため、このアプリが写真ライブラリにアクセスすることを許可しますか？";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "ユーザーのプロフィール写真の変更やフィードバック機能のため、このアプリがメディアライブラリにアクセスすることを許可しますか？";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
@@ -2319,6 +2378,7 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "周辺情報を取得するために、位置情報を使用する必要があります。許可しますか？";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "画像を保存するため、このアプリが写真ライブラリにアクセスすることを許可しますか？";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "ユーザーのプロフィール写真の変更やフィードバック機能のため、このアプリがメディアライブラリにアクセスすることを許可しますか？";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;

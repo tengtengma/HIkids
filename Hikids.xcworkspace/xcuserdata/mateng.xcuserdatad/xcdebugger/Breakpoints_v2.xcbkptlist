@@ -26,9 +26,73 @@
             filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1489"
-            endingLineNumber = "1489"
+            startingLineNumber = "1511"
+            endingLineNumber = "1511"
             landmarkName = "-selectMarkerWithStudent:andMarker:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0EE9218D-BC85-46E1-AC4B-FA2377E8F607"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Hikids/Models/Network/BWResp/BWGetWalkReportResp.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "-initWithJSONDictionary:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "0EE9218D-BC85-46E1-AC4B-FA2377E8F607 - 2c054256060927cd"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[BWGetWalkReportResp initWithJSONDictionary:]"
+                  moduleName = "Hikids"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Models/Network/BWResp/BWGetWalkReportResp.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "204">
+               </Location>
+               <Location
+                  uuid = "0EE9218D-BC85-46E1-AC4B-FA2377E8F607 - 2c054256060927cd"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[BWGetWalkReportResp initWithJSONDictionary:]"
+                  moduleName = "Hikids"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Models/Network/BWResp/BWGetWalkReportResp.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "220">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "99688590-4510-473D-8929-CAD45013F11F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Hikids/Views/HAlertView/HAlertView.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
+            landmarkName = "-initWithFrame:byList:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

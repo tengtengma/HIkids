@@ -6,6 +6,7 @@
 //
 
 #import "HStudentFooterView.h"
+#import "HConfirmSafeButton.h"
 
 @interface HStudentFooterView()
 @property (nonatomic, strong) UIImageView *headerView;
@@ -14,6 +15,7 @@
 @property (nonatomic, strong) UIImageView *gpsImageView;
 @property (nonatomic, strong) UIButton *backupBtn;
 @property (nonatomic, strong) UIButton *clockBtn;
+@property (nonatomic, strong) HConfirmSafeButton *confirmBtn;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *distanceLabel;
 
@@ -74,6 +76,14 @@
         [self.distanceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.gpsImageView);
             make.left.equalTo(self.gpsImageView.mas_right).offset(PAdaptation_x(6));
+        }];
+        
+        [self addSubview:self.confirmBtn];
+        [self.confirmBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self);
+            make.right.equalTo(self.mas_right).offset(-PAdaptation_x(6));
+            make.width.mas_equalTo(PAdaptation_x(108));
+            make.height.mas_equalTo(PAaptation_y(35));
         }];
         
 //        [self addSubview:self.clockBtn];
@@ -139,6 +149,9 @@
     [self.batteryImageView setImage:[self batteryLevelImageWithString:model.deviceInfo.batteryLevel]];
     [self.wifiImageView setImage:[UIImage imageNamed:@"wifi.png"]];
     self.titleLabel.text = model.name;
+    
+    self.confirmBtn.student = model;
+    
 }
 - (UIImage *)batteryLevelImageWithString:(NSString *)rate
 {
@@ -203,6 +216,9 @@
         }
         [self.gpsImageView setImage:[UIImage imageNamed:@"gps.png"]];
         self.headerView.layer.borderColor = BWColor(255, 75, 0, 1).CGColor;
+        
+        self.confirmBtn.hidden = NO;
+        self.wifiImageView.hidden = YES;
 
     }else{
 //        if (self.student.deviceInfo.averangheart.length != 0) {
@@ -221,10 +237,16 @@
     self.rightLineView.backgroundColor = BWColor(76, 40, 11, 1);
     self.bottomLineView.backgroundColor = BWColor(76, 40, 11, 1);
     [self.lastCellBottomView setImage:[UIImage imageNamed:@"listBottom_danger.png"]];
+    
+
 }
 - (void)clickBackupAction
 {
     NSLog(@"backup");
+}
+- (void)confirmAction:(HConfirmSafeButton *)button
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"confirmSafeStudentNoti" object:@{@"student":button.student}];
 }
 
 #pragma mark - LazyLoad -
@@ -278,6 +300,16 @@
 
     }
     return _clockBtn;
+}
+- (HConfirmSafeButton *)confirmBtn
+{
+    if (!_confirmBtn) {
+        _confirmBtn = [HConfirmSafeButton buttonWithType:UIButtonTypeCustom];
+        [_confirmBtn setImage:[UIImage imageNamed:@"confirm_btn.png"] forState:UIControlStateNormal];
+        [_confirmBtn setHidden:YES];
+        [_confirmBtn addTarget:self action:@selector(confirmAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _confirmBtn;
 }
 - (UILabel *)titleLabel
 {
