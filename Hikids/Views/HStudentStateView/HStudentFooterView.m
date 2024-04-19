@@ -211,7 +211,7 @@
         if(self.student.distance.integerValue == -1){
             self.distanceLabel.text = [NSString stringWithFormat:@"--"];
         }else{
-            self.distanceLabel.text = [NSString stringWithFormat:@"%ldm",self.student.distance.integerValue];
+            self.distanceLabel.text = [NSString stringWithFormat:@"約%ldm",self.student.distance.integerValue];
 
         }
         [self.gpsImageView setImage:[UIImage imageNamed:@"gps.png"]];

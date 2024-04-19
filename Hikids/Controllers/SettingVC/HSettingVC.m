@@ -9,6 +9,7 @@
 #import "HSleepOrWalkSettingView.h"
 #import "HAccountVC.h"
 #import "HInfomationVC.h"
+#import "HSetAlertAccurateVC.h"
 #import "HSetAudioVC.h"
 
 @interface HSettingVC ()<UITableViewDelegate,UITableViewDataSource>
@@ -371,6 +372,8 @@
     if (indexPath.section == 1) {
         if (indexPath.row == 0) {
             NSLog(@"精度");
+            HSetAlertAccurateVC *accurateVC = [[HSetAlertAccurateVC alloc] init];
+            [self presentViewController:accurateVC animated:YES completion:nil];
         }
         if (indexPath.row == 1) {
             NSLog(@"声音");
