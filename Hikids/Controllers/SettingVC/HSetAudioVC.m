@@ -258,7 +258,7 @@
 {
     if (!_saveBtn) {
         _saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_saveBtn setImage:[UIImage imageNamed:@"save_btn.png"] forState:UIControlStateNormal];
+        [_saveBtn setImage:[UIImage imageNamed:@"save.png"] forState:UIControlStateNormal];
         [_saveBtn addTarget:self action:@selector(saveAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _saveBtn;

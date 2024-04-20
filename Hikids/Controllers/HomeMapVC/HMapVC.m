@@ -138,7 +138,7 @@
 //    [self getTaskRequest];
 
     //设置地图
-    [self createMapView];
+//    [self createMapView];
     
    
 
