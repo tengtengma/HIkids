@@ -7,6 +7,8 @@
 
 #import "HSetAudioVC.h"
 #import "HSetAlertView.h"
+#import "BWSetRingReq.h"
+#import "BWSetRingResp.h"
 
 @interface HSetAudioVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UIImageView *topView;
@@ -25,12 +27,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.dataArray = @[@[@"a1",@"a2",@"a3"],
-                       @[@"a4",@"a5",@"a6"],
-                       @[@"a7",@"a8",@"a9"]];
+    self.dataArray = @[@[@"1",@"2",@"3"],
+                       @[@"4",@"5",@"6"],
+                       @[@"7",@"8",@"9"]];
     
     
     self.view.backgroundColor = [UIColor clearColor];
+    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSNumber *ringNumber = [user objectForKey:KEY_RingNumber];
+    
+    if (ringNumber.integerValue != 0) {
+        self.selectSoundId = [NSString stringWithFormat:@"%ld",ringNumber.integerValue];
+    }
+    
     [self createUI];
 }
 
@@ -93,6 +103,28 @@
 - (void)saveAction:(id)sender
 {
     NSLog(@"保存sound");
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+
+    DefineWeakSelf;
+    BWSetRingReq *ringReq = [[BWSetRingReq alloc] init];
+    ringReq.ringNumber = [NSNumber numberWithInteger:self.selectSoundId.integerValue];
+    [NetManger putRequest:ringReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        
+        BWSetRingResp *ringResp = (BWSetRingResp *)resp;
+        
+        NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+        [user setObject:[NSNumber numberWithInteger:weakSelf.selectSoundId.integerValue] forKey:KEY_RingNumber];
+        [user synchronize];
+        
+        [MBProgressHUD showMessag:@"正常に保存" toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+
+        NSLog(@"success");
+        
+    } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+    }];
 }
 #pragma mark - UITableViewDataSource -
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -151,7 +183,7 @@
                     
         }];
         
-        if (self.selectSoundId == [soundList safeObjectAtIndex:i]) {
+        if ([self.selectSoundId isEqualToString:[soundList safeObjectAtIndex:i]]) {
             [alertView selectStyle];
         }else{
             [alertView selectNomalStyle];

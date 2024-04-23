@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *remark;
 @property (nonatomic, strong) NSArray *assistants;
 @property (nonatomic, strong) NSArray *kids;
+@property (nonatomic, strong) NSNumber *warnStrategyLevel;
 
 
 - (NSURL *)url;

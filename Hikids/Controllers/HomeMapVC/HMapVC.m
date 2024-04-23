@@ -34,19 +34,19 @@
 #import "HSmallCardView.h"
 #import "HHomeMenuView.h"
 #import "HWalkMenuView.h"
-#import "HSleepMenuView.h"
-#import "HSleepMainView.h"
-#import "HSleepReportVC.h"
 #import "HWalkReportVC.h"
 #import "HSettingVC.h"
 #import "HDateVC.h"
 #import "HWalkDownTimeView.h"
 #import "HStudentEclipseView.h"
-
 #import "HBGRunManager.h"
 #import "HNomalGroupStudentView.h"
-
 #import "HConfirmAlertVC.h"
+#import "BWGetWarnStrategyReq.h"
+#import "BWGetWarnStrategyResp.h"
+#import "BWStopWarnReq.h"
+#import "BWStopWarnResp.h"
+
 
 #define default_Zoom 18.5
 
@@ -59,7 +59,6 @@
 @property (nonatomic,strong) HLocation *fenceLocation;              //围栏信息
 @property (nonatomic,strong) CLLocation *gpsLocation;               //手机gps信息
 @property (nonatomic,strong) NSTimer *walkTimer;                    //散步定时器
-@property (nonatomic,strong) NSTimer *sleepTimer;                   //午睡定时器
 @property (nonatomic,strong) HStudentStateInfoView *stateInfoView;  //点击地图上小朋友显示详情页
 @property (nonatomic,strong) HTask *currentTask;                    //当前任务
 @property (nonatomic,strong) NSMutableArray *makerList;             //保存所有孩子maker
@@ -68,8 +67,6 @@
 //@property (nonatomic,assign) BOOL isAlert; //只弹窗一次 仅演示使用
 @property (nonatomic,strong) HHomeMenuView *homeMenuTableView;      //首页底部菜单
 @property (nonatomic,strong) HWalkMenuView *walkMenuTableView;      //散步底部菜单
-@property (nonatomic,strong) HSleepMenuView *sleepMenuTableView;    //午睡底部菜单
-@property (nonatomic,strong) HSleepMainView *sleepMainView;         //开始午睡时展示
 @property (nonatomic,strong) HSettingVC *settingVC;                 //设置页面
 @property (nonatomic,strong) HWalkDownTimeView *downTimeView;       //提示是否到达目的地弹窗
 @property (nonatomic,strong) NSString *destFence;                   //目的地围栏信息
@@ -97,10 +94,6 @@
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     
-
-//    //开启定时器
-//     [self.walkTimer setFireDate:[NSDate distantPast]];
-    
 }
 - (void)viewDidDisappear:(BOOL)animated
 {
@@ -109,9 +102,6 @@
     //取消设置屏幕常亮
     
     [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
-    
-//    //关闭定时器
-//    [self.sleepTimer setFireDate:[NSDate distantFuture]];
 }
 
 - (void)viewDidLoad {
@@ -128,19 +118,12 @@
     [[NSRunLoop mainRunLoop] addTimer:self.walkTimer forMode:NSRunLoopCommonModes];
     [self.walkTimer setFireDate:[NSDate distantFuture]];
 
-    self.sleepTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(getSleepTaskRequest) userInfo:nil repeats:YES];
-    [[NSRunLoop mainRunLoop] addTimer:self.sleepTimer forMode:NSRunLoopCommonModes];
-    [self.sleepTimer setFireDate:[NSDate distantFuture]];
-    
-
-
-    //获取当前的任务情况 内部还调用了sleepTask
+    //获取当前的任务情况
 //    [self getTaskRequest];
 
     //设置地图
-//    [self createMapView];
+    [self createMapView];
     
-   
 
     //创建导航
     [self createNavigationView];
@@ -155,6 +138,9 @@
     
     //开启定位
     [self startLocation];
+    
+    //获取默认警报灵敏度
+    [self getWarnStrategyRequest];
     
     //检测版本
     [self checkVersion];
@@ -215,9 +201,6 @@
     [self.view addSubview:homeMenuView];
 
     DefineWeakSelf;
-    homeMenuView.showSleepMenu = ^{
-        [weakSelf showSleepMenuVC];
-    };
     homeMenuView.showWalkMenu = ^{
         [weakSelf showWalkMenuVC];
     };
@@ -317,34 +300,7 @@
     };
     
 }
-//设置午睡菜单
-- (void)setupSleepMenu
-{
-//    CGFloat topH = SCREEN_HEIGHT/2-PAaptation_y(121);
-    CGFloat topH = 0;
 
-    //20为状态栏高度；tableview设置的大小要和view的大小一致
-    if ([BWTools getIsIpad]) {
-        self.sleepMenuTableView = [[HSleepMenuView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/2 - LAdaptation_x(850)/2, SCREEN_HEIGHT-LAdaptation_y(250), LAdaptation_x(850), SCREEN_HEIGHT-topH)];
-
-    }else{
-        self.sleepMenuTableView = [[HSleepMenuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-PAaptation_y(400), SCREEN_WIDTH, SCREEN_HEIGHT-topH)];
-
-    }
-    self.sleepMenuTableView.topH = topH;
-    self.sleepMenuTableView.smallView.hidden = YES;
-    self.sleepMenuTableView.gpsButton.hidden = YES;
-    [self.view addSubview:self.sleepMenuTableView];
-    
-    DefineWeakSelf;
-    //结束午睡 弹出午睡报告
-    self.sleepMenuTableView.sleepEndBlock = ^{
-        //修改任务状态
-        [weakSelf changeTaskStateRequestWithStatus:@"5"];
-        
-    };
-    
-}
 //设置小朋友详情view
 - (void)setupStudentInfoView
 {
@@ -363,48 +319,8 @@
 
     };
 }
-//设置午睡内容页
-- (void)setupSleepMainView
-{
-    HSleepMainView *sleepMainView = [[HSleepMainView alloc] init];
-    self.sleepMainView = sleepMainView;
-    [self.view addSubview:sleepMainView];
-    [self.view sendSubviewToBack:sleepMainView];
-    [sleepMainView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.customNavigationView.mas_bottom).offset(-PAaptation_y(10));
-        make.left.equalTo(self.view);
-        make.width.equalTo(self.view);
-        make.bottom.equalTo(self.view.mas_bottom);
-    }];
-    
-    DefineWeakSelf;
-    sleepMainView.sleepTimeOverBlock = ^{
-        //修改任务状态
-        [weakSelf changeTaskStateRequestWithStatus:@"5"];
-        
-    };
-}
-//展示午睡菜单
-- (void)showSleepMenuVC
-{
-    HSleepMenuVC *menuSleepVC = [[HSleepMenuVC alloc] init];
-    if ([BWTools getIsIpad]) {
-        menuSleepVC.modalPresentationStyle = UIModalPresentationFullScreen;
-    }
-    [self presentViewController:menuSleepVC animated:YES completion:nil];
-    
-    //点击开启午睡
-    DefineWeakSelf;
-    menuSleepVC.startSleepBlock = ^(HTask * _Nonnull sleepTask) {
-        
-        weakSelf.currentTask = sleepTask;
-        
-        //开始午睡模式
-        [weakSelf startSleepMode];
-    };
-    
-    
-}
+
+
 //展示散步菜单
 - (void)showWalkMenuVC
 {
@@ -425,28 +341,7 @@
         
     };
 }
-//展示午睡报告
-- (void)showSleepReport
-{
-    HSleepReportVC *sleepReportVC = [[HSleepReportVC alloc] init];
-    sleepReportVC.taskId = self.currentTask.tId;
-    [self presentViewController:sleepReportVC animated:YES completion:nil];
-    
-    //午睡报告关闭后 回到在院内模式
-    DefineWeakSelf;
-    sleepReportVC.closeSleepReportBlock = ^{
-        //todo
-        [weakSelf.sleepMainView closeTimer];
-        
-        [weakSelf.sleepMainView removeFromSuperview];//移除午睡主页面
-        
-        [weakSelf.sleepMenuTableView removeFromSuperview];//移除午睡底部菜单
-        
 
-        
-//        [weakSelf startStayMode];
-    };
-}
 //展示散步报告
 - (void)showWalkReport
 {
@@ -484,120 +379,51 @@
             return;
         }
         //任务状态，1新建 2途中，3目的地，4回程，5结束
-        //type 1散步 2午睡
-        if ([weakSelf.currentTask.type isEqualToString:@"1"]) {
+        
+        //该任务已完成/无任务
+        if ([weakSelf.currentTask.status isEqualToString:@"5"] || weakSelf.currentTask.status == nil) {
+            //在院内模式
+            [weakSelf startStayMode];
             
-            //该任务已完成/无任务
-            if ([weakSelf.currentTask.status isEqualToString:@"5"] || weakSelf.currentTask.status == nil) {
-                //在院内模式
-                [weakSelf startStayMode];
-                
-            }else if([weakSelf.currentTask.status isEqualToString:@"2"]){
-                
-                //设置散步页底部菜单
-                [weakSelf setupWalkMenu];
-                
-                //途中模式开启 只画目的地围栏
-                [weakSelf startWalkMode];
-                
+        }else if([weakSelf.currentTask.status isEqualToString:@"2"]){
+            
+            //设置散步页底部菜单
+            [weakSelf setupWalkMenu];
+            
+            //途中模式开启 只画目的地围栏
+            [weakSelf startWalkMode];
+            
 
 
-            }else if([weakSelf.currentTask.status isEqualToString:@"3"]){
-                
-                //设置散步页底部菜单
-                [weakSelf setupWalkMenu];
-                
-                //目的地模式开启
-               
-                [weakSelf startDestMode];
-                
+        }else if([weakSelf.currentTask.status isEqualToString:@"3"]){
+            
+            //设置散步页底部菜单
+            [weakSelf setupWalkMenu];
+            
+            //目的地模式开启
+           
+            [weakSelf startDestMode];
+            
 
 
-            }else if([weakSelf.currentTask.status isEqualToString:@"4"]){
-                //设置散步页底部菜单
-                [weakSelf setupWalkMenu];
-                
-                //回程模式开启 只画院内围栏
-                
-                [weakSelf startBackMode];
-                
+        }else if([weakSelf.currentTask.status isEqualToString:@"4"]){
+            //设置散步页底部菜单
+            [weakSelf setupWalkMenu];
+            
+            //回程模式开启 只画院内围栏
+            
+            [weakSelf startBackMode];
+            
 
 
-            }
-        }else{
-
-            //午睡模式开始
-            if ([weakSelf.currentTask.status isEqualToString:@"1"]) {
-                
-                [weakSelf startSleepMode];
-            }
-            //午睡模式结束 默认院内模式
-            if ([weakSelf.currentTask.status isEqualToString:@"5"] || weakSelf.currentTask.status == nil) {
-                 
-                [weakSelf startStayMode];
-
-            }
         }
     } failure:^(BWBaseReq *req, NSError *error) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
     }];
 }
-//获取午睡小朋友状态接口
-- (void)getSleepTaskRequest
-{
-    
-    DefineWeakSelf;
-    BWGetSleepTaskReq *getSleepTaskReq = [[BWGetSleepTaskReq alloc] init];
-    [NetManger getRequest:getSleepTaskReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
 
-        BWGetSleepTaskResp *getTaskResp = (BWGetSleepTaskResp *)resp;
-        //任务状态1已经开始，5结束
-        //todo 1的时候切换成 午睡模式。5的时候结束午睡 进入园内模式
-        
-        [weakSelf dealWithSleepStudentDataWithDic:getTaskResp.item];
-        
-        [weakSelf.sleepMainView setupContent:getTaskResp.item];
-        
 
-        
-    } failure:^(BWBaseReq *req, NSError *error) {
-        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
-    }];
-}
-- (void)dealWithSleepStudentDataWithDic:(NSDictionary *)studentDic
-{
-    NSMutableArray *tempDangerArray = [[NSMutableArray alloc] init];
-    for (NSDictionary *dic in  [studentDic safeObjectForKey:@"unnormalList"]) {
-        HStudent *student = [[HStudent alloc] init];
-        student.sId = [dic safeObjectForKey:@"kidsId"];
-        student.name = [dic safeObjectForKey:@"kidsName"];
-        student.deviceInfo.averangheart = [dic safeObjectForKey:@"heartRate"];
-        student.avatar = [dic safeObjectForKey:@"avatar"];
-        [tempDangerArray addObject:student];
-    }
-    
-    NSMutableArray *tempSafeArray = [[NSMutableArray alloc] init];
-    for (NSDictionary *dic in [studentDic safeObjectForKey:@"normalList"]) {
-        HStudent *student = [[HStudent alloc] init];
-        student.sId = [dic safeObjectForKey:@"kidsId"];
-        student.name = [dic safeObjectForKey:@"kidsName"];
-        student.deviceInfo.averangheart = [dic safeObjectForKey:@"heartRate"];
-        student.avatar = [dic safeObjectForKey:@"avatar"];
-        [tempSafeArray addObject:student];
-    }
-    
-    self.sleepMenuTableView.smallView.safeLabel.text = [NSString stringWithFormat:@"使用中%ld人",tempSafeArray.count];
-    self.sleepMenuTableView.smallView.dangerLabel.text = [NSString stringWithFormat:@"アラート%ld回",tempDangerArray.count];
-    self.sleepMenuTableView.safeList = tempSafeArray;
-    self.sleepMenuTableView.exceptList = tempDangerArray;
-    [self.sleepMenuTableView.tableView reloadData];
-    
-    NSString *status = tempDangerArray.count != 0 ? @"要注意" : @"安全";
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"dangerAlertNotification" object:@{@"name":@"午睡中",@"status":status}];
-}
 - (void)changeTaskStateRequestWithStatus:(NSString *)status
 {
     DefineWeakSelf;
@@ -611,14 +437,7 @@
         
         if ([weakSelf.currentTask.status isEqualToString:@"5"]) {
             
-            if ([weakSelf.currentTask.type isEqualToString:@"1"]) {
-                
-                [weakSelf showWalkReport];
-
-            }else{
-                [weakSelf showSleepReport];
-
-            }
+            [weakSelf showWalkReport];
             
         }
         //结束上一个任务改变该任务状态 并且查寻新的任务；
@@ -630,23 +449,24 @@
         [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
     }];
 }
-//开始午睡模式
-- (void)startSleepMode
+- (void)getWarnStrategyRequest
 {
-                
-    [self clearMap];
-    
-    //设置午睡内容view
-    [self setupSleepMainView];
-    //设置午睡页底部菜单
-    [self setupSleepMenu];
+    DefineWeakSelf;
+    BWGetWarnStrategyReq *warnReq = [[BWGetWarnStrategyReq alloc] init];
+    [NetManger getRequest:warnReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        BWGetWarnStrategyResp *warnResp = (BWGetWarnStrategyResp *)resp;
+        NSNumber *warnLevel = [warnResp.item safeObjectForKey:@"data"];
+        
+        NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+        [user setObject:warnLevel forKey:KEY_AlertLevel];
+        [user synchronize];
+        NSLog(@"%ld",warnLevel.integerValue);
 
-    self.mapView.hidden = YES;
-    self.homeMenuTableView.hidden = YES;
-    
-    [self.sleepTimer setFireDate:[NSDate distantPast]];
-    [self.walkTimer setFireDate:[NSDate distantFuture]];
-
+            
+    } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+    }];
 }
 //开启园内模式
 - (void)startStayMode
@@ -656,7 +476,6 @@
     self.mapView.hidden = NO;               //展示地图
     self.homeMenuTableView.hidden = NO;     //展示首页底部菜单
         
-    [self.sleepTimer setFireDate:[NSDate distantFuture]];
     [self.walkTimer setFireDate:[NSDate distantPast]];
     
     [self.locationManager stopUpdatingLocation];
@@ -680,7 +499,6 @@
 //    [self startLocation];
     
     [self.walkTimer setFireDate:[NSDate distantPast]];
-    [self.sleepTimer setFireDate:[NSDate distantFuture]];
     
     [self.locationManager startUpdatingLocation];
     
@@ -699,7 +517,6 @@
 //    [self startLocation];
     
     [self.walkTimer setFireDate:[NSDate distantPast]];
-    [self.sleepTimer setFireDate:[NSDate distantFuture]];
         
     self.isDestMode = YES;
     
@@ -718,7 +535,6 @@
     
     
     [self.walkTimer setFireDate:[NSDate distantPast]];
-    [self.sleepTimer setFireDate:[NSDate distantFuture]];
     
     [self.locationManager startUpdatingLocation];
     
@@ -1273,9 +1089,6 @@
     [self.walkTimer invalidate]; // 可以打破相互强引用，真正销毁NSTimer对象
     self.walkTimer = nil; // 对象置nil是一种规范和习惯
     
-    [self.sleepTimer invalidate];
-    self.sleepTimer = nil;
-    
 }
 - (void)confirmSafeStudentAction:(NSNotification *)noti
 {
@@ -1292,6 +1105,20 @@
     alertCtrl.confirmBlock = ^{
         NSLog(@"%@",student.sId);
         //todo 调用接口 接口成功后 将danger小朋友删掉 加入到对应的safelist中，然后reload tableview
+        
+        
+        BWStopWarnReq *warnReq = [[BWStopWarnReq alloc] init];
+        warnReq.studentId = student.sId;
+        [NetManger postRequest:warnReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+            NSLog(@"stopWarn调用成功");
+            
+            [weakSelf startGetStudentLocationRequest];
+            [weakSelf dismissViewControllerAnimated:YES completion:nil];
+            
+        } failure:^(BWBaseReq *req, NSError *error) {
+            [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+            [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+        }];
     };
 
 }
@@ -1303,9 +1130,6 @@
 
     if (![[userInfo safeObjectForKey:@"status"] isEqualToString:@"安全"]) {
 
-        if ([name isEqualToString:@"午睡中"]) {
-            [self.sleepMenuTableView goCenter];
-        }
         if ([name isEqualToString:@"散步中"]) {
             [self.walkMenuTableView goCenter];
 

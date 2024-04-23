@@ -161,6 +161,8 @@
     [user setObject:[userInfo safeObjectForKey:@"nickName"] forKey:KEY_NickName];
     [user setObject:[userInfo safeObjectForKey:@"avatar"] forKey:KEY_Avatar];
     [user setObject:[userInfo safeObjectForKey:@"email"] forKey:KEY_Email];
+    NSNumber *ringNumber = [userInfo safeObjectForKey:@"ringNumber"];
+    [user setObject:ringNumber forKey:KEY_RingNumber];
     [user synchronize];
 }
 - (void)selectAction:(UITapGestureRecognizer *)tap

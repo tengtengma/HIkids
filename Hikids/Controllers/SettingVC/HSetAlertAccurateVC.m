@@ -6,6 +6,8 @@
 //
 
 #import "HSetAlertAccurateVC.h"
+#import "BWSetWarnStrategyReq.h"
+#import "BWSetWarnStrategyResp.h"
 
 @interface HSetAlertAccurateVC ()
 @property (nonatomic, strong) UIView *bgView;
@@ -21,6 +23,7 @@
 @property (nonatomic, strong) UILabel *lowLabel;
 @property (nonatomic, strong) UIImageView *text_lineImageView;
 @property (nonatomic, strong) UIImageView *instructionImageView;
+@property (nonatomic, assign) NSInteger warnLevel;
 
 
 @end
@@ -146,12 +149,49 @@
 - (void)saveAction:(id)sender
 {
     NSLog(@"保存sound");
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    DefineWeakSelf;
+    BWSetWarnStrategyReq *warnReq = [[BWSetWarnStrategyReq alloc] init];
+    warnReq.strategyLevel = [NSNumber numberWithInteger:self.warnLevel];
+    [NetManger putRequest:warnReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        
+        BWSetWarnStrategyResp *warnResp = (BWSetWarnStrategyResp *)resp;
+        
+        NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+        [user setObject:[NSNumber numberWithInteger:weakSelf.warnLevel] forKey:KEY_AlertLevel];
+        [user synchronize];
+        
+        [MBProgressHUD showMessag:@"正常に保存" toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+
+        NSLog(@"success");
+            
+    } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+    }];
 }
 #pragma mark - Slider Changed-
 - (void)sliderValueChanged:(UISlider *)slider {
     // 滑块数值变化时的处理
     NSLog(@"Slider value changed: %f", slider.value);
     [slider setValue:roundf(slider.value) animated:NO];
+    
+    self.warnLevel = roundf(slider.value);
+    
+    //处理换图片的事儿
+    if (roundf(slider.value) == 1) {
+        NSLog(@"1");
+    }else if(roundf(slider.value) == 2){
+        NSLog(@"2");
+    }else if(roundf(slider.value) == 3){
+        NSLog(@"3");
+    }else if(roundf(slider.value) == 4){
+        NSLog(@"4");
+    }else{
+        NSLog(@"5");
+    }
 
 }
 #pragma mark - Lazy Load -
@@ -216,8 +256,18 @@
         _slider.minimumValue = 1; // 最小等级
         _slider.maximumValue = 5; // 最大等级
             
-        // 设置初始值
-        _slider.value = 3; // 初始值
+        
+        NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+        NSNumber *warnLevel = [user objectForKey:KEY_AlertLevel];
+        if (warnLevel.integerValue == 0) {
+            // 设置初始值
+            _slider.value = 3; // 初始值
+            self.warnLevel = 3;
+        }else{
+            self.warnLevel = warnLevel.integerValue;
+            _slider.value = warnLevel.integerValue;
+        }
+
         // 设置背景图片
         UIImage *clearImage = [UIImage new];
         [_slider setMinimumTrackImage:clearImage forState:UIControlStateNormal];

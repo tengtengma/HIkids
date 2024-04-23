@@ -37,6 +37,9 @@
     if (self.remark) {
         [dic setObject:self.remark forKey:@"remark"];
     }
+    if (self.warnStrategyLevel) {
+        [dic setObject:self.warnStrategyLevel forKey:@"warnStrategyLevel"];
+    }
 
 
     return dic;

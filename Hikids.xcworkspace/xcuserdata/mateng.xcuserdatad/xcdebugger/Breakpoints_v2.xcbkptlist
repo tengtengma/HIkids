@@ -26,58 +26,10 @@
             filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1511"
-            endingLineNumber = "1511"
+            startingLineNumber = "1335"
+            endingLineNumber = "1335"
             landmarkName = "-selectMarkerWithStudent:andMarker:"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "0EE9218D-BC85-46E1-AC4B-FA2377E8F607"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Hikids/Models/Network/BWResp/BWGetWalkReportResp.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "21"
-            endingLineNumber = "21"
-            landmarkName = "-initWithJSONDictionary:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "0EE9218D-BC85-46E1-AC4B-FA2377E8F607 - 2c054256060927cd"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[BWGetWalkReportResp initWithJSONDictionary:]"
-                  moduleName = "Hikids"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Models/Network/BWResp/BWGetWalkReportResp.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21"
-                  offsetFromSymbolStart = "204">
-               </Location>
-               <Location
-                  uuid = "0EE9218D-BC85-46E1-AC4B-FA2377E8F607 - 2c054256060927cd"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[BWGetWalkReportResp initWithJSONDictionary:]"
-                  moduleName = "Hikids"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Models/Network/BWResp/BWGetWalkReportResp.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21"
-                  offsetFromSymbolStart = "220">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -94,6 +46,258 @@
             endingLineNumber = "27"
             landmarkName = "-initWithFrame:byList:"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "93698560-C60F-4051-B53C-2BDD9D1A3F38"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "205"
+            endingLineNumber = "205"
+            landmarkName = "-setupHomeMenu"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "93698560-C60F-4051-B53C-2BDD9D1A3F38 - 33510fbf55870113"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__23-[HMapVC setupHomeMenu]_block_invoke_2"
+                  moduleName = "Hikids"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Controllers/HomeMapVC/HMapVC.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "205"
+                  endingLineNumber = "205"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "93698560-C60F-4051-B53C-2BDD9D1A3F38 - 27375f0b14784066"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__23-[HMapVC setupHomeMenu]_block_invoke"
+                  moduleName = "Hikids"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Controllers/HomeMapVC/HMapVC.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "205"
+                  endingLineNumber = "205"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "70EABC75-B7C8-468B-BFC7-0342F15630A4"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "463"
+            endingLineNumber = "463"
+            landmarkName = "-getWarnStrategyRequest"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "70EABC75-B7C8-468B-BFC7-0342F15630A4 - 9dd6c04c8833982b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[HMapVC getWarnStrategyRequest]"
+                  moduleName = "Hikids"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Controllers/HomeMapVC/HMapVC.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "463"
+                  endingLineNumber = "463"
+                  offsetFromSymbolStart = "150">
+               </Location>
+               <Location
+                  uuid = "70EABC75-B7C8-468B-BFC7-0342F15630A4 - 264b16ecc324749a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__32-[HMapVC getWarnStrategyRequest]_block_invoke"
+                  moduleName = "Hikids"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Controllers/HomeMapVC/HMapVC.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "463"
+                  endingLineNumber = "463"
+                  offsetFromSymbolStart = "265">
+               </Location>
+               <Location
+                  uuid = "70EABC75-B7C8-468B-BFC7-0342F15630A4 - 31c4b63ee1fb2c6c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__32-[HMapVC getWarnStrategyRequest]_block_invoke_2"
+                  moduleName = "Hikids"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Controllers/HomeMapVC/HMapVC.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "464"
+                  endingLineNumber = "464"
+                  offsetFromSymbolStart = "66">
+               </Location>
+               <Location
+                  uuid = "70EABC75-B7C8-468B-BFC7-0342F15630A4 - 264b16ecc324749a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__32-[HMapVC getWarnStrategyRequest]_block_invoke"
+                  moduleName = "Hikids"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Controllers/HomeMapVC/HMapVC.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "463"
+                  endingLineNumber = "463"
+                  offsetFromSymbolStart = "231">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D4171E3B-5C90-4892-95B2-5E838FEB73F8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Hikids/Controllers/SettingVC/HSetAlertAccurateVC.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "168"
+            endingLineNumber = "168"
+            landmarkName = "-saveAction:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D4171E3B-5C90-4892-95B2-5E838FEB73F8 - 79ebfae7199c8341"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[HSetAlertAccurateVC saveAction:]"
+                  moduleName = "Hikids"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Controllers/SettingVC/HSetAlertAccurateVC.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "168"
+                  endingLineNumber = "168"
+                  offsetFromSymbolStart = "582">
+               </Location>
+               <Location
+                  uuid = "D4171E3B-5C90-4892-95B2-5E838FEB73F8 - 474f4459142bf260"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__34-[HSetAlertAccurateVC saveAction:]_block_invoke"
+                  moduleName = "Hikids"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Controllers/SettingVC/HSetAlertAccurateVC.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "168"
+                  endingLineNumber = "168"
+                  offsetFromSymbolStart = "374">
+               </Location>
+               <Location
+                  uuid = "D4171E3B-5C90-4892-95B2-5E838FEB73F8 - 3b8ab5d965e863cb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__34-[HSetAlertAccurateVC saveAction:]_block_invoke.112"
+                  moduleName = "Hikids"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Controllers/SettingVC/HSetAlertAccurateVC.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "169"
+                  endingLineNumber = "169"
+                  offsetFromSymbolStart = "66">
+               </Location>
+               <Location
+                  uuid = "D4171E3B-5C90-4892-95B2-5E838FEB73F8 - 474f4459142bf260"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__34-[HSetAlertAccurateVC saveAction:]_block_invoke"
+                  moduleName = "Hikids"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Controllers/SettingVC/HSetAlertAccurateVC.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "168"
+                  endingLineNumber = "168"
+                  offsetFromSymbolStart = "495">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9294ECA1-06A6-4950-A718-5D50F8BA7FD5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Hikids/Controllers/SettingVC/HSetAlertAccurateVC.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "262"
+            endingLineNumber = "262"
+            landmarkName = "-slider"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "9294ECA1-06A6-4950-A718-5D50F8BA7FD5 - 27cbb3dca35cebf2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[HSetAlertAccurateVC slider]"
+                  moduleName = "Hikids"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Controllers/SettingVC/HSetAlertAccurateVC.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "262"
+                  endingLineNumber = "262"
+                  offsetFromSymbolStart = "265">
+               </Location>
+               <Location
+                  uuid = "9294ECA1-06A6-4950-A718-5D50F8BA7FD5 - 27cbb3dca35cebf2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[HSetAlertAccurateVC slider]"
+                  moduleName = "Hikids"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Controllers/SettingVC/HSetAlertAccurateVC.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "262"
+                  endingLineNumber = "262"
+                  offsetFromSymbolStart = "234">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

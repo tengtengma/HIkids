@@ -24,7 +24,9 @@
        withSucessed:(void (^)(BWBaseReq *req, BWBaseResp *resp))success
             failure:(void (^)(BWBaseReq *req, NSError *error))failure;
 
-
+- (void)putRequest:(BWBaseReq*)request
+       withSucessed:(void (^)(BWBaseReq *req, BWBaseResp *resp))success
+            failure:(void (^)(BWBaseReq *req, NSError *error))failure;
 //- (void)downloadRequest:(BWBaseReq *)request
 //               progress:(void (^)(float progress , NSString *taskId))progressBlock
 //      completionHandler:(void (^)(BWBaseResp *response, NSURL *filePath, NSError *error))completionBlock;

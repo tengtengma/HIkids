@@ -77,6 +77,8 @@
 #define KEY_NickName      @"nickName"
 #define KEY_SleepTime     @"sleepTime"
 #define KEY_GPSAccuracy   @"GPSAccuracy"
+#define KEY_AlertLevel    @"AlertLevel"
+#define KEY_RingNumber    @"RingNumber"
 
 
 //谷歌地图key

@@ -912,6 +912,7 @@
         [kidsArray addObject:dic];
     }
     
+    NSNumber *warnLevel = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_AlertLevel];
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     DefineWeakSelf;
@@ -923,6 +924,7 @@
     
     taskReq.destinationId = @"10";
     taskReq.planTime = @"0";
+    taskReq.warnStrategyLevel = warnLevel; //23.04.2024新增
     
     taskReq.assistants = assistantsArray;
     taskReq.kids = kidsArray;

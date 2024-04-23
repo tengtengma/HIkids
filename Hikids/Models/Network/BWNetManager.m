@@ -148,7 +148,54 @@
         
     }];
 }
+- (void)putRequest:(BWBaseReq *)request withSucessed:(void (^)(BWBaseReq *, BWBaseResp *))success failure:(void (^)(BWBaseReq *, NSError *))failure
+{
+    DefineWeakSelf;
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@",request.url];
+    
+    //网络请求安全策略
+    if (request.isSecurityPolicy) {
+        AFSecurityPolicy *securityPolicy;
+        securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModePublicKey];
+        securityPolicy.allowInvalidCertificates = false;
+        securityPolicy.validatesDomainName = YES;
+        self.manager.securityPolicy = securityPolicy;
+    } else {
+        self.manager.securityPolicy.allowInvalidCertificates = true;
+        self.manager.securityPolicy.validatesDomainName = false;
+    }
 
+    //监听网络状态
+    [self.manager.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        NSLog(@"%ld",(long)status);
+        
+        weakSelf.netState = status;
+    }];
+    self.manager.requestSerializer = [AFJSONRequestSerializer serializer];//申明请求的数据是json类型
+    
+    if (![request isKindOfClass:[BWLoginReq class]]) {
+        //登陆接口需要单独处理
+        NSString *jwToken = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_Jwtoken];
+        NSString *token;
+        if (jwToken.length > 0) {
+            token = [NSString stringWithFormat:@"Bearer %@",jwToken];
+            [self.manager.requestSerializer setValue:token forHTTPHeaderField:@"Authorization"];
+        }
+    }
+
+    NSMutableDictionary *parameters = [request getRequestParametersDictionary];
+    
+    NSLog(@"\nRequest url : %@\nRequest body : %@",[request.url absoluteString],parameters);
+        
+    [self.manager PUT:urlString parameters:parameters headers:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [weakSelf sucessedWithRequest:request responseObject:responseObject withBlock:success failure:failure];
+
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [weakSelf failedWithRequest:request error:error withBlock:failure];
+
+    }];
+}
 /*
 - (void)downloadRequest:(BWDownloadRequest *)request progress:(void (^)(float progress, NSString *taskId))progressBlock completionHandler:(void (^)(BWBaseResp *, NSURL *, NSError *))completionBlock
 {
