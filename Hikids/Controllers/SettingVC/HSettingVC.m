@@ -255,7 +255,40 @@
         
     }
     if (indexPath.section == 1) {
-        [self setupCell:cell withNameList:@[@"アラート精度設定：普通",@"アラート通知音設定：ワンちゃん"] indexPath:indexPath];
+        NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+        NSNumber *warnLevel = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_AlertLevel];
+        NSString *ringNumber = [user objectForKey:KEY_RingNumber];
+        
+        NSString *showRingName = nil;
+        if (ringNumber.integerValue == 0) {
+            showRingName = @"アラート通知音設定：ワンちゃん";
+        }else{
+            showRingName = [NSString stringWithFormat:@"アラート通知音設定：アラ-ト%ld",ringNumber.integerValue];
+        }
+        
+        NSString *showAlertName = nil;
+        if (warnLevel.integerValue == 0) {
+            showAlertName = @"アラート精度設定：普通";
+        }else{
+            
+            if (warnLevel.integerValue == 1) {
+                showAlertName = @"アラート精度設定：高感度";
+                
+            }else if (warnLevel.integerValue == 2){
+                showAlertName = @"アラート精度設定：やや高感度";
+                
+            }else if (warnLevel.integerValue == 3){
+                showAlertName = @"アラート精度設定：普通";
+
+            }else if (warnLevel.integerValue == 4){
+                showAlertName = @"アラート精度設定：やや低感度";
+                
+            }else{
+                showAlertName = @"アラート精度設定：低感度";
+            }
+        }
+        
+        [self setupCell:cell withNameList:@[showAlertName,showRingName] indexPath:indexPath];
 
     }
     if (indexPath.section == 2) {

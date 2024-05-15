@@ -67,7 +67,7 @@
 //@property (nonatomic,assign) BOOL isAlert; //只弹窗一次 仅演示使用
 @property (nonatomic,strong) HHomeMenuView *homeMenuTableView;      //首页底部菜单
 @property (nonatomic,strong) HWalkMenuView *walkMenuTableView;      //散步底部菜单
-@property (nonatomic,strong) HSettingVC *settingVC;                 //设置页面
+//@property (nonatomic,strong) HSettingVC *settingVC;                 //设置页面
 @property (nonatomic,strong) HWalkDownTimeView *downTimeView;       //提示是否到达目的地弹窗
 @property (nonatomic,strong) NSString *destFence;                   //目的地围栏信息
 @property (nonatomic,strong) NSString *kinFence;                    //院内围栏信息
@@ -119,7 +119,7 @@
     [self.walkTimer setFireDate:[NSDate distantFuture]];
 
     //获取当前的任务情况
-//    [self getTaskRequest];
+    [self getTaskRequest];
 
     //设置地图
     [self createMapView];
@@ -164,7 +164,7 @@
     
 //    
     //    加载假数据小朋友的
-        [self reloadData];
+//        [self reloadData];
     
 }
 - (void)createNavigationView
@@ -182,7 +182,9 @@
     
     DefineWeakSelf;
     self.customNavigationView.clickHeader = ^{
-        [weakSelf presentViewController:weakSelf.settingVC animated:YES completion:nil];
+        HSettingVC *settingVC = [[HSettingVC alloc] init];
+        settingVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [weakSelf presentViewController:settingVC animated:YES completion:nil];
     };
     
 }
@@ -211,7 +213,7 @@
     };
     
     homeMenuView.gpsBlock = ^{
-                
+        
         if (weakSelf.gpsLocation == nil) {
             [MBProgressHUD showMessag:@"位置を取得できませんでした" toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
         }else{
@@ -455,7 +457,7 @@
     BWGetWarnStrategyReq *warnReq = [[BWGetWarnStrategyReq alloc] init];
     [NetManger getRequest:warnReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
         BWGetWarnStrategyResp *warnResp = (BWGetWarnStrategyResp *)resp;
-        NSNumber *warnLevel = [warnResp.item safeObjectForKey:@"data"];
+        NSNumber *warnLevel = [warnResp.item safeObjectForKey:@"warnStrategyLevel"];
         
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
         [user setObject:warnLevel forKey:KEY_AlertLevel];
@@ -1145,8 +1147,8 @@
 - (void)showAlertActionWithName:(NSString *)name
 {
 
-    NSString *content = ![name isEqualToString:@"午睡中"] ? @"安全エリアから離れた園児がいます。ご確認ください。" : @"お子さまの再確認をお願いします。";
-    NSString *sureStr = ![name isEqualToString:@"午睡中"] ? @"アラート停止" : @"確認する";
+//    NSString *content = ![name isEqualToString:@"午睡中"] ? @"安全エリアから離れた園児がいます。ご確認ください。" : @"お子さまの再確認をお願いします。";
+//    NSString *sureStr = ![name isEqualToString:@"午睡中"] ? @"アラート停止" : @"確認する";
     
         
     [self addLocalNoticeWithName:name];
@@ -1170,8 +1172,18 @@
 #pragma -mark -调用系统声音
 - (void)getChatMessageGoToSound
 {
-    //调用系统声音
-    NSString *path = [NSString stringWithFormat:@"/System/Library/Audio/UISounds/%@.%@",@"sms-received3",@"caf"];
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *soundId = [NSString stringWithFormat:@"%@",[user objectForKey:KEY_RingNumber]];
+    
+    NSString *path = nil;
+    if (soundId.length != 0) {
+        //调用系统声音
+        path = [[NSBundle mainBundle] pathForResource:[self findAudioRingNumber:soundId] ofType:@"wav"];
+    }else{
+        //调用系统声音
+        path = [NSString stringWithFormat:@"/System/Library/Audio/UISounds/%@.%@",@"sms-received3",@"caf"];
+    }
+
     if (path) {
         SystemSoundID sd;
         OSStatus error = AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:path],&sd);
@@ -1188,6 +1200,9 @@
     NSString *body = ![name isEqualToString:@"午睡中"] ? @"安全エリアから離れた園児がいます。ご確認ください。" : @"お子さまの再確認をお願いします。";
     NSString *subtitle = ![name isEqualToString:@"午睡中"] ? @"要注意" : @"要注意";
     
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    NSString *soundId = [NSString stringWithFormat:@"%@",[user objectForKey:KEY_RingNumber]];
+    
     if (@available(iOS 10.0, *)) {
         UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
         UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc] init];
@@ -1197,8 +1212,11 @@
         // 内容
         content.body = body;
         // 声音
+        
+        NSString *path = [[NSBundle mainBundle] pathForResource:[self findAudioRingNumber:soundId] ofType:@"wav"];
+
 //        content.sound = [UNNotificationSound defaultSound];
-        content.sound = [UNNotificationSound soundNamed:@"Alert_ActivityGoalAttained_Salient_Haptic.caf"];
+        content.sound = [UNNotificationSound soundNamed:path];
         // 角标 （我这里测试的角标无效，暂时没找到原因）
         content.badge = @1;
         // 多少秒后发送,可以将固定的日期转化为时间
@@ -1234,7 +1252,8 @@
          // 角标
          notif.applicationIconBadgeNumber = 1;
          // 提示音
-         notif.soundName = UILocalNotificationDefaultSoundName;
+        NSString *path = [[NSBundle mainBundle] pathForResource:[self findAudioRingNumber:soundId] ofType:@"wav"];
+         notif.soundName = path;
          // 每周循环提醒
          notif.repeatInterval = NSCalendarUnitWeekOfYear;
          
@@ -1243,7 +1262,30 @@
     }
 }
 
-        
+- (NSString *)findAudioRingNumber:(NSString *)soundId
+{
+    NSString *audioName = nil;
+    if ([soundId isEqualToString:@"1"]) {
+        audioName = @"strong_01";
+    }else if ([soundId isEqualToString:@"2"]){
+        audioName = @"strong_02";
+    }else if ([soundId isEqualToString:@"3"]){
+        audioName = @"strong_03";
+    }else if ([soundId isEqualToString:@"4"]){
+        audioName = @"normal_01";
+    }else if ([soundId isEqualToString:@"5"]){
+        audioName = @"normal_02";
+    }else if ([soundId isEqualToString:@"6"]){
+        audioName = @"normal_03";
+    }else if ([soundId isEqualToString:@"7"]){
+        audioName = @"weak_01";
+    }else if ([soundId isEqualToString:@"8"]){
+        audioName = @"weak_02";
+    }else{
+        audioName = @"weak_03";
+    }
+    return audioName;
+}
 
 #pragma mark - 系统自带location代理定位
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
@@ -1541,14 +1583,7 @@
 //    }
 //    return _sleepMainView;
 //}
-- (HSettingVC *)settingVC
-{
-    if (!_settingVC) {
-        _settingVC = [[HSettingVC alloc] init];
-        _settingVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
-    }
-    return _settingVC;
-}
+
 - (HWalkDownTimeView *)downTimeView
 {
     if (!_downTimeView) {

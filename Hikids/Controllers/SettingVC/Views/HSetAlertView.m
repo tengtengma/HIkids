@@ -9,9 +9,7 @@
 
 @interface HSetAlertView()
 @property (nonatomic, strong) UIView *bgView;
-@property (nonatomic, strong) UIImageView *iconImageView;
 @property (nonatomic, strong) UIImageView *soundImageView;
-@property (nonatomic, strong) UILabel *nameLabel;
 
 @end
 
@@ -37,7 +35,7 @@
         
         [self.bgView addSubview:self.nameLabel];
         [self.nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(self.iconImageView.mas_bottom).offset(PAaptation_y(5));
+            make.top.equalTo(self.iconImageView.mas_bottom).offset(PAaptation_y(10));
             make.left.equalTo(self.iconImageView);
             make.width.equalTo(self.iconImageView);
         }];
@@ -60,7 +58,7 @@
     HSetAlertView *item = (HSetAlertView *)tap.view;
     NSLog(@"%@",item.soundId);
     if (self.selectBlock) {
-        self.selectBlock(item.soundId);
+        self.selectBlock(item.soundId,item.nameLabel.text);
     }
 }
 - (void)selectStyle
@@ -92,7 +90,7 @@
 {
     if (!_iconImageView) {
         _iconImageView = [[UIImageView alloc] init];
-        [_iconImageView setImage:[UIImage imageNamed:@"soundIcon.png"]];
+//        [_iconImageView setImage:[UIImage imageNamed:@"soundIcon.png"]];
     }
     return _iconImageView;
 }
@@ -108,8 +106,7 @@
 {
     if (!_nameLabel) {
         _nameLabel = [[UILabel alloc] init];
-        _nameLabel.font = [UIFont systemFontOfSize:12.0];
-        _nameLabel.text = @"test";
+        _nameLabel.font = [UIFont boldSystemFontOfSize:12.0];
         _nameLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _nameLabel;

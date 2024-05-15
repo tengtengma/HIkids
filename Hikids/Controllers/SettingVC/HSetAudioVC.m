@@ -9,6 +9,7 @@
 #import "HSetAlertView.h"
 #import "BWSetRingReq.h"
 #import "BWSetRingResp.h"
+#import "AVFoundation/AVFoundation.h"
 
 @interface HSetAudioVC ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UIImageView *topView;
@@ -19,6 +20,9 @@
 @property (nonatomic, strong) UIButton *saveBtn;
 @property (nonatomic, strong) NSArray *dataArray;
 @property (nonatomic, strong) NSString *selectSoundId;
+@property (nonatomic, strong) NSString *soundName;
+@property (nonatomic, strong) NSString *ringPath;
+@property (nonatomic, assign) SystemSoundID soundId;
 
 @end
 
@@ -27,9 +31,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.dataArray = @[@[@"1",@"2",@"3"],
-                       @[@"4",@"5",@"6"],
-                       @[@"7",@"8",@"9"]];
+    NSArray *array0 = @[@{@"soundId":@"1",@"iconName":@"strong.png",@"text":@"アラ-ト1"},
+                        @{@"soundId":@"2",@"iconName":@"strong.png",@"text":@"アラ-ト2"},
+                        @{@"soundId":@"3",@"iconName":@"strong.png",@"text":@"アラ-ト3"}];
+    
+    NSArray *array1 = @[@{@"soundId":@"4",@"iconName":@"normal.png",@"text":@"アラ-ト4"},
+                        @{@"soundId":@"5",@"iconName":@"normal.png",@"text":@"アラ-ト5"},
+                        @{@"soundId":@"6",@"iconName":@"normal.png",@"text":@"アラ-ト6"}];
+    
+    NSArray *array2 = @[@{@"soundId":@"7",@"iconName":@"weak.png",@"text":@"アラ-ト7"},
+                        @{@"soundId":@"8",@"iconName":@"weak.png",@"text":@"アラ-ト8"},
+                        @{@"soundId":@"9",@"iconName":@"weak.png",@"text":@"アラ-ト9"}];
+    
+    
+    self.dataArray = @[array0, array1, array2];
     
     
     self.view.backgroundColor = [UIColor clearColor];
@@ -39,6 +54,8 @@
     
     if (ringNumber.integerValue != 0) {
         self.selectSoundId = [NSString stringWithFormat:@"%ld",ringNumber.integerValue];
+    }else{
+        self.selectSoundId = @"1";
     }
     
     [self createUI];
@@ -166,8 +183,15 @@
 {
     for (NSInteger i = 0; i < soundList.count; i++) {
         
+        NSDictionary *dic = [soundList safeObjectAtIndex:i];
+        NSString *soundId = [dic safeObjectForKey:@"soundId"];
+        NSString *iconName = [dic safeObjectForKey:@"iconName"];
+        NSString *text = [dic safeObjectForKey:@"text"];
+        
         HSetAlertView *alertView = [[HSetAlertView alloc] init];
-        alertView.soundId = [soundList safeObjectAtIndex:i];
+        alertView.soundId = soundId;
+        alertView.nameLabel.text = text;
+        [alertView.iconImageView setImage:[UIImage imageNamed:iconName]];
         [contentView addSubview:alertView];
         [alertView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(contentView).offset(PAaptation_y(5));
@@ -182,16 +206,18 @@
             make.height.mas_equalTo(PAaptation_y(128));
                     
         }];
-        
-        if ([self.selectSoundId isEqualToString:[soundList safeObjectAtIndex:i]]) {
+
+        if ([self.selectSoundId isEqualToString:soundId]) {
             [alertView selectStyle];
         }else{
             [alertView selectNomalStyle];
         }
         
         DefineWeakSelf;
-        alertView.selectBlock = ^(NSString * _Nonnull soundId) {
+        alertView.selectBlock = ^(NSString * _Nonnull soundId, NSString *soundName) {
             weakSelf.selectSoundId = soundId;
+            weakSelf.soundName = soundName;
+            [weakSelf getChatMessageGoToSoundWithId:soundId];
             [weakSelf.tableView reloadData];
 
         };
@@ -199,7 +225,51 @@
     }
 
 }
+#pragma -mark -调用声音
+- (void)getChatMessageGoToSoundWithId:(NSString *)soundId
+{
 
+    NSString *audioName = nil;
+    if ([soundId isEqualToString:@"1"]) {
+        audioName = @"strong_01";
+    }else if ([soundId isEqualToString:@"2"]){
+        audioName = @"strong_02";
+    }else if ([soundId isEqualToString:@"3"]){
+        audioName = @"strong_03";
+    }else if ([soundId isEqualToString:@"4"]){
+        audioName = @"normal_01";
+    }else if ([soundId isEqualToString:@"5"]){
+        audioName = @"normal_02";
+    }else if ([soundId isEqualToString:@"6"]){
+        audioName = @"normal_03";
+    }else if ([soundId isEqualToString:@"7"]){
+        audioName = @"weak_01";
+    }else if ([soundId isEqualToString:@"8"]){
+        audioName = @"weak_02";
+    }else{
+        audioName = @"weak_03";
+    }
+    
+    if (self.soundId) {
+        AudioServicesDisposeSystemSoundID(self.soundId);
+        self.soundId = 0;
+    }
+    
+    self.ringPath = [[NSBundle mainBundle] pathForResource:audioName ofType:@"wav"];
+
+
+    if (self.ringPath) {
+        SystemSoundID sd;
+        OSStatus error = AudioServicesCreateSystemSoundID((__bridge CFURLRef)[NSURL fileURLWithPath:self.ringPath],&sd);
+        if (error != kAudioServicesNoError) {
+            NSLog(@"----调用系统声音出错----");
+            sd = 0;
+        }
+        AudioServicesPlaySystemSound(sd);
+        
+        self.soundId = sd;
+    }
+}
 #pragma mark - UITableViewDelegate -
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

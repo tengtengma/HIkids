@@ -24,7 +24,7 @@
 @property (nonatomic, strong) UIImageView *text_lineImageView;
 @property (nonatomic, strong) UIImageView *instructionImageView;
 @property (nonatomic, assign) NSInteger warnLevel;
-
+@property (nonatomic, strong) NSString *warnName;
 
 @end
 
@@ -99,6 +99,11 @@
         make.right.equalTo(self.lowLabel.mas_right);
         make.height.mas_equalTo(PAaptation_y(14));
     }];
+    
+    NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+    self.warnLevel = [[user objectForKey:KEY_AlertLevel] integerValue];
+    
+    [self chooseImage:self.warnLevel];
     
     [self.bgView addSubview:self.instructionImageView];
     [self.instructionImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -180,19 +185,38 @@
     
     self.warnLevel = roundf(slider.value);
     
+    [self chooseImage:self.warnLevel];
+
+}
+- (void)chooseImage:(NSInteger)index
+{
     //处理换图片的事儿
-    if (roundf(slider.value) == 1) {
+    if (index == 1) {
         NSLog(@"1");
-    }else if(roundf(slider.value) == 2){
+        [self.instructionImageView setImage:[UIImage imageNamed:@"5.png"]];
+        self.warnName = @"高感度";
+
+    }else if(index == 2){
         NSLog(@"2");
-    }else if(roundf(slider.value) == 3){
+        [self.instructionImageView setImage:[UIImage imageNamed:@"4.png"]];
+        self.warnName = @"やや高感度";
+
+    }else if(index == 3){
         NSLog(@"3");
-    }else if(roundf(slider.value) == 4){
+        [self.instructionImageView setImage:[UIImage imageNamed:@"3.png"]];
+        self.warnName = @"普通";
+
+    }else if(index == 4){
         NSLog(@"4");
+        [self.instructionImageView setImage:[UIImage imageNamed:@"2.png"]];
+        self.warnName = @"やや低感度";
+
     }else{
         NSLog(@"5");
-    }
+        [self.instructionImageView setImage:[UIImage imageNamed:@"1.png"]];
+        self.warnName = @"低感度";
 
+    }
 }
 #pragma mark - Lazy Load -
 - (UIImageView *)topView
@@ -331,7 +355,6 @@
 {
     if (!_instructionImageView) {
         _instructionImageView = [[UIImageView alloc] init];
-        _instructionImageView.backgroundColor = [UIColor redColor];
     }
     return _instructionImageView;
 }

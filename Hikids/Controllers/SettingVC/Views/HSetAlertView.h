@@ -9,11 +9,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^selectItemBlock)(NSString *soundId);
+typedef void(^selectItemBlock)(NSString *soundId,NSString *soundName);
 
 @interface HSetAlertView : UIView
 @property (nonatomic, strong) NSString *soundId;
 @property (nonatomic, copy) selectItemBlock selectBlock;
+@property (nonatomic, strong) UIImageView *iconImageView;
+@property (nonatomic, strong) UILabel *nameLabel;
+
+
 
 - (instancetype)init;
 - (void)selectStyle;
