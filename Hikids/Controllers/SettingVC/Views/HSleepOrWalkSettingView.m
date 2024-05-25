@@ -101,7 +101,7 @@
     }else{
         
         self.titleLabel.text = @"散歩設定";
-        self.desLabel.text = @"アラート精度";
+        self.desLabel.text = @"アラート感度";
         self.dataArray = @[@"低",@"普通",@"高"];
         
         NSString *GPSAccuracy = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_GPSAccuracy];

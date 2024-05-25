@@ -22,6 +22,8 @@
 #import "BWAddTaskReq.h"
 #import "BWAddTaskResp.h"
 #import "HTask.h"
+#import "BWSetWarnStrategyReq.h"
+#import "BWSetWarnStrategyResp.h"
 
 @interface HWalkMenuVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property (nonatomic, strong) UIView *bgView;
@@ -43,6 +45,15 @@
 @property (nonatomic, strong) NSMutableArray *selectTimeArray;
 @property (nonatomic, strong) NSMutableArray *selectTeacherArray;
 @property (nonatomic, strong) NSMutableArray *selectStudentArray;
+@property (nonatomic, strong) UISlider *slider;
+@property (nonatomic, strong) UIImageView *sliderBgView;
+@property (nonatomic, assign) NSInteger warnLevel;
+@property (nonatomic, strong) NSString *warnName;
+@property (nonatomic, strong) UILabel *highLabel;
+@property (nonatomic, strong) UILabel *normalLabel;
+@property (nonatomic, strong) UILabel *lowLabel;
+@property (nonatomic, strong) UIImageView *text_lineImageView;
+
 @end
 
 @implementation HWalkMenuVC
@@ -234,7 +245,7 @@
     //2024.1.2暂时隐藏
 //    return 4;
     
-    return 2;
+    return 3;
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
@@ -252,6 +263,9 @@
 
     
     if (section == 0) {
+        return 1;
+        
+    }else if(section == 1){
         return self.teacherArray.count;
     }
     return self.studentArray.count;
@@ -346,8 +360,51 @@
 //    }
     //2024.1.2暂时隐藏
     
-    
     if (indexPath.section == 0) {
+        
+        [cell.contentView addSubview:self.sliderBgView];
+        [self.sliderBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(cell.contentView);
+            make.left.equalTo(cell.contentView).offset(PAdaptation_x(24));
+            make.width.equalTo(cell.contentView).offset(-PAdaptation_x(48));
+            make.height.mas_equalTo(PAaptation_y(35));
+        }];
+        
+        [cell.contentView addSubview:self.slider];
+        [self.slider mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(self.sliderBgView);
+            make.width.equalTo(cell.contentView).offset(-PAdaptation_x(48));
+            make.height.mas_equalTo(PAaptation_y(32));
+        }];
+        
+        [cell.contentView addSubview:self.highLabel];
+        [self.highLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.sliderBgView.mas_bottom).offset(PAaptation_y(5));
+            make.left.equalTo(cell.contentView).offset(PAdaptation_x(18));
+        }];
+        
+        [cell.contentView addSubview:self.normalLabel];
+        [self.normalLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.highLabel);
+            make.centerX.equalTo(self.sliderBgView);
+        }];
+        
+        [cell.contentView addSubview:self.lowLabel];
+        [self.lowLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.highLabel);
+            make.right.equalTo(cell.contentView.mas_right).offset(-PAdaptation_x(18));
+        }];
+        
+        [cell.contentView addSubview:self.text_lineImageView];
+        [self.text_lineImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.highLabel.mas_bottom).offset(PAaptation_y(10));
+            make.left.equalTo(self.highLabel);
+            make.right.equalTo(self.lowLabel.mas_right);
+            make.height.mas_equalTo(PAaptation_y(14));
+        }];
+    }
+    
+    if (indexPath.section == 1) {
         
         HTeacher *teacherModel = [self.teacherArray safeObjectAtIndex:indexPath.row];
         
@@ -366,7 +423,7 @@
         }
     }
    
-    if (indexPath.section == 1) {
+    if (indexPath.section == 2) {
         
         HStudent *student = [self.studentArray safeObjectAtIndex:indexPath.row];
         
@@ -486,7 +543,7 @@
 //    }
     
     
-    if (indexPath.section == 0) {
+    if (indexPath.section == 1) {
         
         HTeacher *selectModel = [self.teacherArray safeObjectAtIndex:indexPath.row];
         if (selectModel.isSelected) {
@@ -506,7 +563,7 @@
             }];
         }
     }
-    if (indexPath.section == 1) {
+    if (indexPath.section == 2) {
        
         HStudent *selectModel = [self.studentArray safeObjectAtIndex:indexPath.row];
         if (selectModel.isSelected) {
@@ -547,6 +604,10 @@
 //    return CGSizeMake(PAdaptation_x(170), PAaptation_y(54));
     
     if (indexPath.section == 0) {
+        return CGSizeMake(self.view.bounds.size.width, PAaptation_y(70));
+    }
+    
+    if (indexPath.section == 1) {
         return CGSizeMake(PAdaptation_x(110), PAaptation_y(36));
     }
     return CGSizeMake(PAdaptation_x(170), PAaptation_y(54));
@@ -572,7 +633,14 @@
     if (section == 0) {
         return 0;
     }
+    
+    if (section == 1) {
+        return 0;
+    }else if (section == 2){
+        return PAdaptation_x(10);
+    }
     return PAdaptation_x(10);
+
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
@@ -592,6 +660,11 @@
     
     if (section == 0) {
         return 0;
+    }
+    if (section == 1) {
+        return 0;
+    }else if (section == 2){
+        return PAdaptation_x(10);
     }
     return PAaptation_y(10);
 }
@@ -620,11 +693,15 @@
 //
 //    return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(18));
     
-   
     if (section == 0) {
         return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(30));
     }
+    if (section == 1) {
+        return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(30));
+    }else if (section == 2){
+        return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(18));
 
+    }
     return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(18));
 
 }
@@ -641,7 +718,7 @@
        for (id v in headerView.subviews)
            [v removeFromSuperview];
        
-       UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(PAdaptation_x(23), headerView.frame.size.height - PAaptation_y(30), SCREEN_WIDTH - PAdaptation_x(46), PAaptation_y(30))];
+       UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(PAdaptation_x(15), headerView.frame.size.height - PAaptation_y(30), SCREEN_WIDTH - PAdaptation_x(46), PAaptation_y(30))];
        label.font = [UIFont systemFontOfSize:14];
        label.textColor = BWColor(34, 34, 34, 1.0);
        [headerView addSubview:label];
@@ -659,9 +736,14 @@
 //       }
        
         if(indexPath.section == 0){
-           label.text = @"先生(複数選択可):";
+            label.text = @"アラ-ト感度";
+
+       }else if(indexPath.section == 1){
+           label.text = @"確認者(複数選択可):";
+
        }else{
            label.text = @"参加園児:";
+
        }
 //       園児、先生、参加園児
        return headerView;
@@ -911,9 +993,7 @@
         NSDictionary *dic = @{@"id":student.sId,@"name":student.name};
         [kidsArray addObject:dic];
     }
-    
-    NSNumber *warnLevel = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_AlertLevel];
-    
+        
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     DefineWeakSelf;
     BWAddTaskReq *taskReq = [[BWAddTaskReq alloc] init];
@@ -924,7 +1004,7 @@
     
     taskReq.destinationId = @"10";
     taskReq.planTime = @"0";
-    taskReq.warnStrategyLevel = warnLevel; //23.04.2024新增
+    taskReq.warnStrategyLevel = [NSNumber numberWithInteger:self.warnLevel]; //23.04.2024新增
     
     taskReq.assistants = assistantsArray;
     taskReq.kids = kidsArray;
@@ -939,7 +1019,10 @@
         if (weakSelf.startWalkBlock) {
             weakSelf.startWalkBlock(taskModel);
         }
-        
+
+        NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+        [user setObject:[NSNumber numberWithInteger:weakSelf.warnLevel] forKey:KEY_AlertWalkLevel];
+        [user synchronize];
                 
     } failure:^(BWBaseReq *req, NSError *error) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
@@ -949,7 +1032,45 @@
     
     
 }
+- (void)saveAction:(id)sender
+{
+    NSLog(@"保存sound");
+    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    DefineWeakSelf;
+    BWSetWarnStrategyReq *warnReq = [[BWSetWarnStrategyReq alloc] init];
+    warnReq.strategyLevel = [NSNumber numberWithInteger:self.warnLevel];
+    [NetManger putRequest:warnReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        
+        BWSetWarnStrategyResp *warnResp = (BWSetWarnStrategyResp *)resp;
+        
+        NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+        [user setObject:[NSNumber numberWithInteger:weakSelf.warnLevel] forKey:KEY_AlertWalkLevel];
+        [user synchronize];
+        
+        [MBProgressHUD showMessag:@"正常に保存" toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
 
+        NSLog(@"success");
+
+        [weakSelf dismissViewControllerAnimated:YES completion:nil];
+
+            
+    } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+    }];
+}
+#pragma mark - Slider Changed-
+- (void)sliderValueChanged:(UISlider *)slider {
+    // 滑块数值变化时的处理
+    NSLog(@"Slider value changed: %f", slider.value);
+    [slider setValue:roundf(slider.value) animated:NO];
+    
+    self.warnLevel = roundf(slider.value);
+    
+
+}
 #pragma mark - LazyLoad -
 - (UICollectionView *)collectionView
 {
@@ -1083,5 +1204,83 @@
     return _selectStudentArray;
 }
 
+- (UISlider *)slider
+{
+    if (!_slider) {
+        _slider = [[UISlider alloc] init];
+        // 设置最小值和最大值
+        _slider.minimumValue = 1; // 最小等级
+        _slider.maximumValue = 5; // 最大等级
+            
+        
+        NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+        NSNumber *warnLevel = [user objectForKey:KEY_AlertWalkLevel];
+        if (warnLevel.integerValue == 0) {
+            // 设置初始值
+            _slider.value = 3; // 初始值
+            self.warnLevel = 3;
+        }else{
+            self.warnLevel = warnLevel.integerValue;
+            _slider.value = warnLevel.integerValue;
+        }
 
+        // 设置背景图片
+        UIImage *clearImage = [UIImage new];
+        [_slider setMinimumTrackImage:clearImage forState:UIControlStateNormal];
+        [_slider setMaximumTrackImage:clearImage forState:UIControlStateNormal];
+        
+        // 设置滑块图片
+        [_slider setThumbImage:[UIImage imageNamed:@"thumbImage.png"] forState:UIControlStateNormal];
+        // 添加事件监听
+        [_slider addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
+        
+        
+
+    }
+    return _slider;
+}
+- (UIImageView *)sliderBgView
+{
+    if (!_sliderBgView) {
+        _sliderBgView = [[UIImageView alloc] init];
+        [_sliderBgView setImage:[UIImage imageNamed:@"slide-back.png"]];
+        _sliderBgView.contentMode = UIViewContentModeScaleAspectFit;
+    }
+    return _sliderBgView;
+}
+- (UILabel *)highLabel
+{
+    if (!_highLabel) {
+        _highLabel = [[UILabel alloc] init];
+        _highLabel.font = [UIFont boldSystemFontOfSize:12];
+        _highLabel.text = @"高感度";
+    }
+    return _highLabel;
+}
+- (UILabel *)normalLabel
+{
+    if (!_normalLabel) {
+        _normalLabel = [[UILabel alloc] init];
+        _normalLabel.font = [UIFont boldSystemFontOfSize:12];
+        _normalLabel.text = @"普通";
+    }
+    return _normalLabel;
+}
+- (UILabel *)lowLabel
+{
+    if (!_lowLabel) {
+        _lowLabel = [[UILabel alloc] init];
+        _lowLabel.font = [UIFont boldSystemFontOfSize:12];
+        _lowLabel.text = @"低感度";
+    }
+    return _lowLabel;
+}
+- (UIImageView *)text_lineImageView
+{
+    if (!_text_lineImageView) {
+        _text_lineImageView = [[UIImageView alloc] init];
+        [_text_lineImageView setImage:[UIImage imageNamed:@"text-line.png"]];
+    }
+    return _text_lineImageView;
+}
 @end

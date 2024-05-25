@@ -31,17 +31,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSArray *array0 = @[@{@"soundId":@"1",@"iconName":@"strong.png",@"text":@"アラ-ト1"},
-                        @{@"soundId":@"2",@"iconName":@"strong.png",@"text":@"アラ-ト2"},
-                        @{@"soundId":@"3",@"iconName":@"strong.png",@"text":@"アラ-ト3"}];
+    NSArray *array0 = @[@{@"soundId":@"1",@"iconName":@"strong.png",@"text":@"アラート1"},
+                        @{@"soundId":@"2",@"iconName":@"strong.png",@"text":@"アラート2"},
+                        @{@"soundId":@"3",@"iconName":@"strong.png",@"text":@"アラート3"}];
     
-    NSArray *array1 = @[@{@"soundId":@"4",@"iconName":@"normal.png",@"text":@"アラ-ト4"},
-                        @{@"soundId":@"5",@"iconName":@"normal.png",@"text":@"アラ-ト5"},
-                        @{@"soundId":@"6",@"iconName":@"normal.png",@"text":@"アラ-ト6"}];
+    NSArray *array1 = @[@{@"soundId":@"4",@"iconName":@"normal.png",@"text":@"アラート4"},
+                        @{@"soundId":@"5",@"iconName":@"normal.png",@"text":@"アラート5"},
+                        @{@"soundId":@"6",@"iconName":@"normal.png",@"text":@"アラート6"}];
     
-    NSArray *array2 = @[@{@"soundId":@"7",@"iconName":@"weak.png",@"text":@"アラ-ト7"},
-                        @{@"soundId":@"8",@"iconName":@"weak.png",@"text":@"アラ-ト8"},
-                        @{@"soundId":@"9",@"iconName":@"weak.png",@"text":@"アラ-ト9"}];
+    NSArray *array2 = @[@{@"soundId":@"7",@"iconName":@"weak.png",@"text":@"アラート7"},
+                        @{@"soundId":@"8",@"iconName":@"weak.png",@"text":@"アラート8"},
+                        @{@"soundId":@"9",@"iconName":@"weak.png",@"text":@"アラート9"}];
     
     
     self.dataArray = @[array0, array1, array2];
@@ -135,7 +135,9 @@
         [user synchronize];
         
         [MBProgressHUD showMessag:@"正常に保存" toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
-
+        
+        [weakSelf dismissViewControllerAnimated:YES completion:nil];
+        
         NSLog(@"success");
         
     } failure:^(BWBaseReq *req, NSError *error) {

@@ -9,6 +9,7 @@
 #import "HStudentStateTopView.h"
 #import "HStudentStateBottomView.h"
 #import "HStudentFooterView.h"
+#import "HSetAlertAccurateVC.h"
 
 
 @interface HWalkMenuView()<UITableViewDelegate,UITableViewDataSource>
@@ -36,6 +37,50 @@
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, PAaptation_y(164))];
     footerView.backgroundColor = [UIColor whiteColor];
     self.tableView.tableFooterView = footerView;
+    
+    UILabel *desLabel = [[UILabel alloc] init];
+    desLabel.text = @"アラ-ト感度";
+    desLabel.font = [UIFont systemFontOfSize:14];
+    desLabel.textColor = [UIColor grayColor];
+    [footerView addSubview:desLabel];
+    
+    [desLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(footerView).offset(PAaptation_y(20));
+        make.left.equalTo(footerView).offset(PAdaptation_x(18));
+    }];
+    
+    UIView *bgView = [[UIView alloc] init];
+    bgView.layer.cornerRadius = 8;
+    bgView.layer.borderWidth = 2;
+    bgView.layer.borderColor = BWColor(34, 34, 34, 1).CGColor;
+    bgView.userInteractionEnabled = YES;
+    [footerView addSubview:bgView];
+    
+    [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(desLabel.mas_bottom).offset(PAaptation_y(5));
+        make.left.equalTo(footerView).offset(PAdaptation_x(24));
+        make.right.equalTo(footerView.mas_right).offset(-PAdaptation_x(24));
+        make.height.mas_equalTo(PAaptation_y(44));
+    }];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openAlertAccurateVC:)];
+    [bgView addGestureRecognizer:tap];
+    
+
+    
+    NSNumber *alertWalkLevel = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_AlertWalkLevel];
+    
+    UILabel *label = [[UILabel alloc] init];
+    label.text = [self showAlertWalkName:alertWalkLevel];
+    label.font = [UIFont boldSystemFontOfSize:16];
+    label.textColor = BWColor(34, 34, 34, 1);
+    [footerView addSubview:label];
+    
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(bgView);
+        make.left.equalTo(bgView).offset(PAdaptation_x(18));
+    }];
+
 
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom ];
     [button setImage:[UIImage imageNamed:@"walkEnd.png"] forState:UIControlStateNormal];
@@ -43,7 +88,8 @@
     [footerView addSubview:button];
     
     [button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(footerView);
+        make.top.equalTo(bgView.mas_bottom).offset(PAaptation_y(20));
+        make.centerX.equalTo(bgView);
         make.width.mas_equalTo(PAdaptation_x(240));
         make.height.mas_equalTo(PAaptation_y(47));
     }];
@@ -66,6 +112,13 @@
     
     
 }
+- (void)openAlertAccurateVC:(id)sender
+{
+    AppDelegate *dele = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    
+    HSetAlertAccurateVC *accurateVC = [[HSetAlertAccurateVC alloc] init];
+    [dele.window.rootViewController presentViewController:accurateVC animated:YES completion:nil];
+}
 - (void)walkEndAction:(id)sender
 {
     if (self.walkEndBlock) {
@@ -78,7 +131,31 @@
         self.changeWalkStateBlock(button);
     }
 }
+- (NSString *)showAlertWalkName:(NSNumber *)index
+{
+    NSString *showAlertName = nil;
+    if (index.integerValue == 0) {
+        showAlertName = @"アラート感度設定：普通";
+    }else{
+        
+        if (index.integerValue == 1) {
+            showAlertName = @"アラート感度設定：高感度";
+            
+        }else if (index.integerValue == 2){
+            showAlertName = @"アラート感度設定：やや高感度";
+            
+        }else if (index.integerValue == 3){
+            showAlertName = @"アラート感度設定：普通";
 
+        }else if (index.integerValue == 4){
+            showAlertName = @"アラート感度設定：やや低感度";
+            
+        }else{
+            showAlertName = @"アラート感度設定：低感度";
+        }
+    }
+    return showAlertName;
+}
 #pragma mark - 分组 -
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

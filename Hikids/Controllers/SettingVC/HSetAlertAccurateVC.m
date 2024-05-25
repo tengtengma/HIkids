@@ -171,6 +171,9 @@
         [MBProgressHUD showMessag:@"正常に保存" toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
 
         NSLog(@"success");
+
+        [weakSelf dismissViewControllerAnimated:YES completion:nil];
+
             
     } failure:^(BWBaseReq *req, NSError *error) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
@@ -242,7 +245,7 @@
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = [UIFont boldSystemFontOfSize:32];
-        _titleLabel.text = @"アラート精度設定";
+        _titleLabel.text = @"アラート感度設定";
     }
     return _titleLabel;
 }

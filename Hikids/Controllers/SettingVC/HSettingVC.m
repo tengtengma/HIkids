@@ -263,28 +263,28 @@
         if (ringNumber.integerValue == 0) {
             showRingName = @"アラート通知音設定：ワンちゃん";
         }else{
-            showRingName = [NSString stringWithFormat:@"アラート通知音設定：アラ-ト%ld",ringNumber.integerValue];
+            showRingName = [NSString stringWithFormat:@"アラート通知音設定：アラート%ld",ringNumber.integerValue];
         }
         
         NSString *showAlertName = nil;
         if (warnLevel.integerValue == 0) {
-            showAlertName = @"アラート精度設定：普通";
+            showAlertName = @"アラート感度設定：普通";
         }else{
             
             if (warnLevel.integerValue == 1) {
-                showAlertName = @"アラート精度設定：高感度";
+                showAlertName = @"アラート感度設定：高感度";
                 
             }else if (warnLevel.integerValue == 2){
-                showAlertName = @"アラート精度設定：やや高感度";
+                showAlertName = @"アラート感度設定：やや高感度";
                 
             }else if (warnLevel.integerValue == 3){
-                showAlertName = @"アラート精度設定：普通";
+                showAlertName = @"アラート感度設定：普通";
 
             }else if (warnLevel.integerValue == 4){
-                showAlertName = @"アラート精度設定：やや低感度";
+                showAlertName = @"アラート感度設定：やや低感度";
                 
             }else{
-                showAlertName = @"アラート精度設定：低感度";
+                showAlertName = @"アラート感度設定：低感度";
             }
         }
         
@@ -404,7 +404,7 @@
     }
     if (indexPath.section == 1) {
         if (indexPath.row == 0) {
-            NSLog(@"精度");
+            NSLog(@"感度");
             HSetAlertAccurateVC *accurateVC = [[HSetAlertAccurateVC alloc] init];
             [self presentViewController:accurateVC animated:YES completion:nil];
         }

@@ -39,8 +39,8 @@
     [self.view addSubview:self.bgView];
     [self.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.view);
-        make.width.mas_equalTo(PAdaptation_x(330));
-        make.height.mas_equalTo(PAaptation_y(333));
+        make.width.mas_equalTo(PAdaptation_x(300));
+        make.height.mas_equalTo(PAaptation_y(300));
     }];
     
     [self.bgView addSubview:self.titleLabel];
@@ -62,7 +62,7 @@
     self.studentNameLabel.text = self.student.name;
     [self.bgView addSubview:self.studentNameLabel];
     [self.studentNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.headerView.mas_bottom);
+        make.top.equalTo(self.headerView.mas_bottom).offset(PAaptation_y(10));
         make.left.equalTo(self.bgView);
         make.width.equalTo(self.bgView);
     }];
@@ -117,7 +117,7 @@
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.text = @"安全確認";
-        _titleLabel.font = [UIFont boldSystemFontOfSize:24.0];
+        _titleLabel.font = [UIFont boldSystemFontOfSize:28.0];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _titleLabel;
@@ -133,7 +133,7 @@
 {
     if (!_studentNameLabel) {
         _studentNameLabel = [[UILabel alloc] init];
-        _studentNameLabel.font = [UIFont boldSystemFontOfSize:15.0];
+        _studentNameLabel.font = [UIFont boldSystemFontOfSize:20.0];
         _studentNameLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _studentNameLabel;
@@ -146,7 +146,7 @@
         _desLabel.numberOfLines = 2;
         _desLabel.lineBreakMode = 0;
         _desLabel.textAlignment = NSTextAlignmentCenter;
-        _desLabel.font = [UIFont boldSystemFontOfSize:12.0];
+        _desLabel.font = [UIFont boldSystemFontOfSize:14.0];
         _desLabel.textColor = BWColor(102.0, 102.0, 102.0, 1.0);
     }
     return _desLabel;
