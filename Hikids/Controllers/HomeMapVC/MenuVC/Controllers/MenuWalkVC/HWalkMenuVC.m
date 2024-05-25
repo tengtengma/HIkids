@@ -1020,9 +1020,6 @@
             weakSelf.startWalkBlock(taskModel);
         }
 
-        NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-        [user setObject:[NSNumber numberWithInteger:weakSelf.warnLevel] forKey:KEY_AlertWalkLevel];
-        [user synchronize];
                 
     } failure:^(BWBaseReq *req, NSError *error) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
@@ -1213,17 +1210,20 @@
         _slider.maximumValue = 5; // 最大等级
             
         
-        NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-        NSNumber *warnLevel = [user objectForKey:KEY_AlertWalkLevel];
-        if (warnLevel.integerValue == 0) {
-            // 设置初始值
-            _slider.value = 3; // 初始值
-            self.warnLevel = 3;
-        }else{
-            self.warnLevel = warnLevel.integerValue;
-            _slider.value = warnLevel.integerValue;
-        }
-
+//        NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+//        NSNumber *warnLevel = [user objectForKey:KEY_AlertWalkLevel];
+//        if (warnLevel.integerValue == 0) {
+//            // 设置初始值
+//            _slider.value = 3; // 初始值
+//            self.warnLevel = 3;
+//        }else{
+//            self.warnLevel = warnLevel.integerValue;
+//            _slider.value = warnLevel.integerValue;
+//        }
+        // 设置初始值
+        _slider.value = 3; // 初始值
+        self.warnLevel = 3;
+        
         // 设置背景图片
         UIImage *clearImage = [UIImage new];
         [_slider setMinimumTrackImage:clearImage forState:UIControlStateNormal];

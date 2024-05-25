@@ -26,8 +26,8 @@
             filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1377"
-            endingLineNumber = "1377"
+            startingLineNumber = "1380"
+            endingLineNumber = "1380"
             landmarkName = "-selectMarkerWithStudent:andMarker:"
             landmarkType = "7">
          </BreakpointContent>
@@ -45,6 +45,22 @@
             startingLineNumber = "27"
             endingLineNumber = "27"
             landmarkName = "-initWithFrame:byList:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D8734705-3707-4A1E-A5B2-F959E9B5BDA8"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Hikids/Controllers/HomeMapVC/MenuVC/Controllers/MenuWalkVC/HWalkMenuVC.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1043"
+            endingLineNumber = "1043"
+            landmarkName = "-saveAction:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

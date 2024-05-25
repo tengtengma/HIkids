@@ -23,6 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *endTime;
 @property (nonatomic, strong) NSString *endType;
 @property (nonatomic, strong) NSString *updateTime;
+@property (nonatomic, strong) NSNumber *warnExceptionTimes;
+@property (nonatomic, strong) NSNumber *warnStopInterval;
+@property (nonatomic, strong) NSNumber *warnStrategyLevel;
 
 
 

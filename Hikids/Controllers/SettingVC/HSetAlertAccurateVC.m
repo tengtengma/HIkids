@@ -163,11 +163,21 @@
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         
         BWSetWarnStrategyResp *warnResp = (BWSetWarnStrategyResp *)resp;
-        
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-        [user setObject:[NSNumber numberWithInteger:weakSelf.warnLevel] forKey:KEY_AlertLevel];
-        [user synchronize];
+
+        if (weakSelf.source == 0) {
+            [user setObject:[NSNumber numberWithInteger:weakSelf.warnLevel] forKey:KEY_AlertLevel];
+            [user synchronize];
+
+        }else{
+            [user setObject:[NSNumber numberWithInteger:weakSelf.warnLevel] forKey:KEY_AlertWalkLevel];
+            [user synchronize];
+        }
         
+        if (weakSelf.saveFinishedBlock) {
+            weakSelf.saveFinishedBlock();
+        }
+
         [MBProgressHUD showMessag:@"正常に保存" toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
 
         NSLog(@"success");
@@ -285,7 +295,14 @@
             
         
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
-        NSNumber *warnLevel = [user objectForKey:KEY_AlertLevel];
+        NSNumber *warnLevel;
+        if (self.source == 0) {
+            warnLevel = [user objectForKey:KEY_AlertLevel];
+
+        }else{
+            warnLevel = [user objectForKey:KEY_AlertWalkLevel];
+
+        }
         if (warnLevel.integerValue == 0) {
             // 设置初始值
             _slider.value = 3; // 初始值

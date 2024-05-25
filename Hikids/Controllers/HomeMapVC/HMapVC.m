@@ -251,6 +251,9 @@
         return;
     }
     CGFloat topH = 100;
+    
+    [[NSUserDefaults standardUserDefaults] setObject:self.currentTask.warnStrategyLevel forKey:KEY_AlertWalkLevel];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 
     //20为状态栏高度；tableview设置的大小要和view的大小一致
     self.walkMenuTableView = [[HWalkMenuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-PAaptation_y(300), SCREEN_WIDTH, SCREEN_HEIGHT-topH)];

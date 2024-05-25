@@ -74,6 +74,7 @@
     label.text = [self showAlertWalkName:alertWalkLevel];
     label.font = [UIFont boldSystemFontOfSize:16];
     label.textColor = BWColor(34, 34, 34, 1);
+    label.tag = 1001;
     [footerView addSubview:label];
     
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -117,7 +118,16 @@
     AppDelegate *dele = (AppDelegate*)[UIApplication sharedApplication].delegate;
     
     HSetAlertAccurateVC *accurateVC = [[HSetAlertAccurateVC alloc] init];
+    accurateVC.source = 1;
     [dele.window.rootViewController presentViewController:accurateVC animated:YES completion:nil];
+    
+    DefineWeakSelf;
+    accurateVC.saveFinishedBlock = ^{
+        NSNumber *alertWalkLevel = [[NSUserDefaults standardUserDefaults] objectForKey:KEY_AlertWalkLevel];
+        
+        UILabel *label = (UILabel *)[weakSelf viewWithTag:1001];
+        label.text = [weakSelf showAlertWalkName:alertWalkLevel];
+    };
 }
 - (void)walkEndAction:(id)sender
 {

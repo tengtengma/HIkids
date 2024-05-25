@@ -9,7 +9,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^saveFinished)(void);
+
 @interface HSetAlertAccurateVC : BaseVC
+@property (nonatomic, assign) NSInteger source; //0是全局 1是walk
+@property (nonatomic, copy) saveFinished saveFinishedBlock;
 
 @end
 
