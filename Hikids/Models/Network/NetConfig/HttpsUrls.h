@@ -37,10 +37,11 @@
 #define GetPDFURL                  @"/v1/business/hikidsTask/getSleepReport"            //获取pdf地址
 #define GetKidInfoURL              @"/v1/business/kids"                                 //获取小孩详情
 #define GetInfomationURL           @"/v1/business/hikidsTask/getCorrentTaskInfo"        //获取情报
-#define SetRingNumberURL           @"/v1/business/teacher/setRingNumber"   //设置警报铃声
+#define SetRingNumberURL           @"/v1/business/teacher/setRingNumber"                //设置警报铃声
 #define GetWarnStrategyURL         @"/v1/business/hikidsClass/warnStrategy"             //获取报警灵敏度
 #define SetWarnStrategyURL         @"/v1/business/hikidsClass/warnStrategy"             //设置报警灵敏度
 #define StopWarnURL                @"/v1/business/hikidsTask/stopWarn"                  //手动停止报警
+#define ChangeWalkWarnURL          @"/v1/business/hikidsTask/warnStrategy"              //活动中修改报警
 #define HelpURL                    @"https://yohaku-bunka.notion.site/Q-A-66b097ecd75f4103938c30238525e677?pvs=4" //帮助页面
 
 #endif /* HttpsUrls_h */

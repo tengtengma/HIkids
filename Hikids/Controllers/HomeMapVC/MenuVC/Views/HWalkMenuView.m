@@ -119,6 +119,7 @@
     
     HSetAlertAccurateVC *accurateVC = [[HSetAlertAccurateVC alloc] init];
     accurateVC.source = 1;
+    accurateVC.taskId = self.taskId;
     [dele.window.rootViewController presentViewController:accurateVC animated:YES completion:nil];
     
     DefineWeakSelf;

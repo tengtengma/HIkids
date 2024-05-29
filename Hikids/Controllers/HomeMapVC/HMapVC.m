@@ -259,6 +259,7 @@
     self.walkMenuTableView = [[HWalkMenuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-PAaptation_y(300), SCREEN_WIDTH, SCREEN_HEIGHT-topH)];
     self.walkMenuTableView.topH = topH;
     self.walkMenuTableView.smallView.hidden = YES;
+    self.walkMenuTableView.taskId = self.currentTask.tId;
     [self.view addSubview:self.walkMenuTableView];
     
     DefineWeakSelf;

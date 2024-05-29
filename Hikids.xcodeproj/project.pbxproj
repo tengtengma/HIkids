@@ -143,6 +143,8 @@
 		9E6458E02AFA31CA0000BBAE /* pin2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E6458D82AFA31CA0000BBAE /* pin2@2x.png */; };
 		9E64D3642A2895C80063F07D /* btn_menu_only_walk@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E64D3622A2895C80063F07D /* btn_menu_only_walk@3x.png */; };
 		9E64D3652A2895C80063F07D /* btn_menu_only_walk@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E64D3632A2895C80063F07D /* btn_menu_only_walk@2x.png */; };
+		9E65338A2C071AD700DE6F36 /* BWSetOnceWarnStrategyReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E6533892C071AD700DE6F36 /* BWSetOnceWarnStrategyReq.m */; };
+		9E65338D2C071AEA00DE6F36 /* BWSetOnceWarnStrategyResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E65338C2C071AEA00DE6F36 /* BWSetOnceWarnStrategyResp.m */; };
 		9E6832442972408600194199 /* BWGetTaskCalendarReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E6832432972408600194199 /* BWGetTaskCalendarReq.m */; };
 		9E6832472972409500194199 /* BWGetTaskCalendarResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E6832462972409500194199 /* BWGetTaskCalendarResp.m */; };
 		9E68324B297285A900194199 /* HReport.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E68324A297285A800194199 /* HReport.m */; };
@@ -581,6 +583,10 @@
 		9E6458D82AFA31CA0000BBAE /* pin2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pin2@2x.png"; sourceTree = "<group>"; };
 		9E64D3622A2895C80063F07D /* btn_menu_only_walk@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_menu_only_walk@3x.png"; sourceTree = "<group>"; };
 		9E64D3632A2895C80063F07D /* btn_menu_only_walk@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_menu_only_walk@2x.png"; sourceTree = "<group>"; };
+		9E6533882C071AD700DE6F36 /* BWSetOnceWarnStrategyReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWSetOnceWarnStrategyReq.h; sourceTree = "<group>"; };
+		9E6533892C071AD700DE6F36 /* BWSetOnceWarnStrategyReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWSetOnceWarnStrategyReq.m; sourceTree = "<group>"; };
+		9E65338B2C071AEA00DE6F36 /* BWSetOnceWarnStrategyResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWSetOnceWarnStrategyResp.h; sourceTree = "<group>"; };
+		9E65338C2C071AEA00DE6F36 /* BWSetOnceWarnStrategyResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWSetOnceWarnStrategyResp.m; sourceTree = "<group>"; };
 		9E6832422972408600194199 /* BWGetTaskCalendarReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWGetTaskCalendarReq.h; sourceTree = "<group>"; };
 		9E6832432972408600194199 /* BWGetTaskCalendarReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWGetTaskCalendarReq.m; sourceTree = "<group>"; };
 		9E6832452972409500194199 /* BWGetTaskCalendarResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWGetTaskCalendarResp.h; sourceTree = "<group>"; };
@@ -1334,6 +1340,8 @@
 				9E076E492BD667C7009B270B /* BWSetRingReq.m */,
 				9EC4AC052BD7BAEE00C23FBF /* BWStopWarnReq.h */,
 				9EC4AC062BD7BAEE00C23FBF /* BWStopWarnReq.m */,
+				9E6533882C071AD700DE6F36 /* BWSetOnceWarnStrategyReq.h */,
+				9E6533892C071AD700DE6F36 /* BWSetOnceWarnStrategyReq.m */,
 			);
 			path = BWReq;
 			sourceTree = "<group>";
@@ -1394,6 +1402,8 @@
 				9E076E4C2BD667D8009B270B /* BWSetRingResp.m */,
 				9EC4AC082BD7BB0000C23FBF /* BWStopWarnResp.h */,
 				9EC4AC092BD7BB0000C23FBF /* BWStopWarnResp.m */,
+				9E65338B2C071AEA00DE6F36 /* BWSetOnceWarnStrategyResp.h */,
+				9E65338C2C071AEA00DE6F36 /* BWSetOnceWarnStrategyResp.m */,
 			);
 			path = BWResp;
 			sourceTree = "<group>";
@@ -2307,6 +2317,7 @@
 				9EC4AC072BD7BAEE00C23FBF /* BWStopWarnReq.m in Sources */,
 				9E25EB3C295D64A000FDAF78 /* HBaseMenuView.m in Sources */,
 				9E8892C62A3569E600B65F99 /* BWGetWalkReportReq.m in Sources */,
+				9E65338D2C071AEA00DE6F36 /* BWSetOnceWarnStrategyResp.m in Sources */,
 				9E17D1CE28EE7261005FA5A9 /* BWGetStudentReq.m in Sources */,
 				9E6F45EF2B5E54B300DFC545 /* BWGetInformationResp.m in Sources */,
 				9E6B5C202A46CC8F00BFB284 /* HStudentEclipseView.m in Sources */,
@@ -2333,6 +2344,7 @@
 				9E03EFE52971266200A11E49 /* BWGetSleepReportResp.m in Sources */,
 				9E03EFE22971265400A11E49 /* BWGetSleepReportReq.m in Sources */,
 				9E4C5F42295EC5D300E59C00 /* HWalkMenuView.m in Sources */,
+				9E65338A2C071AD700DE6F36 /* BWSetOnceWarnStrategyReq.m in Sources */,
 				9E42E69828D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				9EEC478B296695D30031CE9F /* HSettingVC.m in Sources */,
 				9E5238672BD25E7F0040C44E /* HSetAlertAccurateVC.m in Sources */,

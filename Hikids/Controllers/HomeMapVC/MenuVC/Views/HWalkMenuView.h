@@ -22,6 +22,7 @@ typedef void(^showSelectMarkerBlock)(HStudent *student);
 @property (nonatomic, strong) changeWalkStateAction changeWalkStateBlock;
 @property (nonatomic, copy) showSelectMarkerBlock showSelectMarkerBlock;
 @property (nonatomic, strong) UIButton *changeButton;
+@property (nonatomic, strong) NSString *taskId;
 
 - (instancetype)initWithFrame:(CGRect)frame;
 @end

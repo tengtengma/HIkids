@@ -8,6 +8,8 @@
 #import "HSetAlertAccurateVC.h"
 #import "BWSetWarnStrategyReq.h"
 #import "BWSetWarnStrategyResp.h"
+#import "BWSetOnceWarnStrategyReq.h"
+#import "BWSetOnceWarnStrategyResp.h"
 
 @interface HSetAlertAccurateVC ()
 @property (nonatomic, strong) UIView *bgView;
@@ -153,8 +155,20 @@
 }
 - (void)saveAction:(id)sender
 {
-    NSLog(@"保存sound");
     
+    if (self.source == 0) {
+        //全局
+        [self saveGlobalWarnStrategy];
+        
+    }else{
+       //本次walk活动
+        [self saveOnceWarnStrategy];
+    }
+    
+
+}
+- (void)saveGlobalWarnStrategy
+{
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     DefineWeakSelf;
     BWSetWarnStrategyReq *warnReq = [[BWSetWarnStrategyReq alloc] init];
@@ -164,15 +178,40 @@
         
         BWSetWarnStrategyResp *warnResp = (BWSetWarnStrategyResp *)resp;
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+        [user setObject:[NSNumber numberWithInteger:weakSelf.warnLevel] forKey:KEY_AlertLevel];
+        [user synchronize];
 
-        if (weakSelf.source == 0) {
-            [user setObject:[NSNumber numberWithInteger:weakSelf.warnLevel] forKey:KEY_AlertLevel];
-            [user synchronize];
-
-        }else{
-            [user setObject:[NSNumber numberWithInteger:weakSelf.warnLevel] forKey:KEY_AlertWalkLevel];
-            [user synchronize];
+        if (weakSelf.saveFinishedBlock) {
+            weakSelf.saveFinishedBlock();
         }
+
+        [MBProgressHUD showMessag:@"正常に保存" toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+
+        NSLog(@"success");
+
+        [weakSelf dismissViewControllerAnimated:YES completion:nil];
+
+            
+    } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+    }];
+}
+- (void)saveOnceWarnStrategy
+{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    DefineWeakSelf;
+    BWSetOnceWarnStrategyReq *warnOnceReq = [[BWSetOnceWarnStrategyReq alloc] init];
+    warnOnceReq.taskId = self.taskId;
+    warnOnceReq.strategyLevel = [NSNumber numberWithInteger:self.warnLevel];
+    [NetManger putRequest:warnOnceReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        
+        BWSetOnceWarnStrategyResp *warnOnceResp = (BWSetOnceWarnStrategyResp *)resp;
+        
+        NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
+        [user setObject:[NSNumber numberWithInteger:weakSelf.warnLevel] forKey:KEY_AlertWalkLevel];
+        [user synchronize];
         
         if (weakSelf.saveFinishedBlock) {
             weakSelf.saveFinishedBlock();
