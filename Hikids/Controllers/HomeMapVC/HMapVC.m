@@ -116,6 +116,7 @@
     
     self.walkTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(startGetStudentLocationRequest) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:self.walkTimer forMode:NSRunLoopCommonModes];
+    
     [self.walkTimer setFireDate:[NSDate distantFuture]];
 
     //获取当前的任务情况
@@ -705,7 +706,7 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:@"dangerAlertNotification" object:@{@"name":@"在園中",@"status":status}];
             
             weakSelf.homeMenuTableView.smallView.safeLabel.text = [NSString stringWithFormat:@"使用中%ld人",locationResp.normalKids.count];
-            weakSelf.homeMenuTableView.smallView.dangerLabel.text = [NSString stringWithFormat:@"アラート%ld回",locationResp.exceptionKids.count];
+            weakSelf.homeMenuTableView.smallView.dangerLabel.text = [NSString stringWithFormat:@"アラート%ld人",locationResp.exceptionKids.count];
             weakSelf.homeMenuTableView.safeList = locationResp.normalKids;
             weakSelf.homeMenuTableView.exceptList = locationResp.exceptionKids;
             [weakSelf.homeMenuTableView.tableView reloadData];
@@ -1552,7 +1553,7 @@
         _locationManager.delegate = self;
         [_locationManager requestWhenInUseAuthorization];
         _locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;//设置定位精度
-        _locationManager.distanceFilter = 20;//设置定位频率，每隔多少米定位一次
+        _locationManager.distanceFilter = 50;//设置定位频率，每隔多少米定位一次
         _locationManager.pausesLocationUpdatesAutomatically = NO;
         _locationManager.allowsBackgroundLocationUpdates = YES;
     }

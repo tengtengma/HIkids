@@ -53,7 +53,7 @@
     [self.headerView sd_setImageWithURL:[NSURL URLWithString:self.student.avatar] placeholderImage:[UIImage imageNamed:@""]];
     [self.bgView addSubview:self.headerView];
     [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.titleLabel.mas_bottom).offset(PAaptation_y(20));
+        make.top.equalTo(self.titleLabel.mas_bottom).offset(PAaptation_y(15));
         make.centerX.equalTo(self.bgView);
         make.width.mas_equalTo(PAdaptation_x(72));
         make.height.mas_equalTo(PAaptation_y(72));
@@ -62,14 +62,14 @@
     self.studentNameLabel.text = self.student.name;
     [self.bgView addSubview:self.studentNameLabel];
     [self.studentNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.headerView.mas_bottom).offset(PAaptation_y(10));
+        make.top.equalTo(self.headerView.mas_bottom).offset(PAaptation_y(5));
         make.left.equalTo(self.bgView);
         make.width.equalTo(self.bgView);
     }];
     
     [self.bgView addSubview:self.desLabel];
     [self.desLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.studentNameLabel.mas_bottom).offset(PAaptation_y(15));
+        make.top.equalTo(self.studentNameLabel.mas_bottom).offset(PAaptation_y(10));
         make.left.equalTo(self.bgView).offset(PAdaptation_x(50));
         make.right.equalTo(self.bgView.mas_right).offset(-PAdaptation_x(50));
         
@@ -79,16 +79,16 @@
     [self.cautionBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.bgView.mas_bottom).offset(-PAaptation_y(25));
         make.left.equalTo(self.bgView).offset(PAdaptation_x(15));
-        make.width.mas_equalTo(PAdaptation_x(146));
-        make.height.mas_equalTo(PAaptation_y(47));
+        make.width.mas_equalTo(PAdaptation_x(130));
+        make.height.mas_equalTo(PAaptation_y(45));
     }];
     
     [self.bgView addSubview:self.safeAreaBtn];
     [self.safeAreaBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.cautionBtn);
         make.right.equalTo(self.bgView.mas_right).offset(-PAdaptation_x(15));
-        make.width.mas_equalTo(PAdaptation_x(146));
-        make.height.mas_equalTo(PAaptation_y(47));
+        make.width.mas_equalTo(PAdaptation_x(130));
+        make.height.mas_equalTo(PAaptation_y(45));
     }];
 }
 - (void)cautionAction:(id)sender

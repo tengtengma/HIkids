@@ -453,7 +453,7 @@
     }];
     
     UILabel *alertLabel = [[UILabel alloc] init];
-    alertLabel.text = [NSString stringWithFormat:@"%@回",self.walkReport.travelCount];
+    alertLabel.text = [NSString stringWithFormat:@"%@人",self.walkReport.travelCount];
     alertLabel.textColor = [UIColor whiteColor];
     alertLabel.font = [UIFont systemFontOfSize:32];
     [self.imageBgView addSubview:alertLabel];
