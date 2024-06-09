@@ -1136,14 +1136,18 @@
     NSString *name = [userInfo safeObjectForKey:@"name"];
 
     if (![[userInfo safeObjectForKey:@"status"] isEqualToString:@"安全"]) {
+        
+        if (!self.homeMenuTableView.tableView.dragging || !self.walkMenuTableView.tableView.dragging) {
+            if ([name isEqualToString:@"散步中"]) {
+                [self.walkMenuTableView goCenter];
 
-        if ([name isEqualToString:@"散步中"]) {
-            [self.walkMenuTableView goCenter];
+            }
+            if ([name isEqualToString:@"在園中"]) {
+                [self.homeMenuTableView goCenter];
+            }
+        }
 
-        }
-        if ([name isEqualToString:@"在園中"]) {
-            [self.homeMenuTableView goCenter];
-        }
+
         [self showAlertActionWithName:name];
         
     }
