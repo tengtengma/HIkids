@@ -10,8 +10,8 @@
 #define HttpsUrls_h
 
 //#define BaseURL                     @"https://open.ebeiwai.com/zhiketang"                         //正式服务器
-//#define BaseURL                      @"http://api-test.hikids.blog"                    //服务器生产环境
-#define BaseURL                       @"https://api.hikids.blog"
+#define BaseURL                      @"http://api-test.hikids.blog"                    //服务器生产环境
+//#define BaseURL                       @"https://api.hikids.blog"
 
 //#define BaseURL                     @"http://b73irr.natappfree.cc"                  //云鹏电脑测试
 //#define BaseURL                     @"http://api.hikids.blog:8089"                //午睡生产环境
@@ -43,6 +43,7 @@
 #define StopWarnURL                @"/v1/business/hikidsTask/stopWarn"                  //手动停止报警
 #define ChangeWalkWarnURL          @"/v1/business/hikidsTask/warnStrategy"              //活动中修改报警
 #define HelpURL                    @"https://yohaku-bunka.notion.site/Q-A-66b097ecd75f4103938c30238525e677?pvs=4" //帮助页面
+#define ChangeModeURL              @"/v1/business/hikidsTask/changeMode"                //切换乘车模式Mode
 
 #endif /* HttpsUrls_h */
 

@@ -242,33 +242,22 @@
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    //2024.1.2暂时隐藏
-//    return 4;
-    
-    return 3;
+    return 4;
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-//2024.1.2暂时隐藏
-//    if (section == 0) {
-//        return self.destnationArray.count;
-//    }
-//    if (section == 1) {
-//        return self.timeArray.count;
-//    }
-//    if (section == 2) {
-//        return self.teacherArray.count;
-//    }
-//    return self.studentArray.count;
 
-    
     if (section == 0) {
         return 1;
         
     }else if(section == 1){
+        return self.destnationArray.count;
+    }else if(section == 2){
         return self.teacherArray.count;
+    }else{
+        return self.studentArray.count;
     }
-    return self.studentArray.count;
+    
     
     
 }
@@ -406,6 +395,27 @@
     
     if (indexPath.section == 1) {
         
+        HDestnationModel *destModel = [self.destnationArray safeObjectAtIndex:indexPath.row];
+        
+        HMddView *mddView = [[HMddView alloc] init];
+        [mddView setupWithModel:destModel];
+        [cell.contentView addSubview:mddView];
+        
+        [mddView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(cell.contentView);
+        }];
+        
+        if (destModel.isSelected) {
+            [mddView cellSelected];
+        }else{
+            [mddView cellNomal];
+        }
+        
+
+    }
+   
+    if (indexPath.section == 2) {
+        
         HTeacher *teacherModel = [self.teacherArray safeObjectAtIndex:indexPath.row];
         
         HTitleView *titView = [[HTitleView alloc] init];
@@ -421,10 +431,9 @@
         }else{
             [titView cellNomal];
         }
+
     }
-   
-    if (indexPath.section == 2) {
-        
+    if (indexPath.section == 3) {
         HStudent *student = [self.studentArray safeObjectAtIndex:indexPath.row];
         
         HStudentView *studentView = [[HStudentView alloc] init];
@@ -440,7 +449,6 @@
         }else{
             [studentView cellNomal];
         }
-
     }
     
 
@@ -451,99 +459,34 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    //2024.1.2暂时隐藏
-//    if (indexPath.section == 0) {
-//        
-//        HDestnationModel *selectModel = [self.destnationArray safeObjectAtIndex:indexPath.row];
-//        
-//        if (selectModel.isSelected) {
-//            selectModel.isSelected = NO;
-//            if ([self.selectDestArray containsObject:selectModel]) {
-//                [self.selectDestArray removeObject:selectModel];
-//            }
-//
-//        }else{
-//            [self.destnationArray enumerateObjectsUsingBlock:^(HDestnationModel * obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//                if (selectModel.dId.integerValue == obj.dId.integerValue) {
-//                    obj.isSelected = YES;
-//                    [self.selectDestArray addObject:selectModel];
-//                    return;
-//                }else{
-//                    obj.isSelected = NO;
-//                    [self.selectDestArray removeObject:obj];
-//
-//                }
-//            }];
-//        }
-//
-//    }
-//    if (indexPath.section == 1) {
-//        
-//        HTime *selectModel = [self.timeArray safeObjectAtIndex:indexPath.row];
-//        if (selectModel.isSelected) {
-//            selectModel.isSelected = NO;
-//            
-//            if ([self.selectTimeArray containsObject:selectModel]) {
-//                [self.selectTimeArray removeObject:selectModel];
-//            }
-//            
-//        }else{
-//            [self.timeArray enumerateObjectsUsingBlock:^(HTime * obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//                if (selectModel.tId == obj.tId) {
-//                    obj.isSelected = YES;
-//                    [self.selectTimeArray addObject:selectModel];
-//
-//                    return;
-//                }else{
-//                    obj.isSelected = NO;
-//                    [self.selectTimeArray removeObject:obj];
-//
-//                }
-//            }];
-//        }
-//        
-//    }
-//    if (indexPath.section == 2) {
-//        
-//        HTeacher *selectModel = [self.teacherArray safeObjectAtIndex:indexPath.row];
-//        if (selectModel.isSelected) {
-//            selectModel.isSelected = NO;
-//            
-//            if ([self.selectTeacherArray containsObject:selectModel]) {
-//                [self.selectTeacherArray removeObject:selectModel];
-//            }
-//        }else{
-//            [self.teacherArray enumerateObjectsUsingBlock:^(HTeacher * obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//                if (selectModel.tId.integerValue == obj.tId.integerValue) {
-//                    obj.isSelected = YES;
-//                    [self.selectTeacherArray addObject:selectModel];
-//
-//                    return;
-//                }
-//            }];
-//        }
-//    }
-//    if (indexPath.section == 3) {
-//       
-//        HStudent *selectModel = [self.studentArray safeObjectAtIndex:indexPath.row];
-//        if (selectModel.isSelected) {
-//            selectModel.isSelected = NO;
-//            if ([self.selectStudentArray containsObject:selectModel]) {
-//                [self.selectStudentArray removeObject:selectModel];
-//            }
-//        }else{
-//            [self.studentArray enumerateObjectsUsingBlock:^(HStudent * obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//                if (selectModel.sId.integerValue == obj.sId.integerValue) {
-//                    obj.isSelected = YES;
-//                    [self.selectStudentArray addObject:selectModel];
-//                    return;
-//                }
-//            }];
-//        }
-//    }
-    
-    
+
     if (indexPath.section == 1) {
+        
+        HDestnationModel *selectModel = [self.destnationArray safeObjectAtIndex:indexPath.row];
+        
+        if (selectModel.isSelected) {
+            selectModel.isSelected = NO;
+            if ([self.selectDestArray containsObject:selectModel]) {
+                [self.selectDestArray removeObject:selectModel];
+            }
+
+        }else{
+            [self.destnationArray enumerateObjectsUsingBlock:^(HDestnationModel * obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (selectModel.dId.integerValue == obj.dId.integerValue) {
+                    obj.isSelected = YES;
+                    [self.selectDestArray addObject:selectModel];
+                    return;
+                }else{
+                    obj.isSelected = NO;
+                    [self.selectDestArray removeObject:obj];
+
+                }
+            }];
+        }
+        
+
+    }
+    if (indexPath.section == 2) {
         
         HTeacher *selectModel = [self.teacherArray safeObjectAtIndex:indexPath.row];
         if (selectModel.isSelected) {
@@ -562,9 +505,9 @@
                 }
             }];
         }
+
     }
-    if (indexPath.section == 2) {
-       
+    if (indexPath.section == 3) {
         HStudent *selectModel = [self.studentArray safeObjectAtIndex:indexPath.row];
         if (selectModel.isSelected) {
             selectModel.isSelected = NO;
@@ -608,6 +551,9 @@
     }
     
     if (indexPath.section == 1) {
+        return CGSizeMake(PAdaptation_x(170), PAaptation_y(76));
+    }
+    if (indexPath.section == 2) {
         return CGSizeMake(PAdaptation_x(110), PAaptation_y(36));
     }
     return CGSizeMake(PAdaptation_x(170), PAaptation_y(54));
@@ -633,10 +579,11 @@
     if (section == 0) {
         return 0;
     }
-    
     if (section == 1) {
-        return 0;
+        return PAdaptation_x(10);
     }else if (section == 2){
+        return 0;
+    }else if (section == 3){
         return PAdaptation_x(10);
     }
     return PAdaptation_x(10);
@@ -662,20 +609,20 @@
         return 0;
     }
     if (section == 1) {
-        return 0;
+        return PAdaptation_x(10);
     }else if (section == 2){
+        return 0;
+    }else if (section == 3){
         return PAdaptation_x(10);
     }
-    return PAaptation_y(10);
+    return PAdaptation_x(10);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
-    //2024.1.2暂时隐藏
-//    if (section == 0) {
-//        return CGSizeMake(SCREEN_WIDTH, PAaptation_y(30));
-//    }
-//    return CGSizeMake(SCREEN_WIDTH, PAaptation_y(40));
     
+    if (section == 1) {
+        return CGSizeMake(SCREEN_WIDTH, PAaptation_y(30));
+    }
     return CGSizeMake(SCREEN_WIDTH, PAaptation_y(40));
 }
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
@@ -697,8 +644,11 @@
         return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(30));
     }
     if (section == 1) {
-        return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(30));
+        return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(18));
     }else if (section == 2){
+        return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(30));
+
+    }else if (section == 3){
         return UIEdgeInsetsMake(PAaptation_y(10), PAdaptation_x(18), PAaptation_y(10), PAdaptation_x(18));
 
     }
@@ -739,11 +689,13 @@
             label.text = @"アラ-ト感度";
 
        }else if(indexPath.section == 1){
-           label.text = @"確認者(複数選択可):";
+           label.text = @"目的地選択:";
 
+       }else if(indexPath.section == 1){
+           
+           label.text = @"確認者(複数選択可):";
        }else{
            label.text = @"参加園児:";
-
        }
 //       園児、先生、参加園児
        return headerView;
@@ -885,30 +837,6 @@
         destLabel.text = @"";
     }
     
-    UILabel *timeLabel = (UILabel *)[self.view viewWithTag:10001];
-    if (self.selectTimeArray.count != 0) {
-        HTime *timeModel = [self.selectTimeArray safeObjectAtIndex:0];
-        if (timeLabel == nil) {
-            timeLabel = [[UILabel alloc] init];
-            timeLabel.tag = 10001;
-            timeLabel.font = [UIFont boldSystemFontOfSize:12];
-            timeLabel.backgroundColor = BWColor(252, 229, 216, 1.0);
-            timeLabel.layer.cornerRadius = 8;
-            timeLabel.layer.masksToBounds = YES;
-            [self.selectView addSubview:timeLabel];
-        }
-        timeLabel.text = timeModel.name;
-        
-        [timeLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.equalTo(self.selectView);
-            make.left.equalTo(destLabel == nil ? self.selectView : destLabel.mas_right).offset(PAdaptation_x(2));
-            make.height.mas_equalTo(PAaptation_y(24));
-
-        }];
-    }else{
-        timeLabel.text = @"";
-
-    }
     
     UILabel *teacherLabel = (UILabel *)[self.view viewWithTag:10002];
     if (self.selectTeacherArray.count != 0) {
@@ -925,7 +853,7 @@
         
         [teacherLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.centerY.equalTo(self.selectView);
-            make.left.equalTo(timeLabel == nil ? self.selectView : timeLabel.mas_right).offset(PAdaptation_x(2));
+            make.left.equalTo(destLabel == nil ? self.selectView : destLabel.mas_right).offset(PAdaptation_x(2));
             make.height.mas_equalTo(PAaptation_y(24));
 
         }];
@@ -998,12 +926,8 @@
     DefineWeakSelf;
     BWAddTaskReq *taskReq = [[BWAddTaskReq alloc] init];
     taskReq.type = type;
-    //2024.1.2 暂时隐藏
-//    taskReq.destinationId = destinationId;
-//    taskReq.planTime = planTime;
-    
-    taskReq.destinationId = @"10";
-    taskReq.planTime = @"0";
+    taskReq.destinationId = destinationId;
+    taskReq.planTime = planTime;
     taskReq.warnStrategyLevel = [NSNumber numberWithInteger:self.warnLevel]; //23.04.2024新增
     
     taskReq.assistants = assistantsArray;

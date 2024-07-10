@@ -376,6 +376,54 @@
 		9EF21B3928D985050075CFF0 /* icon_checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EF21B2728D985050075CFF0 /* icon_checked@2x.png */; };
 		9EF21B3A28D985050075CFF0 /* icon_password@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EF21B2828D985050075CFF0 /* icon_password@3x.png */; };
 		9EF21B3B28D985050075CFF0 /* btn_login_available@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EF21B2928D985050075CFF0 /* btn_login_available@2x.png */; };
+		9EFAD6612C3D072D00D0A581 /* bus_mode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD65F2C3D072C00D0A581 /* bus_mode@2x.png */; };
+		9EFAD6622C3D072D00D0A581 /* bus_mode@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6602C3D072D00D0A581 /* bus_mode@3x.png */; };
+		9EFAD6652C3D377B00D0A581 /* BWChangeModeReq.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EFAD6642C3D377B00D0A581 /* BWChangeModeReq.m */; };
+		9EFAD6682C3D378C00D0A581 /* BWChangeModeResp.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EFAD6672C3D378C00D0A581 /* BWChangeModeResp.m */; };
+		9EFAD66B2C3D395E00D0A581 /* walk_mode@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6692C3D395E00D0A581 /* walk_mode@3x.png */; };
+		9EFAD66C2C3D395E00D0A581 /* walk_mode@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD66A2C3D395E00D0A581 /* walk_mode@2x.png */; };
+		9EFAD6752C3D3B7800D0A581 /* bus_start@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD66F2C3D3B7800D0A581 /* bus_start@3x.png */; };
+		9EFAD6762C3D3B7800D0A581 /* bus_cancel@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6702C3D3B7800D0A581 /* bus_cancel@3x.png */; };
+		9EFAD6772C3D3B7800D0A581 /* alert_bus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6712C3D3B7800D0A581 /* alert_bus@3x.png */; };
+		9EFAD6782C3D3B7800D0A581 /* bus_cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6722C3D3B7800D0A581 /* bus_cancel@2x.png */; };
+		9EFAD6792C3D3B7800D0A581 /* alert_bus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6732C3D3B7800D0A581 /* alert_bus@2x.png */; };
+		9EFAD67A2C3D3B7800D0A581 /* bus_start@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6742C3D3B7800D0A581 /* bus_start@2x.png */; };
+		9EFAD67D2C3D3B9500D0A581 /* HBusConfirmAlertVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EFAD67C2C3D3B9500D0A581 /* HBusConfirmAlertVC.m */; };
+		9EFAD6842C3DFC9300D0A581 /* walk_end@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6802C3DFC9300D0A581 /* walk_end@3x.png */; };
+		9EFAD6852C3DFC9300D0A581 /* walk_end@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6812C3DFC9300D0A581 /* walk_end@2x.png */; };
+		9EFAD6862C3DFC9300D0A581 /* footprint@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6822C3DFC9300D0A581 /* footprint@3x.png */; };
+		9EFAD6872C3DFC9300D0A581 /* footprint@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6832C3DFC9300D0A581 /* footprint@2x.png */; };
+		9EFAD68A2C3E1A6F00D0A581 /* HBusMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EFAD6892C3E1A6F00D0A581 /* HBusMenuView.m */; };
+		9EFAD68F2C3E379600D0A581 /* bus_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD68B2C3E379600D0A581 /* bus_icon@2x.png */; };
+		9EFAD6902C3E379600D0A581 /* bus_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD68C2C3E379600D0A581 /* bus_arrow@2x.png */; };
+		9EFAD6912C3E379600D0A581 /* bus_arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD68D2C3E379600D0A581 /* bus_arrow@3x.png */; };
+		9EFAD6922C3E379600D0A581 /* bus_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD68E2C3E379600D0A581 /* bus_icon@3x.png */; };
+		9EFAD69D2C3E692800D0A581 /* carStatus.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6942C3E692800D0A581 /* carStatus.png */; };
+		9EFAD69F2C3E692800D0A581 /* carLine@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6962C3E692800D0A581 /* carLine@2x.png */; };
+		9EFAD6A12C3E692800D0A581 /* carLine@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6982C3E692800D0A581 /* carLine@3x.png */; };
+		9EFAD6A22C3E692800D0A581 /* carStatus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6992C3E692800D0A581 /* carStatus@3x.png */; };
+		9EFAD6A32C3E692800D0A581 /* carLine.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD69A2C3E692800D0A581 /* carLine.png */; };
+		9EFAD6A42C3E692800D0A581 /* carStatus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD69B2C3E692800D0A581 /* carStatus@2x.png */; };
+		9EFAD6A82C3E6BFD00D0A581 /* bus_arrow_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6A52C3E6BFD00D0A581 /* bus_arrow_left.png */; };
+		9EFAD6A92C3E6BFD00D0A581 /* bus_arrow_left@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6A62C3E6BFD00D0A581 /* bus_arrow_left@2x.png */; };
+		9EFAD6AA2C3E6BFD00D0A581 /* bus_arrow_left@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6A72C3E6BFD00D0A581 /* bus_arrow_left@3x.png */; };
+		9EFAD6AD2C3E6D4300D0A581 /* bus_gps@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6AB2C3E6D4200D0A581 /* bus_gps@3x.png */; };
+		9EFAD6AE2C3E6D4300D0A581 /* bus_gps@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6AC2C3E6D4300D0A581 /* bus_gps@2x.png */; };
+		9EFAD6BB2C3E708200D0A581 /* num_bus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6AF2C3E708200D0A581 /* num_bus@2x.png */; };
+		9EFAD6BC2C3E708200D0A581 /* profile-teacher@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6B02C3E708200D0A581 /* profile-teacher@3x.png */; };
+		9EFAD6BD2C3E708200D0A581 /* bus_mark.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6B12C3E708200D0A581 /* bus_mark.png */; };
+		9EFAD6BE2C3E708200D0A581 /* profile-teacher.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6B22C3E708200D0A581 /* profile-teacher.png */; };
+		9EFAD6BF2C3E708200D0A581 /* children-pin-car.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6B32C3E708200D0A581 /* children-pin-car.png */; };
+		9EFAD6C02C3E708200D0A581 /* num_bus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6B42C3E708200D0A581 /* num_bus@3x.png */; };
+		9EFAD6C12C3E708200D0A581 /* bus_mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6B52C3E708200D0A581 /* bus_mark@2x.png */; };
+		9EFAD6C22C3E708200D0A581 /* num_bus.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6B62C3E708200D0A581 /* num_bus.png */; };
+		9EFAD6C32C3E708200D0A581 /* children-pin-car@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6B72C3E708200D0A581 /* children-pin-car@2x.png */; };
+		9EFAD6C42C3E708200D0A581 /* bus_mark@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6B82C3E708200D0A581 /* bus_mark@3x.png */; };
+		9EFAD6C52C3E708200D0A581 /* profile-teacher@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6B92C3E708200D0A581 /* profile-teacher@2x.png */; };
+		9EFAD6C62C3E708200D0A581 /* children-pin-car@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6BA2C3E708200D0A581 /* children-pin-car@3x.png */; };
+		9EFAD6C92C3E72AC00D0A581 /* HBusGroupStudentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EFAD6C82C3E72AC00D0A581 /* HBusGroupStudentView.m */; };
+		9EFAD6CC2C3E78B600D0A581 /* end_bus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6CA2C3E78B600D0A581 /* end_bus@3x.png */; };
+		9EFAD6CD2C3E78B600D0A581 /* end_bus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9EFAD6CB2C3E78B600D0A581 /* end_bus@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -886,6 +934,59 @@
 		9EF21B2728D985050075CFF0 /* icon_checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_checked@2x.png"; sourceTree = "<group>"; };
 		9EF21B2828D985050075CFF0 /* icon_password@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_password@3x.png"; sourceTree = "<group>"; };
 		9EF21B2928D985050075CFF0 /* btn_login_available@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_login_available@2x.png"; sourceTree = "<group>"; };
+		9EFAD65F2C3D072C00D0A581 /* bus_mode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bus_mode@2x.png"; sourceTree = "<group>"; };
+		9EFAD6602C3D072D00D0A581 /* bus_mode@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bus_mode@3x.png"; sourceTree = "<group>"; };
+		9EFAD6632C3D377B00D0A581 /* BWChangeModeReq.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWChangeModeReq.h; sourceTree = "<group>"; };
+		9EFAD6642C3D377B00D0A581 /* BWChangeModeReq.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWChangeModeReq.m; sourceTree = "<group>"; };
+		9EFAD6662C3D378C00D0A581 /* BWChangeModeResp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BWChangeModeResp.h; sourceTree = "<group>"; };
+		9EFAD6672C3D378C00D0A581 /* BWChangeModeResp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BWChangeModeResp.m; sourceTree = "<group>"; };
+		9EFAD6692C3D395E00D0A581 /* walk_mode@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "walk_mode@3x.png"; sourceTree = "<group>"; };
+		9EFAD66A2C3D395E00D0A581 /* walk_mode@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "walk_mode@2x.png"; sourceTree = "<group>"; };
+		9EFAD66F2C3D3B7800D0A581 /* bus_start@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bus_start@3x.png"; sourceTree = "<group>"; };
+		9EFAD6702C3D3B7800D0A581 /* bus_cancel@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bus_cancel@3x.png"; sourceTree = "<group>"; };
+		9EFAD6712C3D3B7800D0A581 /* alert_bus@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alert_bus@3x.png"; sourceTree = "<group>"; };
+		9EFAD6722C3D3B7800D0A581 /* bus_cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bus_cancel@2x.png"; sourceTree = "<group>"; };
+		9EFAD6732C3D3B7800D0A581 /* alert_bus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alert_bus@2x.png"; sourceTree = "<group>"; };
+		9EFAD6742C3D3B7800D0A581 /* bus_start@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bus_start@2x.png"; sourceTree = "<group>"; };
+		9EFAD67B2C3D3B9500D0A581 /* HBusConfirmAlertVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HBusConfirmAlertVC.h; sourceTree = "<group>"; };
+		9EFAD67C2C3D3B9500D0A581 /* HBusConfirmAlertVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HBusConfirmAlertVC.m; sourceTree = "<group>"; };
+		9EFAD6802C3DFC9300D0A581 /* walk_end@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "walk_end@3x.png"; sourceTree = "<group>"; };
+		9EFAD6812C3DFC9300D0A581 /* walk_end@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "walk_end@2x.png"; sourceTree = "<group>"; };
+		9EFAD6822C3DFC9300D0A581 /* footprint@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "footprint@3x.png"; sourceTree = "<group>"; };
+		9EFAD6832C3DFC9300D0A581 /* footprint@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "footprint@2x.png"; sourceTree = "<group>"; };
+		9EFAD6882C3E1A6F00D0A581 /* HBusMenuView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HBusMenuView.h; sourceTree = "<group>"; };
+		9EFAD6892C3E1A6F00D0A581 /* HBusMenuView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HBusMenuView.m; sourceTree = "<group>"; };
+		9EFAD68B2C3E379600D0A581 /* bus_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bus_icon@2x.png"; sourceTree = "<group>"; };
+		9EFAD68C2C3E379600D0A581 /* bus_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bus_arrow@2x.png"; sourceTree = "<group>"; };
+		9EFAD68D2C3E379600D0A581 /* bus_arrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bus_arrow@3x.png"; sourceTree = "<group>"; };
+		9EFAD68E2C3E379600D0A581 /* bus_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bus_icon@3x.png"; sourceTree = "<group>"; };
+		9EFAD6942C3E692800D0A581 /* carStatus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = carStatus.png; sourceTree = "<group>"; };
+		9EFAD6962C3E692800D0A581 /* carLine@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "carLine@2x.png"; sourceTree = "<group>"; };
+		9EFAD6982C3E692800D0A581 /* carLine@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "carLine@3x.png"; sourceTree = "<group>"; };
+		9EFAD6992C3E692800D0A581 /* carStatus@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "carStatus@3x.png"; sourceTree = "<group>"; };
+		9EFAD69A2C3E692800D0A581 /* carLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = carLine.png; sourceTree = "<group>"; };
+		9EFAD69B2C3E692800D0A581 /* carStatus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "carStatus@2x.png"; sourceTree = "<group>"; };
+		9EFAD6A52C3E6BFD00D0A581 /* bus_arrow_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bus_arrow_left.png; sourceTree = "<group>"; };
+		9EFAD6A62C3E6BFD00D0A581 /* bus_arrow_left@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bus_arrow_left@2x.png"; sourceTree = "<group>"; };
+		9EFAD6A72C3E6BFD00D0A581 /* bus_arrow_left@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bus_arrow_left@3x.png"; sourceTree = "<group>"; };
+		9EFAD6AB2C3E6D4200D0A581 /* bus_gps@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bus_gps@3x.png"; sourceTree = "<group>"; };
+		9EFAD6AC2C3E6D4300D0A581 /* bus_gps@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bus_gps@2x.png"; sourceTree = "<group>"; };
+		9EFAD6AF2C3E708200D0A581 /* num_bus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "num_bus@2x.png"; sourceTree = "<group>"; };
+		9EFAD6B02C3E708200D0A581 /* profile-teacher@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile-teacher@3x.png"; sourceTree = "<group>"; };
+		9EFAD6B12C3E708200D0A581 /* bus_mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bus_mark.png; sourceTree = "<group>"; };
+		9EFAD6B22C3E708200D0A581 /* profile-teacher.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile-teacher.png"; sourceTree = "<group>"; };
+		9EFAD6B32C3E708200D0A581 /* children-pin-car.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "children-pin-car.png"; sourceTree = "<group>"; };
+		9EFAD6B42C3E708200D0A581 /* num_bus@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "num_bus@3x.png"; sourceTree = "<group>"; };
+		9EFAD6B52C3E708200D0A581 /* bus_mark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bus_mark@2x.png"; sourceTree = "<group>"; };
+		9EFAD6B62C3E708200D0A581 /* num_bus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = num_bus.png; sourceTree = "<group>"; };
+		9EFAD6B72C3E708200D0A581 /* children-pin-car@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "children-pin-car@2x.png"; sourceTree = "<group>"; };
+		9EFAD6B82C3E708200D0A581 /* bus_mark@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bus_mark@3x.png"; sourceTree = "<group>"; };
+		9EFAD6B92C3E708200D0A581 /* profile-teacher@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "profile-teacher@2x.png"; sourceTree = "<group>"; };
+		9EFAD6BA2C3E708200D0A581 /* children-pin-car@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "children-pin-car@3x.png"; sourceTree = "<group>"; };
+		9EFAD6C72C3E72AC00D0A581 /* HBusGroupStudentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HBusGroupStudentView.h; sourceTree = "<group>"; };
+		9EFAD6C82C3E72AC00D0A581 /* HBusGroupStudentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HBusGroupStudentView.m; sourceTree = "<group>"; };
+		9EFAD6CA2C3E78B600D0A581 /* end_bus@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "end_bus@3x.png"; sourceTree = "<group>"; };
+		9EFAD6CB2C3E78B600D0A581 /* end_bus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "end_bus@2x.png"; sourceTree = "<group>"; };
 		F8788F8B651400FC4EC71577 /* Pods_Hikids.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Hikids.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -1010,6 +1111,7 @@
 		9E17D1B728ED658C005FA5A9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9EFAD66D2C3D3B1900D0A581 /* BusConfirmAlertVC */,
 				9E17D1B828ED6655005FA5A9 /* HMddView.h */,
 				9E17D1B928ED6655005FA5A9 /* HMddView.m */,
 				9E17D1BF28ED78DC005FA5A9 /* HStudentView.h */,
@@ -1052,6 +1154,10 @@
 		9E1F219928E1688B00C5041B /* HomeUI */ = {
 			isa = PBXGroup;
 			children = (
+				9EFAD66A2C3D395E00D0A581 /* walk_mode@2x.png */,
+				9EFAD6692C3D395E00D0A581 /* walk_mode@3x.png */,
+				9EFAD65F2C3D072C00D0A581 /* bus_mode@2x.png */,
+				9EFAD6602C3D072D00D0A581 /* bus_mode@3x.png */,
 				9EDF529E290589650066BFDC /* location@2x.png */,
 				9EDF529F290589650066BFDC /* location@3x.png */,
 				9EDF520C28F6F69A0066BFDC /* dangerIcon@2x.png */,
@@ -1121,6 +1227,17 @@
 		9E1F21B428E17FEA00C5041B /* MenuUI */ = {
 			isa = PBXGroup;
 			children = (
+				9EFAD6CB2C3E78B600D0A581 /* end_bus@2x.png */,
+				9EFAD6CA2C3E78B600D0A581 /* end_bus@3x.png */,
+				9EFAD6AC2C3E6D4300D0A581 /* bus_gps@2x.png */,
+				9EFAD6AB2C3E6D4200D0A581 /* bus_gps@3x.png */,
+				9EFAD6A52C3E6BFD00D0A581 /* bus_arrow_left.png */,
+				9EFAD6A62C3E6BFD00D0A581 /* bus_arrow_left@2x.png */,
+				9EFAD6A72C3E6BFD00D0A581 /* bus_arrow_left@3x.png */,
+				9EFAD68C2C3E379600D0A581 /* bus_arrow@2x.png */,
+				9EFAD68D2C3E379600D0A581 /* bus_arrow@3x.png */,
+				9EFAD68B2C3E379600D0A581 /* bus_icon@2x.png */,
+				9EFAD68E2C3E379600D0A581 /* bus_icon@3x.png */,
 				9EC5C0F22BCF4A2400038550 /* confirm_btn@2x.png */,
 				9EC5C0F32BCF4A2400038550 /* confirm_btn@3x.png */,
 				9EB411A3296BD9A000CFA8FE /* back-data.png */,
@@ -1226,6 +1343,8 @@
 				9E29CC33296456D4009DF7FD /* HSleepMenuView.m */,
 				9E8892BD2A29EFE800B65F99 /* HWalkDownTimeView.h */,
 				9E8892BE2A29EFE800B65F99 /* HWalkDownTimeView.m */,
+				9EFAD6882C3E1A6F00D0A581 /* HBusMenuView.h */,
+				9EFAD6892C3E1A6F00D0A581 /* HBusMenuView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1342,6 +1461,8 @@
 				9EC4AC062BD7BAEE00C23FBF /* BWStopWarnReq.m */,
 				9E6533882C071AD700DE6F36 /* BWSetOnceWarnStrategyReq.h */,
 				9E6533892C071AD700DE6F36 /* BWSetOnceWarnStrategyReq.m */,
+				9EFAD6632C3D377B00D0A581 /* BWChangeModeReq.h */,
+				9EFAD6642C3D377B00D0A581 /* BWChangeModeReq.m */,
 			);
 			path = BWReq;
 			sourceTree = "<group>";
@@ -1404,6 +1525,8 @@
 				9EC4AC092BD7BB0000C23FBF /* BWStopWarnResp.m */,
 				9E65338B2C071AEA00DE6F36 /* BWSetOnceWarnStrategyResp.h */,
 				9E65338C2C071AEA00DE6F36 /* BWSetOnceWarnStrategyResp.m */,
+				9EFAD6662C3D378C00D0A581 /* BWChangeModeResp.h */,
+				9EFAD6672C3D378C00D0A581 /* BWChangeModeResp.m */,
 			);
 			path = BWResp;
 			sourceTree = "<group>";
@@ -1770,6 +1893,8 @@
 				9E6B5C1F2A46CC8F00BFB284 /* HStudentEclipseView.m */,
 				9E6458CE2AFA2B970000BBAE /* HNomalGroupStudentView.h */,
 				9E6458CF2AFA2B970000BBAE /* HNomalGroupStudentView.m */,
+				9EFAD6C72C3E72AC00D0A581 /* HBusGroupStudentView.h */,
+				9EFAD6C82C3E72AC00D0A581 /* HBusGroupStudentView.m */,
 			);
 			path = stateInfoView;
 			sourceTree = "<group>";
@@ -1777,6 +1902,24 @@
 		9EDF522328FA9B360066BFDC /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				9EFAD6B12C3E708200D0A581 /* bus_mark.png */,
+				9EFAD6B52C3E708200D0A581 /* bus_mark@2x.png */,
+				9EFAD6B82C3E708200D0A581 /* bus_mark@3x.png */,
+				9EFAD6B32C3E708200D0A581 /* children-pin-car.png */,
+				9EFAD6B72C3E708200D0A581 /* children-pin-car@2x.png */,
+				9EFAD6BA2C3E708200D0A581 /* children-pin-car@3x.png */,
+				9EFAD6B62C3E708200D0A581 /* num_bus.png */,
+				9EFAD6AF2C3E708200D0A581 /* num_bus@2x.png */,
+				9EFAD6B42C3E708200D0A581 /* num_bus@3x.png */,
+				9EFAD6B22C3E708200D0A581 /* profile-teacher.png */,
+				9EFAD6B92C3E708200D0A581 /* profile-teacher@2x.png */,
+				9EFAD6B02C3E708200D0A581 /* profile-teacher@3x.png */,
+				9EFAD69A2C3E692800D0A581 /* carLine.png */,
+				9EFAD6962C3E692800D0A581 /* carLine@2x.png */,
+				9EFAD6982C3E692800D0A581 /* carLine@3x.png */,
+				9EFAD6942C3E692800D0A581 /* carStatus.png */,
+				9EFAD69B2C3E692800D0A581 /* carStatus@2x.png */,
+				9EFAD6992C3E692800D0A581 /* carStatus@3x.png */,
 				9E6458D82AFA31CA0000BBAE /* pin2@2x.png */,
 				9E6458D42AFA31CA0000BBAE /* pin2@3x.png */,
 				9E6458D62AFA31CA0000BBAE /* pin3@2x.png */,
@@ -1879,6 +2022,49 @@
 			path = loginUI;
 			sourceTree = "<group>";
 		};
+		9EFAD66D2C3D3B1900D0A581 /* BusConfirmAlertVC */ = {
+			isa = PBXGroup;
+			children = (
+				9EFAD66E2C3D3B2900D0A581 /* UI */,
+				9EFAD67B2C3D3B9500D0A581 /* HBusConfirmAlertVC.h */,
+				9EFAD67C2C3D3B9500D0A581 /* HBusConfirmAlertVC.m */,
+			);
+			path = BusConfirmAlertVC;
+			sourceTree = "<group>";
+		};
+		9EFAD66E2C3D3B2900D0A581 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				9EFAD67F2C3DFC1B00D0A581 /* walk */,
+				9EFAD67E2C3DFC1200D0A581 /* bus */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		9EFAD67E2C3DFC1200D0A581 /* bus */ = {
+			isa = PBXGroup;
+			children = (
+				9EFAD6732C3D3B7800D0A581 /* alert_bus@2x.png */,
+				9EFAD6712C3D3B7800D0A581 /* alert_bus@3x.png */,
+				9EFAD6722C3D3B7800D0A581 /* bus_cancel@2x.png */,
+				9EFAD6702C3D3B7800D0A581 /* bus_cancel@3x.png */,
+				9EFAD6742C3D3B7800D0A581 /* bus_start@2x.png */,
+				9EFAD66F2C3D3B7800D0A581 /* bus_start@3x.png */,
+			);
+			path = bus;
+			sourceTree = "<group>";
+		};
+		9EFAD67F2C3DFC1B00D0A581 /* walk */ = {
+			isa = PBXGroup;
+			children = (
+				9EFAD6832C3DFC9300D0A581 /* footprint@2x.png */,
+				9EFAD6822C3DFC9300D0A581 /* footprint@3x.png */,
+				9EFAD6812C3DFC9300D0A581 /* walk_end@2x.png */,
+				9EFAD6802C3DFC9300D0A581 /* walk_end@3x.png */,
+			);
+			path = walk;
+			sourceTree = "<group>";
+		};
 		B6E1B181B6A7729831560B8F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1952,12 +2138,14 @@
 			files = (
 				9EB411B3296BDE8A00CFA8FE /* greenBg@3x.png in Resources */,
 				9EDF524F2903CE6C0066BFDC /* safeStatus@3x.png in Resources */,
+				9EFAD6C52C3E708200D0A581 /* profile-teacher@2x.png in Resources */,
 				9EB4116E296BBB9E00CFA8FE /* btn_napStart@2x.png in Resources */,
 				9EB411CC296BF93800CFA8FE /* date_selected@3x.png in Resources */,
 				9E5238852BD3C87D0040C44E /* thumbImage@3x.png in Resources */,
 				9E6B5C1C2A46C68800BFB284 /* studentInfo_yellow@2x.png in Resources */,
 				9EB411CB296BF93800CFA8FE /* date_Default.png in Resources */,
 				9EDF522D28FA9B480066BFDC /* thirdlujing@3x.png in Resources */,
+				9EFAD6C62C3E708200D0A581 /* children-pin-car@3x.png in Resources */,
 				9EDF52732903DE0C0066BFDC /* wifi@3x.png in Resources */,
 				9E1F21AF28E174AA00C5041B /* line@2x.png in Resources */,
 				9E0B547828B21E660026CD86 /* LaunchScreen.storyboard in Resources */,
@@ -1967,16 +2155,19 @@
 				9E64D3652A2895C80063F07D /* btn_menu_only_walk@2x.png in Resources */,
 				9EDF527E290404000066BFDC /* dangerNav@2x.png in Resources */,
 				9E27EBE5299F29710053BB43 /* dest0.jpeg in Resources */,
+				9EFAD6922C3E379600D0A581 /* bus_icon@3x.png in Resources */,
 				9E68326029758D5300194199 /* sleep_wx@3x.png in Resources */,
 				9E3E01C02BF4AA6D0052980E /* normal@2x.png in Resources */,
 				9EF21B2E28D985050075CFF0 /* icon_mail@3x.png in Resources */,
 				9EF21B3B28D985050075CFF0 /* btn_login_available@2x.png in Resources */,
 				9EF21B3A28D985050075CFF0 /* icon_password@3x.png in Resources */,
+				9EFAD6A32C3E692800D0A581 /* carLine.png in Resources */,
 				9E3E01C52BF4AA6D0052980E /* strong@3x.png in Resources */,
 				9E3E01C82BF4AA6D0052980E /* strong.png in Resources */,
 				9EB41190296BBBBE00CFA8FE /* moon@3x.png in Resources */,
 				9ED244042BF05E3600F2B62B /* weak_02.wav in Resources */,
 				9E683266297595C500194199 /* attention@2x.png in Resources */,
+				9EFAD6622C3D072D00D0A581 /* bus_mode@3x.png in Resources */,
 				9EC72A2128D8349A00494A74 /* InfoPlist.strings in Resources */,
 				9E9A28F62A3EEFD3004E463B /* battery_empty.png in Resources */,
 				9E68325829739F1600194199 /* heart@3x.png in Resources */,
@@ -1987,14 +2178,18 @@
 				9EB41193296BBBBE00CFA8FE /* nap.png in Resources */,
 				9EF21B2A28D985050075CFF0 /* btn_login_unavailable@2x.png in Resources */,
 				9EDF529229042EFE0066BFDC /* listBottom_danger@2x.png in Resources */,
+				9EFAD6872C3DFC9300D0A581 /* footprint@2x.png in Resources */,
 				9E5238732BD26DC90040C44E /* sound@2x.png in Resources */,
 				9E17D1DB28EE7B85005FA5A9 /* walkStart_no@2x.png in Resources */,
+				9EFAD6CC2C3E78B600D0A581 /* end_bus@3x.png in Resources */,
 				9E9A28EC2A3EEFD3004E463B /* battery_full@2x.png in Resources */,
+				9EFAD6C12C3E708200D0A581 /* bus_mark@2x.png in Resources */,
 				9EDF521B28F6FB5C0066BFDC /* navBG_danger@2x.png in Resources */,
 				9E1F21BA28E1805700C5041B /* btn_menu_sleep@3x.png in Resources */,
 				9E8892D12A35A56200B65F99 /* walk_danger_status@2x.png in Resources */,
 				9ED244072BF05E3600F2B62B /* strong_02.wav in Resources */,
 				9EDF524E2903CE6C0066BFDC /* dangerStatus@2x.png in Resources */,
+				9EFAD6BD2C3E708200D0A581 /* bus_mark.png in Resources */,
 				9E3E01B42BF4A8030052980E /* 4@2x.png in Resources */,
 				9EDF526C2903DE0C0066BFDC /* clock@3x.png in Resources */,
 				9E5238752BD26DC90040C44E /* sound_active@2x.png in Resources */,
@@ -2003,11 +2198,13 @@
 				9E3E01C42BF4AA6D0052980E /* normal@3x.png in Resources */,
 				9EF21B3228D985050075CFF0 /* TextArea_Login@2x.png in Resources */,
 				9E9A28EF2A3EEFD3004E463B /* battery_low.png in Resources */,
+				9EFAD6792C3D3B7800D0A581 /* alert_bus@2x.png in Resources */,
 				9E52388D2BD3D7970040C44E /* slide-back@2x.png in Resources */,
 				9ED244062BF05E3600F2B62B /* strong_03.wav in Resources */,
 				9EB4118E296BBBBE00CFA8FE /* location_report@3x.png in Resources */,
 				9E9A28EB2A3EEFD3004E463B /* battery_full@3x.png in Resources */,
 				9E3E01C62BF4AA6D0052980E /* weak.png in Resources */,
+				9EFAD6C22C3E708200D0A581 /* num_bus.png in Resources */,
 				9ED244082BF05E3600F2B62B /* strong_01.wav in Resources */,
 				9E8892D92A35AAD000B65F99 /* walkReport_gps@3x.png in Resources */,
 				9EB4118A296BBBBE00CFA8FE /* ol_96_color@2x.png in Resources */,
@@ -2015,12 +2212,14 @@
 				9EB41172296BBB9E00CFA8FE /* btn_napEnd@3x.png in Resources */,
 				9EC5C0F42BCF4A2400038550 /* confirm_btn@2x.png in Resources */,
 				9E683264297595C500194199 /* attention@3x.png in Resources */,
+				9EFAD6A42C3E692800D0A581 /* carStatus@2x.png in Resources */,
 				9EEC479C2966B1740031CE9F /* account_tz@3x.png in Resources */,
 				9E6458DB2AFA31CA0000BBAE /* num.png in Resources */,
 				9EDF529429042EFE0066BFDC /* listBottom_safe@3x.png in Resources */,
 				9E8892D22A35A56200B65F99 /* walk_danger_status@3x.png in Resources */,
 				9E6B5C1D2A46C68800BFB284 /* studentInfo_yellow@3x.png in Resources */,
 				9EDF522B28FA9B480066BFDC /* guihualujing@3x.png in Resources */,
+				9EFAD66C2C3D395E00D0A581 /* walk_mode@2x.png in Resources */,
 				9E9A28F12A3EEFD3004E463B /* battery_half@2x.png in Resources */,
 				9E5238912BD3DA920040C44E /* text-line@2x.png in Resources */,
 				9E3E01AD2BF4A8030052980E /* 5@3x.png in Resources */,
@@ -2031,6 +2230,7 @@
 				9E17D1BD28ED68B5005FA5A9 /* default_mdd@3x.png in Resources */,
 				9E9A28F82A3EEFD3004E463B /* battery_half.png in Resources */,
 				9E6458DD2AFA31CA0000BBAE /* num@3x.png in Resources */,
+				9EFAD6AE2C3E6D4300D0A581 /* bus_gps@2x.png in Resources */,
 				9E17D19A28EABD96005FA5A9 /* safe@3x.png in Resources */,
 				9EF21B2B28D985050075CFF0 /* btn_login_unavailable@3x.png in Resources */,
 				9E03EFE92971341B00A11E49 /* xintiao_danger@3x.png in Resources */,
@@ -2045,9 +2245,14 @@
 				9EB4119C296BBBBE00CFA8FE /* ol_96_color@3x.png in Resources */,
 				9E8892DE2A35AAD000B65F99 /* walkReport_Red@3x.png in Resources */,
 				9EDF52692903DE0C0066BFDC /* gps@3x.png in Resources */,
+				9EFAD6612C3D072D00D0A581 /* bus_mode@2x.png in Resources */,
+				9EFAD6A22C3E692800D0A581 /* carStatus@3x.png in Resources */,
+				9EFAD67A2C3D3B7800D0A581 /* bus_start@2x.png in Resources */,
+				9EFAD6A12C3E692800D0A581 /* carLine@3x.png in Resources */,
 				9E8BDE9C296E9F080001C428 /* ALCalendarPicker.bundle in Resources */,
 				9EB4119A296BBBBE00CFA8FE /* walk.png in Resources */,
 				9EDF526E2903DE0C0066BFDC /* backup@3x.png in Resources */,
+				9EFAD6A82C3E6BFD00D0A581 /* bus_arrow_left.png in Resources */,
 				9E17D19928EABD96005FA5A9 /* safe@2x.png in Resources */,
 				9E17D1B628ED563F005FA5A9 /* backBtn@3x.png in Resources */,
 				9EB411B5296BDE8A00CFA8FE /* yellowBg@2x.png in Resources */,
@@ -2066,10 +2271,13 @@
 				9E3E01C72BF4AA6D0052980E /* weak@2x.png in Resources */,
 				9E17D1DC28EE7B85005FA5A9 /* walkStart@2x.png in Resources */,
 				9EDF521928F6FB5C0066BFDC /* navBG_danger@3x.png in Resources */,
+				9EFAD6782C3D3B7800D0A581 /* bus_cancel@2x.png in Resources */,
 				9E9A28EE2A3EEFD3004E463B /* battery_high@2x.png in Resources */,
 				9EB411AE296BD9F400CFA8FE /* nap_back.png in Resources */,
 				9EB41198296BBBBE00CFA8FE /* walk@3x.png in Resources */,
+				9EFAD6CD2C3E78B600D0A581 /* end_bus@2x.png in Resources */,
 				9EF21B2C28D985050075CFF0 /* help@2x.png in Resources */,
+				9EFAD6C42C3E708200D0A581 /* bus_mark@3x.png in Resources */,
 				9EDF521328F6F69A0066BFDC /* dangerIcon@3x.png in Resources */,
 				9EF21B3028D985050075CFF0 /* logo@3x.png in Resources */,
 				9E0B547328B21E620026CD86 /* Main.storyboard in Resources */,
@@ -2082,21 +2290,28 @@
 				9EDF526A2903DE0C0066BFDC /* expand@2x.png in Resources */,
 				9EB411A7296BD9A000CFA8FE /* back-data@2x.png in Resources */,
 				9EDF5289290422E30066BFDC /* close@2x.png in Resources */,
+				9EFAD6772C3D3B7800D0A581 /* alert_bus@3x.png in Resources */,
+				9EFAD6912C3E379600D0A581 /* bus_arrow@3x.png in Resources */,
 				9E17D1D928EE7B85005FA5A9 /* walkStart@3x.png in Resources */,
 				9EEC47932966A38E0031CE9F /* save@3x.png in Resources */,
 				9EB41189296BBBBE00CFA8FE /* ol_96_color.png in Resources */,
 				9E9A28F42A3EEFD3004E463B /* battery_half@3x.png in Resources */,
 				9ED244002BF05E3600F2B62B /* normal_01.wav in Resources */,
 				9EB411BD296BEB3300CFA8FE /* dateIcon@2x.png in Resources */,
+				9EFAD6AD2C3E6D4300D0A581 /* bus_gps@3x.png in Resources */,
+				9EFAD68F2C3E379600D0A581 /* bus_icon@2x.png in Resources */,
 				9EEC479E2966B1740031CE9F /* account_tz@2x.png in Resources */,
 				9E03EFEC297143BC00A11E49 /* quit@2x.png in Resources */,
 				9E27EBE6299F29710053BB43 /* dest1.jpeg in Resources */,
 				9EDF524D2903CE6C0066BFDC /* dangerStatus@3x.png in Resources */,
+				9EFAD6C32C3E708200D0A581 /* children-pin-car@2x.png in Resources */,
+				9EFAD6AA2C3E6BFD00D0A581 /* bus_arrow_left@3x.png in Resources */,
 				9E5238762BD26DC90040C44E /* sound_active@3x.png in Resources */,
 				9E17D1BE28ED68B5005FA5A9 /* default_mdd@2x.png in Resources */,
 				9EB4118F296BBBBE00CFA8FE /* moon.png in Resources */,
 				9EDF527F290404000066BFDC /* dangerNav@3x.png in Resources */,
 				9E98FA6229657B91007194EF /* print@3x.png in Resources */,
+				9EFAD6762C3D3B7800D0A581 /* bus_cancel@3x.png in Resources */,
 				9E1BA5CD2A49C969008A07FA /* noSound.m4a in Resources */,
 				9EF21B2D28D985050075CFF0 /* help@3x.png in Resources */,
 				9E3E01C22BF4AA6D0052980E /* weak@3x.png in Resources */,
@@ -2107,7 +2322,9 @@
 				9EDF52992904332C0066BFDC /* Ellipse@3x.png in Resources */,
 				9E5238742BD26DC90040C44E /* sound@3x.png in Resources */,
 				9EF21B3728D985050075CFF0 /* icon_password@2x.png in Resources */,
+				9EFAD6862C3DFC9300D0A581 /* footprint@3x.png in Resources */,
 				9EB4116D296BBB9E00CFA8FE /* btn_napEnd@2x.png in Resources */,
+				9EFAD66B2C3D395E00D0A581 /* walk_mode@3x.png in Resources */,
 				9EDF521228F6F69A0066BFDC /* safeIcon@3x.png in Resources */,
 				9E17D1A328ED1E6B005FA5A9 /* dangerView@3x.png in Resources */,
 				9EB411A0296BBD6300CFA8FE /* start_btn@3x.png in Resources */,
@@ -2119,13 +2336,16 @@
 				9EB411AC296BD9F400CFA8FE /* nap_back@3x.png in Resources */,
 				9E9A28ED2A3EEFD3004E463B /* battery_high@3x.png in Resources */,
 				9E8892DA2A35AAD000B65F99 /* walkReport_gps@2x.png in Resources */,
+				9EFAD6842C3DFC9300D0A581 /* walk_end@3x.png in Resources */,
 				9E6458DE2AFA31CA0000BBAE /* pin3@2x.png in Resources */,
 				9EC5C1052BCF620D00038550 /* caution_btn@2x.png in Resources */,
 				9E17D1A228ED1E6B005FA5A9 /* dangerView@2x.png in Resources */,
 				9E3E01B12BF4A8030052980E /* 1@3x.png in Resources */,
 				9E1F21AC28E1722500C5041B /* menu_header@2x.png in Resources */,
 				9E8892DB2A35AAD000B65F99 /* walkReport_green@2x.png in Resources */,
+				9EFAD6BC2C3E708200D0A581 /* profile-teacher@3x.png in Resources */,
 				9E3E01B22BF4A8030052980E /* 3@2x.png in Resources */,
+				9EFAD6BF2C3E708200D0A581 /* children-pin-car.png in Resources */,
 				9EB411A6296BD9A000CFA8FE /* back-data.png in Resources */,
 				9EB411B4296BDE8A00CFA8FE /* greenBg@2x.png in Resources */,
 				9E08C3512A3B471D00485ED3 /* gps_safe@2x.png in Resources */,
@@ -2145,9 +2365,11 @@
 				9E3E01B32BF4A8030052980E /* 4@3x.png in Resources */,
 				9EB4118B296BBBBE00CFA8FE /* location_report@2x.png in Resources */,
 				9E1F21BC28E1805700C5041B /* btn_menu_walk@2x.png in Resources */,
+				9EFAD6C02C3E708200D0A581 /* num_bus@3x.png in Resources */,
 				9E52388E2BD3D7970040C44E /* slide-back@3x.png in Resources */,
 				9EB411CE296BF93800CFA8FE /* date_selected@2x.png in Resources */,
 				9E03EFED297143BC00A11E49 /* quit@3x.png in Resources */,
+				9EFAD6852C3DFC9300D0A581 /* walk_end@2x.png in Resources */,
 				9E98FA6329657B91007194EF /* print@2x.png in Resources */,
 				9E08C3502A3B471D00485ED3 /* gps_safe@3x.png in Resources */,
 				9E03EFE82971341B00A11E49 /* xintiao_danger@2x.png in Resources */,
@@ -2158,10 +2380,12 @@
 				9E68325729739F1600194199 /* heart@2x.png in Resources */,
 				9EB4119B296BBBBE00CFA8FE /* location_report.png in Resources */,
 				9EDF5288290422E30066BFDC /* close@3x.png in Resources */,
+				9EFAD6902C3E379600D0A581 /* bus_arrow@2x.png in Resources */,
 				9EF21B3328D985050075CFF0 /* logo@2x.png in Resources */,
 				9E68325C29758BF900194199 /* sleep_danger_status@3x.png in Resources */,
 				9EB411AD296BD9F400CFA8FE /* nap_back@2x.png in Resources */,
 				9EB4116F296BBB9E00CFA8FE /* btn_napStart.png in Resources */,
+				9EFAD6A92C3E6BFD00D0A581 /* bus_arrow_left@2x.png in Resources */,
 				9EDF521128F6F69A0066BFDC /* safeIcon@2x.png in Resources */,
 				9EEC47942966A38E0031CE9F /* save@2x.png in Resources */,
 				9EC5C0F52BCF4A2400038550 /* confirm_btn@3x.png in Resources */,
@@ -2169,12 +2393,17 @@
 				9EDF52A1290589660066BFDC /* location@3x.png in Resources */,
 				9EEC479D2966B1740031CE9F /* sw_down@3x.png in Resources */,
 				9EB411CF296BF93800CFA8FE /* date_notSelected.png in Resources */,
+				9EFAD69D2C3E692800D0A581 /* carStatus.png in Resources */,
+				9EFAD6BB2C3E708200D0A581 /* num_bus@2x.png in Resources */,
 				9EDF52702903DE0C0066BFDC /* wifi@2x.png in Resources */,
+				9EFAD6BE2C3E708200D0A581 /* profile-teacher.png in Resources */,
 				9EDF52742903DE0C0066BFDC /* xintiao_safe@2x.png in Resources */,
 				9EEC479F2966B1740031CE9F /* sw_down@2x.png in Resources */,
 				9EDF522C28FA9B480066BFDC /* thirdlujing@2x.png in Resources */,
 				9EB411A1296BBD6300CFA8FE /* start_btn@2x.png in Resources */,
 				9EDF52982904332C0066BFDC /* Ellipse@2x.png in Resources */,
+				9EFAD69F2C3E692800D0A581 /* carLine@2x.png in Resources */,
+				9EFAD6752C3D3B7800D0A581 /* bus_start@3x.png in Resources */,
 				9EDF523228FAA4510066BFDC /* walkEnd@2x.png in Resources */,
 				9EDF521A28F6FB5C0066BFDC /* navBG_safe@3x.png in Resources */,
 				9E1F21AB28E1722500C5041B /* menu_header@3x.png in Resources */,
@@ -2300,6 +2529,7 @@
 				9E1BA5CB2A49C67F008A07FA /* HBGRunManager.m in Sources */,
 				9E2DF81D28B2225500B0C9DA /* NSArray+safe.m in Sources */,
 				9EA8D3542BD6661300A69589 /* BWGetWarnStrategyResp.m in Sources */,
+				9EFAD67D2C3D3B9500D0A581 /* HBusConfirmAlertVC.m in Sources */,
 				9E8BDE9B296E9F080001C428 /* UIView+ALFrame.m in Sources */,
 				9E17D1E828F00385005FA5A9 /* BWGetAssistantReq.m in Sources */,
 				9E8BDE7C296E87E30001C428 /* FFDropDownMenuCell.m in Sources */,
@@ -2323,6 +2553,7 @@
 				9E6B5C202A46CC8F00BFB284 /* HStudentEclipseView.m in Sources */,
 				9EDF523628FD84200066BFDC /* BWGetKindergartenReq.m in Sources */,
 				9EDF522128FA99D60066BFDC /* HStudentStateInfoView.m in Sources */,
+				9EFAD6682C3D378C00D0A581 /* BWChangeModeResp.m in Sources */,
 				9EC72A3528D84FFA00494A74 /* HInputView.m in Sources */,
 				9E8344B828C7912C00AB9D83 /* BWCheckTokenReq.m in Sources */,
 				9EC4AC0A2BD7BB0000C23FBF /* BWStopWarnResp.m in Sources */,
@@ -2337,7 +2568,9 @@
 				9E98FA5E29651519007194EF /* HSleepReportVC.m in Sources */,
 				9EB411BA296BE97900CFA8FE /* HDateVC.m in Sources */,
 				9E17D1F728F03B6D005FA5A9 /* BWStudentLocationReq.m in Sources */,
+				9EFAD68A2C3E1A6F00D0A581 /* HBusMenuView.m in Sources */,
 				9E0B547B28B21E660026CD86 /* main.m in Sources */,
+				9EFAD6652C3D377B00D0A581 /* BWChangeModeReq.m in Sources */,
 				9E17D1BA28ED6655005FA5A9 /* HMddView.m in Sources */,
 				9E17D1DF28EEAE9B005FA5A9 /* HTeacher.m in Sources */,
 				9E29CC37296EF7C5009DF7FD /* BWGetSleepTaskReq.m in Sources */,
@@ -2362,6 +2595,7 @@
 				9E17D1D128EE7270005FA5A9 /* BWGetStudentResp.m in Sources */,
 				9EDF523F28FD84FF0066BFDC /* BWGetTaskResp.m in Sources */,
 				9E29CC3A296EF85C009DF7FD /* BWGetSleepTaskResp.m in Sources */,
+				9EFAD6C92C3E72AC00D0A581 /* HBusGroupStudentView.m in Sources */,
 				9EDAFE4A28C4CDBA00FA9B5F /* HLoginVC.m in Sources */,
 				9E25EB40295D666900FDAF78 /* HHomeMenuView.m in Sources */,
 				9E2DF81E28B2225500B0C9DA /* BWTools.m in Sources */,
@@ -2560,7 +2794,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1.5;
+				CURRENT_PROJECT_VERSION = 1.1.6;
 				DEVELOPMENT_TEAM = 87MRKC73D2;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/HIkids/Hikids.pch";
@@ -2589,7 +2823,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.yohaku-bunka.hikids";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2610,7 +2844,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.1.5;
+				CURRENT_PROJECT_VERSION = 1.1.6;
 				DEVELOPMENT_TEAM = 87MRKC73D2;
 				EXCLUDED_ARCHS = "";
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
@@ -2640,7 +2874,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.yohaku-bunka.hikids";
 				PRODUCT_NAME = "$(TARGET_NAME)";

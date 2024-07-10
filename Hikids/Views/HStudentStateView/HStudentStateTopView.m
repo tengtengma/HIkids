@@ -44,7 +44,6 @@
         }];
         
         self.stateLabel = [[UILabel alloc] init];
-        self.stateLabel.textColor = [UIColor whiteColor];
         self.stateLabel.font = [UIFont systemFontOfSize:20];
         [self.topView addSubview:self.stateLabel];
         
@@ -111,12 +110,25 @@
 
 - (void)loadSafeStyle
 {
-    [self.iconView setImage:self.type == TYPE_WALK ? [UIImage imageNamed:@"safeIcon.png"] : [UIImage imageNamed:@"heart.png"]];
-    [self.topView setImage:[UIImage imageNamed:@"safeStatus.png"]];
-    self.stateLabel.text = self.type == TYPE_WALK ? @"安全エリア内" : @"心拍正常";
-    self.numberLabel.text = [NSString stringWithFormat:@"%ld人",self.studentList.count];
-    self.numberLabel.textColor = [UIColor whiteColor];
-    self.numberBg.backgroundColor = BWColor(5, 70, 11, 1);
+    if (self.type == TYPE_BUS) {
+        [self.iconView setImage:[UIImage imageNamed:@"bus_icon.png"]];
+        [self.topView setImage:[UIImage imageNamed:@"carStatus.png"]];
+        self.stateLabel.text = @"乗車中";
+        self.stateLabel.textColor = BWColor(101, 83, 13, 1);
+        self.numberLabel.text = [NSString stringWithFormat:@"%ld人",self.studentList.count];
+        self.numberLabel.textColor = [UIColor whiteColor];
+        self.numberBg.backgroundColor = BWColor(101, 83, 13, 1);
+        
+    }else{
+        [self.iconView setImage:self.type == TYPE_WALK ? [UIImage imageNamed:@"safeIcon.png"] : [UIImage imageNamed:@"heart.png"]];
+        self.stateLabel.textColor = [UIColor whiteColor];
+        [self.topView setImage:[UIImage imageNamed:@"safeStatus.png"]];
+        self.stateLabel.text = self.type == TYPE_WALK ? @"安全エリア内" : @"心拍正常";
+        self.numberLabel.text = [NSString stringWithFormat:@"%ld人",self.studentList.count];
+        self.numberLabel.textColor = [UIColor whiteColor];
+        self.numberBg.backgroundColor = BWColor(5, 70, 11, 1);
+    }
+
 
 }
 - (void)loadDangerStyle
@@ -127,21 +139,30 @@
         [self.topView setImage:[UIImage imageNamed:@"dangerStatus.png"]];
         [self.iconView setImage:[UIImage imageNamed:@"dangerIcon.png"]];
         self.stateLabel.text =  @"要注意";
+        self.stateLabel.textColor = [UIColor whiteColor];
         self.numberLabel.textColor = BWColor(255, 75, 0, 1);
         self.numberBg.backgroundColor = [UIColor whiteColor];
-    }else{
+    }else if(self.type == TYPE_SLEEP){
         [self.topView setImage:[UIImage imageNamed:@"sleep_danger_status.png"]];
         [self.iconView setImage:[UIImage imageNamed:@"sleep_wx.png"]];
         self.stateLabel.text =  @"要注意";
         self.stateLabel.textColor = BWColor(76, 53, 41, 1);
         self.numberLabel.textColor = [UIColor whiteColor];
         self.numberBg.backgroundColor = BWColor(76, 53, 41, 1);
+    }else{
+        [self.iconView setImage:[UIImage imageNamed:@"bus_icon.png"]];
+        [self.topView setImage:[UIImage imageNamed:@"carStatus.png"]];
+        self.stateLabel.text = @"乗車中";
+        self.stateLabel.textColor = BWColor(101, 83, 13, 1);
+        self.numberLabel.text = [NSString stringWithFormat:@"%ld人",self.studentList.count];
+        self.numberLabel.textColor = [UIColor whiteColor];
+        self.numberBg.backgroundColor = BWColor(101, 83, 13, 1);
     }
 
 }
-- (void)loadWalkDangerReportStyle
-{
-    
+
+
+- (void)loadWalkDangerReportStyle {
 }
 
 @end

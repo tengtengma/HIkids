@@ -10,7 +10,7 @@
 
 @implementation HStudentStateBottomView
 
-- (instancetype)initWithArray:(NSArray *)array withSafe:(BOOL)isSafe;
+- (instancetype)initWithArray:(NSArray *)array withSafe:(BOOL)isSafe withBus:(BOOL)isBus
 {
     if (self = [super init]) {
         
@@ -22,12 +22,18 @@
             UIImageView *imageView = [[UIImageView alloc] init];
             [imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
             
-            if (!isSafe) {
-                imageView.layer.borderColor = BWColor(255, 75, 0, 1).CGColor;
-
+            if (isBus) {
+                imageView.layer.borderColor = BWColor(101, 83, 13, 1).CGColor;
             }else{
-                imageView.layer.borderColor = BWColor(108, 159, 155, 1).CGColor;
+                if (!isSafe) {
+                    imageView.layer.borderColor = BWColor(255, 75, 0, 1).CGColor;
+
+                }else{
+                    imageView.layer.borderColor = BWColor(108, 159, 155, 1).CGColor;
+                }
             }
+            
+
             imageView.layer.cornerRadius = [BWTools getIsIpad] ? 36/2 : PAdaptation_x(36)/2;
             imageView.layer.masksToBounds = YES;
             imageView.layer.borderWidth = 2;

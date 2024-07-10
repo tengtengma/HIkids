@@ -67,6 +67,13 @@
         }
     };
     
+    self.busOrWalkButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.busOrWalkButton.tag = 1003;
+    [self.busOrWalkButton setFrame:CGRectMake(PAdaptation_x(20) , headerView.frame.size.height - PAaptation_y(82), PAdaptation_x(40), PAaptation_y(40))];
+    [self.busOrWalkButton setImage:[UIImage imageNamed:@"bus_mode.png"] forState:UIControlStateNormal];
+    [self.busOrWalkButton addTarget:self action:@selector(clickBusAction) forControlEvents:UIControlEventTouchUpInside];
+    [headerView addSubview:self.busOrWalkButton];
+    
     self.gpsButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.gpsButton.tag = 1002;
     [self.gpsButton setFrame:CGRectMake(headerView.frame.size.width - PAdaptation_x(50) , headerView.frame.size.height - PAaptation_y(82), PAdaptation_x(40), PAaptation_y(40))];
@@ -95,6 +102,12 @@
         make.height.mas_equalTo(PAaptation_y(6));
     }];
     
+}
+- (void)clickBusAction
+{
+    if (self.busBlock) {
+        self.busBlock();
+    }
 }
 - (void)clickGpsAction
 {

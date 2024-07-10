@@ -191,19 +191,44 @@
 
         }
         [self.gpsImageView setImage:[UIImage imageNamed:@"gps_safe.png"]];
+        
+        self.distanceLabel.textColor = BWColor(0, 176, 107, 1);
+        self.headerView.layer.borderColor = BWColor(0, 176, 107, 1).CGColor;
+        self.leftLineView.backgroundColor = BWColor(45, 100, 29, 1);
+        self.rightLineView.backgroundColor = BWColor(45, 100, 29, 1);
+        self.bottomLineView.backgroundColor = BWColor(45, 100, 29, 1);
+        [self.lastCellBottomView setImage:[UIImage imageNamed:@"listBottom_safe.png"]];
 
-    }else{
+    }else if(self.type == FootTYPE_SLEEP){
         self.distanceLabel.text = [NSString stringWithFormat:@"%@ bpm",self.student.deviceInfo.averangheart];
         [self.gpsImageView setImage:[UIImage imageNamed:@"xintiao_safe.png"]];
+        
+        self.distanceLabel.textColor = BWColor(0, 176, 107, 1);
+        self.headerView.layer.borderColor = BWColor(0, 176, 107, 1).CGColor;
+        self.leftLineView.backgroundColor = BWColor(45, 100, 29, 1);
+        self.rightLineView.backgroundColor = BWColor(45, 100, 29, 1);
+        self.bottomLineView.backgroundColor = BWColor(45, 100, 29, 1);
+        [self.lastCellBottomView setImage:[UIImage imageNamed:@"listBottom_safe.png"]];
 
+    }else{
+        [self.gpsImageView setImage:[UIImage imageNamed:@"bus_gps.png"]];
+        
+        if(self.student.distance.integerValue == -1){
+            self.distanceLabel.text = [NSString stringWithFormat:@"--"];
+        }else{
+//            self.distanceLabel.text = [NSString stringWithFormat:@"%ldm",self.student.distance.integerValue];
+            self.distanceLabel.text = @"安全エリア内";
+
+        }
+        self.distanceLabel.textColor = BWColor(101, 83, 13, 1);
+        self.headerView.layer.borderColor = BWColor(0, 176, 107, 1).CGColor;
+        self.leftLineView.backgroundColor = BWColor(171, 144, 50, 1);
+        self.rightLineView.backgroundColor = BWColor(171, 144, 50, 1);
+        self.bottomLineView.backgroundColor = BWColor(171, 144, 50, 1);
+        [self.lastCellBottomView setImage:[UIImage imageNamed:@"carLine.png"]];
     }
 
-    self.distanceLabel.textColor = BWColor(0, 176, 107, 1);
-    self.headerView.layer.borderColor = BWColor(0, 176, 107, 1).CGColor;
-    self.leftLineView.backgroundColor = BWColor(45, 100, 29, 1);
-    self.rightLineView.backgroundColor = BWColor(45, 100, 29, 1);
-    self.bottomLineView.backgroundColor = BWColor(45, 100, 29, 1);
-    [self.lastCellBottomView setImage:[UIImage imageNamed:@"listBottom_safe.png"]];
+
 }
 - (void)loadDangerStyle
 {
@@ -220,7 +245,7 @@
         self.confirmBtn.hidden = NO;
         self.wifiImageView.hidden = YES;
 
-    }else{
+    }else if(self.type == FootTYPE_SLEEP){
 //        if (self.student.deviceInfo.averangheart.length != 0) {
 //            self.distanceLabel.text = [NSString stringWithFormat:@"%@bpm",self.student.deviceInfo.averangheart];
 //        }else{
@@ -230,7 +255,6 @@
 
         [self.gpsImageView setImage:[UIImage imageNamed:@"xintiao_danger.png"]];
         self.headerView.layer.borderColor = BWColor(108, 159, 155, 1).CGColor;
-
     }
     self.distanceLabel.textColor = BWColor(255, 75, 0, 1);
     self.leftLineView.backgroundColor = BWColor(76, 40, 11, 1);

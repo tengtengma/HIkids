@@ -34,6 +34,7 @@
 #import "HSmallCardView.h"
 #import "HHomeMenuView.h"
 #import "HWalkMenuView.h"
+#import "HBusMenuView.h"
 #import "HWalkReportVC.h"
 #import "HSettingVC.h"
 #import "HDateVC.h"
@@ -41,11 +42,17 @@
 #import "HStudentEclipseView.h"
 #import "HBGRunManager.h"
 #import "HNomalGroupStudentView.h"
+#import "HBusGroupStudentView.h"
 #import "HConfirmAlertVC.h"
 #import "BWGetWarnStrategyReq.h"
 #import "BWGetWarnStrategyResp.h"
 #import "BWStopWarnReq.h"
 #import "BWStopWarnResp.h"
+#import "HBusConfirmAlertVC.h"
+#import "BWChangeModeReq.h"
+#import "BWChangeModeResp.h"
+
+
 
 
 #define default_Zoom 18.5
@@ -67,7 +74,8 @@
 //@property (nonatomic,assign) BOOL isAlert; //只弹窗一次 仅演示使用
 @property (nonatomic,strong) HHomeMenuView *homeMenuTableView;      //首页底部菜单
 @property (nonatomic,strong) HWalkMenuView *walkMenuTableView;      //散步底部菜单
-//@property (nonatomic,strong) HSettingVC *settingVC;                 //设置页面
+@property (nonatomic,strong) HBusMenuView *busMenuTableView;        //乘车底部菜单
+//@property (nonatomic,strong) HSettingVC *settingVC;               //设置页面
 @property (nonatomic,strong) HWalkDownTimeView *downTimeView;       //提示是否到达目的地弹窗
 @property (nonatomic,strong) NSString *destFence;                   //目的地围栏信息
 @property (nonatomic,strong) NSString *kinFence;                    //院内围栏信息
@@ -81,6 +89,7 @@
 @property (nonatomic,assign) NSInteger lastMarkerTag;               //上次选中marker的tag
 
 @property (nonatomic,strong) NSString *appUrl;                      //检查更新版本
+
 
 @end
 
@@ -201,6 +210,7 @@
     HHomeMenuView *homeMenuView = [[HHomeMenuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-PAaptation_y(300), SCREEN_WIDTH, SCREEN_HEIGHT-topH)];
     homeMenuView.topH = topH;
     self.homeMenuTableView = homeMenuView;
+    self.homeMenuTableView.busOrWalkButton.hidden = YES;
     [self.view addSubview:homeMenuView];
 
     DefineWeakSelf;
@@ -306,8 +316,129 @@
         [weakSelf selectMarkerWithStudent:student andMarker:marker];
     };
     
+    weakSelf.walkMenuTableView.busBlock = ^{
+        //切换bus模式
+        NSLog(@"bus mode");
+        
+        HBusConfirmAlertVC *busAlertVC = [[HBusConfirmAlertVC alloc] initWithType:@"bus"];
+        busAlertVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [weakSelf presentViewController:busAlertVC animated:NO completion:nil];
+        
+        busAlertVC.cancelBlock = ^{
+            [weakSelf dismissViewControllerAnimated:NO completion:nil];
+        };
+        
+        busAlertVC.confirmBlock = ^(NSString * _Nonnull type) {
+            [weakSelf changeModeWithType:type];
+        };
+        
+    };
+    
 }
+- (void)setupBusMenu
+{
+    if (self.busMenuTableView != nil) {
+        return;
+    }
+    CGFloat topH = 100;
+    NSArray *normalList = self.walkMenuTableView.safeList;
+    NSArray *exceptList = self.walkMenuTableView.exceptList;
+    
+    NSString *status = exceptList.count != 0 ? @"要注意" : @"安全";
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"dangerAlertNotification" object:@{@"name":@"乘车中",@"status":status}];
 
+    //20为状态栏高度；tableview设置的大小要和view的大小一致
+    self.busMenuTableView = [[HBusMenuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-PAaptation_y(300), SCREEN_WIDTH, SCREEN_HEIGHT-topH)];
+    self.busMenuTableView.topH = topH;
+    self.busMenuTableView.smallView.hidden = YES;
+    [self.busMenuTableView.busOrWalkButton setImage:[UIImage imageNamed:@"walk_mode.png"] forState:UIControlStateNormal];
+    self.busMenuTableView.safeList = normalList;
+    self.busMenuTableView.exceptList = exceptList;
+    [self.view addSubview:self.busMenuTableView];
+    [self.busMenuTableView.tableView reloadData];
+    
+    DefineWeakSelf;
+    self.busMenuTableView.gpsBlock = ^{
+        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(weakSelf.gpsLocation.coordinate.latitude, weakSelf.gpsLocation.coordinate.longitude);
+        //移动地图中心到当前位置
+        weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:weakSelf.lastZoom == 0 ? default_Zoom : weakSelf.lastZoom];
+    };
+    
+    self.busMenuTableView.busBlock = ^{
+        //切换walk模式
+        NSLog(@"walk mode");
+        
+        HBusConfirmAlertVC *busAlertVC = [[HBusConfirmAlertVC alloc] initWithType:@"walk"];
+        busAlertVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [weakSelf presentViewController:busAlertVC animated:NO completion:nil];
+        
+        busAlertVC.cancelBlock = ^{
+            [weakSelf dismissViewControllerAnimated:NO completion:nil];
+        };
+        
+        busAlertVC.confirmBlock = ^(NSString * _Nonnull type) {
+            [weakSelf changeModeWithType:type];
+        };
+    };
+   
+}
+//修改bus or walk模式
+- (void)changeModeWithType:(NSString *)type
+{
+    //拿最新的老师坐标，作为他们下车时的位置
+    if ([type isEqualToString:@"0"]) {
+        DefineWeakSelf;
+        BWStudentLocationReq *locationReq = [[BWStudentLocationReq alloc] init];
+        locationReq.latitude = self.gpsLocation.coordinate.latitude;
+        locationReq.longitude = self.gpsLocation.coordinate.longitude;
+        [NetManger postRequest:locationReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+                    
+            [weakSelf changeModeWithType:type];
+            
+        } failure:^(BWBaseReq *req, NSError *error) {
+            
+        }];
+    }else{
+        [self startRequestChangeModeWithType:type];
+    }
+}
+- (void)startRequestChangeModeWithType:(NSString *)type
+{
+    DefineWeakSelf;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    BWChangeModeReq *changeModeReq = [[BWChangeModeReq alloc] init];
+    changeModeReq.tId = self.currentTask.tId;
+    changeModeReq.modeCode = [type isEqualToString:@"bus"] ? 2 : 0;
+    [NetManger putRequest:changeModeReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
+        
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        
+        if ([type isEqualToString:@"bus"]) {
+            
+            [weakSelf setupBusMenu];
+
+            [weakSelf.walkMenuTableView removeFromSuperview]; //移除散步底部菜单
+            weakSelf.walkMenuTableView = nil;
+            
+            
+        }else{
+            [weakSelf.busMenuTableView removeFromSuperview]; //移除乘车底部菜单
+            weakSelf.busMenuTableView = nil;
+            
+            [weakSelf setupWalkMenu];
+            
+        }
+        
+        [weakSelf dismissViewControllerAnimated:NO completion:nil];
+        
+        [weakSelf startGetStudentLocationRequest];
+
+            
+    } failure:^(BWBaseReq *req, NSError *error) {
+        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
+        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
+    }];
+}
 //设置小朋友详情view
 - (void)setupStudentInfoView
 {
@@ -394,16 +525,29 @@
             
         }else if([weakSelf.currentTask.status isEqualToString:@"2"]){
             
-            //设置散步页底部菜单
-            [weakSelf setupWalkMenu];
-            
-            //途中模式开启 只画目的地围栏
-            [weakSelf startWalkMode];
+            if ([weakSelf.currentTask.modeCode isEqualToString:@"0"]) {
+                //散步模式
+                
+                //设置散步页底部菜单
+                [weakSelf setupWalkMenu];
+                
+                //途中模式开启 只画目的地围栏
+                [weakSelf startWalkMode];
+                
+            }else if([weakSelf.currentTask.modeCode isEqualToString:@"1"]){
+                //目的地模式
+                
+            }else{
+                //乘车模式
+                [weakSelf setupBusMenu];
+                
+                [weakSelf startBusMode];
+            }
             
 
-
+        
         }else if([weakSelf.currentTask.status isEqualToString:@"3"]){
-            
+            //已经失效用modeCode替代 10/07/2024
             //设置散步页底部菜单
             [weakSelf setupWalkMenu];
             
@@ -414,6 +558,7 @@
 
 
         }else if([weakSelf.currentTask.status isEqualToString:@"4"]){
+            //已经失效用modeCode替代 10/07/2024
             //设置散步页底部菜单
             [weakSelf setupWalkMenu];
             
@@ -547,6 +692,18 @@
     
     [self.walkMenuTableView.changeButton setTitle:@"公園に到着しました" forState:UIControlStateNormal];
 
+}
+//开启乘车模式
+- (void)startBusMode
+{
+    [self clearMap];
+    
+    self.homeMenuTableView.hidden = YES;
+    
+    [self.walkTimer setFireDate:[NSDate distantPast]];
+    
+    [self.locationManager startUpdatingLocation];
+    
 }
 //画围栏(在startGetStudentLocationRequest方法里)
 - (void)drawFenceWith:(NSString *)fence ishome:(BOOL)home
@@ -713,12 +870,22 @@
             
         }else{
             
-            NSString *status = locationResp.exceptionKids.count != 0 ? @"要注意" : @"安全";
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"dangerAlertNotification" object:@{@"name":@"散步中",@"status":status}];
-            
-            weakSelf.walkMenuTableView.safeList = locationResp.normalKids;
-            weakSelf.walkMenuTableView.exceptList = locationResp.exceptionKids;
-            [weakSelf.walkMenuTableView.tableView reloadData];
+            if (weakSelf.busMenuTableView == nil) {
+                NSString *status = locationResp.exceptionKids.count != 0 ? @"要注意" : @"安全";
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"dangerAlertNotification" object:@{@"name":@"散步中",@"status":status}];
+                
+                weakSelf.walkMenuTableView.safeList = locationResp.normalKids;
+                weakSelf.walkMenuTableView.exceptList = locationResp.exceptionKids;
+                [weakSelf.walkMenuTableView.tableView reloadData];
+            }else{
+                NSString *status = locationResp.exceptionKids.count != 0 ? @"要注意" : @"安全";
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"dangerAlertNotification" object:@{@"name":@"乗車中",@"status":status}];
+                
+                weakSelf.busMenuTableView.safeList = locationResp.normalKids;
+                weakSelf.busMenuTableView.exceptList = locationResp.exceptionKids;
+                [weakSelf.busMenuTableView.tableView reloadData];
+            }
+
             
             weakSelf.isInFence = locationResp.isSafe;
             weakSelf.destFence = locationResp.desFence;
@@ -772,9 +939,16 @@
             }
             
         }
+        
+        if (self.busMenuTableView == nil) {
+            //添加/刷新学生位置坐标
+            [weakSelf addMarkersWithNomalList:locationResp.normalKids andExceptList:locationResp.exceptionKids withBus:NO];
+        }else{
+            //添加/刷新学生位置坐标
+            [weakSelf addMarkersWithNomalList:locationResp.normalKids andExceptList:locationResp.exceptionKids withBus:YES];
+        }
 
-        //添加/刷新学生位置坐标
-        [weakSelf addMarkersWithNomalList:locationResp.normalKids andExceptList:locationResp.exceptionKids];
+
                 
     } failure:^(BWBaseReq *req, NSError *error) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
@@ -885,7 +1059,7 @@
 //    self.kinPoly = poly;
 //
 //}
--(void)addMarkersWithNomalList:(NSArray *)normalKids andExceptList:(NSArray *)exceptionKids{
+-(void)addMarkersWithNomalList:(NSArray *)normalKids andExceptList:(NSArray *)exceptionKids withBus:(BOOL)isBus{
     
     //清除掉过去的点 重新绘制
     NSMutableArray *tempArray = [self.makerList copy];
@@ -904,53 +1078,85 @@
 
     }
     
-    for (NSInteger i = 0;i<exceptionKids.count;i++) {
-                
-        HStudent *student = [exceptionKids safeObjectAtIndex:i];
+    //因为bus样式与walk完全不同 所以此处需要区分 10/07/2024
+    if (isBus) {
+        for (NSInteger i = 0;i<exceptionKids.count;i++) {
+                    
+            HStudent *student = [exceptionKids safeObjectAtIndex:i];
 
-        [self createOneMarkerStudent:student status:YES];
-    }
-    
-    GMSMarker *marker = nil;
-    if(normalKids.count == 0){
-        NSLog(@"no nomal student");
+            [self createOneMarkerStudent:student status:YES];
+        }
         
-    }else if (normalKids.count == 1){
-        HStudent *student = [normalKids safeObjectAtIndex:0];
+        GMSMarker *marker = nil;
+        if(normalKids.count == 0){
+            NSLog(@"no nomal student");
+            
+        }else{
+            HStudent *student = [normalKids safeObjectAtIndex:0];
+            
+            CGRect rect = CGRectMake(0, 0, PAdaptation_x(300), PAaptation_y(87));
+            [self createBusGroupMarkerWithSafeStudent:student withList:normalKids withRect:rect];
+        }
         
-        [self createOneMarkerStudent:student status:NO];
-        
-    }else if (normalKids.count == 2){
-        
-        //组 只取第一个的坐标
-        HStudent *student = [normalKids safeObjectAtIndex:0];
-        
-        CGRect rect = CGRectMake(0, 0, PAdaptation_x(138), PAaptation_y(87));
-        [self createGroupMarkerWithSafeStudent:student withList:normalKids withRect:rect];
-
-        
-    }else if(normalKids.count == 3){
-        //组 只取第一个的坐标
-        HStudent *student = [normalKids safeObjectAtIndex:0];
-        
-        CGRect rect = CGRectMake(0, 0, PAdaptation_x(202), PAaptation_y(87));
-        [self createGroupMarkerWithSafeStudent:student withList:normalKids withRect:rect];
+        if (![self.makerList containsObject:marker]) {
+            if (marker != nil) {
+                [self.makerList addObject:marker];
+            }
+        }
         
         
     }else{
-        //>3
-        //组 只取第一个的坐标
-        HStudent *student = [normalKids safeObjectAtIndex:0];
+        for (NSInteger i = 0;i<exceptionKids.count;i++) {
+                    
+            HStudent *student = [exceptionKids safeObjectAtIndex:i];
+
+            [self createOneMarkerStudent:student status:YES];
+        }
         
-        CGRect rect = CGRectMake(0, 0, PAdaptation_x(202), PAaptation_y(87));
-        [self createGroupMarkerWithSafeStudent:student withList:normalKids withRect:rect];
-    }
-    
-    if (![self.makerList containsObject:marker]) {
-        if (marker != nil) {
-            [self.makerList addObject:marker];
+        GMSMarker *marker = nil;
+        if(normalKids.count == 0){
+            NSLog(@"no nomal student");
+            
+        }else if (normalKids.count == 1){
+            HStudent *student = [normalKids safeObjectAtIndex:0];
+            
+            [self createOneMarkerStudent:student status:NO];
+            
+        }else if (normalKids.count == 2){
+            
+            //组 只取第一个的坐标
+            HStudent *student = [normalKids safeObjectAtIndex:0];
+            
+            CGRect rect = CGRectMake(0, 0, PAdaptation_x(138), PAaptation_y(87));
+            [self createGroupMarkerWithSafeStudent:student withList:normalKids withRect:rect];
+
+            
+        }else if(normalKids.count == 3){
+            //组 只取第一个的坐标
+            HStudent *student = [normalKids safeObjectAtIndex:0];
+            
+            CGRect rect = CGRectMake(0, 0, PAdaptation_x(202), PAaptation_y(87));
+            [self createGroupMarkerWithSafeStudent:student withList:normalKids withRect:rect];
+            
+            
+        }else{
+            //>3
+            //组 只取第一个的坐标
+            HStudent *student = [normalKids safeObjectAtIndex:0];
+            
+            CGRect rect = CGRectMake(0, 0, PAdaptation_x(202), PAaptation_y(87));
+            [self createGroupMarkerWithSafeStudent:student withList:normalKids withRect:rect];
+        }
+        if (![self.makerList containsObject:marker]) {
+            if (marker != nil) {
+                [self.makerList addObject:marker];
+            }
         }
     }
+    
+
+    
+
 }
 - (GMSMarker *)findMarkerWithStudentId:(NSString *)studentId
 {
@@ -1030,6 +1236,34 @@
         [self.circleList addObject:circle];
     }
 }
+- (void)createBusGroupMarkerWithSafeStudent:(HStudent *)student withList:(NSArray *)normalKids withRect:(CGRect)frame
+{
+    HBusGroupStudentView *groupView = [[HBusGroupStudentView alloc] initWithFrame:frame withGroupList:normalKids];
+    
+    GMSMarker *marker = [self findMarkerWithStudentId:student.sId];
+    if (marker == nil) {
+        marker = [[GMSMarker alloc] init];
+    }
+    
+    marker.iconView = groupView;
+    marker.position = CLLocationCoordinate2DMake(student.deviceInfo.latitude.doubleValue,student.deviceInfo.longitude.doubleValue);
+    marker.userData = student;
+    marker.map = self.mapView;
+    
+    GMSCircle *circle = [GMSCircle circleWithPosition:marker.position radius:80];
+    circle.fillColor = [UIColor colorWithRed:246.0/255.0 green:209.0/255.0 blue:71.0/255.0 alpha:0.2];
+    circle.strokeColor = [UIColor colorWithRed:246.0/255.0 green:209.0/255.0 blue:71.0/255.0 alpha:0.2];
+    circle.strokeWidth = 0.5;
+    circle.map = self.mapView;
+    
+    if (![self.makerList containsObject:marker]) {
+        [self.makerList addObject:marker];
+    }
+    
+    if (![self.circleList containsObject:circle]) {
+        [self.circleList addObject:circle];
+    }
+}
 - (void)reloadData
 {
     //    //测试用
@@ -1066,7 +1300,7 @@
     [self.homeMenuTableView.tableView reloadData];
 
 
-    [self addMarkersWithNomalList:nomal andExceptList:except];
+    [self addMarkersWithNomalList:nomal andExceptList:except withBus:NO];
 
 }
 

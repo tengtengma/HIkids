@@ -20,6 +20,7 @@ typedef enum _CellType
 }CellType;
 
 typedef void(^openReportBlock)(void);
+typedef void(^clickBusAction)(void);
 typedef void(^clickGpsAction)(void);
 typedef void(^toTopAction)(void);
 typedef void(^toBottomAction)(void);
@@ -28,10 +29,12 @@ typedef void(^toBottomAction)(void);
 @property (nonatomic, assign) CellType type;
 @property (nonatomic, copy) openReportBlock openReport;
 @property (nonatomic, copy) clickGpsAction gpsBlock;
+@property (nonatomic, copy) clickBusAction busBlock;
 @property (nonatomic, copy) toTopAction toTopBlock;
 @property (nonatomic, copy) toBottomAction toBottomBlock;
 
 @property (nonatomic, strong) UIButton *gpsButton;
+@property (nonatomic, strong) UIButton *busOrWalkButton;
 @property (nonatomic, strong) NSArray *safeList;
 @property (nonatomic, strong) NSArray *exceptList;
 @property (nonatomic, strong) HSmallCardView *smallView;

@@ -20,7 +20,7 @@
             [bgView setImage:[UIImage imageNamed:@"pin2.png"]];
             [self addSubview:bgView];
             
-            UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(PAdaptation_x(15), PAaptation_y(10), bgView.frame.size.width - PAdaptation_x(30), frame.size.height - PAaptation_y(30))];
+            UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(PAdaptation_x(15), PAaptation_y(15), bgView.frame.size.width - PAdaptation_x(30), frame.size.height - PAaptation_y(30))];
             [bgView addSubview:contentView];
             
             UIView *tempView = nil;

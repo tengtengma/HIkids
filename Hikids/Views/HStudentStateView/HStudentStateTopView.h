@@ -13,6 +13,7 @@ typedef enum _TYPE
 {
     TYPE_WALK = 0,
     TYPE_SLEEP = 1,
+    TYPE_BUS = 2
 
 }TYPE;
 

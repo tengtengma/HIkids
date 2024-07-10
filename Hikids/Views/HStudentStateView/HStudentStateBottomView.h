@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 //没有展开
 @interface HStudentStateBottomView : UIView
-- (instancetype)initWithArray:(NSArray *)array withSafe:(BOOL)isSafe;
+- (instancetype)initWithArray:(NSArray *)array withSafe:(BOOL)isSafe withBus:(BOOL)isBus;
 
 @end
 

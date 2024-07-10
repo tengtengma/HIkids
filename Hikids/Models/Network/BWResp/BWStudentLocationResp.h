@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *kinFence;     //园区围栏信息
 @property (nonatomic, copy) NSString *desFence;     //目的地围栏信息
 @property (nonatomic, assign) float deviceLastUpload;     //最后更新时间
+@property (nonatomic, strong) NSString *changeStatus;//当前任务状态 0走出目的地 1进入目的地 -1无变化
 
 
 - (id)initWithJSONDictionary:(NSDictionary *)jsonDic;

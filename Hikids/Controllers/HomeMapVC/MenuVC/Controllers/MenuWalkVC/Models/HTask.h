@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *tId;
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, strong) NSString *status;
+@property (nonatomic, strong) NSString *modeCode;
 @property (nonatomic, strong) NSString *planTime;
 @property (nonatomic, strong) NSString *assistants;
 @property (nonatomic, strong) NSString *kids;

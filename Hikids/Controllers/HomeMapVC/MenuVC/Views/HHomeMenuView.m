@@ -358,7 +358,7 @@
         }];
         
         //未展开的bottomView
-        HStudentStateBottomView *safeBottomView = [[HStudentStateBottomView alloc] initWithArray:self.safeList withSafe:YES];
+        HStudentStateBottomView *safeBottomView = [[HStudentStateBottomView alloc] initWithArray:self.safeList withSafe:YES withBus:NO];
         [bgView addSubview:safeBottomView];
         [safeBottomView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(safeTopView.mas_bottom);
@@ -404,7 +404,7 @@
             make.height.mas_equalTo(PAaptation_y(47));
         }];
         //未展开的bottomView
-        HStudentStateBottomView *dangerBottomView = [[HStudentStateBottomView alloc] initWithArray:self.exceptList withSafe:NO];
+        HStudentStateBottomView *dangerBottomView = [[HStudentStateBottomView alloc] initWithArray:self.exceptList withSafe:NO withBus:NO];
         [bgView addSubview:dangerBottomView];
         [dangerBottomView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(dangerTopView.mas_bottom);

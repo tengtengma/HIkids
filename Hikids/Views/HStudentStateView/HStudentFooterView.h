@@ -14,6 +14,7 @@ typedef enum _FootTYPE
 {
     FootTYPE_WALK = 0,
     FootTYPE_SLEEP = 1,
+    FootTYPE_BUS = 2
 
 }FootTYPE;
 //展开
