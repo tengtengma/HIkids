@@ -26,8 +26,8 @@
             filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1659"
-            endingLineNumber = "1659"
+            startingLineNumber = "1684"
+            endingLineNumber = "1684"
             landmarkName = "-selectMarkerWithStudent:andMarker:"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,8 +74,8 @@
             filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "547"
-            endingLineNumber = "547"
+            startingLineNumber = "568"
+            endingLineNumber = "568"
             landmarkName = "-getTaskRequest"
             landmarkType = "7">
          </BreakpointContent>
@@ -83,111 +83,65 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "638F3274-284E-4F5E-98EC-4EEB0AA3D894"
-            shouldBeEnabled = "Yes"
+            uuid = "CBAC081A-46DE-490F-9A3E-6495554BDE3D"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "778"
-            endingLineNumber = "778"
-            landmarkName = "-drawFenceWith:ishome:"
+            startingLineNumber = "935"
+            endingLineNumber = "935"
+            landmarkName = "-startGetStudentLocationRequest"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "0C55A9EB-C14E-4C6D-A3C3-7690E229E579"
-            shouldBeEnabled = "Yes"
+            uuid = "0261FC2E-3384-48ED-BCEA-85994BE1054E"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "634"
-            endingLineNumber = "634"
-            landmarkName = "-startStayMode"
+            startingLineNumber = "949"
+            endingLineNumber = "949"
+            landmarkName = "-startGetStudentLocationRequest"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "082B3554-02FE-4B7D-AAD2-4E083D26E6B9"
-            shouldBeEnabled = "Yes"
+            uuid = "F3DF7B4E-2C9E-4BC5-B192-0D062047D6B1"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "672"
-            endingLineNumber = "672"
-            landmarkName = "-startDestMode"
+            startingLineNumber = "931"
+            endingLineNumber = "931"
+            landmarkName = "-startGetStudentLocationRequest"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "867B6CEE-0404-4008-8C68-DC108D73D7E2"
+            uuid = "2CE45EB9-B8A4-49F7-8103-BE0E3FB4E8FB"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "692"
-            endingLineNumber = "692"
-            landmarkName = "-startBackMode"
+            startingLineNumber = "581"
+            endingLineNumber = "581"
+            landmarkName = "-getTaskRequest"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4A3D1CE2-C857-4B4F-A339-F39EA4F42966"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Hikids/Models/Network/BWResp/BWStudentLocationResp.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "18"
-            endingLineNumber = "18"
-            landmarkName = "-initWithJSONDictionary:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "4A3D1CE2-C857-4B4F-A339-F39EA4F42966 - a643484f85bc0518"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[BWStudentLocationResp initWithJSONDictionary:]"
-                  moduleName = "Hikids"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Models/Network/BWResp/BWStudentLocationResp.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "18"
-                  endingLineNumber = "18">
-               </Location>
-               <Location
-                  uuid = "4A3D1CE2-C857-4B4F-A339-F39EA4F42966 - a643484f85bc0518"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[BWStudentLocationResp initWithJSONDictionary:]"
-                  moduleName = "Hikids"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mateng/Desktop/Hikids/Hikids/Models/Network/BWResp/BWStudentLocationResp.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "18"
-                  endingLineNumber = "18">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSNumber *warnExceptionTimes;
 @property (nonatomic, strong) NSNumber *warnStopInterval;
 @property (nonatomic, strong) NSNumber *warnStrategyLevel;
+@property (nonatomic, strong) NSString *destinationFence;
 
 
 

@@ -51,7 +51,7 @@
 #import "HBusConfirmAlertVC.h"
 #import "BWChangeModeReq.h"
 #import "BWChangeModeResp.h"
-
+#import "HDtAlertVC.h"
 
 
 
@@ -305,12 +305,24 @@
         [weakSelf presentViewController:dateVC animated:YES completion:nil];
     };
     self.walkMenuTableView.gpsBlock = ^{
-//        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(weakSelf.gpsLocation.coordinate.latitude, weakSelf.gpsLocation.coordinate.longitude);
-        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(35.1145116, 136.8873042);
+        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(weakSelf.gpsLocation.coordinate.latitude, weakSelf.gpsLocation.coordinate.longitude);
 
-        
+
         //移动地图中心到当前位置
         weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:weakSelf.lastZoom == 0 ? default_Zoom : weakSelf.lastZoom];
+        
+        //test
+        //测试数据
+//        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(35.0960524118635, 136.9984240729761);
+        
+//        HDtAlertVC *alertVC = [[HDtAlertVC alloc] init];
+//        alertVC.source = @"dest_mode";
+//        alertVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+//        [weakSelf presentViewController:alertVC animated:NO completion:nil];
+//        
+//        alertVC.entreBlock = ^{
+//            [weakSelf startRequestChangeModeWithType:@"dest"];
+//        };
     };
    
     self.walkMenuTableView.showSelectMarkerBlock = ^(HStudent * _Nonnull student) {
@@ -410,11 +422,20 @@
 }
 - (void)startRequestChangeModeWithType:(NSString *)type
 {
+    long modeCode = 0;
+    if ([type isEqualToString:@"bus"]) {
+        modeCode = 2;
+    }else if ([type isEqualToString:@"walk"]){
+        modeCode = 0;
+    }else{
+        modeCode = 1;
+    }
+    
     DefineWeakSelf;
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     BWChangeModeReq *changeModeReq = [[BWChangeModeReq alloc] init];
     changeModeReq.tId = self.currentTask.tId;
-    changeModeReq.modeCode = [type isEqualToString:@"bus"] ? 2 : 0;
+    changeModeReq.modeCode = modeCode;
     [NetManger putRequest:changeModeReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
         
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
@@ -545,6 +566,16 @@
             }else if([weakSelf.currentTask.modeCode isEqualToString:@"1"]){
                 //目的地模式
                 NSLog(@"目的地模式");
+
+                [weakSelf setupWalkMenu];
+                
+                //途中模式开启 只画目的地围栏
+                [weakSelf startWalkMode];
+
+                [weakSelf drawFenceWith:weakSelf.currentTask.destinationFence ishome:NO];
+                
+                weakSelf.isDestMode = YES;
+
             }else{
                 //乘车模式
                 [weakSelf setupBusMenu];
@@ -557,22 +588,22 @@
         }else if([weakSelf.currentTask.status isEqualToString:@"3"]){
             //已经失效用modeCode替代 10/07/2024
             //设置散步页底部菜单
-            [weakSelf setupWalkMenu];
+//            [weakSelf setupWalkMenu];
             
             //目的地模式开启
            
-            [weakSelf startDestMode];
+//            [weakSelf startDestMode];
             
 
 
         }else if([weakSelf.currentTask.status isEqualToString:@"4"]){
             //已经失效用modeCode替代 10/07/2024
             //设置散步页底部菜单
-            [weakSelf setupWalkMenu];
+//            [weakSelf setupWalkMenu];
             
             //回程模式开启 只画院内围栏
             
-            [weakSelf startBackMode];
+//            [weakSelf startBackMode];
             
 
 
@@ -666,41 +697,7 @@
 
 
 }
-//开启目的地模式
-- (void)startDestMode
-{
-    [self clearMap];
-    
-    self.homeMenuTableView.hidden = YES;
-    
-//    //开启定位
-//    [self startLocation];
-    
-    [self.walkTimer setFireDate:[NSDate distantPast]];
-        
-    self.isDestMode = YES;
-    
-    [self.locationManager startUpdatingLocation];
-    
-    [self.walkMenuTableView.changeButton setTitle:@"帰路に出発" forState:UIControlStateNormal];
 
-
-}
-//开启返回模式
-- (void)startBackMode
-{
-    [self clearMap];
-    
-    self.homeMenuTableView.hidden = YES;
-    
-    
-    [self.walkTimer setFireDate:[NSDate distantPast]];
-    
-    [self.locationManager startUpdatingLocation];
-    
-    [self.walkMenuTableView.changeButton setTitle:@"公園に到着しました" forState:UIControlStateNormal];
-
-}
 //开启乘车模式
 - (void)startBusMode
 {
@@ -741,10 +738,6 @@
         [path addCoordinate:CLLocationCoordinate2DMake(info.latitude, info.longitude)];
     }
 
-
-
-
-    self.isDrawFence = YES;
     
     if(home){
         GMSPolygon* poly = [GMSPolygon polygonWithPath:path];
@@ -753,16 +746,22 @@
         poly.fillColor = BWColor(0, 176, 107, 0.2);
         poly.map = self.mapView;
         
-
-        
     }else{
+        
+        GMSPolygon* poly = [GMSPolygon polygonWithPath:path];
+        poly.strokeWidth = 0.0;
+        poly.strokeColor = BWColor(63.0, 136.0, 150.0, 1.0);
+        poly.fillColor = BWColor(17.0, 138.0, 152.0, 0.2);
+        poly.map = self.mapView;
+        
         
         //虚线无法自动闭合 需要手动添加
         HLocationInfo *info = [myLocation.fenceArray safeObjectAtIndex:0];
         [path addCoordinate:CLLocationCoordinate2DMake(info.latitude, info.longitude)];
         
+        
         // 创建实线样式和透明样式
-        GMSStrokeStyle *solidStyle = [GMSStrokeStyle solidColor:BWColor(17.0, 138.0, 152.0, 1.0)];
+        GMSStrokeStyle *solidStyle = [GMSStrokeStyle solidColor:BWColor(63.0, 136.0, 150.0, 1.0)];
         GMSStrokeStyle *transparentStyle = [GMSStrokeStyle solidColor:[UIColor clearColor]];
 
         // 创建虚线样式的数组
@@ -774,9 +773,12 @@
         // 创建多边形的边界线
         GMSPolyline *border = [GMSPolyline polylineWithPath:path];
         border.spans = GMSStyleSpans(border.path, styles, lengths, kGMSLengthRhumb);
-        border.strokeWidth = 2.0;
+        border.strokeWidth = 3.0;
         border.map = self.mapView;
     }
+    
+    self.isDrawFence = YES;
+
 
 }
 //开启返程模式
@@ -900,9 +902,14 @@
             
         }else{
             
+            weakSelf.isInFence = locationResp.isSafe;
+            weakSelf.destFence = locationResp.desFence;
+            weakSelf.kinFence = locationResp.kinFence;
+            
             if (weakSelf.busMenuTableView == nil) {
                 NSString *status = locationResp.exceptionKids.count != 0 ? @"要注意" : @"安全";
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"dangerAlertNotification" object:@{@"name":@"散步中",@"status":status}];
+                NSString *name = weakSelf.isDestMode ? @"目的地" : @"散步中";
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"dangerAlertNotification" object:@{@"name":name,@"status":status}];
                 
                 weakSelf.walkMenuTableView.safeList = locationResp.normalKids;
                 weakSelf.walkMenuTableView.exceptList = locationResp.exceptionKids;
@@ -916,20 +923,38 @@
                 [weakSelf.busMenuTableView.tableView reloadData];
             }
 
-            
-            weakSelf.isInFence = locationResp.isSafe;
-            weakSelf.destFence = locationResp.desFence;
-            weakSelf.kinFence = locationResp.kinFence;
-            
             if ([weakSelf.currentTask.status isEqualToString:@"2"]) {
                 
                 //构建目的地-途中模式（画目的地围栏）
-                [weakSelf drawFenceWith:weakSelf.destFence ishome:NO];
+                [weakSelf drawFenceWith:weakSelf.currentTask.destinationFence ishome:NO];
                 
                 if ([locationResp.changeStatus isEqualToString:@"0"]) {
+                    NSLog(@"进入散步模式？");
+                    weakSelf.isDestMode = NO;
+
+                    HDtAlertVC *alertVC = [[HDtAlertVC alloc] init];
+                    alertVC.source = @"walk_mode";
+                    alertVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+                    [weakSelf presentViewController:alertVC animated:NO completion:nil];
                     
+                    alertVC.entreBlock = ^{
+                        [weakSelf startRequestChangeModeWithType:@"walk"];
+                    };
                 }
                 if ([locationResp.changeStatus isEqualToString:@"1"]) {
+                    NSLog(@"进入目的地模式？");
+                    
+                    weakSelf.isDestMode = YES;
+                    
+                    HDtAlertVC *alertVC = [[HDtAlertVC alloc] init];
+                    alertVC.source = @"dest_mode";
+                    alertVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
+                    [weakSelf presentViewController:alertVC animated:NO completion:nil];
+                    
+                    alertVC.entreBlock = ^{
+                        [weakSelf startRequestChangeModeWithType:@"dest"];
+                    };
+                    
                     
                 }
                 

@@ -730,6 +730,10 @@
             expandBtn.backgroundColor = [UIColor whiteColor];
             [expandBtn setFrame:CGRectMake(0, 0, SCREEN_WIDTH, PAaptation_y(30))];
             [expandBtn addTarget:self action:@selector(openOrCloseAction:) forControlEvents:UIControlEventTouchUpInside];
+            // 让图片右对齐
+            expandBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+            CGFloat padding = 10; // 图片与按钮右边缘的距离
+            expandBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, padding);
             [footerView addSubview:expandBtn];
             
             if (self.isExpand) {
