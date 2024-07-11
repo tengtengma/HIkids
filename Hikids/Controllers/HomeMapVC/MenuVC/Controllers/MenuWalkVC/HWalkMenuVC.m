@@ -53,6 +53,7 @@
 @property (nonatomic, strong) UILabel *normalLabel;
 @property (nonatomic, strong) UILabel *lowLabel;
 @property (nonatomic, strong) UIImageView *text_lineImageView;
+@property (nonatomic, assign) BOOL isExpand; //负责目的地展开或收起
 
 @end
 
@@ -251,7 +252,16 @@
         return 1;
         
     }else if(section == 1){
-        return self.destnationArray.count;
+        if (self.isExpand) {
+            return self.destnationArray.count;
+        }else{
+            if (self.destnationArray.count > 4) {
+                return 4;
+            }else{
+                return self.destnationArray.count;
+            }
+        }
+        return 1;
     }else if(section == 2){
         return self.teacherArray.count;
     }else{
@@ -410,7 +420,6 @@
         }else{
             [mddView cellNomal];
         }
-        
 
     }
    
@@ -625,6 +634,14 @@
     }
     return CGSizeMake(SCREEN_WIDTH, PAaptation_y(40));
 }
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
+{
+    if (section == 1) {
+        return CGSizeMake(SCREEN_WIDTH, PAaptation_y(30));
+    }
+    return CGSizeMake(0, 0);
+
+}
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
     //2024.1.2暂时隐藏
@@ -700,9 +717,40 @@
 //       園児、先生、参加園児
        return headerView;
    }
+    
+    if (kind == UICollectionElementKindSectionFooter) {
+        if (indexPath.section == 1) {
+            
+            UICollectionReusableView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"footer" forIndexPath:indexPath];
+            
+            for (id v in footerView.subviews)
+                [v removeFromSuperview];
+            
+            UIButton *expandBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+            expandBtn.backgroundColor = [UIColor whiteColor];
+            [expandBtn setFrame:CGRectMake(0, 0, SCREEN_WIDTH, PAaptation_y(30))];
+            [expandBtn addTarget:self action:@selector(openOrCloseAction:) forControlEvents:UIControlEventTouchUpInside];
+            [footerView addSubview:expandBtn];
+            
+            if (self.isExpand) {
+                [expandBtn setImage:[UIImage imageNamed:@"dt_more_open.png"] forState:UIControlStateNormal];
+            }else{
+                [expandBtn setImage:[UIImage imageNamed:@"dt_more_close.png"] forState:UIControlStateNormal];
+
+            }
+            
+            return footerView;
+        }
+    }
 
    return nil;
 
+}
+- (void)openOrCloseAction:(UIButton *)button
+{
+    self.isExpand = !self.isExpand;
+    
+    [self.collectionView reloadData];
 }
 - (void)updateWalkBtnState
 {
@@ -1012,6 +1060,8 @@
         //注册Cell，必须要有
         [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"UICollectionViewCell"];
         [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"header"];//注册header的view
+        [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"footer"];//注册header的view
+
 
     }
     return _collectionView;

@@ -83,8 +83,6 @@
 @property (nonatomic,assign) BOOL firstLocationUpdate;              //第一次定位更新
 @property (nonatomic,assign) BOOL isDrawFence;                      //是否画围栏 防止重复画
 @property (nonatomic,assign) BOOL isDestMode;                       //是否是目的地模式
-@property (nonatomic,strong) GMSPolygon* kinPoly;                   //园区围栏路径
-@property (nonatomic,strong) GMSPolygon* destPoly;                  //目的地围栏路径
 @property (nonatomic,assign) float lastZoom;                        //上次保存的放大倍数
 @property (nonatomic,assign) NSInteger lastMarkerTag;               //上次选中marker的tag
 
@@ -262,6 +260,9 @@
         return;
     }
     CGFloat topH = 100;
+    NSArray *normalList = self.busMenuTableView.safeList;
+    NSArray *exceptList = self.busMenuTableView.exceptList;
+    
     
     [[NSUserDefaults standardUserDefaults] setObject:self.currentTask.warnStrategyLevel forKey:KEY_AlertWalkLevel];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -270,6 +271,8 @@
     self.walkMenuTableView = [[HWalkMenuView alloc] initWithFrame:CGRectMake(0, SCREEN_HEIGHT-PAaptation_y(300), SCREEN_WIDTH, SCREEN_HEIGHT-topH)];
     self.walkMenuTableView.topH = topH;
     self.walkMenuTableView.smallView.hidden = YES;
+    self.walkMenuTableView.safeList = normalList;
+    self.walkMenuTableView.exceptList = exceptList;
     self.walkMenuTableView.taskId = self.currentTask.tId;
     [self.view addSubview:self.walkMenuTableView];
     
@@ -302,7 +305,10 @@
         [weakSelf presentViewController:dateVC animated:YES completion:nil];
     };
     self.walkMenuTableView.gpsBlock = ^{
-        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(weakSelf.gpsLocation.coordinate.latitude, weakSelf.gpsLocation.coordinate.longitude);
+//        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(weakSelf.gpsLocation.coordinate.latitude, weakSelf.gpsLocation.coordinate.longitude);
+        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(35.1145116, 136.8873042);
+
+        
         //移动地图中心到当前位置
         weakSelf.mapView.camera = [GMSCameraPosition cameraWithTarget:coordinate zoom:weakSelf.lastZoom == 0 ? default_Zoom : weakSelf.lastZoom];
     };
@@ -422,10 +428,12 @@
             
             
         }else{
+            
+            [weakSelf setupWalkMenu];
+
             [weakSelf.busMenuTableView removeFromSuperview]; //移除乘车底部菜单
             weakSelf.busMenuTableView = nil;
             
-            [weakSelf setupWalkMenu];
             
         }
         
@@ -536,7 +544,7 @@
                 
             }else if([weakSelf.currentTask.modeCode isEqualToString:@"1"]){
                 //目的地模式
-                
+                NSLog(@"目的地模式");
             }else{
                 //乘车模式
                 [weakSelf setupBusMenu];
@@ -733,19 +741,41 @@
         [path addCoordinate:CLLocationCoordinate2DMake(info.latitude, info.longitude)];
     }
 
-    GMSPolygon* poly = [GMSPolygon polygonWithPath:path];
-    poly.strokeWidth = 2.0;
-    poly.strokeColor = BWColor(83, 192, 137, 1);
-    poly.fillColor = BWColor(0, 176, 107, 0.2);
-    poly.map = self.mapView;
+
+
 
     self.isDrawFence = YES;
     
     if(home){
-        self.kinPoly = poly;
-    }else{
-        self.destPoly = poly;
+        GMSPolygon* poly = [GMSPolygon polygonWithPath:path];
+        poly.strokeWidth = 2.0;
+        poly.strokeColor = BWColor(83, 192, 137, 1);
+        poly.fillColor = BWColor(0, 176, 107, 0.2);
+        poly.map = self.mapView;
+        
 
+        
+    }else{
+        
+        //虚线无法自动闭合 需要手动添加
+        HLocationInfo *info = [myLocation.fenceArray safeObjectAtIndex:0];
+        [path addCoordinate:CLLocationCoordinate2DMake(info.latitude, info.longitude)];
+        
+        // 创建实线样式和透明样式
+        GMSStrokeStyle *solidStyle = [GMSStrokeStyle solidColor:BWColor(17.0, 138.0, 152.0, 1.0)];
+        GMSStrokeStyle *transparentStyle = [GMSStrokeStyle solidColor:[UIColor clearColor]];
+
+        // 创建虚线样式的数组
+        NSArray *styles = @[solidStyle, transparentStyle];
+
+        // 设置虚线的间隔
+        NSArray *lengths = @[@(1.5), @(1.5)]; // 你可以调整这些值来改变虚线的样式
+
+        // 创建多边形的边界线
+        GMSPolyline *border = [GMSPolyline polylineWithPath:path];
+        border.spans = GMSStyleSpans(border.path, styles, lengths, kGMSLengthRhumb);
+        border.strokeWidth = 2.0;
+        border.map = self.mapView;
     }
 
 }
@@ -896,17 +926,26 @@
                 //构建目的地-途中模式（画目的地围栏）
                 [weakSelf drawFenceWith:weakSelf.destFence ishome:NO];
                 
-                if([self isInFenceAction:self.destPoly.path]){
-                    //判断是否到了目的地
-                    [weakSelf showDestAlertViewWithState:@"3"];
-                    NSLog(@"是否到达目的地？");
+                if ([locationResp.changeStatus isEqualToString:@"0"]) {
+                    
+                }
+                if ([locationResp.changeStatus isEqualToString:@"1"]) {
+                    
                 }
                 
-//                if (weakSelf.isInFence) {
+
+                
+//                if([self isInFenceAction:self.destPoly.path]){
 //                    //判断是否到了目的地
 //                    [weakSelf showDestAlertViewWithState:@"3"];
 //                    NSLog(@"是否到达目的地？");
 //                }
+//                
+////                if (weakSelf.isInFence) {
+////                    //判断是否到了目的地
+////                    [weakSelf showDestAlertViewWithState:@"3"];
+////                    NSLog(@"是否到达目的地？");
+////                }
 
             }
             //目的地模式
@@ -917,24 +956,24 @@
 //                    [weakSelf showDestAlertViewWithState:@"4"];
 //                    NSLog(@"是否开启返程？");
 //                }
-                [weakSelf drawFenceWith:weakSelf.destFence ishome:NO];
-                
-                if(![self isInFenceAction:self.destPoly.path]){
-                    //提示是否开启返程
-                    [weakSelf showDestAlertViewWithState:@"4"];
-                    NSLog(@"是否开启返程？");
-                }
+//                [weakSelf drawFenceWith:weakSelf.destFence ishome:NO];
+//                
+//                if(![self isInFenceAction:self.destPoly.path]){
+//                    //提示是否开启返程
+//                    [weakSelf showDestAlertViewWithState:@"4"];
+//                    NSLog(@"是否开启返程？");
+//                }
 
             }
             if ([weakSelf.currentTask.status isEqualToString:@"4"]) {
                 
                 //返程模式（画园区地围栏）
-                [weakSelf drawFenceWith:weakSelf.kinFence ishome:YES];
-                if ([weakSelf isInFenceAction:weakSelf.kinPoly.path]) {
-                    //判断是否到了园区
-                    [weakSelf showDestAlertViewWithState:@"5"];
-                    NSLog(@"是否回到了园区？");
-                }
+//                [weakSelf drawFenceWith:weakSelf.kinFence ishome:YES];
+//                if ([weakSelf isInFenceAction:weakSelf.kinPoly.path]) {
+//                    //判断是否到了园区
+//                    [weakSelf showDestAlertViewWithState:@"5"];
+//                    NSLog(@"是否回到了园区？");
+//                }
 
             }
             
@@ -955,17 +994,17 @@
         [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
     }];
 }
-//前端来判断是否在围栏内(暂时替代后台 仅用在 散步和返程模式)
-- (BOOL)isInFenceAction:(GMSPath *)path
-{
-    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.gpsLocation.coordinate.latitude, self.gpsLocation.coordinate.longitude);
-    
-    if (GMSGeometryContainsLocation(coordinate, path, YES)) {
-        NSLog(@"YES: you are in this polygon.");
-        return YES;
-    }
-    return NO;
-}
+////前端来判断是否在围栏内(暂时替代后台 仅用在 散步和返程模式)
+//- (BOOL)isInFenceAction:(GMSPath *)path
+//{
+//    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(self.gpsLocation.coordinate.latitude, self.gpsLocation.coordinate.longitude);
+//    
+//    if (GMSGeometryContainsLocation(coordinate, path, YES)) {
+//        NSLog(@"YES: you are in this polygon.");
+//        return YES;
+//    }
+//    return NO;
+//}
 - (void)showDestAlertViewWithState:(NSString *)state
 {
     NSString *content = nil;

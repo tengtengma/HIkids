@@ -117,6 +117,8 @@
 		9E3E01C82BF4AA6D0052980E /* strong.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E3E01BF2BF4AA6D0052980E /* strong.png */; };
 		9E42E69828D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E42E69528D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		9E42E69928D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E42E69628D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.m */; };
+		9E4542082C3F88AF0001A4CB /* dt_more_open@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E4542042C3F88AE0001A4CB /* dt_more_open@2x.png */; };
+		9E4542092C3F88AF0001A4CB /* dt_more_open@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E4542052C3F88AE0001A4CB /* dt_more_open@3x.png */; };
 		9E48F6B62B60C2020007AC02 /* HelpVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E48F6B52B60C2020007AC02 /* HelpVC.m */; };
 		9E4C5F42295EC5D300E59C00 /* HWalkMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4C5F41295EC5D300E59C00 /* HWalkMenuView.m */; };
 		9E51FDD329640D8900EEC6EC /* HSleepMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E51FDD229640D8900EEC6EC /* HSleepMainView.m */; };
@@ -598,6 +600,8 @@
 		9E42E69528D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
 		9E42E69628D86F2900F0D7EA /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		9E42E69728D86F2900F0D7EA /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
+		9E4542042C3F88AE0001A4CB /* dt_more_open@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dt_more_open@2x.png"; sourceTree = "<group>"; };
+		9E4542052C3F88AE0001A4CB /* dt_more_open@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dt_more_open@3x.png"; sourceTree = "<group>"; };
 		9E48F6B42B60C2020007AC02 /* HelpVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HelpVC.h; sourceTree = "<group>"; };
 		9E48F6B52B60C2020007AC02 /* HelpVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HelpVC.m; sourceTree = "<group>"; };
 		9E4C5F40295EC5D300E59C00 /* HWalkMenuView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HWalkMenuView.h; sourceTree = "<group>"; };
@@ -1227,6 +1231,8 @@
 		9E1F21B428E17FEA00C5041B /* MenuUI */ = {
 			isa = PBXGroup;
 			children = (
+				9E4542042C3F88AE0001A4CB /* dt_more_open@2x.png */,
+				9E4542052C3F88AE0001A4CB /* dt_more_open@3x.png */,
 				9EFAD6CB2C3E78B600D0A581 /* end_bus@2x.png */,
 				9EFAD6CA2C3E78B600D0A581 /* end_bus@3x.png */,
 				9EFAD6AC2C3E6D4300D0A581 /* bus_gps@2x.png */,
@@ -2170,6 +2176,7 @@
 				9EFAD6622C3D072D00D0A581 /* bus_mode@3x.png in Resources */,
 				9EC72A2128D8349A00494A74 /* InfoPlist.strings in Resources */,
 				9E9A28F62A3EEFD3004E463B /* battery_empty.png in Resources */,
+				9E4542092C3F88AF0001A4CB /* dt_more_open@3x.png in Resources */,
 				9E68325829739F1600194199 /* heart@3x.png in Resources */,
 				9EDF521028F6F69A0066BFDC /* dangerIcon@2x.png in Resources */,
 				9EB411D0296BF93800CFA8FE /* date_Default@2x.png in Resources */,
@@ -2254,6 +2261,7 @@
 				9EDF526E2903DE0C0066BFDC /* backup@3x.png in Resources */,
 				9EFAD6A82C3E6BFD00D0A581 /* bus_arrow_left.png in Resources */,
 				9E17D19928EABD96005FA5A9 /* safe@2x.png in Resources */,
+				9E4542082C3F88AF0001A4CB /* dt_more_open@2x.png in Resources */,
 				9E17D1B628ED563F005FA5A9 /* backBtn@3x.png in Resources */,
 				9EB411B5296BDE8A00CFA8FE /* yellowBg@2x.png in Resources */,
 				9EDF522E28FA9B480066BFDC /* naoling@3x.png in Resources */,
