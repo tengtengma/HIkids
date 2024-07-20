@@ -19,8 +19,17 @@
 {
     if(self = [super initWithFrame:frame]){
         
-        self.imageView.layer.borderColor = student.exceptionTime.length == 0 ? BWColor(79, 173, 113, 1).CGColor : BWColor(255, 75, 0, 1).CGColor;
-        [self.imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
+        
+        if (student.exceptionTime.length == 0) {
+            self.imageView.layer.borderColor = student.exceptionTime.length == 0 ? BWColor(79, 173, 113, 1).CGColor : BWColor(255, 75, 0, 1).CGColor;
+            [self.imageView sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
+            self.imageView.layer.cornerRadius = PAaptation_y(58)/2;
+            self.imageView.layer.masksToBounds = YES;
+            self.imageView.layer.borderWidth = 2;
+        }else{
+            [self.imageView setImage:[UIImage imageNamed:@"pin_danger.png"]];
+
+        }
         [self addSubview:self.imageView];
         
     }
@@ -37,9 +46,7 @@
 {
     if(!_imageView){
         _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0 , 0, self.bounds.size.width, self.bounds.size.height)];
-        _imageView.layer.cornerRadius = PAaptation_y(40)/2;
-        _imageView.layer.masksToBounds = YES;
-        _imageView.layer.borderWidth = 4;
+
     }
     return _imageView;
 }

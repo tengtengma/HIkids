@@ -989,7 +989,6 @@
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         BWAddTaskResp *addResp = (BWAddTaskResp *)resp;
         HTask *taskModel = [addResp.itemList safeObjectAtIndex:0];
-        
         [weakSelf backAction:nil];
         
         if (weakSelf.startWalkBlock) {

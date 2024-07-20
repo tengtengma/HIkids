@@ -18,17 +18,17 @@
         [bgView setImage:[UIImage imageNamed:@"children-pin-car.png"]];
         [self addSubview:bgView];
         
-        UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(PAdaptation_x(15), PAaptation_y(15), bgView.frame.size.width - PAdaptation_x(30), frame.size.height - PAaptation_y(30))];
+        UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(PAdaptation_x(10), 0, bgView.frame.size.width - PAdaptation_x(20), frame.size.height)];
         contentView.backgroundColor = [UIColor clearColor];
         [bgView addSubview:contentView];
         
-        UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, contentView.frame.size.width/4, contentView.frame.size.height)];
+        UIImageView *icon = [[UIImageView alloc] initWithFrame:CGRectMake(0, contentView.frame.size.height/2 - PAaptation_y(58)/2, PAdaptation_x(58), PAaptation_y(58))];
         icon.contentMode = UIViewContentModeScaleAspectFit;
         [icon setImage:[UIImage imageNamed:@"bus_mark.png"]];
         [contentView addSubview:icon];
         
-        UIImageView *header = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(icon.frame)+PAdaptation_x(10), 0, contentView.frame.size.width/4, contentView.frame.size.height)];
-        header.layer.cornerRadius = contentView.frame.size.height/2;
+        UIImageView *header = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(icon.frame)+PAdaptation_x(10), contentView.frame.size.height/2 - PAaptation_y(58)/2, PAdaptation_x(58), PAaptation_y(58))];
+        header.layer.cornerRadius = PAaptation_y(58)/2;
         header.layer.masksToBounds = YES;
         header.contentMode = UIViewContentModeScaleAspectFit;
         [header setImage:[UIImage imageNamed:@"profile-teacher.png"]];
@@ -36,8 +36,8 @@
         
         HStudent *student1 = [groupList safeObjectAtIndex:0];
 
-        UIImageView *header1 = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(header.frame)+PAdaptation_x(10), 0, contentView.frame.size.width/4, contentView.frame.size.height)];
-        header1.layer.cornerRadius = contentView.frame.size.height/2;
+        UIImageView *header1 = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(header.frame)+PAdaptation_x(10), contentView.frame.size.height/2 - PAaptation_y(58)/2, PAdaptation_x(58), PAaptation_y(58))];
+        header1.layer.cornerRadius = PAaptation_y(58)/2;
         header1.layer.masksToBounds = YES;
         [header1 sd_setImageWithURL:[NSURL URLWithString:student1.avatar]];
         header1.contentMode = UIViewContentModeScaleAspectFit;

@@ -96,6 +96,12 @@
 		9E2DF81F28B2225500B0C9DA /* BWFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF81828B2225500B0C9DA /* BWFileManager.m */; };
 		9E2DF84328B2596600B0C9DA /* HMapVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF84228B2596600B0C9DA /* HMapVC.m */; };
 		9E2DF84628B2606F00B0C9DA /* HCustomNavigationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2DF84528B2606F00B0C9DA /* HCustomNavigationView.m */; };
+		9E3AB8A02C4922D50050C1EE /* pin_user@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E3AB89E2C4922D50050C1EE /* pin_user@3x.png */; };
+		9E3AB8A12C4922D50050C1EE /* pin_user@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E3AB89F2C4922D50050C1EE /* pin_user@2x.png */; };
+		9E3AB8A42C4924DC0050C1EE /* pin_danger@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E3AB8A22C4924DC0050C1EE /* pin_danger@2x.png */; };
+		9E3AB8A52C4924DC0050C1EE /* pin_danger@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E3AB8A32C4924DC0050C1EE /* pin_danger@3x.png */; };
+		9E3AB8A82C49294D0050C1EE /* dest_flag@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E3AB8A62C49294D0050C1EE /* dest_flag@3x.png */; };
+		9E3AB8A92C49294D0050C1EE /* dest_flag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E3AB8A72C49294D0050C1EE /* dest_flag@2x.png */; };
 		9E3E01AD2BF4A8030052980E /* 5@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E3E01A32BF4A8030052980E /* 5@3x.png */; };
 		9E3E01AE2BF4A8030052980E /* 5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E3E01A42BF4A8030052980E /* 5@2x.png */; };
 		9E3E01AF2BF4A8030052980E /* 3@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9E3E01A52BF4A8030052980E /* 3@3x.png */; };
@@ -584,6 +590,12 @@
 		9E2DF84228B2596600B0C9DA /* HMapVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HMapVC.m; sourceTree = "<group>"; };
 		9E2DF84428B2606F00B0C9DA /* HCustomNavigationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HCustomNavigationView.h; sourceTree = "<group>"; };
 		9E2DF84528B2606F00B0C9DA /* HCustomNavigationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HCustomNavigationView.m; sourceTree = "<group>"; };
+		9E3AB89E2C4922D50050C1EE /* pin_user@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pin_user@3x.png"; sourceTree = "<group>"; };
+		9E3AB89F2C4922D50050C1EE /* pin_user@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pin_user@2x.png"; sourceTree = "<group>"; };
+		9E3AB8A22C4924DC0050C1EE /* pin_danger@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pin_danger@2x.png"; sourceTree = "<group>"; };
+		9E3AB8A32C4924DC0050C1EE /* pin_danger@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pin_danger@3x.png"; sourceTree = "<group>"; };
+		9E3AB8A62C49294D0050C1EE /* dest_flag@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dest_flag@3x.png"; sourceTree = "<group>"; };
+		9E3AB8A72C49294D0050C1EE /* dest_flag@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dest_flag@2x.png"; sourceTree = "<group>"; };
 		9E3E01A32BF4A8030052980E /* 5@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "5@3x.png"; sourceTree = "<group>"; };
 		9E3E01A42BF4A8030052980E /* 5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "5@2x.png"; sourceTree = "<group>"; };
 		9E3E01A52BF4A8030052980E /* 3@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3@3x.png"; sourceTree = "<group>"; };
@@ -1174,6 +1186,12 @@
 		9E1F219928E1688B00C5041B /* HomeUI */ = {
 			isa = PBXGroup;
 			children = (
+				9E3AB8A72C49294D0050C1EE /* dest_flag@2x.png */,
+				9E3AB8A62C49294D0050C1EE /* dest_flag@3x.png */,
+				9E3AB8A22C4924DC0050C1EE /* pin_danger@2x.png */,
+				9E3AB8A32C4924DC0050C1EE /* pin_danger@3x.png */,
+				9E3AB89F2C4922D50050C1EE /* pin_user@2x.png */,
+				9E3AB89E2C4922D50050C1EE /* pin_user@3x.png */,
 				9EFAD66A2C3D395E00D0A581 /* walk_mode@2x.png */,
 				9EFAD6692C3D395E00D0A581 /* walk_mode@3x.png */,
 				9EFAD65F2C3D072C00D0A581 /* bus_mode@2x.png */,
@@ -2189,6 +2207,7 @@
 				9E5238852BD3C87D0040C44E /* thumbImage@3x.png in Resources */,
 				9E6B5C1C2A46C68800BFB284 /* studentInfo_yellow@2x.png in Resources */,
 				9EB411CB296BF93800CFA8FE /* date_Default.png in Resources */,
+				9E3AB8A82C49294D0050C1EE /* dest_flag@3x.png in Resources */,
 				9EDF522D28FA9B480066BFDC /* thirdlujing@3x.png in Resources */,
 				9EFAD6C62C3E708200D0A581 /* children-pin-car@3x.png in Resources */,
 				9EDF52732903DE0C0066BFDC /* wifi@3x.png in Resources */,
@@ -2273,6 +2292,8 @@
 				9E17D1B528ED563F005FA5A9 /* backBtn@2x.png in Resources */,
 				9E68325B29758BF900194199 /* sleep_danger_status@2x.png in Resources */,
 				9E64D3642A2895C80063F07D /* btn_menu_only_walk@3x.png in Resources */,
+				9E3AB8A02C4922D50050C1EE /* pin_user@3x.png in Resources */,
+				9E3AB8A92C49294D0050C1EE /* dest_flag@2x.png in Resources */,
 				9E17D1BD28ED68B5005FA5A9 /* default_mdd@3x.png in Resources */,
 				9E9A28F82A3EEFD3004E463B /* battery_half.png in Resources */,
 				9E6458DD2AFA31CA0000BBAE /* num@3x.png in Resources */,
@@ -2372,6 +2393,7 @@
 				9E17D1DA28EE7B85005FA5A9 /* walkStart_no@3x.png in Resources */,
 				9EDF52992904332C0066BFDC /* Ellipse@3x.png in Resources */,
 				9E5238742BD26DC90040C44E /* sound@3x.png in Resources */,
+				9E3AB8A42C4924DC0050C1EE /* pin_danger@2x.png in Resources */,
 				9EF21B3728D985050075CFF0 /* icon_password@2x.png in Resources */,
 				9EFAD6862C3DFC9300D0A581 /* footprint@3x.png in Resources */,
 				9EB4116D296BBB9E00CFA8FE /* btn_napEnd@2x.png in Resources */,
@@ -2447,6 +2469,7 @@
 				9EEC479D2966B1740031CE9F /* sw_down@3x.png in Resources */,
 				9EB411CF296BF93800CFA8FE /* date_notSelected.png in Resources */,
 				9EFAD69D2C3E692800D0A581 /* carStatus.png in Resources */,
+				9E3AB8A12C4922D50050C1EE /* pin_user@2x.png in Resources */,
 				9EFAD6BB2C3E708200D0A581 /* num_bus@2x.png in Resources */,
 				9EDF52702903DE0C0066BFDC /* wifi@2x.png in Resources */,
 				9EFAD6BE2C3E708200D0A581 /* profile-teacher.png in Resources */,
@@ -2464,6 +2487,7 @@
 				9E3E01AE2BF4A8030052980E /* 5@2x.png in Resources */,
 				9EDF522A28FA9B480066BFDC /* guihualujing@2x.png in Resources */,
 				9EF21B3128D985050075CFF0 /* TextArea_Login@3x.png in Resources */,
+				9E3AB8A52C4924DC0050C1EE /* pin_danger@3x.png in Resources */,
 				9EDF529529042EFE0066BFDC /* listBottom_danger@3x.png in Resources */,
 				9EDF527A2904032C0066BFDC /* teacher@3x.png in Resources */,
 				9E5238862BD3C87D0040C44E /* thumbImage@2x.png in Resources */,

@@ -20,7 +20,7 @@
             [bgView setImage:[UIImage imageNamed:@"pin2.png"]];
             [self addSubview:bgView];
             
-            UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(PAdaptation_x(15), PAaptation_y(15), bgView.frame.size.width - PAdaptation_x(30), frame.size.height - PAaptation_y(30))];
+            UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(PAdaptation_x(10),0, bgView.frame.size.width - PAdaptation_x(20), bgView.frame.size.height)];
             [bgView addSubview:contentView];
             
             UIView *tempView = nil;
@@ -30,7 +30,7 @@
                 headerBg.layer.masksToBounds = YES;
                 [contentView addSubview:headerBg];
                 
-                UIImageView *header = [[UIImageView alloc] initWithFrame:CGRectMake(headerBg.frame.size.width/2 - PAdaptation_x(45)/2, headerBg.frame.size.height/2 - PAaptation_y(45)/2, PAdaptation_x(45), PAaptation_y(45))];
+                UIImageView *header = [[UIImageView alloc] initWithFrame:CGRectMake(headerBg.frame.size.width/2 - PAdaptation_x(58)/2, headerBg.frame.size.height/2 - PAaptation_y(58)/2, PAdaptation_x(58), PAaptation_y(58))];
                 [header sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
                 [headerBg addSubview:header];
                 
@@ -43,7 +43,7 @@
             [bgView setImage:[UIImage imageNamed:@"pin3.png"]];
             [self addSubview:bgView];
             
-            UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(PAdaptation_x(15), PAaptation_y(10), bgView.frame.size.width - PAdaptation_x(30), frame.size.height - PAaptation_y(30))];
+            UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(PAdaptation_x(10),0, bgView.frame.size.width - PAdaptation_x(20), bgView.frame.size.height)];
             [bgView addSubview:contentView];
             
             UIView *tempView = nil;
@@ -53,7 +53,7 @@
                 headerBg.layer.masksToBounds = YES;
                 [contentView addSubview:headerBg];
                 
-                UIImageView *header = [[UIImageView alloc] initWithFrame:CGRectMake(headerBg.frame.size.width/2 - PAdaptation_x(45)/2, headerBg.frame.size.height/2 - PAaptation_y(45)/2, PAdaptation_x(45), PAaptation_y(45))];
+                UIImageView *header = [[UIImageView alloc] initWithFrame:CGRectMake(headerBg.frame.size.width/2 - PAdaptation_x(58)/2, headerBg.frame.size.height/2 - PAaptation_y(58)/2, PAdaptation_x(58), PAaptation_y(58))];
                 [header sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
                 [headerBg addSubview:header];
                 
@@ -65,24 +65,27 @@
             [bgView setImage:[UIImage imageNamed:@"pin3.png"]];
             [self addSubview:bgView];
             
-            UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(PAdaptation_x(15), PAaptation_y(10), bgView.frame.size.width - PAdaptation_x(30), frame.size.height - PAaptation_y(30))];
+            UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(PAdaptation_x(10),0, bgView.frame.size.width - PAdaptation_x(20), bgView.frame.size.height)];
+            contentView.backgroundColor = [UIColor redColor];
             [bgView addSubview:contentView];
             
             HStudent *student = [groupList safeObjectAtIndex:0];
 
             
-            UIImageView *header = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, contentView.frame.size.width/3, contentView.frame.size.height)];
-            header.layer.cornerRadius = contentView.frame.size.height/2;
+            UIImageView *header = [[UIImageView alloc] initWithFrame:CGRectMake(0, contentView.frame.size.height/2 - PAaptation_y(58)/2, PAdaptation_x(58), PAaptation_y(58))];
+            header.layer.cornerRadius = PAaptation_y(58)/2;
             header.layer.masksToBounds = YES;
+            header.backgroundColor = [UIColor yellowColor];
             [header sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
             [contentView addSubview:header];
             
             HStudent *student1 = [groupList safeObjectAtIndex:1];
 
-            UIImageView *header1 = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(header.frame)+PAdaptation_x(10), 0, contentView.frame.size.width/3, contentView.frame.size.height)];
-            header1.layer.cornerRadius = contentView.frame.size.height/2;
+            UIImageView *header1 = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(header.frame)+PAdaptation_x(10), contentView.frame.size.height/2 - PAaptation_y(58)/2, PAdaptation_x(58), PAaptation_y(58))];
+            header1.layer.cornerRadius = PAaptation_y(58)/2;
             header1.layer.masksToBounds = YES;
             [header1 sd_setImageWithURL:[NSURL URLWithString:student1.avatar]];
+            header1.backgroundColor = [UIColor yellowColor];
             [contentView addSubview:header1];
             
             UIView *numBgView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(header1.frame)+PAdaptation_x(5), 0, contentView.frame.size.width/3, contentView.frame.size.height)];
