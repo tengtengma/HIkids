@@ -26,8 +26,8 @@
             filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1544"
-            endingLineNumber = "1544"
+            startingLineNumber = "1521"
+            endingLineNumber = "1521"
             landmarkName = "-selectMarkerWithStudent:andMarker:"
             landmarkType = "7">
          </BreakpointContent>
@@ -61,22 +61,6 @@
             startingLineNumber = "146"
             endingLineNumber = "146"
             landmarkName = "-tableView:numberOfRowsInSection:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "629CEFCE-640E-4BA7-AFC7-F65436458A8D"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Hikids/Controllers/HomeMapVC/HMapVC.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "618"
-            endingLineNumber = "618"
-            landmarkName = "-startStayMode"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

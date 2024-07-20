@@ -52,6 +52,7 @@
 #import "BWChangeModeReq.h"
 #import "BWChangeModeResp.h"
 #import "HDtAlertVC.h"
+#import <AVFoundation/AVFoundation.h>
 
 #define default_Zoom 18.5
 
@@ -73,13 +74,17 @@
 @property (nonatomic,strong) HWalkDownTimeView *downTimeView;       //提示是否到达目的地弹窗
 @property (nonatomic,strong) NSString *destFence;                   //目的地围栏信息
 @property (nonatomic,strong) NSString *kinFence;                    //院内围栏信息
-@property (nonatomic,assign) BOOL isInFence;                        //是否在围栏内
 @property (nonatomic,assign) BOOL firstLocationUpdate;              //第一次定位更新
-@property (nonatomic,assign) BOOL isDrawFence;                      //是否画围栏 防止重复画
 @property (nonatomic,assign) BOOL isDestMode;                       //是否是目的地模式
 @property (nonatomic,assign) float lastZoom;                        //上次保存的放大倍数
 @property (nonatomic,assign) NSInteger lastMarkerTag;               //上次选中marker的tag
 @property (nonatomic,strong) NSString *appUrl;                      //检查更新版本
+@property (nonatomic,strong) GMSPolygon* destPoly;                  //目的地围栏
+@property (nonatomic,strong) GMSPolyline *destBorder;               //目的地围栏(虚线)
+@property (nonatomic,strong) GMSMarker *flagMarker;                 //目的地小旗子
+
+
+
 
 
 @end
@@ -546,8 +551,6 @@
                 
                 //途中模式开启 只画目的地围栏
                 [weakSelf startWalkMode];
-
-//                [weakSelf drawFenceWith:weakSelf.currentTask.destinationFence ishome:NO];
                 
                 weakSelf.isDestMode = YES;
 
@@ -604,9 +607,7 @@
         NSUserDefaults *user = [NSUserDefaults standardUserDefaults];
         [user setObject:warnLevel forKey:KEY_AlertLevel];
         [user synchronize];
-        NSLog(@"%ld",warnLevel.integerValue);
 
-            
     } failure:^(BWBaseReq *req, NSError *error) {
         [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
         [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
@@ -626,11 +627,8 @@
 
 
     [self getKinderRequest];                //获取围栏的信息
-    
-//    [self startLocation]; //开启定位
-    
+        
 
-    
 }
 //开启散步模式
 - (void)startWalkMode
@@ -639,16 +637,13 @@
     
     self.homeMenuTableView.hidden = YES;
     
-    //开启定位
-//    [self startLocation];
-    
     [self.walkTimer setFireDate:[NSDate distantPast]];
     
     [self.locationManager startUpdatingLocation];
     
     [self.walkMenuTableView.changeButton setTitle:@"目的地に到着しました" forState:UIControlStateNormal];
 
-
+    [self drewDestWithFence:self.currentTask.destinationFence];
 }
 
 //开启乘车模式
@@ -662,21 +657,11 @@
     
     [self.locationManager startUpdatingLocation];
     
+    [self drewDestWithFence:self.currentTask.destinationFence];
+
 }
-//画围栏(在startGetStudentLocationRequest方法里)
-- (void)drawFenceWith:(NSString *)fence ishome:(BOOL)home
+- (HLocation *)getLocationArrayWithFenceStr:(NSString *)fenceStr
 {
-
-    if (self.isDrawFence) {
-        return;
-    }
-    
-    double totalLongitude = 0.0;
-    double totalLatitude = 0.0;
-    NSUInteger count = 0;
-
-    NSString *fenceStr = fence;
-
     HLocation *myLocation = [[HLocation alloc] init];
     NSArray *fenceArray = (NSArray *)[BWTools dictionaryWithJsonString:fenceStr];
     NSMutableArray *array = [[NSMutableArray alloc] init];
@@ -685,37 +670,67 @@
         info.longitude = [[dic safeObjectForKey:@"longitude"] doubleValue];
         info.latitude = [[dic safeObjectForKey:@"latitude"] doubleValue];
         [array addObject:info];
-        
-        totalLongitude += info.longitude;
-        totalLatitude += info.latitude;
-        count++;
     }
     
     myLocation.fenceArray = array;
 
+    return myLocation;
+}
+- (void)drewHomeWithFenceStr:(NSString *)fenceStr
+{
+    HLocation *myLocation = [self getLocationArrayWithFenceStr:fenceStr];
+    
     GMSMutablePath* path = [[GMSMutablePath alloc] init];
 
     for (NSInteger i = 0; i < myLocation.fenceArray.count; i++) {
         HLocationInfo *info = [myLocation.fenceArray safeObjectAtIndex:i];
         [path addCoordinate:CLLocationCoordinate2DMake(info.latitude, info.longitude)];
     }
-
     
-    if(home){
-        GMSPolygon* poly = [GMSPolygon polygonWithPath:path];
-        poly.strokeWidth = 2.0;
-        poly.strokeColor = BWColor(83, 192, 137, 1);
-        poly.fillColor = BWColor(0, 176, 107, 0.2);
-        poly.map = self.mapView;
+    GMSPolygon* poly = [GMSPolygon polygonWithPath:path];
+    poly.strokeWidth = 2.0;
+    poly.strokeColor = BWColor(83, 192, 137, 1);
+    poly.fillColor = BWColor(0, 176, 107, 0.2);
+    poly.map = self.mapView;
+
+}
+- (void)drewDestWithFence:(NSString *)fenceStr
+{
+    self.destPoly.map = nil;
+    self.destBorder.map = nil;
+    self.flagMarker.map = nil;
+    
+    HLocation *myLocation = [self getLocationArrayWithFenceStr:fenceStr];
+    
+    GMSMutablePath* path = [[GMSMutablePath alloc] init];
+    
+    double totalLongitude = 0.0;
+    double totalLatitude = 0.0;
+    NSUInteger count = 0;
+
+    for (NSInteger i = 0; i < myLocation.fenceArray.count; i++) {
+        HLocationInfo *info = [myLocation.fenceArray safeObjectAtIndex:i];
+        [path addCoordinate:CLLocationCoordinate2DMake(info.latitude, info.longitude)];
+        
+        totalLongitude += info.longitude;
+        totalLatitude += info.latitude;
+        count++;
+    }
+    
+    if (self.isDestMode) {
+        self.destPoly = [GMSPolygon polygonWithPath:path];
+        self.destPoly.strokeWidth = 2.0;
+        self.destPoly.strokeColor = BWColor(63.0, 136.0, 150.0, 1.0);
+        self.destPoly.fillColor = BWColor(17.0, 138.0, 152.0, 0.2);
+        self.destPoly.map = self.mapView;
         
     }else{
-        
-        GMSPolygon* poly = [GMSPolygon polygonWithPath:path];
-        poly.strokeWidth = 0.0;
-        poly.strokeColor = BWColor(63.0, 136.0, 150.0, 1.0);
-        poly.fillColor = BWColor(17.0, 138.0, 152.0, 0.2);
-        poly.map = self.mapView;
-        
+        self.destPoly = [GMSPolygon polygonWithPath:path];
+        self.destPoly.strokeWidth = 0.0;
+        self.destPoly.strokeColor = BWColor(63.0, 136.0, 150.0, 1.0);
+        self.destPoly.fillColor = BWColor(17.0, 138.0, 152.0, 0.2);
+        self.destPoly.map = self.mapView;
+            
         
         //虚线无法自动闭合 需要手动添加
         HLocationInfo *info = [myLocation.fenceArray safeObjectAtIndex:0];
@@ -733,46 +748,32 @@
         NSArray *lengths = @[@(1.5), @(1.5)]; // 你可以调整这些值来改变虚线的样式
 
         // 创建多边形的边界线
-        GMSPolyline *border = [GMSPolyline polylineWithPath:path];
-        border.spans = GMSStyleSpans(border.path, styles, lengths, kGMSLengthRhumb);
-        border.strokeWidth = 3.0;
-        border.map = self.mapView;
-        
-        if (count > 0) {
-            // Calculate the center coordinates
-            double centerLongitude = totalLongitude / count;
-            double centerLatitude = totalLatitude / count;
-
-            GMSMarker *flagMarker = [[GMSMarker alloc] init];
-            flagMarker.icon = [UIImage imageNamed:@"dest_flag.png"];
-            flagMarker.position = CLLocationCoordinate2DMake(centerLatitude,centerLongitude);
-            flagMarker.map = self.mapView;
-
-            // Assuming you have a method to add a marker to your location object
-            NSLog(@"Center Longitude: %f, Latitude: %f", centerLongitude, centerLatitude);
-        }
-        
-        
-
+        self.destBorder = [GMSPolyline polylineWithPath:path];
+        self.destBorder.spans = GMSStyleSpans(self.destBorder.path, styles, lengths, kGMSLengthRhumb);
+        self.destBorder.strokeWidth = 3.0;
+        self.destBorder.map = self.mapView;
     }
+        
+
     
-    self.isDrawFence = YES;
+    if (count > 0) {
+        // Calculate the center coordinates
+        double centerLongitude = totalLongitude / count;
+        double centerLatitude = totalLatitude / count;
 
+        self.flagMarker = [[GMSMarker alloc] init];
+        self.flagMarker.icon = [UIImage imageNamed:@"dest_flag.png"];
+        self.flagMarker.position = CLLocationCoordinate2DMake(centerLatitude,centerLongitude);
+        self.flagMarker.map = self.mapView;
 
+        // Assuming you have a method to add a marker to your location object
+        NSLog(@"Center Longitude: %f, Latitude: %f", centerLongitude, centerLatitude);
+    }
 }
-//开启返程模式
-//- (void)startBackMode
-//{
-//
-//    [self clearMap];
-//
-//}
 - (void)clearMap
 {
     [self.makerList removeAllObjects];
 
-    self.isDrawFence = NO;
-    
     self.isDestMode = NO;
 
     [self.mapView clear];
@@ -782,7 +783,6 @@
     self.lastMarkerTag = -1;
 
 }
-
 
 //获取园区接口数据
 - (void)getKinderRequest
@@ -796,8 +796,7 @@
         BWGetKindergartenResp *kinderResp = (BWGetKindergartenResp *)resp;
         HDestnationModel *kinModel = [kinderResp.itemList safeObjectAtIndex:0];
 
-        [weakSelf drawFenceWith:kinModel.fence ishome:YES];
-        
+        [weakSelf drewHomeWithFenceStr:kinModel.fence];
 
 
     } failure:^(BWBaseReq *req, NSError *error) {
@@ -805,29 +804,6 @@
         [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
     }];
 }
-////获取目的地接口数据
-//- (void)getDestRequest
-//{
-//
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    DefineWeakSelf;
-//    BWDestnationInfoReq *destReq = [[BWDestnationInfoReq alloc] init];
-//    destReq.dId = self.currentTask.destinationId;
-//    [NetManger getRequest:destReq withSucessed:^(BWBaseReq *req, BWBaseResp *resp) {
-//        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-//
-//        BWDestnationInfoResp *destResp = (BWDestnationInfoResp *)resp;
-////        HDestnationModel *kinModel = [kinderResp.itemList safeObjectAtIndex:0];
-////
-////        [weakSelf dealWithFence:kinModel.fence];
-////        [weakSelf startGetStudentLocationRequest];
-//
-//
-//    } failure:^(BWBaseReq *req, NSError *error) {
-//        [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-//        [MBProgressHUD showMessag:error.domain toView:weakSelf.view hudModel:MBProgressHUDModeText hide:YES];
-//    }];
-//}
 
 //获取学生坐标信息
 - (void)startGetStudentLocationRequest
@@ -875,7 +851,6 @@
             
         }else{
             
-            weakSelf.isInFence = locationResp.isSafe;
             weakSelf.destFence = locationResp.desFence;
             weakSelf.kinFence = locationResp.kinFence;
             
@@ -898,13 +873,14 @@
 
             if ([weakSelf.currentTask.status isEqualToString:@"2"]) {
                 
-                //构建目的地-途中模式（画目的地围栏）
-                [weakSelf drawFenceWith:weakSelf.currentTask.destinationFence ishome:NO];
-                
+
                 if (locationResp.changeStatus.integerValue == 0) {
                     NSLog(@"进入散步模式？");
                     weakSelf.isDestMode = NO;
+                    
+                    [weakSelf drewDestWithFence:weakSelf.currentTask.destinationFence];
 
+                    
                     HDtAlertVC *alertVC = [[HDtAlertVC alloc] init];
                     alertVC.source = @"walk_mode";
                     alertVC.modalPresentationStyle = UIModalPresentationOverFullScreen;
@@ -918,6 +894,11 @@
                     NSLog(@"进入目的地模式？");
                     
                     weakSelf.isDestMode = YES;
+                    
+                    [weakSelf drewDestWithFence:weakSelf.currentTask.destinationFence];
+
+                    //震动
+                    [weakSelf getChatMessageGoToShake];
                     
                     HDtAlertVC *alertVC = [[HDtAlertVC alloc] init];
                     alertVC.source = @"dest_mode";
@@ -1061,12 +1042,7 @@
             [self createGroupMarkerWithSafeStudent:student withList:normalKids withRect:rect];
         }
         
-//        GMSMarker *userLocationMarker = [[GMSMarker alloc] init];
-//        userLocationMarker.icon = [UIImage imageNamed:@"pin_user.png"]; // 设置自定义视图
-//        userLocationMarker.position = self.gpsLocation.coordinate;
-//        userLocationMarker.map = self.mapView;
-//        
-//        [self.makerList addObject:userLocationMarker];
+        [self addUserMarker];
         
         if (![self.makerList containsObject:marker]) {
             if (marker != nil) {
@@ -1075,17 +1051,18 @@
         }
     }
     
-    // 初始化用户位置标记
-//    if (self.userLocationMarker == nil) {
-//        GMSMarker *userLocationMarker = [[GMSMarker alloc] init];
-//        userLocationMarker.icon = [UIImage imageNamed:@"pin_user.png"]; // 设置自定义视图
-//        userLocationMarker.position = self.gpsLocation.coordinate;
-//        userLocationMarker.map = self.mapView;
-
-//        self.userLocationMarker = userLocationMarker;
-//    }
-
-
+}
+- (void)addUserMarker{
+    GMSMarker *userLocationMarker = [[GMSMarker alloc] init];
+    userLocationMarker.iconView.tag = 80000;
+    userLocationMarker.icon = [UIImage imageNamed:@"pin_user.png"]; // 设置自定义视图
+    userLocationMarker.position = self.gpsLocation.coordinate;
+    userLocationMarker.map = self.mapView;
+    
+    
+    if (![self.makerList containsObject:userLocationMarker]) {
+        [self.makerList addObject:userLocationMarker];
+    }
 }
 - (GMSMarker *)findMarkerWithStudentId:(NSString *)studentId
 {
@@ -1344,7 +1321,9 @@
 - (void)getChatMessageGoToShake
 {
      //调用系统震动
-     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+    [[AVAudioSession sharedInstance] setActive:YES error:nil];
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 }
 
 #pragma -mark -调用系统声音
@@ -1401,24 +1380,24 @@
         NSTimeInterval time = [[NSDate dateWithTimeIntervalSinceNow:3] timeIntervalSinceNow];
         //        NSTimeInterval time = 10;
                 // repeats，是否重复，如果重复的话时间必须大于60s，要不会报错
-                UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:time repeats:NO];
-                
-                /*
-                //如果想重复可以使用这个,按日期
-                // 周一早上 8：00 上班
-                NSDateComponents *components = [[NSDateComponents alloc] init];
-                // 注意，weekday默认是从周日开始
-                components.weekday = 2;
-                components.hour = 8;
-                UNCalendarNotificationTrigger *calendarTrigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:components repeats:YES];
-                */
-                // 添加通知的标识符，可以用于移除，更新等操作
-                NSString *identifier = @"noticeId";
-                UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:identifier content:content trigger:trigger];
-                
-                [center addNotificationRequest:request withCompletionHandler:^(NSError *_Nullable error) {
-                    NSLog(@"成功添加推送");
-                }];
+        UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:time repeats:NO];
+        
+        /*
+        //如果想重复可以使用这个,按日期
+        // 周一早上 8：00 上班
+        NSDateComponents *components = [[NSDateComponents alloc] init];
+        // 注意，weekday默认是从周日开始
+        components.weekday = 2;
+        components.hour = 8;
+        UNCalendarNotificationTrigger *calendarTrigger = [UNCalendarNotificationTrigger triggerWithDateMatchingComponents:components repeats:YES];
+        */
+        // 添加通知的标识符，可以用于移除，更新等操作
+        NSString *identifier = @"noticeId";
+        UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:identifier content:content trigger:trigger];
+        
+        [center addNotificationRequest:request withCompletionHandler:^(NSError *_Nullable error) {
+            NSLog(@"成功添加推送");
+        }];
     }else{
         UILocalNotification *notif = [[UILocalNotification alloc] init];
          // 发出推送的日期
@@ -1496,9 +1475,7 @@
 
     // 获取最新定位 手机自己的定位
     CLLocation *location = locations.firstObject;
-    
-//    self.userLocationMarker.position = location.coordinate;
-    
+        
     if (location.horizontalAccuracy < 200 && location.horizontalAccuracy != -1){   //Many many code here...
         //数据可用
         //散步模式和返程模式 需要手机真实坐标
@@ -1692,7 +1669,7 @@
         _mapView = [GMSMapView mapWithFrame:CGRectMake(0, PAaptation_y(148), SCREEN_WIDTH,self.view.frame.size.height - PAaptation_y(300)) camera:camera];
         _mapView.delegate = self;
         _mapView.settings.myLocationButton = NO;
-        _mapView.myLocationEnabled = YES;
+        _mapView.myLocationEnabled = NO;
         
     }
     return _mapView;
