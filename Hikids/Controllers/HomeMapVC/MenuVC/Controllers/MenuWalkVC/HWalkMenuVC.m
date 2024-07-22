@@ -703,7 +703,7 @@
 //       }
        
         if(indexPath.section == 0){
-            label.text = @"アラ-ト感度";
+            label.text = @"アラート感度";
 
        }else if(indexPath.section == 1){
            label.text = @"目的地選択:";

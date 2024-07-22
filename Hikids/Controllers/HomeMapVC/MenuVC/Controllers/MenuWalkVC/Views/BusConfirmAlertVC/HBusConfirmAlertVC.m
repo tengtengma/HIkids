@@ -89,7 +89,14 @@
         self.desLabel.text = @"バッテリー節約のため、乗車モード中はアラート機能が一時停止します。";
         [self.cancelBtn setImage:[UIImage imageNamed:@"bus_cancel.png"] forState:UIControlStateNormal];
         [self.startBtn setImage:[UIImage imageNamed:@"bus_start.png"] forState:UIControlStateNormal];
-
+        self.titleLabel.numberOfLines = 2;
+        self.titleLabel.lineBreakMode = 0;
+        
+        [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.headerView.mas_bottom).offset(PAaptation_y(15));
+            make.left.equalTo(self.bgView).offset(PAdaptation_x(70));
+            make.right.equalTo(self.bgView.mas_right).offset(-PAdaptation_x(70));
+        }];
 
     }else{
         [self.headerView setImage:[UIImage imageNamed:@"footprint.png"]];
@@ -97,6 +104,14 @@
         self.desLabel.text = @"散歩モードに戻ると、アラート機能が再開されます。";
         [self.cancelBtn setImage:[UIImage imageNamed:@"bus_cancel.png"] forState:UIControlStateNormal];
         [self.startBtn setImage:[UIImage imageNamed:@"walk_end.png"] forState:UIControlStateNormal];
+        self.titleLabel.numberOfLines = 3;
+        self.titleLabel.lineBreakMode = 0;
+        
+        [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.headerView.mas_bottom).offset(PAaptation_y(15));
+            make.left.equalTo(self.bgView).offset(PAdaptation_x(30));
+            make.right.equalTo(self.bgView.mas_right).offset(-PAdaptation_x(30));
+        }];
     }
     
 
@@ -128,8 +143,7 @@
 {
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] init];
-        _titleLabel.numberOfLines = 2;
-        _titleLabel.lineBreakMode = 0;
+
         _titleLabel.font = [UIFont boldSystemFontOfSize:18.0];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
     }

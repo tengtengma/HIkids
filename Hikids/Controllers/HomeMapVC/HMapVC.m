@@ -1057,6 +1057,7 @@
     userLocationMarker.iconView.tag = 80000;
     userLocationMarker.icon = [UIImage imageNamed:@"pin_user.png"]; // 设置自定义视图
     userLocationMarker.position = self.gpsLocation.coordinate;
+    userLocationMarker.zIndex = 1;
     userLocationMarker.map = self.mapView;
     
     
@@ -1321,9 +1322,21 @@
 - (void)getChatMessageGoToShake
 {
      //调用系统震动
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
-    [[AVAudioSession sharedInstance] setActive:YES error:nil];
-    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    if (@available(iOS 10.0, *)) {
+        // 使用 UIImpactFeedbackGenerator 触发震动
+        for (int i = 0; i < 3; i++) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC * i)), dispatch_get_main_queue(), ^{
+                UIImpactFeedbackGenerator *generator = [[UIImpactFeedbackGenerator alloc] initWithStyle:UIImpactFeedbackStyleHeavy];
+                [generator prepare];
+                [generator impactOccurred];
+            });
+        }
+    } else {
+        // 调用系统震动
+        dispatch_async(dispatch_get_main_queue(), ^{
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+        });
+    }
 }
 
 #pragma -mark -调用系统声音
@@ -1445,6 +1458,16 @@
 }
 
 #pragma mark - 系统自带location代理定位
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    if (status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusAuthorizedAlways) {
+        // 用户同意位置权限后，开始位置更新
+        [self.locationManager startUpdatingLocation];
+        
+        [self startGetStudentLocationRequest];
+        
+        NSLog(@"授权 开始定位");
+    }
+}
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     if ([error code] == kCLErrorDenied) {
         NSLog(@"访问被拒绝");

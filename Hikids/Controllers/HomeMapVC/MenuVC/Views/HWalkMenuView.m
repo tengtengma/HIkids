@@ -39,7 +39,7 @@
     self.tableView.tableFooterView = footerView;
     
     UILabel *desLabel = [[UILabel alloc] init];
-    desLabel.text = @"アラ-ト感度";
+    desLabel.text = @"アラート感度";
     desLabel.font = [UIFont systemFontOfSize:14];
     desLabel.textColor = [UIColor grayColor];
     [footerView addSubview:desLabel];
