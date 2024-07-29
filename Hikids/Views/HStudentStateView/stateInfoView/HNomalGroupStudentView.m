@@ -66,7 +66,7 @@
             [self addSubview:bgView];
             
             UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(PAdaptation_x(10),0, bgView.frame.size.width - PAdaptation_x(20), bgView.frame.size.height)];
-            contentView.backgroundColor = [UIColor redColor];
+            contentView.backgroundColor = [UIColor clearColor];
             [bgView addSubview:contentView];
             
             HStudent *student = [groupList safeObjectAtIndex:0];
@@ -75,7 +75,7 @@
             UIImageView *header = [[UIImageView alloc] initWithFrame:CGRectMake(0, contentView.frame.size.height/2 - PAaptation_y(58)/2, PAdaptation_x(58), PAaptation_y(58))];
             header.layer.cornerRadius = PAaptation_y(58)/2;
             header.layer.masksToBounds = YES;
-            header.backgroundColor = [UIColor yellowColor];
+            header.backgroundColor = [UIColor clearColor];
             [header sd_setImageWithURL:[NSURL URLWithString:student.avatar]];
             [contentView addSubview:header];
             
@@ -85,7 +85,7 @@
             header1.layer.cornerRadius = PAaptation_y(58)/2;
             header1.layer.masksToBounds = YES;
             [header1 sd_setImageWithURL:[NSURL URLWithString:student1.avatar]];
-            header1.backgroundColor = [UIColor yellowColor];
+            header1.backgroundColor = [UIColor clearColor];
             [contentView addSubview:header1];
             
             UIView *numBgView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(header1.frame)+PAdaptation_x(5), 0, contentView.frame.size.width/3, contentView.frame.size.height)];
