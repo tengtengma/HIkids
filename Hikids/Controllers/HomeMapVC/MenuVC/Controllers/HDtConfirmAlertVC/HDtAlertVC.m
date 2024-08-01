@@ -40,7 +40,7 @@
     
     if ([self.source isEqualToString:@"walk_mode"]) {
         self.titleLabel.text = @"目的地から離れましたか?";
-        self.desLabel.text = @"目的地を離れたことを検出しました。30秒後に自動的に散歩中モードに入りますが、よろしいですか？";
+        self.desLabel.text = @"目的地から離れたことを検出しました。30秒後に自動的に散歩中モードに入りますが、よろしいですか？";
         
     }else{
         self.titleLabel.text = @"目的地に到着しましたか？";

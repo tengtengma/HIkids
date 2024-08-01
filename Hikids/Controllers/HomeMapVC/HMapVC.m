@@ -1497,8 +1497,8 @@
 - (void)locationManager:(CLLocationManager*)manager didUpdateLocations:(NSArray *)locations {
 
     // 获取最新定位 手机自己的定位
-    CLLocation *location = locations.firstObject;
-        
+    CLLocation *location = locations.lastObject;
+            
     if (location.horizontalAccuracy < 200 && location.horizontalAccuracy != -1){   //Many many code here...
         //数据可用
         //散步模式和返程模式 需要手机真实坐标
@@ -1646,11 +1646,11 @@
     //判断版本号对比
 
     if (doucurrV < douappV) {
-        NSString * titleStr =[NSString stringWithFormat:@"检查更新"];
+        NSString * titleStr =[NSString stringWithFormat:@"アップデートがあります"];
 
-        NSString * message =[NSString stringWithFormat:@"发现新版本，是否更新？"];
+        NSString * message =[NSString stringWithFormat:@"新しいバージョンが見つかりました。アップデートしますか？"];
 
-        UIAlertView * alert = [[UIAlertView alloc]initWithTitle:titleStr message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        UIAlertView * alert = [[UIAlertView alloc]initWithTitle:titleStr message:message delegate:self cancelButtonTitle:@"キャンセル" otherButtonTitles:@"アップデート", nil];
 
         alert.tag = 1001;
 
