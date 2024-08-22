@@ -299,9 +299,44 @@
         }
     }
     
-    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT + PAaptation_y(380) + PAaptation_y(78)*self.walkReport.unnormalList.count);
+    self.scrollView.contentSize = CGSizeMake(SCREEN_WIDTH, [self calculateContentHeight]);
 
    
+}
+- (CGFloat)calculateContentHeight {
+    CGFloat totalHeight = 0;
+    
+    // Fixed height elements
+    totalHeight += PAaptation_y(32);  // self.topView height
+    totalHeight += PAaptation_y(68);  // self.titleView height
+    totalHeight += PAaptation_y(350); // self.imageBgView height
+    
+    // Spacing and dynamic height elements
+    CGFloat teacherLabelHeight = PAaptation_y(12); // Initial spacing from teacherNumLabel to first teacherNameLabel
+    for (NSInteger i = 0; i < self.walkReport.teachersList.count; i++) {
+        teacherLabelHeight += PAaptation_y(20);  // Assume each teacherNameLabel has height of 20
+        teacherLabelHeight += PAaptation_y(6);   // Spacing between labels
+    }
+    totalHeight += teacherLabelHeight;
+    
+    CGFloat studentLabelHeight = PAaptation_y(12); // Initial spacing from studentNumLabel to first student header
+    for (NSInteger i = 0; i < self.walkReport.studentList.count; i++) {
+        studentLabelHeight += PAaptation_y(40);  // Assume each student header (image + label) has height of 40
+        studentLabelHeight += PAaptation_y(6);   // Spacing between headers
+    }
+    totalHeight += studentLabelHeight;
+    
+    // Adding extra for danger section if it exists
+    if (self.walkReport.unnormalList.count != 0) {
+        totalHeight += PAaptation_y(26); // self.dangerLabel height
+        totalHeight += PAaptation_y(47); // dangerTopView height
+        totalHeight += PAaptation_y(78) * self.walkReport.unnormalList.count; // footer views
+    }
+    
+    // Additional padding
+    totalHeight += PAaptation_y(50);  // Additional padding at the bottom
+    
+    return totalHeight;
 }
 - (void)createDateView
 {
