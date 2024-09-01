@@ -62,7 +62,7 @@
     if (!_desLabel) {
         _desLabel = [[UILabel alloc] init];
         _desLabel.font = [UIFont systemFontOfSize:12.0];
-        _desLabel.text = @"今日レポート";
+        _desLabel.text = @"今日のレポート";
         _desLabel.textColor = BWColor(76, 53, 41, 0.4);
     }
     return _desLabel;

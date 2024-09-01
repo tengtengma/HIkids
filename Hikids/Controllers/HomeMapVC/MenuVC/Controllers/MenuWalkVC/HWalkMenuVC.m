@@ -563,7 +563,7 @@
         return CGSizeMake(PAdaptation_x(170), PAaptation_y(76));
     }
     if (indexPath.section == 2) {
-        return CGSizeMake(PAdaptation_x(110), PAaptation_y(36));
+        return CGSizeMake(PAdaptation_x(80), PAaptation_y(36));
     }
     return CGSizeMake(PAdaptation_x(170), PAaptation_y(54));
 }
@@ -591,7 +591,7 @@
     if (section == 1) {
         return PAdaptation_x(10);
     }else if (section == 2){
-        return 0;
+        return PAaptation_y(8);
     }else if (section == 3){
         return PAdaptation_x(10);
     }
@@ -708,7 +708,7 @@
        }else if(indexPath.section == 1){
            label.text = @"目的地選択:";
 
-       }else if(indexPath.section == 1){
+       }else if(indexPath.section == 2){
            
            label.text = @"確認者(複数選択可):";
        }else{
