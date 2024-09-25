@@ -407,6 +407,12 @@
             NSLog(@"感度");
             HSetAlertAccurateVC *accurateVC = [[HSetAlertAccurateVC alloc] init];
             [self presentViewController:accurateVC animated:YES completion:nil];
+            
+            DefineWeakSelf;
+            accurateVC.saveFinishedBlock = ^{
+  
+                [weakSelf.tableView reloadData];
+            };
         }
         if (indexPath.row == 1) {
             NSLog(@"声音");
